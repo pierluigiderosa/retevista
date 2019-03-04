@@ -1,0 +1,14 @@
+creare il db postgis
+
+vado su utente postgres
+1 su postgres
+
+creo il db con password
+2 createdb retevista_db
+psql retevista_db
+CREATE EXTENSION postgis;
+\q
+
+doi privilegi al db
+psql
+GRANT ALL PRIVILEGES ON DATABASE retevista_db TO pierluigi;
