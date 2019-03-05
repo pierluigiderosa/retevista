@@ -13,7 +13,7 @@ class appezzamento(models.Model):
     nome = models.TextField(verbose_name='nome appezzamento')
     conduttore = models.FloatField()
     proprietario = models.FloatField()
-    località =models.FloatField()
+    localita =models.FloatField(verbose_name='Località')
     coordinate  = models.FloatField()
     cap_di_campo  = models.FloatField(verbose_name='capacità di campo')
     punto_appassimento  = models.FloatField(verbose_name='punto di appassimento')
@@ -25,6 +25,9 @@ class appezzamento(models.Model):
     ris_fac_util = models.FloatField(verbose_name='riserva facilmente utilizzabile')
     vol_irriguo  = models.FloatField(verbose_name='volume intervento irriguo')
     perc_riserva_util = models.PositiveIntegerField(verbose_name='percentuale riserva facilmente utilizzabile')
+    coltura = models.ForeignKey(coltura)
+    settore = models.ForeignKey(settore)
+
     geom = models.MultiPointField(srid=4326)
     objects = models.GeoManager()
 

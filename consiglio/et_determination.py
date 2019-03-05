@@ -5,13 +5,24 @@ from math import pi, sin, acos, tan, cos, sqrt
 Tmean = 16.9
 Tmin = 12.3
 Tmax = 21.5
+#TODO
+#cancencellare la riga sotto
+from income.models import stazioni_retevista
+stazione=stazioni_retevista.objects.all()[0]
+
+def dd2dms(deg):
+     d = int(deg)
+     md = abs(deg - d) * 60
+     m = int(md)
+     sd = (md - m) * 60
+     return [d, m, sd]
 
 def date_to_nth_day(date, format='%d%m%Y'):
     date = datetime.datetime.strptime(date, format)
     new_year_day = datetime.datetime(year=date.year, month=1, day=1)
     return (date - new_year_day).days + 1
 
-def ET_Hargreaves(Tmean,Tmin,Tmax,day):
+def ET_Hargreaves(Tmean,Tmin,Tmax,day,stazione=stazione):
     delta_T = Tmax - Tmin
 
     #some constants
@@ -23,8 +34,8 @@ def ET_Hargreaves(Tmean,Tmin,Tmax,day):
     j = date_to_nth_day(day)
 
     #latitudine in gradi e primi della stazione meteo di riferimento
-    latitude = 50
-    latitudeI = 48
+
+    latitude, latitudeI, seconds = dd2dms(stazione.geom[0].y)
     Gsc = 0.082
 
     #dr  Inv.rel.distance  E - S(rad)
@@ -51,7 +62,7 @@ def ET_Hargreaves(Tmean,Tmin,Tmax,day):
     return  ET0
 
 
-def ET_sistemista(Z,Tmax,Tmin,RH_max,RH_min,SRmedia,U2,day):
+def ET_sistemista(Z,Tmax,Tmin,RH_max,RH_min,SRmedia,U2,day,stazione=stazione):
 
     Tmean = (Tmax+ Tmin)/2.
     SRmjoule = SRmedia*0.0864
@@ -75,8 +86,8 @@ def ET_sistemista(Z,Tmax,Tmin,RH_max,RH_min,SRmedia,U2,day):
     j = date_to_nth_day(day)
 
     # latitudine in gradi e primi della stazione meteo di riferimento
-    latitude = 50
-    latitudeI = 48
+
+    latitude, latitudeI, seconds = dd2dms(stazione.geom[0].y)
     Gsc = 0.082
     Gsoil = 0
 
