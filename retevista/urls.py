@@ -24,6 +24,7 @@ urlpatterns = [
 #    url(r'^admin/cron/', include('django_cron.admin_urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^dati/', include('income.urls')),
+    url(r'^elaborazioni/', include('consiglio.urls')),
     url(r'^$', home_page, name='homepage')
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
