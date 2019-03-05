@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+{% load render_table from django_tables2 %}
+
+{% block script %}
+    {#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />#}
+{% endblock %}
+
+
+<title>{% block head_title %}{{ block.super }} | Riepilogo dati orari {% endblock head_title %}</title>
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <h3>Riepilogo dati orari</h3>
+            </div>
+
+            <div class="col-sm">
+                <div class="dropdown">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            Stazioni agrometeorologiche
+        </button>
+        <div class="dropdown-menu">
+            {% for stazione in stazioni %}
+                <a class="dropdown-item" href="{% url 'dati_orari' uid=stazione.id %}">{{ stazione.nome }}</a>
+            {% endfor %}
+
+        </div>
+                {% if not print_table %}
+        <p>Scegli la stazione dal menù</p>
+        {% endif %}
+    </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% if print_table %}
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Stazione {{ stazione_nome }}</h1>
+{#        <div class="btn-toolbar mb-2 mb-md-0">#}
+{#          <div class="btn-group mr-2">#}
+{#            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>#}
+{#            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>#}
+{#          </div>#}
+{#          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">#}
+{#            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>#}
+{#            This week#}
+{#          </button>#}
+{#        </div>#}
+      </div>
+<div class="container-fluid">
+<div class="row">
+    <div class="col-lg">
+    {% render_table table %}
+    </div>
+    <div class="col-md">
+{#   <iframe src='https://www.weatherlink.com/embeddablePage/show/d389b880e60c4958bdee910c9e530df3/wide' width='560' height='480' frameborder='0'></iframe>#}
+        <iframe src='https://www.weatherlink.com/embeddablePage/show/53b611438136432ab625b657ae1eb678/summary' width='1060' height='480' frameborder='0'></iframe>
+    </div>
+
+</div>
+</div>
+
+
+    {% endif %}
+{% endblock %}

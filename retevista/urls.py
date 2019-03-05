@@ -13,9 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
+from django.conf.urls.static import static
+from django.conf import settings
+
 from django.contrib.gis import admin
+from income.views import home_page
 
 urlpatterns = [
+#    url(r'^admin/cron/', include('django_cron.admin_urls')),
     url(r'^admin/', admin.site.urls),
-]
+    url(r'^dati/', include('income.urls')),
+    url(r'^elaborazioni/', include('consiglio.urls')),
+    url(r'^$', home_page, name='homepage')
+
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

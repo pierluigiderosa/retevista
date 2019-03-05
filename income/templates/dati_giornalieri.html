@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+{% load render_table from django_tables2 %}
+
+<title>{% block head_title %}{{ block.super }} | Riepilogo dati giornalieri {% endblock head_title %}</title>
+
+{% block content %}
+<h3>Riepilogo dati giornalieri</h3>
+    {% render_table dati_giornalieri %}
+{% endblock %}

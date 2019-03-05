@@ -43,53 +43,37 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mx-auto w-100 justify-content-center">
             <li class="nav-item active">
-                <a class="nav-link" href="/domanda">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle"href="/domanda" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Domanda
+                <a class="nav-link dropdown-toggle"href="/dati" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dati
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    {% if user.groups.all.0.name != "Rilevatore" %}
-                        <a class="dropdown-item" href="/domanda/inserisci/">Inserisci domanda</a>
+                        <a class="dropdown-item" href="/dati/orari/">Dati orari</a>
+                        <a class="dropdown-item" href="/dati/giornalieri/">Dati giornalieri aggregati</a>
                         <div class="dropdown-divider"></div>
-                    {% endif %}
-                    {% if user.groups.all.0.name == "CAA" %}
-                        <a class="dropdown-item" href="/domanda/inserisci/agricoltore/">Inserisci agricoltore</a>
-                        <div class="dropdown-divider"></div>
-                    {% endif %}
-                    {% if user.groups.all.0.name == "Rilevatore" %}
-                        <a class="dropdown-item" href="/domanda/assegna/">Assegnazione domande</a>
-                    {% endif %}
-                   <a class="dropdown-item" href="/domanda/assegna/">Assegnazione domande</a>
+
+{#                    se vogliamo mostrare alcune cose solo a certi gruppi di utenti#}
+{#                    {% if user.groups.all.0.name == "Rilevatore" %}#}
+{#                        <a class="dropdown-item" href="/domanda/assegna/">Assegnazione domande</a>#}
+{#                    {% endif %}#}
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="/rilievo/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Rilievo
+                <a class="nav-link dropdown-toggle" href="/elaborazioni/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Elaborazioni
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/rilievo/">Mostra</a>
+                    <a class="dropdown-item" href="/elaborazioni/">Mostra</a>
                 </div>
             </li>
         </ul>
-        <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
-            {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Utente: <b>{{ user.get_full_name }}</b></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url "logout" %}">Logout</a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url "login" %}">Login</a>
-                </li>
-            {% endif %}
-        </ul>
+
     </div>
 </nav>
-<h1>Agrysurvey domanda danni</h1>
+<h1>V.I.S.T.A.</h1>
+<h2>Vetrina Informatica per Sistemi di Trasparenza nell'Agroalimentare</h2>
 <div class="container contenuto">
     {% block content%}
 
@@ -104,6 +88,7 @@
         <p><a href="#">Torna su</a></p>
     </div>
 </footer>
+
 
 </body>
 </html>
