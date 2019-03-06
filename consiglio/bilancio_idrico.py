@@ -8,54 +8,64 @@ from .et_determination import ET_sistemista
 #ET_sistemista(Z=100,Tmax=21.5,Tmin=12.3,RH_max=84,RH_min=63,SRmedia=255,U2=2.078,day='04032019',stazione=stazione)
 
 
-def bilancio_idrico(pioggia,soglia=5,Kc=0):
+def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c9=55,ctm_c3=65,cap_id_max=55,area_irrigata_mq=3840):
     if pioggia>soglia:
         pioggia_5=pioggia
     else:
         pioggia_5=0
 
-    #costanti da definire
-    Cost_terr_mod_U = 65
-    Cost_terr_mod_Amin = 55
-    A_day_prec = 53.68
-    #--------------
 
     stazione = stazioni_retevista.objects.all()[0]
     Et0=ET_sistemista(Z=100,Tmax=21.5,Tmin=12.3,RH_max=84,RH_min=63,SRmedia=255,U2=2.078,day='04032019',stazione=stazione)
 
     Etc=Et0*Kc
-    if A_day_prec<Cost_terr_mod_Amin:
-        P_ep
-    P_ep = pioggia_5-Etc
+
+    if cap_id_max < ctm_c9:
+        irrigazione = True
+    else:
+        irrigazione = False
+    if irrigazione:
+        dose = ctm_c3-cap_id_max  #va dato A giorno precedente
+    else:
+        dose=0
+
+    #P-Ep
+    if cap_id_max<ctm_c9:
+        P_ep = dose - Etc + pioggia_5
+    else:
+        P_ep = pioggia_5 - Etc
+
+    #L
     if P_ep>0:
         L=0
     else:
         L=P_ep
 
+    Lambda=L/ctm_c3
 
-    Lambda=L/Cost_terr_mod_U
-    if Lambda==0:
-        a=0
-    else:
-        a=A_day_prec/Cost_terr_mod_U*exp(Lambda)
+    a=0
+    if Lambda != 0:
+        a=1.*cap_id_max/ctm_c3*exp(Lambda)
 
+    #Au
     if a==0:
-        Au = A_day_prec+P_ep
+        Au = cap_id_max+P_ep
     else:
-        Au = a * Cost_terr_mod_U
+        Au = a * ctm_c3
 
-    if Au>Cost_terr_mod_U:
-        A = Cost_terr_mod_U
+    #A
+    if Au>ctm_c3:
+        A = ctm_c3
     else:
         A = Au
 
-    if A_day_prec < Cost_terr_mod_Amin:
-        irrigazione = True
-    else:
-        irrigazione = False
+    #Irr_mm
+    Irr_mm = None
     if irrigazione:
-        dose = Cost_terr_mod_U-A  #va dato A giorno precedente
-    else:
-        dose=0
+        Irr_mm = dose* area_irrigata_mq/1000.
+
+
+
+
         
-    return dose
+    return dose, A, Irr_mm
