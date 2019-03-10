@@ -47,9 +47,10 @@ def get_and_put():
         rain_cum_last = 0
 
         if last_3h:
+            rain_cum_last = last_3h[0].rain_cum_year # prendo ultimo dato presente
             for osservazione in last_3h:
                 if osservazione.dataora == timestamp_ora_prec:
-                    rain_cum_last = osservazione.rain_cum_year
+                    #rain_cum_last = osservazione.rain_cum_year # vecchia versione che da problemi in caso di dato mancato
                     # se il dato riferisce la mezzanotte non leggo il valore precedente
                     if timestamp_oss.hour == 0:
                         ET_month_last = osservazione.et_cum_month
@@ -57,7 +58,10 @@ def get_and_put():
 
                     else:
                         ET_day_last = osservazione.et_cum_day
-
+        #prendo il dato filtrando su tutto il db
+        else:
+            all_data_stations = dati_orari.objects.filter(stazione=stazione.id)
+            rain_cum_last = all_data_stations[0].rain_cum_year
 
 
 

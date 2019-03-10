@@ -9380,3 +9380,21 @@ DEBUG:root:2019-03-06 16:00:00
 WARNING:root:Val di Rose dato del non inserito in quanto gia presente
 DEBUG:root:2019-03-06 16:00:00
 INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-03-10 11:29:43.954813
+INFO:root:ora osservazione:
+INFO:root:Sun, 10 Mar 2019 11:00:00 +0100
+DEBUG:root:no data in last 3 hours
+DEBUG:root:2019-03-10 11:00:00
+INFO:root:------
+DEBUG:django_cron:Running cron: aggregate_data code income.aggregate_data
+INFO:root:ora del run:
+INFO:root:2019-03-10 11:30:14.830041
+INFO:root:ora osservazione:
+INFO:root:Sun, 10 Mar 2019 11:00:00 +0100
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-03-10 11:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-03-10 11:00:00
+INFO:root:------
+DEBUG:django_cron:Running cron: aggregate_data code income.aggregate_data

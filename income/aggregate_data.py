@@ -15,7 +15,7 @@ def aggrega():
     #Wind Speed media giornaliera
     '''
 
-    #estraggo i dati delle 50 ore precedenti
+    #estraggo i dati del giorno precedente
     #inizio periodo - giorni prima di oggi
     ieri = dt.date.today() - timedelta(days=1)
 
