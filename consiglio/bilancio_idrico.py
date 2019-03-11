@@ -1,8 +1,13 @@
 # - *- coding: utf- 8 - *-
 from math import exp
 
-from income.models import stazioni_retevista
+import datetime as dt
+
+from income.models import stazioni_retevista,dati_aggregati_daily
+from consiglio.models import appezzamento
 from .et_determination import ET_sistemista
+
+from django.contrib.gis.db.models.functions import Distance
 #TODO
 #esempio di chiamata per ET determinazione:
 #ET_sistemista(Z=100,Tmax=21.5,Tmin=12.3,RH_max=84,RH_min=63,SRmedia=255,U2=2.078,day='04032019',stazione=stazione)
@@ -69,3 +74,17 @@ def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c9=55,ctm_c3=65,cap_id_max=55,area
 
         
     return dose, A, Irr_mm
+
+
+def calc_bilancio():
+    ieri = dt.datetime.today() - dt.timedelta(days=1)
+
+    # prendo gli a appezzamenti
+    appezzamenti=appezzamento.objects.all()
+    #TODO -- debug prendo solo il primo: fare un ciclo for qui
+    appezzam_singolo = appezzamenti[0]
+    appezzam_pnt = appezzam_singolo.geom
+
+    stazione_closest = stazioni_retevista.objects.annotate(
+        distance=Distance('geom', appezzam_pnt)
+    ).order_by('distance').first()

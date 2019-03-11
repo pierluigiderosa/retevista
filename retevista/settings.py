@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django_filters',
     'django_cron',
     'income',
+    'consiglio',
 ]
 
 MIDDLEWARE = [

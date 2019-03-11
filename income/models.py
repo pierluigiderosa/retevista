@@ -34,6 +34,9 @@ class dati_aggregati_daily(models.Model):
     note = models.CharField(default='',verbose_name='Note',max_length=2500)
     data = models.DateField(verbose_name='Data & Ora')
 
+    def __str__(self):
+        return '%s %s' % (str(self.stazione),str(self.data))
+
     class Meta:
           ordering = ('-data',)
 

@@ -6,37 +6,6 @@ from django.contrib.gis.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-class appezzamento(models.Model):
-    '''
-    Modello degli appezzamenti
-    '''
-    nome = models.TextField(verbose_name='nome appezzamento')
-    conduttore = models.FloatField()
-    proprietario = models.FloatField()
-    localita =models.FloatField(verbose_name='Località')
-    coordinate  = models.FloatField()
-    cap_di_campo  = models.FloatField(verbose_name='capacità di campo')
-    punto_appassimento  = models.FloatField(verbose_name='punto di appassimento')
-    perc_sabbia  = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)],verbose_name='percentuale sabbia')
-    perc_argilla  = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)],verbose_name='percentuale argilla')
-    perc_limo  = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)],verbose_name='percentuale limo')
-    den_app = models.FloatField(verbose_name='densità apparente del terreno')
-    cap_idrica = models.FloatField(verbose_name='capacità idrica utilizzabile')
-    ris_fac_util = models.FloatField(verbose_name='riserva facilmente utilizzabile')
-    vol_irriguo  = models.FloatField(verbose_name='volume intervento irriguo')
-    perc_riserva_util = models.PositiveIntegerField(verbose_name='percentuale riserva facilmente utilizzabile')
-    coltura = models.ForeignKey(coltura)
-    settore = models.ForeignKey(settore)
-
-    geom = models.MultiPointField(srid=4326)
-    objects = models.GeoManager()
-
-    def __str__(self):
-        return self.nome
-
-    class Meta:
-        verbose_name = 'Appezzamento'
-        verbose_name_plural = 'Appezzamenti'
 
 
 class coltura(models.Model):
@@ -92,3 +61,36 @@ class settore(models.Model):
 
     class Meta:
         verbose_name_plural='Settori'
+
+
+class appezzamento(models.Model):
+    '''
+    Modello degli appezzamenti
+    '''
+    nome = models.TextField(verbose_name='nome appezzamento')
+    conduttore = models.TextField()
+    proprietario = models.TextField()
+    localita =models.TextField(verbose_name='Località')
+    coordinate  = models.FloatField()
+    cap_di_campo  = models.FloatField(verbose_name='capacità di campo')
+    punto_appassimento  = models.FloatField(verbose_name='punto di appassimento')
+    perc_sabbia  = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)],verbose_name='percentuale sabbia')
+    perc_argilla  = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)],verbose_name='percentuale argilla')
+    perc_limo  = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)],verbose_name='percentuale limo')
+    den_app = models.FloatField(verbose_name='densità apparente del terreno')
+    cap_idrica = models.FloatField(verbose_name='capacità idrica utilizzabile')
+    ris_fac_util = models.FloatField(verbose_name='riserva facilmente utilizzabile')
+    vol_irriguo  = models.FloatField(verbose_name='volume intervento irriguo')
+    perc_riserva_util = models.PositiveIntegerField(verbose_name='percentuale riserva facilmente utilizzabile')
+    coltura = models.ForeignKey(coltura)
+    settore = models.ForeignKey(settore)
+
+    geom = models.PointField(srid=4326)
+    objects = models.GeoManager()
+
+    def __str__(self):
+        return self.nome
+
+    class Meta:
+        verbose_name = 'Appezzamento'
+        verbose_name_plural = 'Appezzamenti'
