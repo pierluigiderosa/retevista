@@ -37,7 +37,7 @@ def aggrega():
 
     #creo una nuova colonna
     df['day'] = df.dataora.apply(dt.date.strftime, args=('%Y.%m.%d',))
-    print 'Conteggio elementi: '+df.id.count()
+    print 'Conteggio elementi: '+str(df.id.count())
 
     #estraggo i dati di un giorno
     aa=df.loc[df['day'] == ieri]
@@ -73,7 +73,9 @@ def aggrega():
                 data = inizio,
             )
 
-            nuovo_dato_giornliero.save()
+            #controllo che il dato non sia presente per nons ovrascrivere
+            if dati_aggregati_daily.objects.filter(data=inizio,stazione=stazione).count()== 0:
+                nuovo_dato_giornliero.save()
 
 
 

@@ -6,6 +6,10 @@ from .models import appezzamento,coltura,settore
 # Register your models here.
 
 
-admin.site.register(appezzamento, admin.OSMGeoAdmin)
+class appezzamentoAdmin(admin.OSMGeoAdmin):
+    list_display = ('nome','conduttore')
+    #filter_horizontal = ('coltura',) solo many to many field
+
+admin.site.register(appezzamento, appezzamentoAdmin)
 admin.site.register(coltura)
 admin.site.register(settore)

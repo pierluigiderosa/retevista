@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
+from .views import show_bilancio
 
 urlpatterns = [
-    #url(r'^$', home_page,)
+    url(r'^$', show_bilancio,)
     ]

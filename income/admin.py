@@ -4,7 +4,11 @@ from django.contrib.gis import admin
 from .models import stazioni_retevista,dati_orari,dati_aggregati_daily
 # Register your models here.
 
+class dati_aggregatiAdmin(admin.ModelAdmin):
+    list_display = ('stazione','data')
+    list_filter = ('data',)
+    date_hierarchy = 'data'
 
 admin.site.register(stazioni_retevista, admin.OSMGeoAdmin)
 admin.site.register(dati_orari)
-admin.site.register(dati_aggregati_daily)
+admin.site.register(dati_aggregati_daily,dati_aggregatiAdmin)
