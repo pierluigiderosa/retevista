@@ -1,10 +1,10 @@
 # - *- coding: utf- 8 - *-
 from math import exp
-
+import numpy as np
 import datetime as dt
 
 from income.models import stazioni_retevista,dati_aggregati_daily
-from consiglio.models import appezzamento
+from consiglio.models import appezzamento, bilancio
 from consiglio.et_determination import ET_sistemista
 
 from django.contrib.gis.db.models.functions import Distance
@@ -13,19 +13,32 @@ from django.contrib.gis.db.models.functions import Distance
 #ET_sistemista(Z=100,Tmax=21.5,Tmin=12.3,RH_max=84,RH_min=63,SRmedia=255,U2=2.078,day='04032019',stazione=stazione)
 
 
-def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c9=55,ctm_c3=65,cap_id_max=55,area_irrigata_mq=3840,Et0=0):
+def line_eq(P1 = [100, 400],P2 = [240, 265],x=3):
+
+    # Calculate the coefficients. This line answers the initial question.
+    coefficients = np.polyfit(P1, P2, 1)
+
+    # Print the findings
+    # print 'a =', coefficients[0]
+    a= coefficients[0]
+    # print 'b =', coefficients[1]
+    b = coefficients[1]
+
+    y = a * x + b
+    return y
+
+def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c7=55,ctm_c3=65,cap_id_max=55,area_irrigata_mq=3840,Et0=0):
     if pioggia>soglia:
         pioggia_5=pioggia
     else:
         pioggia_5=0
 
 
-    # stazione = stazioni_retevista.objects.all()[0]
-    # Et0=ET_sistemista(Z=100,Tmax=21.5,Tmin=12.3,RH_max=84,RH_min=63,SRmedia=255,U2=2.078,day='04032019',stazione=stazione)
-
     Etc=Et0*Kc
 
-    if cap_id_max < ctm_c9:
+    #ctm_c7 viene chiamato Airr_min
+    #cap_id_max corrisponde alla colonna L
+    if cap_id_max < ctm_c7:
         irrigazione = True
     else:
         irrigazione = False
@@ -35,7 +48,7 @@ def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c9=55,ctm_c3=65,cap_id_max=55,area
         dose=0
 
     #P-Ep
-    if cap_id_max<ctm_c9:
+    if cap_id_max<ctm_c7:
         P_ep = dose - Etc + pioggia_5
     else:
         P_ep = pioggia_5 - Etc
@@ -65,7 +78,7 @@ def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c9=55,ctm_c3=65,cap_id_max=55,area
         A = Au
 
     #Irr_mm
-    Irr_mm = None
+    Irr_mm = 0
     if irrigazione:
         Irr_mm = dose* area_irrigata_mq/1000.
 
@@ -73,39 +86,124 @@ def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c9=55,ctm_c3=65,cap_id_max=55,area
 
 
         
-    return dose, A, Irr_mm
+    return Etc,P_ep,L,Lambda,a,Au,A,dose, A, Irr_mm,irrigazione
+
+
+def calc_Kc(coltura_id):
+    from consiglio.models import coltura
+    colture=coltura.objects.all()
+
+    coltura_calcolo = colture.filter(id=coltura_id)
+    #TODO controllo se non c'è la coltura...
+    #new variables
+    coltura_calcolo = coltura_calcolo.first()
+    kc_ini = coltura_calcolo.kc_ini
+    kc_med = coltura_calcolo.kc_med
+    kc_end = coltura_calcolo.kc_end
+    d_kc_ini = coltura_calcolo.durata_kc_ini
+    d_kc_dev = coltura_calcolo.durata_kc_dev
+    d_kc_med = coltura_calcolo.durata_kc_med
+    d_kc_end = coltura_calcolo.durata_kc_end
+
+
+    days_da_coltura = dt.date.today()-coltura_calcolo.data_semina
+    j_coltura=None
+    if days_da_coltura.days>1:
+        j_coltura=days_da_coltura.days
+    else:
+        j_coltura=0
+    Kc=None
+    if j_coltura<=d_kc_ini:
+        Kc=kc_ini
+    elif j_coltura>d_kc_ini and j_coltura<=d_kc_dev+d_kc_ini:
+        P1=[d_kc_ini,kc_ini]
+        P2=[d_kc_dev+d_kc_ini,kc_med]
+        Kc = line_eq(P1,P2,j_coltura)
+    elif j_coltura > d_kc_dev+d_kc_ini and j_coltura<=d_kc_ini+d_kc_dev+d_kc_med:
+        Kc=kc_med
+    elif j_coltura > d_kc_ini + d_kc_dev + d_kc_med and j_coltura <= d_kc_ini + d_kc_dev + d_kc_med+d_kc_end:
+        P1=[d_kc_ini + d_kc_dev + d_kc_med,kc_med]
+        P2=[d_kc_ini + d_kc_dev + d_kc_med+d_kc_end,kc_end]
+        Kc = line_eq(P1,P2,j_coltura)
+    else:
+        Kc=kc_end
+
+    return Kc
+
 
 
 def calc_bilancio():
-    ieri = dt.datetime.today() - dt.timedelta(days=1)
+    ieri = dt.date.today() - dt.timedelta(days=1)
 
     # prendo gli a appezzamenti
     appezzamenti=appezzamento.objects.all()
     #TODO -- debug prendo solo il primo: fare un ciclo for qui
-    appezzam_singolo = appezzamenti[0]
-    appezzam_pnt = appezzam_singolo.geom
+    for appezzam_singolo in appezzamenti:
 
-    stazione_closest = stazioni_retevista.objects.annotate(
-        distance=Distance('geom', appezzam_pnt)
-    ).order_by('distance').first()
+        appezzam_pnt = appezzam_singolo.geom
 
-    dato_giornaliero = dati_aggregati_daily.objects.filter(data=ieri,stazione=stazione_closest)
-    if dato_giornaliero.count()>1:
-        dato_giornaliero = dato_giornaliero[0]
+        stazione_closest = stazioni_retevista.objects.annotate(
+            distance=Distance('geom', appezzam_pnt)
+        ).order_by('distance').first()
 
-    # calcolo evapotraspirazione
-    Tmax = dato_giornaliero.temp_max
-    Tmin = dato_giornaliero.temp_min
-    RH_max = dato_giornaliero.humrel_max
-    RH_min = dato_giornaliero.humrel_min
-    SRmedia = dato_giornaliero.solar_rad_mean
-    vel_vento = dato_giornaliero.wind_speed_mean
-    pioggia_cumulata = dato_giornaliero.rain_cumulata
+        dato_giornaliero = dati_aggregati_daily.objects.filter(data=ieri,stazione=stazione_closest)
+        if dato_giornaliero.count()>=1:
+            dato_giornaliero = dato_giornaliero[0]
 
-    Et0 = ET_sistemista(Z=100, Tmax=Tmax, Tmin=Tmin, RH_max=RH_max, RH_min=RH_min, SRmedia=SRmedia, U2=vel_vento, day=ieri.strftime('%d%m%Y'),
-                        stazione=stazione_closest)
-    area = appezzam_singolo.settore.area
-    dose, A, Irr_mm = bilancio_idrico(pioggia_cumulata,soglia=5,Kc=0,ctm_c9=55,ctm_c3=65,cap_id_max=55,area_irrigata_mq=appezzam_singolo.settore.area,Et0=Et0)
+        # calcolo evapotraspirazione
+        Tmax = dato_giornaliero.temp_max
+        Tmin = dato_giornaliero.temp_min
+        RH_max = dato_giornaliero.humrel_max
+        RH_min = dato_giornaliero.humrel_min
+        SRmedia = dato_giornaliero.solar_rad_mean
+        vel_vento = dato_giornaliero.wind_speed_mean
+        pioggia_cumulata = dato_giornaliero.rain_cumulata
+
+        Et0 = ET_sistemista(Z=100, Tmax=Tmax, Tmin=Tmin, RH_max=RH_max, RH_min=RH_min, SRmedia=SRmedia, U2=vel_vento, day=ieri.strftime('%d%m%Y'),
+                            stazione=stazione_closest)
+        Kc_calcolata = calc_Kc(appezzam_singolo.id)
 
 
-    return ieri,stazione_closest.nome,Tmax,Tmin,RH_max,RH_min,SRmedia,vel_vento,Et0,pioggia_cumulata,area, dose, A, Irr_mm
+        #calcolare cap_idrica_max che è la variabile A del giorno precedente, se assente è presente come dato in appezzamento
+        #TODO controllare meglio se il filtro funziona
+        bilancio_giorno_perc = bilancio.objects.filter(data_rif=ieri, stazione=stazione_closest)
+        nota=''
+        if bilancio_giorno_perc.count()==0:
+            cap_id_max = appezzam_singolo.cap_idrica
+            nota+='calcolo eseguito con cap id. max da valore appezzam.: '+str(cap_id_max)
+        elif bilancio_giorno_perc.count()==1:
+            cap_id_max= bilancio_giorno_perc[0].A
+            nota += 'calcolo eseguito con cap id. max da giorno precedente.: ' + str(cap_id_max)
+        area = appezzam_singolo.settore.area
+
+        cap_id_util = appezzam_singolo.cap_idrica
+        # ctm_c7 viene chiamato Airr_min
+        Amin_Irr =cap_id_util-appezzam_singolo.ris_fac_util
+
+        Etc,P_ep,L,Lambda,a,Au,A,dose, A, Irr_mm, irrigazione = bilancio_idrico(pioggia_cumulata,soglia=5,Kc=Kc_calcolata,ctm_c7=Amin_Irr,ctm_c3=cap_id_util,cap_id_max=cap_id_max,area_irrigata_mq=appezzam_singolo.settore.area,Et0=Et0)
+
+
+        #salvataggio dati
+        if bilancio_giorno_perc.count()==0:
+            nuovo_bilancio_giornaliero = bilancio(
+                data_rif=ieri,
+                pioggia_cum=pioggia_cumulata,
+                Kc = Kc_calcolata,
+                Et0 = Et0,
+                Etc = Et0*Kc_calcolata,
+                P_ep = P_ep,
+                L = L,
+                Lambda = Lambda,
+                a = a,
+                Au = Au,
+                A = A,
+                Irrigazione = irrigazione,
+                dose = dose,
+                Irr_mm = Irr_mm,
+                stazione = stazione_closest,
+                appezzamento = appezzam_singolo,
+                note=nota,
+            )
+            nuovo_bilancio_giornaliero.save()
+
+    return ieri,stazione_closest.nome,Tmax,Tmin,RH_max,RH_min,SRmedia,vel_vento,Et0,pioggia_cumulata,cap_id_util,area, dose, A, Irr_mm

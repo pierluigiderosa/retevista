@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3>bilancio del singolo appezzamento</h3>
+    <p>Capacità idrica utilizzabile dell'appezzamento: {{ cap_idricamax }}</p>
+    <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">data</th>
+      <th scope="col">pioggia</th>
+      <th scope="col">Kc</th>
+      <th scope="col">Et0</th>
+      <th scope="col">EtC</th>
+      <th scope="col">P - Ep</th>
+      <th scope="col">L</th>
+      <th scope="col">lambda</th>
+      <th scope="col">a=amaxe^lambda</th>
+      <th scope="col">A>U</th>
+      <th scope="col">A (mm)</th>
+      <th scope="col">Irrigazione</th>
+      <th scope="col">Dose</th>
+      <th scope="col">Soglia intervento</th>
+      <th scope="col">Irr (m)</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for bilancio in bilancio_appezzam %}
+    <tr>
+      <th scope="row">{{ bilancio.data_rif }}</th>
+      <td>{{ bilancio.pioggia_cum }}</td>
+      <td><p href="#" data-toggle="tooltip" title="{{ bilancio.note }}">{{ bilancio.Kc }}</p></td>
+      <td>{{ bilancio.Et0 }}</td>
+    <td>{{ bilancio.Etc }}</td>
+    <td>{{ bilancio.P_ep }}</td>
+    <td>{{ bilancio.L }}</td>
+    <td>{{ bilancio.Lambda }}</td>
+    <td>{{ bilancio.a }}</td>
+    <td>{{ bilancio.Au }}</td>
+    <td>{{ bilancio.A }}</td>
+    <td>{{ bilancio.Irrigazione }}</td>
+    <td>{{ bilancio.dose }}</td>
+    <td>{{ soglia }}</td>
+    <td>{{ bilancio.Irr_mm }}</td>
+    </tr>
+  {% endfor %}
+
+  </tbody>
+</table>
+{% endblock %}

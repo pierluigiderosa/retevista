@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
+from dateutil.utils import today
 from django.contrib.gis.db import models
+from income.models import stazioni_retevista
 
 # Create your models here.
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -32,6 +35,7 @@ class coltura(models.Model):
     kc_med= models.FloatField(verbose_name='Kc med')
     kc_end= models.FloatField(verbose_name='Kc end')
     durata_kc_ini= models.FloatField(verbose_name='durata giorni kc ini')
+    durata_kc_dev= models.FloatField(verbose_name='durata giorni kc dev',default=1.0)
     durata_kc_med= models.FloatField(verbose_name='durata giorni kc med')
     durata_kc_end= models.FloatField(verbose_name='durata giorni kc end')
 
@@ -71,17 +75,17 @@ class appezzamento(models.Model):
     conduttore = models.TextField()
     proprietario = models.TextField()
     localita =models.TextField(verbose_name='Località')
-    coordinate  = models.FloatField()
-    cap_di_campo  = models.FloatField(verbose_name='capacità di campo')
-    punto_appassimento  = models.FloatField(verbose_name='punto di appassimento')
+    #coordinate  = models.FloatField()
+    cap_di_campo  = models.FloatField(verbose_name='capacità di campo',help_text='celle C16')
+    punto_appassimento  = models.FloatField(verbose_name='punto di appassimento',help_text='celle C17')
     perc_sabbia  = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)],verbose_name='percentuale sabbia')
     perc_argilla  = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)],verbose_name='percentuale argilla')
     perc_limo  = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)],verbose_name='percentuale limo')
     den_app = models.FloatField(verbose_name='densità apparente del terreno')
-    cap_idrica = models.FloatField(verbose_name='capacità idrica utilizzabile')
-    ris_fac_util = models.FloatField(verbose_name='riserva facilmente utilizzabile')
-    vol_irriguo  = models.FloatField(verbose_name='volume intervento irriguo')
-    perc_riserva_util = models.PositiveIntegerField(verbose_name='percentuale riserva facilmente utilizzabile')
+    cap_idrica = models.FloatField(verbose_name='capacità idrica massima',help_text='celle C18 e C3')
+    ris_fac_util = models.FloatField(verbose_name='riserva facilmente utilizzabile',help_text='celle C4')
+    vol_irriguo  = models.FloatField(verbose_name='dose intervento irriguo')
+    perc_riserva_util = models.PositiveIntegerField(verbose_name='percentuale riserva facilmente utilizzabile',help_text='celle C5')
     coltura = models.ForeignKey(coltura)
     settore = models.ForeignKey(settore)
 
@@ -94,3 +98,36 @@ class appezzamento(models.Model):
     class Meta:
         verbose_name = 'Appezzamento'
         verbose_name_plural = 'Appezzamenti'
+
+
+class bilancio(models.Model):
+    '''
+    Modello per il salvataggio del bilancio idrologico
+    '''
+    data_rif = models.DateField(verbose_name='data calcolo bilancio',default=today)
+    pioggia_cum=models.FloatField(verbose_name='pioggia cumulata',default=0.0)
+    Kc = models.FloatField(default=0.0)
+    Et0=models.FloatField(default=0.0,verbose_name='EvapoTraspirazione metodo esteso')
+    Etc = models.FloatField(default=0.0)
+    P_ep = models.FloatField(verbose_name='P - Ep (mm)',default=0.0)
+    L = models.FloatField(default=0.0)
+    Lambda = models.FloatField(default=0.0)
+    a = models.FloatField(default=0.0)
+    Au = models.FloatField(verbose_name='A>U mm',default=0.0)
+    A = models.FloatField(default=0.0,verbose_name='capacità idrica massima',help_text='colonna L')
+    Irrigazione = models.NullBooleanField(default=False,blank=True,null=True)
+    dose = models.FloatField(default=0.0)
+    note = models.TextField(default='',blank=True,null=True)
+    Irr_mm = models.FloatField(default=0.0,verbose_name='Irrigazione in mm')
+    stazione = models.ForeignKey(stazioni_retevista)
+
+
+    appezzamento = models.ForeignKey(appezzamento)
+
+    def __str__(self):
+        return '%s %s' %( self.data_rif,self.stazione)
+
+    class Meta:
+        ordering = ('-data_rif',)
+        verbose_name = 'Bilancio'
+        verbose_name_plural = 'Bilanci'

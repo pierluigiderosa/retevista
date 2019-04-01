@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col-8  col-md-4"><h3>Lista degli appezzamenti</h3>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Conduttore</th>
+                <th scope="col">proprietario</th>
+                <th scope="col">cap di campo C16</th>
+                <th scope="col">punto di appass. C17</th>
+                <th scope="col">cap idr C3 e C18</th>
+                <th scope="col">ris idr fac util C4</th>
+                <th scope="col">perc riserva util C5</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for appezzamento in lista_appez %}
+                <tr>
+                    <td>{{ appezzamento.nome }}</td>
+                    <td>{{ appezzamento.conduttore }}</td>
+                    <td>{{ appezzamento.proprietario }}</td>
+                    <td>{{ appezzamento.cap_di_campo }}</td>
+                    <td>{{ appezzamento.Localizzazione_fondo }}</td>
+                    <td>{{ appezzamento.cap_idrica }}</td>
+                    <td>{{ appezzamento.ris_fac_util }}</td>
+                    <td>{{ appezzamento.perc_riserva_util }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+        <br><br>
+        ----------------------------------------------------
+        <h3>Pagina di <u>debugs</u> sul solo primo appezzamento</h3>
+        <p>Bilancio idrologico</p>
+        <p>data: {{ ieri }}</p>
+        <p>stazione: {{ stazione_nome }}</p>
+        <p>temp max: {{ Tmax }}</p>
+        <p>temp min: {{ Tmin }}</p>
+        <p>Umidità relativa max: {{ RH_max }}</p>
+        <p>Umidità relativa min: {{ RH_min }}</p>
+        <p>Radiazione solare media: {{ SRmedia }}</p>
+        <p>velocità del vento: {{ vel_vento }}</p>
+        <p>Evapotraspirazione: {{ Et0 }}</p>
+        <p>Pioggia: {{ pioggia }}</p>
+        <p>Capacità idrica zero: {{ cap_id_zero }}</p>
+        <p>Area: {{ area }}</p>
+        <p>Dose: {{ dose }}</p>
+        <p>A: {{ A }}</p>
+        <p>Irrigazione: {{ Irr_mm }}</p>
+{% endblock %}
