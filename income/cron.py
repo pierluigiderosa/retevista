@@ -2,6 +2,7 @@ from django_cron import CronJobBase, Schedule
 from datetime import datetime
 from get_data_stations import get_and_put
 from aggregate_data import aggrega
+from consiglio.bilancio_idrico import calc_bilancio
 
 class MyCronJob(CronJobBase):
     RUN_EVERY_MINS = 2 # every 2 hours
@@ -55,7 +56,7 @@ class get_data(CronJobBase):
 
 
 class aggregate_data(CronJobBase):
-    RUN_AT_TIMES = ['02:00']
+    RUN_AT_TIMES = ['01:15']
     RETRY_AFTER_FAILURE_MINS = 5
 
     schedule = Schedule(run_at_times=RUN_AT_TIMES,retry_after_failure_mins=RETRY_AFTER_FAILURE_MINS)
@@ -65,3 +66,16 @@ class aggregate_data(CronJobBase):
         print 'fatto aggrega() alle'
         print str(datetime.now())
         aggrega()
+
+
+class do_bilancio(CronJobBase):
+    RUN_AT_TIMES = ['02:00']
+    RETRY_AFTER_FAILURE_MINS = 5
+
+    schedule = Schedule(run_at_times=RUN_AT_TIMES,retry_after_failure_mins=RETRY_AFTER_FAILURE_MINS)
+    code = 'consiglio.bilancio'  # a unique code
+
+    def do(self):
+        print 'calcolo bilancio alle'
+        print str(datetime.now())
+        calc_bilancio()

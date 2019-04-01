@@ -13,6 +13,7 @@
                 <th scope="col">cap idr C3 e C18</th>
                 <th scope="col">ris idr fac util C4</th>
                 <th scope="col">perc riserva util C5</th>
+                <th scope="col">#</th>
             </tr>
             </thead>
             <tbody>
@@ -26,29 +27,30 @@
                     <td>{{ appezzamento.cap_idrica }}</td>
                     <td>{{ appezzamento.ris_fac_util }}</td>
                     <td>{{ appezzamento.perc_riserva_util }}</td>
+                    <td><a class="btn btn-info" href="{% url 'singolo_appez' uid=appezzamento.id %}" role="button">Dettaglio</a></td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
 
 
-        <br><br>
-        ----------------------------------------------------
-        <h3>Pagina di <u>debugs</u> sul solo primo appezzamento</h3>
-        <p>Bilancio idrologico</p>
-        <p>data: {{ ieri }}</p>
-        <p>stazione: {{ stazione_nome }}</p>
-        <p>temp max: {{ Tmax }}</p>
-        <p>temp min: {{ Tmin }}</p>
-        <p>Umidità relativa max: {{ RH_max }}</p>
-        <p>Umidità relativa min: {{ RH_min }}</p>
-        <p>Radiazione solare media: {{ SRmedia }}</p>
-        <p>velocità del vento: {{ vel_vento }}</p>
-        <p>Evapotraspirazione: {{ Et0 }}</p>
-        <p>Pioggia: {{ pioggia }}</p>
-        <p>Capacità idrica zero: {{ cap_id_zero }}</p>
-        <p>Area: {{ area }}</p>
-        <p>Dose: {{ dose }}</p>
-        <p>A: {{ A }}</p>
-        <p>Irrigazione: {{ Irr_mm }}</p>
+{#        <br><br>#}
+{#        ----------------------------------------------------#}
+{#        <h3>Pagina di <u>debugs</u> sul solo primo appezzamento</h3>#}
+{#        <p>Bilancio idrologico</p>#}
+{#        <p>data: {{ ieri }}</p>#}
+{#        <p>stazione: {{ stazione_nome }}</p>#}
+{#        <p>temp max: {{ Tmax }}</p>#}
+{#        <p>temp min: {{ Tmin }}</p>#}
+{#        <p>Umidità relativa max: {{ RH_max }}</p>#}
+{#        <p>Umidità relativa min: {{ RH_min }}</p>#}
+{#        <p>Radiazione solare media: {{ SRmedia }}</p>#}
+{#        <p>velocità del vento: {{ vel_vento }}</p>#}
+{#        <p>Evapotraspirazione: {{ Et0 }}</p>#}
+{#        <p>Pioggia: {{ pioggia }}</p>#}
+{#        <p>Capacità idrica zero: {{ cap_id_zero }}</p>#}
+{#        <p>Area: {{ area }}</p>#}
+{#        <p>Dose: {{ dose }}</p>#}
+{#        <p>A: {{ A }}</p>#}
+{#        <p>Irrigazione: {{ Irr_mm }}</p>#}
 {% endblock %}

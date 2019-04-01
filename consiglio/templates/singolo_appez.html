@@ -21,6 +21,7 @@
       <th scope="col">Dose</th>
       <th scope="col">Soglia intervento</th>
       <th scope="col">Irr (m)</th>
+        <th scope="col">Note</th>
     </tr>
   </thead>
   <tbody>
@@ -28,19 +29,20 @@
     <tr>
       <th scope="row">{{ bilancio.data_rif }}</th>
       <td>{{ bilancio.pioggia_cum }}</td>
-      <td><p href="#" data-toggle="tooltip" title="{{ bilancio.note }}">{{ bilancio.Kc }}</p></td>
-      <td>{{ bilancio.Et0 }}</td>
-    <td>{{ bilancio.Etc }}</td>
-    <td>{{ bilancio.P_ep }}</td>
-    <td>{{ bilancio.L }}</td>
-    <td>{{ bilancio.Lambda }}</td>
-    <td>{{ bilancio.a }}</td>
-    <td>{{ bilancio.Au }}</td>
-    <td>{{ bilancio.A }}</td>
+      <td>{{ bilancio.Kc }}</td>
+      <td>{{ bilancio.Et0|floatformat:3 }}</td>
+    <td>{{ bilancio.Etc|floatformat:3 }}</td>
+    <td>{{ bilancio.P_ep|floatformat:3 }}</td>
+    <td>{{ bilancio.L|floatformat:3 }}</td>
+    <td>{{ bilancio.Lambda|floatformat:3 }}</td>
+    <td>{{ bilancio.a|floatformat:3 }}</td>
+    <td>{{ bilancio.Au|floatformat:3 }}</td>
+    <td>{{ bilancio.A|floatformat:3 }}</td>
     <td>{{ bilancio.Irrigazione }}</td>
-    <td>{{ bilancio.dose }}</td>
+    <td>{{ bilancio.dose|floatformat }}</td>
     <td>{{ soglia }}</td>
     <td>{{ bilancio.Irr_mm }}</td>
+    <td>{{ bilancio.note }}</td>
     </tr>
   {% endfor %}
 
