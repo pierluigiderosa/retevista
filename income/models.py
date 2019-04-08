@@ -68,3 +68,11 @@ class dati_orari(models.Model):
 
     class Meta:
           ordering = ('-dataora',) # helps in alphabetical listing. Sould be a tuple
+
+
+class quote_stazioni(models.Model):
+    stazioni = models.OneToOneField(stazioni_retevista)
+    quota = models.FloatField(default=300)
+
+    def __str__(self):
+        return 'quota: %s' % (self.stazioni)

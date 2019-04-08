@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from dateutil.utils import today
 from django.contrib.gis.db import models
+from django.urls import reverse
 from income.models import stazioni_retevista
 
 # Create your models here.
@@ -55,7 +56,7 @@ class settore(models.Model):
     volume dell'ultimo apporto irriguo	integer
     '''
 
-    area = models.FloatField()
+    area = models.FloatField(verbose_name='area mq',help_text='area  in metri quadri')
     metodo = models.TextField(verbose_name='metodo irriguo')
     data = models.DateField(verbose_name='data ultimo apporto irriguo')
     volume = models.PositiveIntegerField(verbose_name='volume dell\'ultimo apporto irriguo')
@@ -123,6 +124,10 @@ class bilancio(models.Model):
 
 
     appezzamento = models.ForeignKey(appezzamento)
+
+
+    def get_absolute_url(self):
+        return reverse('bilancio-detail', kwargs={'pk': self.pk})
 
     def __str__(self):
         return '%s %s' %( self.data_rif,self.stazione)

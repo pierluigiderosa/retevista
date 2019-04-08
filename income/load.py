@@ -7,8 +7,10 @@ stazioni_retevista_mapping = {
     'long' : 'long',
     'nome' : 'nome',
     'did' : 'did',
+    'quota' : 'quota',
     'geom' : 'MULTIPOINT',
 }
+
 
 stazioni_retevista_shp = os.path.abspath(
     os.path.join(os.path.dirname(__file__), 'data', 'stazioni_retevista.shp'),

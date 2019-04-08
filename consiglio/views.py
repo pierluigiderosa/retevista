@@ -3,8 +3,13 @@ from __future__ import unicode_literals
 
 from django.http import Http404
 from django.shortcuts import render
+from django.urls import reverse_lazy
+
 from .bilancio_idrico import calc_bilancio
 from consiglio.models import appezzamento,bilancio
+
+from .forms import BilancioForm
+from bootstrap_modal_forms.generic import BSModalCreateView,BSModalUpdateView
 
 
 # Create your views here.
@@ -46,9 +51,23 @@ def singolo_appezz(request,uid=99):
     soglia_intervento = appez_riferimento.cap_idrica-appez_riferimento.ris_fac_util
 
     context ={
+        'nome_app':appez_riferimento.nome,
         'cap_idricamax':appez_riferimento.cap_idrica,
         'bilancio_appezzam':bilancio_appezzam,
         'soglia':soglia_intervento,
     }
 
     return render(request,'singolo_appez.html',context)
+
+class BilancioCreateView(BSModalCreateView):
+    template_name = 'create_bilancio.html'
+    form_class = BilancioForm
+    success_message = 'Success: Bilancio was created.'
+    success_url = reverse_lazy('lista-appezzamenti')
+
+class BilancioUpdateView(BSModalUpdateView):
+    model = bilancio
+    template_name = 'update_bilancio.html'
+    form_class = BilancioForm
+    success_message = 'Success: Bilancio è stato aggiornato.'
+    success_url = reverse_lazy('lista-appezzamenti')

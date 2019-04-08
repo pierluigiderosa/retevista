@@ -62,9 +62,9 @@ def ET_Hargreaves(Tmean,Tmin,Tmax,day,stazione=stazione):
     return  ET0
 
 
-def ET_sistemista(Z,Tmax,Tmin,RH_max,RH_min,SRmedia,U2,day,stazione=stazione):
+def ET_sistemista(Z,Tmax,Tmin,Tmean,RH_max,RH_min,SRmedia,U2,day,stazione=stazione):
 
-    Tmean = (Tmax+ Tmin)/2.
+
     SRmjoule = SRmedia*0.0864
 
     #pressione atmosferica

@@ -3,7 +3,7 @@ from math import exp
 import numpy as np
 import datetime as dt
 
-from income.models import stazioni_retevista,dati_aggregati_daily
+from income.models import stazioni_retevista,dati_aggregati_daily,quote_stazioni
 from consiglio.models import appezzamento, bilancio
 from consiglio.et_determination import ET_sistemista
 
@@ -132,6 +132,7 @@ def calc_Kc(coltura_id):
 
 def calc_bilancio():
     ieri = dt.date.today() - dt.timedelta(days=1)
+    oggi =dt.date.today()
 
     # prendo gli a appezzamenti
     appezzamenti=appezzamento.objects.all()
@@ -145,31 +146,32 @@ def calc_bilancio():
 
         dato_giornaliero = dati_aggregati_daily.objects.filter(data=ieri,stazione=stazione_closest)
         if dato_giornaliero.count()>=1:
-            dato_giornaliero = dato_giornaliero[0]
+            dato_giornaliero = dato_giornaliero.first()
 
             # calcolo evapotraspirazione
             Tmax = dato_giornaliero.temp_max
             Tmin = dato_giornaliero.temp_min
+            Tmean = dato_giornaliero.temp_mean
             RH_max = dato_giornaliero.humrel_max
             RH_min = dato_giornaliero.humrel_min
             SRmedia = dato_giornaliero.solar_rad_mean
             vel_vento = dato_giornaliero.wind_speed_mean
             pioggia_cumulata = dato_giornaliero.rain_cumulata
-
-            Et0 = ET_sistemista(Z=100, Tmax=Tmax, Tmin=Tmin, RH_max=RH_max, RH_min=RH_min, SRmedia=SRmedia, U2=vel_vento, day=ieri.strftime('%d%m%Y'),
-                                stazione=stazione_closest)
+            quota =  quote_stazioni.objects.filter(stazioni=stazione_closest).first().quota
+            Et0 = ET_sistemista(Z=quota, Tmax=Tmax, Tmin=Tmin, Tmean=Tmean, RH_max=RH_max, RH_min=RH_min, SRmedia=SRmedia, U2=vel_vento, day=ieri.strftime('%d%m%Y'), stazione=stazione_closest)
             Kc_calcolata = calc_Kc(appezzam_singolo.id)
 
 
             #calcolare cap_idrica_max che è la variabile A del giorno precedente, se assente è presente come dato in appezzamento
-            bilancio_giorno_perc = bilancio.objects.filter(data_rif=ieri, stazione=stazione_closest)
+            bilancio_giorno_prec = bilancio.objects.filter(data_rif=ieri, stazione=stazione_closest)
+            bilancio_odierno = bilancio.objects.filter(data_rif=oggi, stazione=stazione_closest)
             nota=''
-            if bilancio_giorno_perc.count()==0:
+            if bilancio_giorno_prec.count()==0:
                 cap_id_max = appezzam_singolo.cap_idrica
                 nota+='calcolo eseguito con cap id. max da valore appezzam.: '+str(cap_id_max)
-            elif bilancio_giorno_perc.count()==1:
-                cap_id_max= bilancio_giorno_perc[0].A
-                nota += 'calcolo eseguito con cap id. max da giorno precedente.: ' + str(cap_id_max)
+            elif bilancio_giorno_prec.count()==1:
+                cap_id_max= bilancio_giorno_prec[0].A
+                nota += 'calcolo eseguito con cap id. max da giorno precedente.: ' + str(round(cap_id_max,2))
             area = appezzam_singolo.settore.area
 
             cap_id_util = appezzam_singolo.cap_idrica
@@ -180,9 +182,9 @@ def calc_bilancio():
 
 
             #salvataggio dati
-            if bilancio_giorno_perc.count()==0:
+            if bilancio_odierno.count()==0:
                 nuovo_bilancio_giornaliero = bilancio(
-                    data_rif=ieri,
+                    data_rif=oggi,
                     pioggia_cum=pioggia_cumulata,
                     Kc = Kc_calcolata,
                     Et0 = Et0,

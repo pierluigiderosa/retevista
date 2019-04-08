@@ -84,7 +84,7 @@ def get_and_put():
         nuovo_dato_orario = dati_orari(
             rainrate=rain_rate_mm,
             EvapoTras=ET_mm,
-            windSpeed = float(data['wind_mph'])*1.60934,
+            windSpeed = float(data['wind_mph'])*1.60934/3.6,
             humRel= float(data['relative_humidity']),
             pressione=float(data['pressure_mb'] ),
             solarRad=float(data['davis_current_observation']['solar_radiation']),

@@ -19,7 +19,7 @@ class UmidColumn(tables.Column):
 
 class WindSpeedColumn(tables.Column):
     def render(self, value):
-        return '{:0.1f} km/h'.format(value)
+        return '{:0.1f} m/s'.format(value)
 
 class SolarColumn(tables.Column):
     def render(self, value):

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h3>bilancio del singolo appezzamento</h3>
+<h3>bilancio di {{ nome_app }}</h3>
     <p>Capacità idrica utilizzabile dell'appezzamento: {{ cap_idricamax }}</p>
     <table class="table table-striped">
   <thead>
@@ -22,6 +22,7 @@
       <th scope="col">Soglia intervento</th>
       <th scope="col">Irr (m)</th>
         <th scope="col">Note</th>
+        <th scope="col">Edita</th>
     </tr>
   </thead>
   <tbody>
@@ -43,9 +44,43 @@
     <td>{{ soglia }}</td>
     <td>{{ bilancio.Irr_mm }}</td>
     <td>{{ bilancio.note }}</td>
+    <td><button type="button" class="update-bilancio btn btn-sm btn-primary" data-id="{% url 'update_bilancio' bilancio.pk %}">
+                          <span class="fas fa-pencil-alt"></span>
+                        </button></td>
     </tr>
   {% endfor %}
 
   </tbody>
 </table>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+    </div>
+  </div>
+</div>
+
+<!-- Create book button -->
+{#<button class="create-book btn btn-primary" type="button" name="button">Crea bilancio nuovo -- sperimentale</button>#}
+
+{% endblock %}
+{% block script %}
+       <script type="text/javascript">
+$(function () {
+
+      // Create book button
+      $(".create-book").modalForm({formURL: "{% url 'create_bilancio' %}"});
+      // Update book buttons
+      $(".update-bilancio").each(function () {
+        $(this).modalForm({formURL: $(this).data('id')});
+      });
+
+
+      // Hide message
+      $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+        $(".alert").slideUp(500);
+      });
+    });
+</script>
 {% endblock %}

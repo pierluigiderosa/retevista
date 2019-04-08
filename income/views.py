@@ -53,7 +53,5 @@ def dati_orari_list(request):
 
 
 
-
-
 def home_page(request):
     return render(request,"homepage.html")
