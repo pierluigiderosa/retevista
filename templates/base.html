@@ -17,6 +17,7 @@
     <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
     {% block script%}
 
+
     {% endblock script %}
     {% block css%}
 
@@ -32,9 +33,22 @@
 </style>
 
 <body>
-
+<!-- Messages -->
+<div>
+    {% if messages %}
+        {% for message in messages %}
+            <div style="border-radius:0;" {% if message.tags %} class="alert alert-icon alert-{{ message.tags }} alert-dismissible fade show mb-0" role="alert" {% endif %}>
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+<!-- End Messages -->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" href="{% url 'homepage' %}">
         <img src="{% static 'img/retevista.jpg' %}" width="90" height="30" class="d-inline-block align-top" alt="">
         ReteVista DSS
     </a>
@@ -45,21 +59,21 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mx-auto w-100 justify-content-center">
             <li class="nav-item active">
-                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url 'homepage' %}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle"href="/dati" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Dati
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/dati/orari/">Dati orari</a>
-                        <a class="dropdown-item" href="/dati/giornalieri/">Dati giornalieri aggregati</a>
-                        <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'dati_orari' %}">Dati orari</a>
+                    <a class="dropdown-item" href="{% url 'dati_giornalieri' %}">Dati giornalieri aggregati</a>
+                    <div class="dropdown-divider"></div>
 
-{#                    se vogliamo mostrare alcune cose solo a certi gruppi di utenti#}
-{#                    {% if user.groups.all.0.name == "Rilevatore" %}#}
-{#                        <a class="dropdown-item" href="/domanda/assegna/">Assegnazione domande</a>#}
-{#                    {% endif %}#}
+                    {#                    se vogliamo mostrare alcune cose solo a certi gruppi di utenti#}
+                    {#                    {% if user.groups.all.0.name == "Rilevatore" %}#}
+                    {#                        <a class="dropdown-item" href="/domanda/assegna/">Assegnazione domande</a>#}
+                    {#                    {% endif %}#}
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -67,9 +81,18 @@
                     Elaborazioni
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/elaborazioni/">Appezzamenti</a>
+                    <a class="dropdown-item" href="{% url 'lista-appezzamenti' %}">Appezzamenti</a>
                 </div>
             </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            {% if user.is_anonymous %}
+                <a class="btn btn-primary" href="{% url 'login' %}" role="button">Login</a>
+            {% else %}
+{#                <p class="navbar-text">Buongiorno {{ user }}</p>#}
+                <a href="{% url 'logout' %}" class="logout-btn btn btn-danger" role="button">{{ user }} - Logout</a>
+            {% endif %}
+
         </ul>
 
     </div>
@@ -84,13 +107,19 @@
 
 
 
-<footer>
-    <div class="container-fluid">
-        <p>Contatti</p>
-        <p><a href="#">Torna su</a></p>
-    </div>
-</footer>
+{% include "_footer.html" %}
+<script type="text/javascript">
+    $(function () {
+        // Log in & Sign up buttons
+        $(".login-btn").modalForm({formURL: "{% url 'login' %}"});
 
 
+        // Hide message
+        $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+            $(".alert").slideUp(500);
+        });
+
+    });
+</script>
 </body>
 </html>

@@ -7,7 +7,6 @@ stazioni_retevista_mapping = {
     'long' : 'long',
     'nome' : 'nome',
     'did' : 'did',
-    'quota' : 'quota',
     'geom' : 'MULTIPOINT',
 }
 

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Accesso{% endblock %}
+
+{% block content %}
+  <h2>Login</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+      <input type="hidden" name="next" value="{{ request.path }}">
+    <button type="submit">Invia</button>
+  </form>
+{% endblock %}

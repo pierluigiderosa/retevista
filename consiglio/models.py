@@ -30,8 +30,8 @@ class coltura(models.Model):
 
     specie = models.TextField()
     data_semina = models.DateField(verbose_name='data di semina o trapianto')
-    durata_ciclo = models.PositiveIntegerField(verbose_name='durata ciclo colturale')
-    strato_radici = models.FloatField(verbose_name='strato esplorato dalle radici')
+    durata_ciclo = models.PositiveIntegerField(verbose_name='durata ciclo colturale (giorni)')
+    strato_radici = models.FloatField(verbose_name='strato esplorato dalle radici (cm)')
     kc_ini = models.FloatField(verbose_name='Kc ini')
     kc_med= models.FloatField(verbose_name='Kc med')
     kc_end= models.FloatField(verbose_name='Kc end')
@@ -39,6 +39,7 @@ class coltura(models.Model):
     durata_kc_dev= models.FloatField(verbose_name='durata giorni kc dev',default=1.0)
     durata_kc_med= models.FloatField(verbose_name='durata giorni kc med')
     durata_kc_end= models.FloatField(verbose_name='durata giorni kc end')
+    kc_datasheet = models.FileField(upload_to='kc_spreadsheet',verbose_name='Kc csv file',default='kc_spreadsheet/Kc_elenco.csv')
 
     def __str__(self):
         return self.specie
@@ -59,7 +60,7 @@ class settore(models.Model):
     area = models.FloatField(verbose_name='area mq',help_text='area  in metri quadri')
     metodo = models.TextField(verbose_name='metodo irriguo')
     data = models.DateField(verbose_name='data ultimo apporto irriguo')
-    volume = models.PositiveIntegerField(verbose_name='volume dell\'ultimo apporto irriguo')
+    volume = models.PositiveIntegerField(verbose_name='volume dell\'ultimo apporto irriguo (mc)')
 
     def __str__(self):
         return self.metodo
@@ -76,7 +77,7 @@ class appezzamento(models.Model):
     conduttore = models.TextField()
     proprietario = models.TextField()
     localita =models.TextField(verbose_name='Località')
-    #coordinate  = models.FloatField()
+    soglia  = models.FloatField(default=5.0)
     cap_di_campo  = models.FloatField(verbose_name='capacità di campo',help_text='celle C16')
     punto_appassimento  = models.FloatField(verbose_name='punto di appassimento',help_text='celle C17')
     perc_sabbia  = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)],verbose_name='percentuale sabbia')
@@ -118,8 +119,9 @@ class bilancio(models.Model):
     A = models.FloatField(default=0.0,verbose_name='capacità idrica massima',help_text='colonna L')
     Irrigazione = models.NullBooleanField(default=False,blank=True,null=True)
     dose = models.FloatField(default=0.0)
+    dose_antropica = models.FloatField(default=0.0,verbose_name='Dose irrigua antropica (mm)')
     note = models.TextField(default='',blank=True,null=True)
-    Irr_mm = models.FloatField(default=0.0,verbose_name='Irrigazione in mm')
+    Irr_mm = models.FloatField(default=0.0,verbose_name='Irrigazione in mc')
     stazione = models.ForeignKey(stazioni_retevista)
 
 
@@ -130,7 +132,7 @@ class bilancio(models.Model):
         return reverse('bilancio-detail', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return '%s %s' %( self.data_rif,self.stazione)
+        return '%s %s' %( self.data_rif,self.appezzamento.nome)
 
     class Meta:
         ordering = ('-data_rif',)

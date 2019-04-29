@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.contrib.gis.db import models
 
 # Create your models here.
+from django.urls import reverse
 from django_pandas.managers import DataFrameManager
 
 
@@ -32,7 +33,10 @@ class dati_aggregati_daily(models.Model):
     wind_speed_mean = models.FloatField(blank=True,null=True,verbose_name='Velocità vento media')
     stazione = models.ForeignKey(stazioni_retevista,default=1,null=True)
     note = models.CharField(default='',verbose_name='Note',max_length=2500)
-    data = models.DateField(verbose_name='Data & Ora')
+    data = models.DateField(verbose_name='Data')
+
+    def get_absolute_url(self):
+        return reverse('dato-daily-detail', kwargs={'pk': self.pk})
 
     def __str__(self):
         return '%s %s' % (str(self.stazione),str(self.data))

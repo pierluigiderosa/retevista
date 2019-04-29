@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h3>bilancio di {{ nome_app }}</h3>
-    <p>Capacità idrica utilizzabile dell'appezzamento: {{ cap_idricamax }}</p>
-    <table class="table table-striped">
+    <main role="main">
+    <div class="jumbotron">
+    <div class="container">
+      <h3 class="display-5">bilancio di {{ nome_app }}</h3>
+      <p>Capacità idrica utilizzabile dell'appezzamento: {{ cap_idricamax }}</p>
+      <p><a class="btn btn-primary btn-lg" href="{% url 'export_singolo_appez' uid=app_id %}" role="button">scarica xls »</a></p>
+    </div>
+  </div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
   <thead>
     <tr>
       <th scope="col">data</th>
@@ -14,11 +22,12 @@
       <th scope="col">P - Ep</th>
       <th scope="col">L</th>
       <th scope="col">lambda</th>
-      <th scope="col">a=amaxe^lambda</th>
+      <th scope="col">a</th>
       <th scope="col">A>U</th>
       <th scope="col">A (mm)</th>
       <th scope="col">Irrigazione</th>
-      <th scope="col">Dose</th>
+      <th scope="col">Dose (mm)</th>
+        <th scope="col">Dose antropica (mm)</th>
       <th scope="col">Soglia intervento</th>
       <th scope="col">Irr (m)</th>
         <th scope="col">Note</th>
@@ -41,18 +50,28 @@
     <td>{{ bilancio.A|floatformat:3 }}</td>
     <td>{{ bilancio.Irrigazione }}</td>
     <td>{{ bilancio.dose|floatformat }}</td>
+    <td>{{ bilancio.dose_antropica|floatformat }}</td>
     <td>{{ soglia }}</td>
     <td>{{ bilancio.Irr_mm }}</td>
     <td>{{ bilancio.note }}</td>
-    <td><button type="button" class="update-bilancio btn btn-sm btn-primary" data-id="{% url 'update_bilancio' bilancio.pk %}">
-                          <span class="fas fa-pencil-alt"></span>
-                        </button></td>
+    <td>
+        {% if user.is_staff %}
+        <button type="button" class="update-bilancio btn btn-sm btn-primary" data-id="{% url 'update_bilancio' pk=bilancio.id %}">
+                          <span class="fas fa-edit"></span>
+                        </button>
+            {% else %}
+             <button type="button" class="update-bilancio btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="Fai il login per modificare">
+                          <span class="fas fa-lock"  style="color:darkred" ></span>
+                        </button>
+        {% endif %}
+
+    </td>
     </tr>
   {% endfor %}
 
   </tbody>
 </table>
-
+</div></main>
 <div class="modal fade" tabindex="-1" role="dialog" id="modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

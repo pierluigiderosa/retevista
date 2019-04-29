@@ -8,7 +8,7 @@ from consiglio.models import appezzamento, bilancio
 from consiglio.et_determination import ET_sistemista
 
 from django.contrib.gis.db.models.functions import Distance
-
+from pandas import Series
 
 
 def line_eq(P1 = [100, 400],P2 = [240, 265],x=3):
@@ -25,7 +25,7 @@ def line_eq(P1 = [100, 400],P2 = [240, 265],x=3):
     y = a * x + b
     return y
 
-def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c7=55,ctm_c3=65,cap_id_max=55,area_irrigata_mq=3840,Et0=0):
+def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c7=55,ctm_c3=65,cap_id_max=55,area_irrigata_mq=3840,Et0=0,dose_antropica=0):
     if pioggia>soglia:
         pioggia_5=pioggia
     else:
@@ -47,7 +47,7 @@ def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c7=55,ctm_c3=65,cap_id_max=55,area
 
     #P-Ep
     if cap_id_max<ctm_c7:
-        P_ep = dose - Etc + pioggia_5
+        P_ep = dose + dose_antropica - Etc + pioggia_5
     else:
         P_ep = pioggia_5 - Etc
 
@@ -128,7 +128,18 @@ def calc_Kc(coltura_id):
 
     return Kc
 
+def calc_Kc_elenco(coltura_id):
+    from consiglio.models import coltura
+    colture = coltura.objects.all()
 
+    coltura_calcolo = colture.filter(id=coltura_id)
+    coltura_calcolo = coltura_calcolo.first()
+
+    serie = Series.from_csv(coltura_calcolo.kc_datasheet.path, header=0, parse_dates=['data'])
+
+    # accesso al giorno
+    Kc = serie[dt.date.today().strftime('%d/%m/%Y')][0]
+    return Kc
 
 def calc_bilancio():
     ieri = dt.date.today() - dt.timedelta(days=1)
@@ -139,6 +150,7 @@ def calc_bilancio():
     for appezzam_singolo in appezzamenti:
 
         appezzam_pnt = appezzam_singolo.geom
+        soglia = appezzam_singolo.soglia
 
         stazione_closest = stazioni_retevista.objects.annotate(
             distance=Distance('geom', appezzam_pnt)
@@ -159,26 +171,33 @@ def calc_bilancio():
             pioggia_cumulata = dato_giornaliero.rain_cumulata
             quota =  quote_stazioni.objects.filter(stazioni=stazione_closest).first().quota
             Et0 = ET_sistemista(Z=quota, Tmax=Tmax, Tmin=Tmin, Tmean=Tmean, RH_max=RH_max, RH_min=RH_min, SRmedia=SRmedia, U2=vel_vento, day=ieri.strftime('%d%m%Y'), stazione=stazione_closest)
-            Kc_calcolata = calc_Kc(appezzam_singolo.id)
+            print(appezzam_singolo.coltura.id)
+            Kc_calcolata = calc_Kc_elenco(appezzam_singolo.coltura.id)
+            print Kc_calcolata
 
 
             #calcolare cap_idrica_max che è la variabile A del giorno precedente, se assente è presente come dato in appezzamento
-            bilancio_giorno_prec = bilancio.objects.filter(data_rif=ieri, stazione=stazione_closest)
-            bilancio_odierno = bilancio.objects.filter(data_rif=oggi, stazione=stazione_closest)
+            bilancio_giorno_prec = bilancio.objects.filter(data_rif=ieri, appezzamento=appezzam_singolo)
+            bilancio_odierno = bilancio.objects.filter(data_rif=oggi, appezzamento=appezzam_singolo)
             nota=''
+            # dose antropica per irrigazione forzata
             if bilancio_giorno_prec.count()==0:
                 cap_id_max = appezzam_singolo.cap_idrica
                 nota+='calcolo eseguito con cap id. max da valore appezzam.: '+str(cap_id_max)
+                dose_antropica = 0
             elif bilancio_giorno_prec.count()==1:
                 cap_id_max= bilancio_giorno_prec[0].A
                 nota += 'calcolo eseguito con cap id. max da giorno precedente.: ' + str(round(cap_id_max,2))
+                dose_antropica = bilancio_giorno_prec[0].dose_antropica
             area = appezzam_singolo.settore.area
+
+
 
             cap_id_util = appezzam_singolo.cap_idrica
             # ctm_c7 viene chiamato Airr_min
             Amin_Irr =cap_id_util-appezzam_singolo.ris_fac_util
 
-            Etc,P_ep,L,Lambda,a,Au,A,dose, A, Irr_mm, irrigazione = bilancio_idrico(pioggia_cumulata,soglia=5,Kc=Kc_calcolata,ctm_c7=Amin_Irr,ctm_c3=cap_id_util,cap_id_max=cap_id_max,area_irrigata_mq=appezzam_singolo.settore.area,Et0=Et0)
+            Etc,P_ep,L,Lambda,a,Au,A,dose, A, Irr_mm, irrigazione = bilancio_idrico(pioggia_cumulata,soglia=soglia,Kc=Kc_calcolata,ctm_c7=Amin_Irr,ctm_c3=cap_id_util,cap_id_max=cap_id_max,area_irrigata_mq=appezzam_singolo.settore.area,Et0=Et0,dose_antropica = dose_antropica)
 
 
             #salvataggio dati
@@ -204,4 +223,4 @@ def calc_bilancio():
                 )
                 nuovo_bilancio_giornaliero.save()
 
-            return ieri,stazione_closest.nome,Tmax,Tmin,RH_max,RH_min,SRmedia,vel_vento,Et0,pioggia_cumulata,cap_id_util,area, dose, A, Irr_mm
+            print(ieri,stazione_closest.nome,Tmax,Tmin,RH_max,RH_min,SRmedia,vel_vento,Et0,pioggia_cumulata,cap_id_util,area, dose, A, Irr_mm)

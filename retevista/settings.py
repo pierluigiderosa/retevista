@@ -27,13 +27,13 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # SECURITY WARNING: don't run with debug turned on in production!
-if socket.gethostname()=='pierluigi-Lenovo-U41-70' or socket.gethostname()=='pierluigidero':
-    DEBUG = config('DEBUG', cast=bool)
+if socket.gethostname()=='pierluigi-Lenovo-U41-70' or socket.gethostname()=='pierluigi-ThinkCentre-M710q':
+    DEBUG = True
 else:
     DEBUG=False
-DEBUG = True
+#DEBUG=True
 
-ALLOWED_HOSTS = ['127.0.0.1','onegis.it']
+ALLOWED_HOSTS = ['127.0.0.1','www.onegis.it']
 
 
 # Application definition
@@ -165,3 +165,10 @@ CRON_CLASSES = [
 DJANGO_CRON_LOCKFILE_PATH = [
 "/tmp",
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#login
+LOGIN_REDIRECT_URL = 'homepage'
+LOGOUT_REDIRECT_URL = 'homepage'

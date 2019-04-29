@@ -61,7 +61,7 @@ class Migration(migrations.Migration):
                 ('Irrigazione', models.NullBooleanField(default=False)),
                 ('dose', models.FloatField(default=0.0)),
                 ('note', models.TextField(blank=True, default='', null=True)),
-                ('Irr_mm', models.FloatField(default=0.0, verbose_name='Irrigazione in mm')),
+                ('Irr_mm', models.FloatField(default=0.0, verbose_name='Irrigazione in mc')),
                 ('appezzamento', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='consiglio.appezzamento')),
                 ('stazione', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='income.stazioni_retevista')),
             ],
@@ -99,7 +99,7 @@ class Migration(migrations.Migration):
                 ('area', models.FloatField()),
                 ('metodo', models.TextField(verbose_name='metodo irriguo')),
                 ('data', models.DateField(verbose_name='data ultimo apporto irriguo')),
-                ('volume', models.PositiveIntegerField(verbose_name="volume dell'ultimo apporto irriguo")),
+                ('volume', models.PositiveIntegerField(verbose_name="volume dell'ultimo apporto irriguo (mc)")),
             ],
             options={
                 'verbose_name_plural': 'Settori',

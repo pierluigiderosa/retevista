@@ -7,23 +7,23 @@ from .models import dati_orari,dati_aggregati_daily
 
 class RainColumn(tables.Column):
     def render(self, value):
-        return '{:0.2f} mm'.format(value)
+        return '{:0.4f} mm'.format(value)
 
 class TempColumn(tables.Column):
     def render(self, value):
-        return '{:0.1f} °C'.format(value)
+        return '{:0.2f} °C'.format(value)
 
 class UmidColumn(tables.Column):
     def render(self, value):
-        return '{:0.0f} %'.format(value)
+        return '{:0.2f} %'.format(value)
 
 class WindSpeedColumn(tables.Column):
     def render(self, value):
-        return '{:0.1f} m/s'.format(value)
+        return '{:0.2f} m/s'.format(value)
 
 class SolarColumn(tables.Column):
     def render(self, value):
-        return '{:0.0f} W/m2'.format(value)
+        return '{:0.2f} W/m2'.format(value)
 
 class DatiOrariTable(tables.Table):
     temp = TempColumn()

@@ -5,6 +5,32 @@
 <title>{% block head_title %}{{ block.super }} | Riepilogo dati giornalieri {% endblock head_title %}</title>
 
 {% block content %}
-<h3>Riepilogo dati giornalieri</h3>
+        <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <h3>Riepilogo dati giornalieri</h3>
+            </div>
+
+            <div class="col-sm">
+                <div class="dropdown">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            Stazioni agrometeorologiche
+        </button>
+        <div class="dropdown-menu">
+            {% for stazione in stazioni %}
+                <a class="dropdown-item" href="{% url 'dati_giornalieri' uid=stazione.id %}">{{ stazione.nome }}</a>
+            {% endfor %}
+
+        </div>
+                {% if not print_table %}
+        <p>Scegli la stazione dal menù</p>
+        {% endif %}
+    </div>
+            </div>
+        </div>
+    </div>
+ {% if print_table %}
+     <h1 class="h2">Stazione {{ stazione_nome }}</h1>
     {% render_table dati_giornalieri %}
+    {% endif %}
 {% endblock %}

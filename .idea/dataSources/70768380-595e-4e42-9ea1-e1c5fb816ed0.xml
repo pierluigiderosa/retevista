@@ -19,7 +19,7 @@
       <ObjectId>17897</ObjectId>
       <StateNumber>688</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>5218</IntrospectionStateNumber>
+      <IntrospectionStateNumber>5338</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
       <Relations>sequence|table|19406|19408|1
@@ -99,7 +99,7 @@ TimeZone=UTC</Config>
       <Comment>standard public schema</Comment>
       <StateNumber>605</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>5219</IntrospectionStateNumber>
+      <IntrospectionStateNumber>5339</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>

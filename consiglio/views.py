@@ -1,15 +1,20 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
 from .bilancio_idrico import calc_bilancio
 from consiglio.models import appezzamento,bilancio
+from .WriteToExcel import WriteToExcel
 
 from .forms import BilancioForm
-from bootstrap_modal_forms.generic import BSModalCreateView,BSModalUpdateView
+from bootstrap_modal_forms.generic import (
+                                           BSModalCreateView,
+                                           BSModalUpdateView,
+                                           BSModalReadView,
+                                           BSModalDeleteView)
 
 
 # Create your views here.
@@ -18,7 +23,7 @@ def lista_appezzamenti(request):
 
     lista_appez = appezzamento.objects.all()
 
-    #ieri,stazione_nome,Tmax,Tmin,RH_max,RH_min,SRmedia,vel_vento,Et0,pioggia,cap_id_zero,area,dose, A, Irr_mm = calc_bilancio()
+    # ieri,stazione_nome,Tmax,Tmin,RH_max,RH_min,SRmedia,vel_vento,Et0,pioggia,cap_id_zero,area,dose, A, Irr_mm = calc_bilancio()
 
     context = {
         'lista_appez':lista_appez,
@@ -46,12 +51,13 @@ def singolo_appezz(request,uid=99):
         UID = int(uid)
     except ValueError:
         raise Http404()
-    appez_riferimento = appezzamento.objects.get(pk=1)
+    appez_riferimento = appezzamento.objects.get(pk=UID)
     bilancio_appezzam = bilancio.objects.filter(appezzamento=uid)
     soglia_intervento = appez_riferimento.cap_idrica-appez_riferimento.ris_fac_util
 
     context ={
         'nome_app':appez_riferimento.nome,
+        'app_id':UID,
         'cap_idricamax':appez_riferimento.cap_idrica,
         'bilancio_appezzam':bilancio_appezzam,
         'soglia':soglia_intervento,
@@ -62,12 +68,28 @@ def singolo_appezz(request,uid=99):
 class BilancioCreateView(BSModalCreateView):
     template_name = 'create_bilancio.html'
     form_class = BilancioForm
-    success_message = 'Success: Bilancio was created.'
+    success_message = 'Successo: Bilancio was created.'
     success_url = reverse_lazy('lista-appezzamenti')
 
 class BilancioUpdateView(BSModalUpdateView):
     model = bilancio
     template_name = 'update_bilancio.html'
     form_class = BilancioForm
-    success_message = 'Success: Bilancio è stato aggiornato.'
+    success_message = 'Successo: Bilancio è stato aggiornato.'
     success_url = reverse_lazy('lista-appezzamenti')
+
+def export_appezz(request,uid=99):
+    try:
+        UID = int(uid)
+    except ValueError:
+        raise Http404()
+
+    appez_riferimento = appezzamento.objects.get(pk=UID)
+    bilancio_appezzam = bilancio.objects.filter(appezzamento=uid)
+
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=Report.xlsx'
+    # xlsx_data = WriteToExcel(weather_period, town)
+    xlsx_data = WriteToExcel(appez_riferimento, bilancio_appezzam)
+    response.write(xlsx_data)
+    return response

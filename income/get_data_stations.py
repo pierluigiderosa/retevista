@@ -46,6 +46,7 @@ def get_and_put():
         ET_month_last = 0
         rain_cum_last = 0
 
+
         if last_3h:
             rain_cum_last = last_3h[0].rain_cum_year # prendo ultimo dato presente
             for osservazione in last_3h:
@@ -60,8 +61,11 @@ def get_and_put():
                         ET_day_last = osservazione.et_cum_day
         #prendo il dato filtrando su tutto il db
         else:
+
             all_data_stations = dati_orari.objects.filter(stazione=stazione.id)
-            rain_cum_last = all_data_stations[0].rain_cum_year
+            # se nel db non ci sono dati allora il valore da sottrarre è nullo
+            if all_data_stations.count() > 0:
+                rain_cum_last = all_data_stations[0].rain_cum_year
 
 
 

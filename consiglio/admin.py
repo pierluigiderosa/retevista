@@ -10,7 +10,10 @@ class appezzamentoAdmin(admin.OSMGeoAdmin):
     list_display = ('nome','conduttore')
     #filter_horizontal = ('coltura',) solo many to many field
 
+class colturaAdmin(admin.OSMGeoAdmin):
+    exclude = ('kc_ini','kc_med','kc_end','durata_kc_ini','durata_kc_dev','durata_kc_med','durata_kc_end',)
+
 admin.site.register(appezzamento, appezzamentoAdmin)
-admin.site.register(coltura)
+admin.site.register(coltura,colturaAdmin)
 admin.site.register(settore)
 admin.site.register(bilancio)
