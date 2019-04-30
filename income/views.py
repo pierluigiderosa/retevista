@@ -3,8 +3,10 @@ from __future__ import unicode_literals
 
 import copy
 
-from django.http import Http404
+from django.contrib.auth.models import User
+from django.http import Http404, JsonResponse
 from django.shortcuts import render
+
 from .tables import DatiOrariTable,DatiGiornalieriTable
 from .filters import StazioniFilter
 from django_tables2 import RequestConfig
@@ -75,3 +77,5 @@ def dati_orari_list(request):
 
 def home_page(request):
     return render(request,"homepage.html")
+
+

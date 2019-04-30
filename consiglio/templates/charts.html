@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block script %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.2/dist/Chart.bundle.min.js"></script>
+{% endblock %}
+<script>
+    {% block jquery %}
+        var endpoint = '/elaborazioni/api/data/'
+        var defaultData = []
+        var labels = []
+        var customertsDjango = parseInt("{{ customers }}") * 2
+        //console.log(customertsDjango)
+        $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function (data) {
+                labels = data.labels
+                defaultData = data.default
+                EtcData = data.Etc
+                setChart()
+            },
+            error: function (error_data) {
+                console.log("error")
+                console.log(error_data)
+
+            }
+        })
+        function setChart() {
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'pioggia cumulata',
+                        data: defaultData,
+                        backgroundColor: 'rgb(54, 162, 235)',
+                        borderColor: 'rgb(54, 162, 235)',
+                        borderWidth: 1,
+                        fill : false
+                    },{
+                        label: 'Etc',
+                        data: EtcData,
+                        backgroundColor: 'rgb(255,98,132)',
+                        borderColor: 'rgb(255,98,132)',
+                        borderWidth: 1,
+                        fill : false
+                    }],
+
+                },
+                options: {
+
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            })
+        }
+
+    {% endblock %}
+</script>
+
+{% block content %}
+
+    <div class='row'>
+        <div class='col-sm-12' url-endpoint='{% url "api-data" %}'>
+            <h1>Mia Chart</h1>
+            <canvas id="myChart" width="400" height="200"></canvas>
+
+        </div>
+    </div>
+
+{% endblock content %}
