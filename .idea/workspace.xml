@@ -2,14 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4070bad7-415d-47ea-be1e-561d8b114f06" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/consiglio/templates/charts.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/consiglio/WriteToExcel.py" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/WriteToExcel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/consiglio/bilancio_idrico.py" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/bilancio_idrico.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/consiglio/templates/charts.html" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/templates/charts.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/consiglio/templates/lista_appezzamenti.html" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/templates/lista_appezzamenti.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/consiglio/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/consiglio/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cronjob.log" beforeDir="false" afterPath="$PROJECT_DIR$/cronjob.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_stations.log" beforeDir="false" afterPath="$PROJECT_DIR$/data_stations.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/income/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/income/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -107,16 +109,6 @@
         <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
         <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
       </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="retevista_db@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="retevista_db: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
-        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="income_stazioni_retevista: table" type="69fad909:PgImplModel$LocalTable" />
-      </path>
     </expand>
     <select />
   </component>
@@ -125,14 +117,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/consiglio/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="115" column="18" selection-start-line="115" selection-start-column="18" selection-end-line="115" selection-end-column="18" />
-              <folding>
-                <element signature="e#24#63#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="108">
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/consiglio/templates/lista_appezzamenti.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="32" column="26" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -140,38 +138,36 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/consiglio/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="109" selection-start-line="2" selection-start-column="109" selection-end-line="2" selection-end-column="109" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/consiglio/templates/charts.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="53" column="33" lean-forward="true" selection-start-line="53" selection-start-column="33" selection-end-line="53" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/income/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1215">
-              <caret line="81" selection-start-line="81" selection-end-line="81" />
+            <state relative-caret-position="165">
+              <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
               <folding>
-                <element signature="e#24#63#0" expanded="true" />
+                <element signature="e#0#32#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/base.html">
+        <entry file="file://$PROJECT_DIR$/consiglio/templates/charts.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" selection-start-line="19" selection-end-line="19" />
+            <state relative-caret-position="135">
+              <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/consiglio/bilancio_idrico.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="969">
+              <caret line="199" column="130" selection-start-line="199" selection-start-column="118" selection-end-line="199" selection-end-column="130" />
+              <folding>
+                <element signature="e#27#47#0" expanded="true" />
+                <element signature="e#420#705#0" />
+                <element signature="e#834#1818#0" />
+                <element signature="e#1850#3185#0" />
+                <element signature="e#3223#3585#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -188,10 +184,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ctm_c9</find>
-      <find>Mostra</find>
-      <find>elaborazioni</find>
-      <find>show_bilancio</find>
       <find>'consiglio.do_bilancio'</find>
       <find>aggregate_data</find>
       <find>STATIC_ROO</find>
@@ -218,6 +210,10 @@
       <find>med</find>
       <find>BASE_DIR</find>
       <find>User</find>
+      <find>{% url</find>
+      <find>{% url 'up</find>
+      <find>{% url</find>
+      <find>api-data</find>
     </findStrings>
     <replaceStrings>
       <replace>ET_mensile</replace>
@@ -251,7 +247,6 @@
         <option value="$PROJECT_DIR$/income/get_data_stations.py" />
         <option value="$PROJECT_DIR$/consiglio/templates/indice.html" />
         <option value="$PROJECT_DIR$/consiglio/templates/create_bilancio.html" />
-        <option value="$PROJECT_DIR$/consiglio/templates/lista_appezzamenti.html" />
         <option value="$PROJECT_DIR$/consiglio/templates/update_bilancio.html" />
         <option value="$PROJECT_DIR$/templates/_footer.html" />
         <option value="$PROJECT_DIR$/retevista/wsgi.py" />
@@ -270,19 +265,20 @@
         <option value="$PROJECT_DIR$/income/admin.py" />
         <option value="$PROJECT_DIR$/retevista/settings.py" />
         <option value="$PROJECT_DIR$/consiglio/models.py" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
-        <option value="$PROJECT_DIR$/consiglio/bilancio_idrico.py" />
         <option value="&lt;9c489344-306f-4c67-9f05-1c4418036996&gt;/retevista/retevista/settings.py" />
         <option value="$PROJECT_DIR$/consiglio/admin.py" />
-        <option value="$PROJECT_DIR$/consiglio/WriteToExcel.py" />
         <option value="$PROJECT_DIR$/consiglio/templates/singolo_appez.html" />
         <option value="$PROJECT_DIR$/templates/base.html" />
         <option value="$PROJECT_DIR$/templates/charts.html" />
-        <option value="$PROJECT_DIR$/consiglio/urls.py" />
-        <option value="$PROJECT_DIR$/income/views.py" />
         <option value="$PROJECT_DIR$/retevista/urls.py" />
-        <option value="$PROJECT_DIR$/consiglio/views.py" />
+        <option value="$PROJECT_DIR$/consiglio/WriteToExcel.py" />
+        <option value="$PROJECT_DIR$/consiglio/bilancio_idrico.py" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
         <option value="$PROJECT_DIR$/consiglio/templates/charts.html" />
+        <option value="$PROJECT_DIR$/consiglio/urls.py" />
+        <option value="$PROJECT_DIR$/consiglio/templates/lista_appezzamenti.html" />
+        <option value="$PROJECT_DIR$/consiglio/views.py" />
+        <option value="$PROJECT_DIR$/income/views.py" />
       </list>
     </option>
   </component>
@@ -298,6 +294,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -309,12 +306,6 @@
               <item name="retevista" type="b2602c69:ProjectViewProjectNode" />
               <item name="retevista" type="462c0819:PsiDirectoryNode" />
               <item name="consiglio" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="retevista" type="b2602c69:ProjectViewProjectNode" />
-              <item name="retevista" type="462c0819:PsiDirectoryNode" />
-              <item name="consiglio" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="retevista" type="b2602c69:ProjectViewProjectNode" />
@@ -346,7 +337,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -518,7 +508,8 @@
       <workItem from="1556274018646" duration="1802000" />
       <workItem from="1556522722990" duration="63000" />
       <workItem from="1556522803065" duration="9499000" />
-      <workItem from="1556615976856" duration="9254000" />
+      <workItem from="1556615976856" duration="9296000" />
+      <workItem from="1556782162581" duration="11500000" />
     </task>
     <task id="LOCAL-00001" summary="addedd automatic procedure to read api ofr whether stations data">
       <created>1551709403892</created>
@@ -632,11 +623,18 @@
       <option name="project" value="LOCAL" />
       <updated>1556533471492</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="first implementation of chart.js">
+      <created>1556626347847</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1556626347847</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="215224000" />
+    <option name="totallyTimeSpent" value="226766000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -649,9 +647,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.44051448" visible="true" weight="0.25069174" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.44051448" visible="true" weight="0.25345877" />
       <window_info id="Favorites" order="1" side_tool="true" />
       <window_info id="Structure" order="2" sideWeight="0.55948555" weight="0.20475927" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -662,12 +659,12 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32937366" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.4997233" weight="0.32829374" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.4997233" weight="0.3275862" />
       <window_info anchor="bottom" id="File Transfer" order="9" weight="0.32937366" />
       <window_info anchor="bottom" id="Database Changes" order="10" weight="0.32937366" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.31317493" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5008301" side_tool="true" weight="0.33801296" />
-      <window_info active="true" anchor="bottom" id="Python Console" order="13" sideWeight="0.4991699" visible="true" weight="0.39416847" />
+      <window_info anchor="bottom" id="Python Console" order="13" sideWeight="0.4991699" weight="0.39416847" />
       <window_info anchor="bottom" id="Database Console" order="14" weight="0.32937366" />
       <window_info anchor="bottom" id="Messages" order="15" />
       <window_info anchor="bottom" id="REST Client" order="16" weight="0.3423326" />
@@ -696,7 +693,8 @@
     <MESSAGE value="aggiunto cron del bilancio" />
     <MESSAGE value="added edit singolo bilancio daily" />
     <MESSAGE value="export/download bilancio to excel" />
-    <option name="LAST_COMMIT_MESSAGE" value="export/download bilancio to excel" />
+    <MESSAGE value="first implementation of chart.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="first implementation of chart.js" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -705,6 +703,16 @@
           <url>file://$PROJECT_DIR$/income/aggregate_data.py</url>
           <line>76</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/consiglio/bilancio_idrico.py</url>
+          <line>197</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/consiglio/bilancio_idrico.py</url>
+          <line>203</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -770,72 +778,53 @@ else:
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
-        <expression-string>bilancio.data_rif.strftime('%d/%m/%Y')</expression-string>
+        <expression-string>bilancio_giorno.A</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>bilancio.data_rif</expression-string>
+        <expression-string>Kc_calcolata</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>bilancio_appezzam = bilancio.objects.filter(appezzamento=uid)</expression-string>
+        <expression-string>soglia</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>appez_riferimento = appezzamento.objects.get(pk=UID)</expression-string>
+        <expression-string>pioggia_cumulata</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>appezzamento.objects.get(pk=UID)</expression-string>
+        <expression-string>appezzamenti</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>appez_riferimento.cap_idrica</expression-string>
+        <expression-string>appezzam_singolo</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>appez_riferimento.ris_fac_util</expression-string>
+        <expression-string>bilancio.objects.filter(data_rif=ieri)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>appez_riferimento</expression-string>
+        <expression-string>bilancio.objects.filter(data_rif=ieri, appezzamento=appezzam_singolo)</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>bilancio_appezzam.count()</expression-string>
+        <expression-string>dati_aggregati_daily.objects.all()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="das://f7170e97-8b9c-4f03-a495-d45145509771/database/retevista_db/schema/public/table/django_migrations">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/consiglio/et_determination.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="975">
-          <caret line="66" selection-start-line="66" selection-end-line="66" />
-          <folding>
-            <element signature="e#27#42#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/consiglio/filters.py" />
-    <entry file="file://$PROJECT_DIR$/income/templates/dati_giornalieri_filter.html" />
     <entry file="file://$PROJECT_DIR$/income/filters.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -992,20 +981,6 @@ else:
         </state>
       </provider>
     </entry>
-    <entry file="das://70768380-595e-4e42-9ea1-e1c5fb816ed0/database/retevista_db/schema/public/table/consiglio_bilancio">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://f7170e97-8b9c-4f03-a495-d45145509771/database/retevista_db/schema/public/table/consiglio_bilancio">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
     <entry file="das://70768380-595e-4e42-9ea1-e1c5fb816ed0/database/retevista_db/schema/public/table/consiglio_appezzamento">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -1099,26 +1074,6 @@ else:
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/consiglio/bilancio_idrico.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="149" column="40" selection-start-line="149" selection-start-column="28" selection-end-line="149" selection-end-column="40" />
-          <folding>
-            <element signature="e#27#47#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/consiglio/WriteToExcel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="654">
-          <caret line="52" column="36" selection-start-line="52" selection-start-column="36" selection-end-line="52" selection-end-column="36" />
-          <folding>
-            <element signature="e#43#58#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.virtualenvs/retevista/lib/python2.7/site-packages/django/db/models/manager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="379">
@@ -1133,36 +1088,12 @@ else:
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/consiglio/templates/lista_appezzamenti.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" column="77" selection-start-line="29" selection-start-column="77" selection-end-line="29" selection-end-column="96" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/income/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="9" column="5" lean-forward="true" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/income/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1215">
-          <caret line="81" selection-start-line="81" selection-end-line="81" />
-          <folding>
-            <element signature="e#24#63#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1177,27 +1108,116 @@ else:
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/consiglio/urls.py">
+    <entry file="file://$PROJECT_DIR$/income/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="109" selection-start-line="2" selection-start-column="109" selection-end-line="2" selection-end-column="109" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/consiglio/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="115" column="18" selection-start-line="115" selection-start-column="18" selection-end-line="115" selection-end-column="18" />
+        <state relative-caret-position="1020">
+          <caret line="81" selection-start-line="81" selection-end-line="81" />
           <folding>
             <element signature="e#24#63#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/media/kc_spreadsheet/Kc_elenco.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/media/kc_spreadsheet/Kc_elenco_updated.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="das://70768380-595e-4e42-9ea1-e1c5fb816ed0/database/retevista_db/schema/public/table/income_dati_aggregati_daily">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" text="data = '2019-04-19'">
+            <filter text="data = '2019-04-19'" />
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://70768380-595e-4e42-9ea1-e1c5fb816ed0/database/retevista_db/schema/public/table/consiglio_bilancio">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://f7170e97-8b9c-4f03-a495-d45145509771/database/retevista_db/schema/public/table/income_dati_aggregati_daily">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true">
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://f7170e97-8b9c-4f03-a495-d45145509771/database/retevista_db/schema/public/table/consiglio_bilancio">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true">
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/consiglio/WriteToExcel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="76" column="40" selection-start-line="76" selection-start-column="40" selection-end-line="76" selection-end-column="40" />
+          <folding>
+            <element signature="e#43#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/consiglio/bilancio_idrico.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="969">
+          <caret line="199" column="130" selection-start-line="199" selection-start-column="118" selection-end-line="199" selection-end-column="130" />
+          <folding>
+            <element signature="e#27#47#0" expanded="true" />
+            <element signature="e#420#705#0" />
+            <element signature="e#834#1818#0" />
+            <element signature="e#1850#3185#0" />
+            <element signature="e#3223#3585#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/consiglio/templates/charts.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="53" column="33" lean-forward="true" selection-start-line="53" selection-start-column="33" selection-end-line="53" selection-end-column="33" />
+        <state relative-caret-position="135">
+          <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/consiglio/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/consiglio/templates/lista_appezzamenti.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="32" column="26" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/consiglio/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
         </state>
       </provider>
     </entry>

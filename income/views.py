@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 
 import copy
 
-from django.contrib.auth.models import User
-from django.http import Http404, JsonResponse
+
+from django.http import Http404
 from django.shortcuts import render
 
 from .tables import DatiOrariTable,DatiGiornalieriTable

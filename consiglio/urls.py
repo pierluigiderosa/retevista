@@ -7,7 +7,7 @@ urlpatterns = [
     url(r'^export/(?P<uid>\d+)$',export_appezz, name='export_singolo_appez'),
     url(r'^create/$', BilancioCreateView.as_view(), name='create_bilancio'),
     url('update/(?P<pk>\d+)$', BilancioUpdateView.as_view(), name='update_bilancio'),
-    url(r'^api/data/$', get_data, name='api-data'),
-    url(r'^chart$', ChartView, name='chart-view'),
+    url(r'^api/data/(?P<uid>\d+)$', get_data, name='api-data'),
+    url(r'^chart/(?P<uid>\d+)$', ChartView, name='chart-view'),
     url(r'^$', lista_appezzamenti,name='lista-appezzamenti')
     ]

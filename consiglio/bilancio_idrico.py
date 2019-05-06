@@ -49,7 +49,7 @@ def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c7=55,ctm_c3=65,cap_id_max=55,area
     if cap_id_max<ctm_c7:
         P_ep = dose + dose_antropica - Etc + pioggia_5
     else:
-        P_ep = pioggia_5 - Etc
+        P_ep = pioggia_5 - Etc + dose_antropica
 
     #L
     if P_ep>0:

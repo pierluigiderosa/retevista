@@ -10,6 +10,8 @@ def WriteToExcel(appezzamento, bilanci):
     output = StringIO.StringIO()
     workbook = xlsxwriter.Workbook(output)
 
+    soglia_intervento = appezzamento.cap_idrica - appezzamento.ris_fac_util
+
     worksheet_s = workbook.add_worksheet("Report")
     title = workbook.add_format({
         'bold': True,
@@ -60,19 +62,19 @@ def WriteToExcel(appezzamento, bilanci):
         row = 2 + idx
         worksheet_s.write(row, 0, bilancio.data_rif.strftime('%d/%m/%Y'), cell_center)
         worksheet_s.write_number(row, 1, bilancio.pioggia_cum, cell_center)
-        worksheet_s.write_number(row, 2, bilancio.pioggia_cum, cell_center)
-        worksheet_s.write_number(row, 3, bilancio.Kc, cell_center)
-        worksheet_s.write_number(row, 4, bilancio.Et0, cell_center)
-        worksheet_s.write_number(row, 5, bilancio.Etc, cell_center)
-        worksheet_s.write_number(row, 6, bilancio.P_ep, cell_center)
-        worksheet_s.write_number(row, 7, bilancio.L, cell_center)
-        worksheet_s.write_number(row, 8, bilancio.Lambda, cell_center)
-        worksheet_s.write_number(row, 9, bilancio.a, cell_center)
-        worksheet_s.write_number(row, 10, bilancio.Au, cell_center)
-        worksheet_s.write_number(row, 11, bilancio.A, cell_center)
-        worksheet_s.write_number(row, 12, bilancio.Irrigazione, cell_center)
-        worksheet_s.write_number(row, 13, bilancio.dose, cell_center)
-        worksheet_s.write_number(row, 14, bilancio.dose_antropica, cell_center)
+        worksheet_s.write_number(row, 2, bilancio.Kc, cell_center)
+        worksheet_s.write_number(row, 3, bilancio.Et0, cell_center)
+        worksheet_s.write_number(row, 4, bilancio.Etc, cell_center)
+        worksheet_s.write_number(row, 5, bilancio.P_ep, cell_center)
+        worksheet_s.write_number(row, 6, bilancio.L, cell_center)
+        worksheet_s.write_number(row, 7, bilancio.Lambda, cell_center)
+        worksheet_s.write_number(row, 8, bilancio.a, cell_center)
+        worksheet_s.write_number(row, 9, bilancio.Au, cell_center)
+        worksheet_s.write_number(row, 10, bilancio.A, cell_center)
+        worksheet_s.write_number(row, 11, bilancio.Irrigazione, cell_center)
+        worksheet_s.write_number(row, 12, bilancio.dose, cell_center)
+        worksheet_s.write_number(row, 13, bilancio.dose_antropica, cell_center)
+        worksheet_s.write_number(row, 14, soglia_intervento, cell_center)
         worksheet_s.write_number(row, 15, bilancio.Irr_mm, cell_center)
 
 

@@ -5,7 +5,8 @@
 {% endblock %}
 <script>
     {% block jquery %}
-        var endpoint = '/elaborazioni/api/data/'
+        //var endpoint = '/elaborazioni/api/data/1'
+        var endpoint = "{% url 'api-data' uid=uid %}"
         var defaultData = []
         var labels = []
         var customertsDjango = parseInt("{{ customers }}") * 2
@@ -17,6 +18,7 @@
                 labels = data.labels
                 defaultData = data.default
                 EtcData = data.Etc
+                Adata = data.A
                 setChart()
             },
             error: function (error_data) {
@@ -45,6 +47,13 @@
                         borderColor: 'rgb(255,98,132)',
                         borderWidth: 1,
                         fill : false
+                    },{
+                        label: 'A',
+                        data: Adata,
+                        backgroundColor: 'rgb(89,165,135)',
+                        borderColor: 'rgb(89,165,135)',
+                        borderWidth: 1,
+                        fill : false
                     }],
 
                 },
@@ -56,7 +65,12 @@
                                 beginAtZero: true
                             }
                         }]
-                    }
+                    },
+                    elements: {
+        line: {
+            tension: 0
+        }
+    }
                 }
             })
         }
@@ -67,7 +81,7 @@
 {% block content %}
 
     <div class='row'>
-        <div class='col-sm-12' url-endpoint='{% url "api-data" %}'>
+        <div class='col-sm-12' url-endpoint='{% url "api-data" uid=uid %}'>
             <h1>Mia Chart</h1>
             <canvas id="myChart" width="400" height="200"></canvas>
 

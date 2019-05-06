@@ -8,7 +8,6 @@ from django.urls import reverse_lazy
 
 from .bilancio_idrico import calc_bilancio
 from consiglio.models import appezzamento,bilancio
-from income.models import dati_aggregati_daily
 from .WriteToExcel import WriteToExcel
 
 from .forms import BilancioForm
@@ -96,24 +95,32 @@ def export_appezz(request,uid=99):
     response.write(xlsx_data)
     return response
 
-def ChartView(request):
-    return render(request, "charts.html", {"customers": 1010})
+def ChartView(request,uid=2):
+    return render(request, "charts.html", {"uid": uid})
 
-def get_data(request, *args, **kwargs):
-    qs_count = User.objects.all().count()
-    dati_giornalieri_tutti = dati_aggregati_daily.objects.filter(stazione=1)
-    bilancio_appezzam = bilancio.objects.filter(appezzamento=1)
+def get_data(request, uid=1):
+    try:
+        uid = int(uid)
+    except ValueError:
+        raise Http404()
+    bilancio_appezzam = bilancio.objects.filter(appezzamento=uid)
     labels = []
     default_items = []
     Etc = []
+    A = []
+    dose = []
     for bilancio_giorno in bilancio_appezzam:
         labels.append(bilancio_giorno.data_rif.strftime('%d/%m/%Y'))
         default_items.append(bilancio_giorno.pioggia_cum)
         Etc.append(bilancio_giorno.Etc)
+        A.append(bilancio_giorno.A)
+        dose.append(bilancio_giorno.dose)
     data = {
         "labels": labels,
         "default": default_items,
         "Etc": Etc,
+        "A": A,
+        "dose": dose,
         "users": User.objects.all().count(),
     }
     return JsonResponse(data)
