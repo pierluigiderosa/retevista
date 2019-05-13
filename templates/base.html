@@ -69,7 +69,7 @@
                     <a class="dropdown-item" href="{% url 'dati_orari' %}">Dati orari</a>
                     <a class="dropdown-item" href="{% url 'dati_giornalieri' %}">Dati giornalieri aggregati</a>
                     <div class="dropdown-divider"></div>
-
+                    <a class="dropdown-item" href="{% url 'mappa-generale' %}">Mappa</a>
                     {#                    se vogliamo mostrare alcune cose solo a certi gruppi di utenti#}
                     {#                    {% if user.groups.all.0.name == "Rilevatore" %}#}
                     {#                        <a class="dropdown-item" href="/domanda/assegna/">Assegnazione domande</a>#}
@@ -89,7 +89,7 @@
             {% if user.is_anonymous %}
                 <a class="btn btn-primary" href="{% url 'login' %}" role="button">Login</a>
             {% else %}
-{#                <p class="navbar-text">Buongiorno {{ user }}</p>#}
+                {#                <p class="navbar-text">Buongiorno {{ user }}</p>#}
                 <a href="{% url 'logout' %}" class="logout-btn btn btn-danger" role="button">{{ user }} - Logout</a>
             {% endif %}
 
@@ -121,7 +121,7 @@
 
     });
     $(document).ready(function(){
-      {% block jquery %}{% endblock %}
+        {% block jquery %}{% endblock %}
     });
 </script>
 </body>

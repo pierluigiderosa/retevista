@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     "django_tables2",
     'django_filters',
     'bootstrap_modal_forms',
+    'djgeojson',
+    'leaflet',
     'widget_tweaks',
     'django_cron',
     'income',
@@ -79,6 +81,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -172,3 +175,24 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 #login
 LOGIN_REDIRECT_URL = 'homepage'
 LOGOUT_REDIRECT_URL = 'homepage'
+
+SERIALIZATION_MODULES = {
+     "geojson": "django.contrib.gis.serializers.geojson",
+  }
+
+LEAFLET_CONFIG = {
+    'SPATIAL_EXTENT': (9,40, 15,44),
+  'DEFAULT_CENTER': (42.90,12.0),
+  'DEFAULT_ZOOM': 7,
+  'MIN_ZOOM': 1,
+  'MAX_ZOOM': 20,
+'TILES': [
+('Esri Word Topo', 'http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x} ', {'attribution': '&copy; Esri'}),
+
+    ('Stamen', 'http://a.tile.stamen.com/terrain/{z}/{x}/{y}.png', {'attribution': '&copy; Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap', 'maxZoom': 22}),
+          ('Wikimedia', 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png ', {'attribution': '&copy; OpenStreetMap contributors, under ODbL '}),
+
+          ],
+'ATTRIBUTION_PREFIX': 'Powered by <a href="https://www.onegis.it/">onegis</a>',
+'MINIMAP': True,
+}

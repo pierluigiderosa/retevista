@@ -3,10 +3,10 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.http import Http404, HttpResponse, JsonResponse
+
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
-from .bilancio_idrico import calc_bilancio
 from consiglio.models import appezzamento,bilancio
 from .WriteToExcel import WriteToExcel
 
@@ -96,7 +96,9 @@ def export_appezz(request,uid=99):
     return response
 
 def ChartView(request,uid=2):
-    return render(request, "charts.html", {"uid": uid})
+    appez_riferimento = appezzamento.objects.get(pk=uid)
+
+    return render(request, "charts.html", {"uid": uid,'nome_app':appez_riferimento.nome,})
 
 def get_data(request, uid=1):
     try:
@@ -124,3 +126,5 @@ def get_data(request, uid=1):
         "users": User.objects.all().count(),
     }
     return JsonResponse(data)
+
+

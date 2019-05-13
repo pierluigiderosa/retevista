@@ -84,3 +84,63 @@ def WriteToExcel(appezzamento, bilanci):
     xlsx_data = output.getvalue()
     # xlsx_data contains the Excel file
     return xlsx_data
+
+
+def WriteToExcelRain(dati_daily):
+    output = StringIO.StringIO()
+    workbook = xlsxwriter.Workbook(output)
+
+    worksheet_s = workbook.add_worksheet("Report dati giornalieri")
+    title = workbook.add_format({
+        'bold': True,
+        'font_size': 14,
+        'align': 'center',
+        'valign': 'vcenter',
+
+    })
+    header = workbook.add_format({
+        'bg_color': '#F7F7F7',
+        'color': 'black',
+        'align': 'center',
+        'valign': 'top',
+        'border': 1,
+        'text_wrap': True
+    })
+    cell_center = workbook.add_format({
+        'align': 'center'
+    })
+    title_text = u"{0} {1}".format(ugettext("Report per dati giornalieri di: "), dati_daily.first().stazione.nome)
+    worksheet_s.merge_range('A1:I1', title_text, title)
+    # add rows header
+    worksheet_s.write(1, 0, ugettext("Pioggia cum. giornaliera"), header)
+    worksheet_s.write(1, 1, ugettext("Temp. minima"), header)
+    worksheet_s.write(1, 2, ugettext("Temp. max"), header)
+    worksheet_s.write(1, 3, ugettext("Temp media"), header)
+    worksheet_s.write(1, 4, ugettext("Umid. rel. min"), header)
+    worksheet_s.write(1, 5, ugettext("Umid. rel. max"), header)
+    worksheet_s.write(1, 6, ugettext("Radiazione solare"), header)
+    worksheet_s.write(1, 7, ugettext("Velocita' del vento media"), header)
+    worksheet_s.write(1, 8, ugettext("data"), header)
+
+    worksheet_s.set_row(1, 40)
+    worksheet_s.set_column('I:I', 14)
+
+    # Here we will adding the code to add data
+
+    for idx, rain_day in enumerate(dati_daily):
+        row = 2 + idx
+        worksheet_s.write_number(row, 0, rain_day.rain_cumulata, cell_center)
+        worksheet_s.write_number(row, 1, rain_day.temp_min, cell_center)
+        worksheet_s.write_number(row, 2, rain_day.temp_max, cell_center)
+        worksheet_s.write_number(row, 3, rain_day.temp_mean, cell_center)
+        worksheet_s.write_number(row, 4, rain_day.humrel_min, cell_center)
+        worksheet_s.write_number(row, 5, rain_day.humrel_max, cell_center)
+        worksheet_s.write_number(row, 6, rain_day.solar_rad_mean, cell_center)
+        worksheet_s.write_number(row, 7, rain_day.wind_speed_mean, cell_center)
+        worksheet_s.write(row, 8, rain_day.data.strftime('%d/%m/%Y'), cell_center)
+
+
+    workbook.close()
+    xlsx_data = output.getvalue()
+    # xlsx_data contains the Excel file
+    return xlsx_data

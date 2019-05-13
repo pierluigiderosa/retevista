@@ -29,6 +29,7 @@
         })
         function setChart() {
             var ctx = document.getElementById('myChart').getContext('2d');
+            var ctx2 = document.getElementById('myChart2').getContext('2d');
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -72,7 +73,51 @@
         }
     }
                 }
-            })
+            });
+            var myChart = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'pioggia cumulata',
+                        data: defaultData,
+                        backgroundColor: 'rgb(54, 162, 235)',
+                        borderColor: 'rgb(54, 162, 235)',
+                        borderWidth: 1,
+                        fill : false
+                    },{
+                        label: 'Etc',
+                        data: EtcData,
+                        backgroundColor: 'rgb(255,98,132)',
+                        borderColor: 'rgb(255,98,132)',
+                        borderWidth: 1,
+                        fill : false
+                    },{
+                        label: 'A',
+                        data: Adata,
+                        backgroundColor: 'rgb(89,165,135)',
+                        borderColor: 'rgb(89,165,135)',
+                        borderWidth: 1,
+                        fill : false
+                    }],
+
+                },
+                options: {
+
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    elements: {
+        line: {
+            tension: 0
+        }
+    }
+                }
+            });
         }
 
     {% endblock %}
@@ -82,9 +127,9 @@
 
     <div class='row'>
         <div class='col-sm-12' url-endpoint='{% url "api-data" uid=uid %}'>
-            <h1>Mia Chart</h1>
+            <h1>Grafici di {{ nome_app }}</h1>
             <canvas id="myChart" width="400" height="200"></canvas>
-
+            <canvas id="myChart2" width="400" height="200"></canvas>
         </div>
     </div>
 

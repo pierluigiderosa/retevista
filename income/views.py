@@ -3,13 +3,17 @@ from __future__ import unicode_literals
 
 import copy
 
-
-from django.http import Http404
+from django.core.serializers import serialize
+from django.http import Http404, HttpResponse
 from django.shortcuts import render
+from djgeojson.views import GeoJSONLayerView
+from consiglio.WriteToExcel import WriteToExcelRain
+
 
 from .tables import DatiOrariTable,DatiGiornalieriTable
 from .filters import StazioniFilter
 from django_tables2 import RequestConfig
+from datetime import date, timedelta
 
 #import models
 from income.models import dati_orari,dati_aggregati_daily,stazioni_retevista
@@ -65,15 +69,56 @@ def dati_giornalieri_view(request,uid=99):
     # tutte le stazioni inserite nel sistema
     stazioni = stazioni_retevista.objects.all()
 
-    return render(request, "dati_giornalieri.html",{'dati_giornalieri': dati_giornalieri_tutti,'stazioni':stazioni,'print_table': print_table,'stazione_nome': nome_stazione})
+    return render(request, "dati_giornalieri.html",{
+        'dati_giornalieri': dati_giornalieri_tutti,
+        'stazioni':stazioni,'print_table': print_table,'stazione_nome': nome_stazione,
+        'app_id': UID,
+    })
 
 
 def dati_orari_list(request):
     f = StazioniFilter(request.GET, queryset=dati_orari.objects.all())
     return render(request, 'filter.html', {'filter': f})
 
+# def points_view():#request):
+#     data = []
+#     stazioni= stazioni_retevista.objects.all()
+#     for stazione in stazioni:
+#         dati_meteo = dati_aggregati_daily.objects.filter(stazione=stazione).first()
+#         stazione_meteo = list(chain(stazione, dati_meteo))
+#         data.append(stazione_meteo)
+#     points_as_geojson = serialize('geojson', stazioni)
+#     return points_as_geojson
+#     # return HttpResponse(points_as_geojson, content_type='json')
 
 
+class points_view(GeoJSONLayerView):
+
+    # Options
+    precision = 4   # float
+    simplify = 0.5  # generalization
+    geom = 'mpoly' #colonna geometrie
+    properties = ['nome','did']
+
+def mappa(request):
+    rain_ieri = dati_aggregati_daily.objects.filter(data=date.today() - timedelta(days=1)).values('rain_cumulata')
+    return render(request,"mappa.html")
+
+
+def export_dati_daily(request,uid=99):
+    try:
+        UID = int(uid)
+    except ValueError:
+        raise Http404()
+
+    dati_giornalieri_tutti = dati_aggregati_daily.objects.filter(stazione=UID)
+
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=Report.xlsx'
+    # xlsx_data = WriteToExcel(weather_period, town)
+    xlsx_data = WriteToExcelRain(dati_giornalieri_tutti)
+    response.write(xlsx_data)
+    return response
 
 def home_page(request):
     return render(request,"homepage.html")

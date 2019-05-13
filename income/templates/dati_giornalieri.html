@@ -31,6 +31,10 @@
     </div>
  {% if print_table %}
      <h1 class="h2">Stazione {{ stazione_nome }}</h1>
+
+
+      <p><a class="btn btn-primary btn-lg" href="{% url 'export_dati_daily' uid=app_id %}" role="button">scarica in xls »</a></p>
+
     {% render_table dati_giornalieri %}
     {% endif %}
 {% endblock %}

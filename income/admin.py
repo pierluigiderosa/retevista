@@ -11,7 +11,6 @@ class dati_aggregatiAdmin(admin.ModelAdmin):
 
 admin.site.register(stazioni_retevista, admin.OSMGeoAdmin)
 admin.site.register(dati_orari)
-admin.site.register(quote_stazioni)
 admin.site.register(dati_aggregati_daily,dati_aggregatiAdmin)
 admin.site.site_header = "Amministazione ReteVISTA"
 admin.site.site_title = "VISTA"
