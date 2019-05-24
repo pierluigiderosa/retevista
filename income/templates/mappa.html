@@ -19,10 +19,19 @@
         <p>solo gli utenti che effettuano l'accesso possono visualizzare la mappa</p>
     {% endif %}
     <script type="text/javascript">
+
         var geojsonMarkerOptions = {
             radius: 8,
             fillColor: "#ff7800",
             color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        };
+        var appezzMarkerOptions = {
+            radius: 8,
+            fillColor: "#6eff4e",
+            color: "#000000",
             weight: 1,
             opacity: 1,
             fillOpacity: 0.8
@@ -34,11 +43,14 @@
             }
         }
         function main_map_init (map, options) {
-            var dataurl = '{% url "data-stazioni" %}';
+            var dataurl = '{% url "data-stazioni" %}?pid=100';
+            var dataurl_app = "{% url "data-appezzamento" %}";
+            var controlLayers = map.layerscontrol;
+
             // Download GeoJSON via Ajax
             $.getJSON(dataurl, function (data) {
                 // Add GeoJSON layer
-                L.geoJson(data,{
+                var stazioni_layer = L.geoJson(data,{
                     pointToLayer: function (feature, layer) {
                         return L.circleMarker(layer, geojsonMarkerOptions);
                     },
@@ -46,9 +58,26 @@
                         layer.bindPopup('<h5>Stazione</h5>'+'<h6>'+feature.properties.nome+'</h6>');
                     }
                 }).addTo(map);
-
-
+                 // Add Rivers to Layer Control
+                controlLayers.addOverlay(stazioni_layer, 'Stazioni');
             });
+                // Download GeoJSON via Ajax
+            $.getJSON(dataurl_app, function (data) {
+                    // Add GeoJSON layer
+                var appez_layer = L.geoJson(data,{
+                    pointToLayer: function (feature, layer) {
+                        return L.circleMarker(layer, appezzMarkerOptions);
+                    },
+                    onEachFeature: function (feature, layer) {
+                        layer.bindPopup('<h5>Appezzamento</h5>'+'<h6>'+feature.properties.nome+'</h6>');
+                    }
+                }).addTo(map);
+                // Add Rivers to Layer Control
+                controlLayers.addOverlay(appez_layer, 'Appezzamenti');
+             });
+
+
+
         }
     </script>
 {% endblock %}

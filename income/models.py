@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
+from datetime import date
+
 from django.contrib.gis.db import models
 
 # Create your models here.
@@ -22,6 +25,35 @@ class stazioni_retevista(models.Model):
         verbose_name = 'stazione'
         verbose_name_plural = 'stazioni'
 
+class stazioni_umbria(models.Model):
+    station_id = models.CharField(max_length=80)
+    name = models.CharField(max_length=80)
+    river_id = models.CharField(max_length=80)
+    old_id_pt = models.CharField(max_length=80)
+    old_id_h = models.CharField(max_length=80)
+    link = models.CharField(max_length=80)
+    coord_n = models.FloatField()
+    coord_e = models.FloatField()
+    height = models.FloatField()
+    instrument = models.CharField(max_length=80)
+    area = models.FloatField()
+    notes = models.CharField(max_length=80)
+    country = models.CharField(max_length=80)
+    daily_prec = models.CharField(max_length=80)
+    daily_temp = models.CharField(max_length=80)
+    m_daily_fl = models.CharField(max_length=80)
+    oid = models.BigIntegerField()
+    geom = models.MultiPointField(srid=32633)
+
+    def __str__(self):
+        return '%s' % (self.name)
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'stazione Umbria'
+        verbose_name_plural = 'stazioni Umbria'
+
+
 class dati_aggregati_daily(models.Model):
     rain_cumulata = models.FloatField(blank=True,null=True,help_text='pioggia cumulata giornaliera',verbose_name='pioggia cum. giornaliera')
     temp_min = models.FloatField(blank=True,null=True,verbose_name='Temp. min.')
@@ -43,7 +75,25 @@ class dati_aggregati_daily(models.Model):
 
     class Meta:
           ordering = ('-data',)
+          verbose_name = 'dato aggregato giornaliero'
+          verbose_name_plural = 'dati aggregati giornalieri'
 
+class dati_spi(models.Model):
+    spi = models.FileField(upload_to='spi_spreadsheet', verbose_name='SPI excel file',
+                                    default='spi_spreadsheet/1991-2018_San_Gemini_SPI12_noeff_prec.xls'
+                           )
+    stazione_pluviometrica = models.OneToOneField(stazioni_umbria)
+    spi_1mesi = models.FloatField(default=0,blank=True,null=True)
+    spi_3mesi = models.FloatField(default=0, blank=True, null=True)
+    spi_6mesi = models.FloatField(default=0, blank=True, null=True)
+    data_spi_cruscotti = models.DateField(default=date.today)
+
+    class Meta:
+        verbose_name = 'dato SPI Umbria'
+        verbose_name_plural = 'dati SPI Umbria'
+
+    def __str__(self):
+        return 'dati spi %s' % self.stazione_pluviometrica.name
 
 
 class dati_orari(models.Model):
