@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django_cron',
     'income',
     'consiglio',
+    'dash_aziende',
 ]
 
 MIDDLEWARE = [

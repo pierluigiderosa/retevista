@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib.gis import admin
+
 from .models import stazioni_retevista,dati_orari,dati_aggregati_daily,dati_spi
 # Register your models here.
 

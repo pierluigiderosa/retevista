@@ -149,6 +149,8 @@ def home_page(request):
     return render(request, "homepage.html")
 
 
+
+
 def lista_stazioni_umbria_spi(request):
     stazioni_spi = stazioni_umbria.objects.filter(dati_spi__isnull=False)
     context = {
@@ -177,7 +179,7 @@ def get_spi(request, uid=1):
 
     for i in df.index:
         date.append(df[df.columns[0]][i].strftime('%m %Y'))
-        spi_values.append(df[df.columns[1]][i])
+        spi_values.append(round(df[df.columns[1]][i],2))
 
     data_dict = {
         "mesianni": date,
@@ -193,8 +195,8 @@ def ChartView(request, uid=2):
     return render(request, "charts_spi.html", {
         "uid": uid,
         'nome_staz': stazione_umbria.stazione_pluviometrica.name,
-        'sdi_1mese': stazione_umbria.spi_1mesi,
-        'sdi_3mese': stazione_umbria.spi_3mesi,
-        'sdi_6mese': stazione_umbria.spi_6mesi,
+        'spi_1mese': stazione_umbria.spi_1mesi,
+        'spi_3mese': stazione_umbria.spi_3mesi,
+        'spi_6mese': stazione_umbria.spi_6mesi,
         'mese':stazione_umbria.data_spi_cruscotti
     })

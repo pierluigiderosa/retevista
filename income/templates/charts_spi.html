@@ -27,6 +27,7 @@
         })
         function setChart() {
             var ctx = document.getElementById('myChart').getContext('2d');
+            var pointBackgroundColors = [];
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -34,9 +35,12 @@
                     datasets: [{
                         label: 'SPI index',
                         data: defaultData,
+                        pointBackgroundColor: pointBackgroundColors,
+                        pointBorderColor: pointBackgroundColors,
+                        {#lineTension:5,#}
                         backgroundColor: 'rgb(54, 162, 235)',
                         borderColor: 'rgb(54, 162, 235)',
-                        borderWidth: 1,
+                        borderWidth: 1.5,
                         fill : false
                     },
                     ],
@@ -52,71 +56,79 @@
                         }]
                     },
                     elements: {
-        line: {
-            tension: 0
-        }
-    }
+                        line: {
+                            tension: 0
+                        }
+                    }
                 }
             });
+            for (i = 0; i < myChart.data.datasets[0].data.length; i++) {
+                if (myChart.data.datasets[0].data[i] > 0) {
+                    pointBackgroundColors.push("#90cd8a");
+                } else {
+                    pointBackgroundColors.push("#f58368");
+                }
+            }
+            myChart.update();
 
         }
-var ctx = document.getElementById("cruscotto").getContext("2d");
-new Chart(ctx, {
-	type: "tsgauge",
-	data: {
-		datasets: [{
-			backgroundColor: ["#dc0611", "#fd7600", "#fff800","#71dc00", "#fff800", "#fd7600","#dc0611"],
-			borderWidth: 0,
-			gaugeData: {
-				value: {{ sdi_1mese |safe }},
-				valueColor: "#535353"
-			},
-			gaugeLimits: [-5, -2, -1.5, -1,1,1.5,2,5]
-		}]
-	},
-	options: {
-            events: [],
-            showMarkers: true
-	}
-});
-var ctx2 = document.getElementById("cruscotto2").getContext("2d");
-new Chart(ctx2, {
-	type: "tsgauge",
-	data: {
-		datasets: [{
-			backgroundColor: ["#dc0611", "#fd7600", "#fff800","#71dc00", "#fff800", "#fd7600","#dc0611"],
-			borderWidth: 0,
-			gaugeData: {
-				value: {{ sdi_3mese |safe }},
-				valueColor: "#535353"
-			},
-			gaugeLimits: [-5, -2, -1.5, -1,1,1.5,2,5]
-		}]
-	},
-	options: {
-            events: [],
-            showMarkers: true
-	}
-});
-var ctx3 = document.getElementById("cruscotto3").getContext("2d");
-new Chart(ctx3, {
-	type: "tsgauge",
-	data: {
-		datasets: [{
-			backgroundColor: ["#dc0611", "#fd7600", "#fff800","#71dc00", "#fff800", "#fd7600","#dc0611"],
-			borderWidth: 0,
-			gaugeData: {
-				value: {{ sdi_6mese |safe }},
-				valueColor: "#535353"
-			},
-			gaugeLimits: [-5, -2, -1.5, -1,1,1.5,2,5]
-		}]
-	},
-	options: {
-            events: [],
-            showMarkers: true
-	}
-});
+        var ctx = document.getElementById("cruscotto").getContext("2d");
+        new Chart(ctx, {
+            type: "tsgauge",
+            data: {
+                datasets: [{
+                    backgroundColor: ["#dc0611", "#fd7600", "#fff800","#71dc00", "#fff800", "#fd7600","#dc0611"],
+                    borderWidth: 0,
+                    gaugeData: {
+                        value: {{ spi_1mese |safe }},
+                        valueColor: "#535353"
+                    },
+                    gaugeLimits: [-5, -2, -1.5, -1,1,1.5,2,5]
+                }]
+            },
+            options: {
+                events: [],
+                showMarkers: true
+            }
+        });
+        var ctx2 = document.getElementById("cruscotto2").getContext("2d");
+        new Chart(ctx2, {
+            type: "tsgauge",
+            data: {
+                datasets: [{
+                    backgroundColor: ["#dc0611", "#fd7600", "#fff800","#71dc00", "#fff800", "#fd7600","#dc0611"],
+                    borderWidth: 0,
+                    gaugeData: {
+                        value: {{ spi_3mese |safe }},
+                        valueColor: "#535353"
+                    },
+                    gaugeLimits: [-5, -2, -1.5, -1,1,1.5,2,5]
+                }]
+            },
+            options: {
+                events: [],
+                showMarkers: true
+            }
+        });
+        var ctx3 = document.getElementById("cruscotto3").getContext("2d");
+        new Chart(ctx3, {
+            type: "tsgauge",
+            data: {
+                datasets: [{
+                    backgroundColor: ["#dc0611", "#fd7600", "#fff800","#71dc00", "#fff800", "#fd7600","#dc0611"],
+                    borderWidth: 0,
+                    gaugeData: {
+                        value: {{ spi_6mese |safe }},
+                        valueColor: "#535353"
+                    },
+                    gaugeLimits: [-5, -2, -1.5, -1,1,1.5,2,5]
+                }]
+            },
+            options: {
+                events: [],
+                showMarkers: true
+            }
+        });
     {% endblock %}
 </script>
 
@@ -127,21 +139,21 @@ new Chart(ctx3, {
             <h1>Grafici SPI di {{ nome_staz }}</h1>
             <canvas id="myChart" width="400" height="200"></canvas>
             <div class="container">
-  <div class="row">
-    <div class="col-sm">
-        <h1>{{ mese |date:"F" }} - Cruscotto a 1 mese SDI</h1>
-      <canvas id="cruscotto" ></canvas>
-    </div>
-    <div class="col-sm">
-      <h1>{{ mese |date:"F" }} - Cruscotto a 3 mesi SDI</h1>
-      <canvas id="cruscotto2" ></canvas>
-    </div>
-    <div class="col-sm">
-     <h1>{{ mese |date:"F" }} - Cruscotto a 6 mesi SDI</h1>
-      <canvas id="cruscotto3" ></canvas>
-    </div>
-  </div>
-</div>
+                <div class="row">
+                    <div class="col-sm">
+                        <h2>{{ mese |date:"F" }} - Cruscotto a 1 mese SPI</h2>
+                        <canvas id="cruscotto" ></canvas>
+                    </div>
+                    <div class="col-sm">
+                        <h2>{{ mese |date:"F" }} - Cruscotto a 3 mesi SPI</h2>
+                        <canvas id="cruscotto2" ></canvas>
+                    </div>
+                    <div class="col-sm">
+                        <h2>{{ mese |date:"F" }} - Cruscotto a 6 mesi SPI</h2>
+                        <canvas id="cruscotto3" ></canvas>
+                    </div>
+                </div>
+            </div>
 
 
         </div>
