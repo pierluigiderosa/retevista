@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'djgeojson',
     'leaflet',
     'widget_tweaks',
+    'crispy_forms',
     'django_cron',
     'income',
     'consiglio',
@@ -203,3 +204,6 @@ LEAFLET_CONFIG = {
     'ATTRIBUTION_PREFIX': 'Powered by <a href="https://www.onegis.it/">onegis</a>',
     'MINIMAP': False,
 }
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
