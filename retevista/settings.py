@@ -187,7 +187,7 @@ LEAFLET_CONFIG = {
     'DEFAULT_CENTER': (42.90,12.0),
     'DEFAULT_ZOOM': 7,
     'MIN_ZOOM': 1,
-    'MAX_ZOOM': 20,
+    'MAX_ZOOM': 23,
     'TILES': [
         ('Wikimedia', 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png ', {'attribution': '&copy; OpenStreetMap contributors, under ODbL '}),
 

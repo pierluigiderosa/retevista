@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load leaflet_tags crispy_forms_tags %}
+
+{% load static %}
+
+
+{% block css %}
+
+    {{ form.media }}
+
+{% endblock %}
+{% block content %}
+
+    <div class="row">
+    {% include "lateral_panel_dashboard.html" %}
+
+
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        <div class="form-row">
+            <h1 class="h2">Aggiungi utente</h1>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-sm-4 col-lg-8">
+                {{ user_form|crispy }}
+            </div>
+            <div class="form-group col-sm-4 col-lg-8">
+                {{ profile_form|crispy }}
+            </div>
+        </div>
+
+
+        <input type="submit"/>
+    </form>
+
+    </div>
+
+
+{% endblock %}
+
+
+
+    {% block extrastyle %}
+
+    {% endblock %}

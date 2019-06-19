@@ -28,48 +28,80 @@
         function setChart() {
             var ctx = document.getElementById('myChart').getContext('2d');
             var pointBackgroundColors = [];
-            var myChart = new Chart(ctx, {
-                type: 'line',
+            var myColors=[];
+
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
                 data: {
                     labels: labels,
                     datasets: [{
                         label: 'SPI index',
+                        backgroundColor: myColors,
                         data: defaultData,
-                        pointBackgroundColor: pointBackgroundColors,
-                        pointBorderColor: pointBackgroundColors,
-                        {#lineTension:5,#}
-                        backgroundColor: 'rgb(54, 162, 235)',
-                        borderColor: 'rgb(54, 162, 235)',
-                        borderWidth: 1.5,
-                        fill : false
                     },
                     ],
-
                 },
-                options: {
-
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    },
-                    elements: {
-                        line: {
-                            tension: 0
-                        }
-                    }
-                }
+                options:{}
             });
-            for (i = 0; i < myChart.data.datasets[0].data.length; i++) {
-                if (myChart.data.datasets[0].data[i] > 0) {
-                    pointBackgroundColors.push("#90cd8a");
-                } else {
-                    pointBackgroundColors.push("#f58368");
+            for (i = 0; i < myBarChart.data.datasets[0].data.length; i++) {
+                if (myBarChart.data.datasets[0].data[i] < -2 || myBarChart.data.datasets[0].data[i] > 2 ) {
+                    myColors.push("#dc0611");
+                }
+                else if (myBarChart.data.datasets[0].data[i] >= -2 && myBarChart.data.datasets[0].data[i] < -1.5 || myBarChart.data.datasets[0].data[i] > 1.5 && myBarChart.data.datasets[0].data[i] <= 2 ) {
+                    myColors.push("#fd7600");
+                }
+                else if (myBarChart.data.datasets[0].data[i] >= -1.5 && myBarChart.data.datasets[0].data[i] < -1 || myBarChart.data.datasets[0].data[i] > 1 && myBarChart.data.datasets[0].data[i] <= 1.5 ) {
+                    myColors.push("#fff800");
+                }
+
+                else {
+                    myColors.push("#71DC00");
                 }
             }
-            myChart.update();
+            myBarChart.update();
+            {#var myChart = new Chart(ctx5, {#}
+            {#    type: 'line',#}
+            {#    data: {#}
+            {#        labels: labels,#}
+            {#        datasets: [{#}
+            {#            label: 'SPI index',#}
+            {#            data: defaultData,#}
+            {#            pointBackgroundColor: pointBackgroundColors,#}
+            {#            pointBorderColor: pointBackgroundColors,#}
+            {#            lineTension:5,#}
+            {#            backgroundColor: 'rgb(54, 162, 235)',#}
+            {#            borderColor: 'rgb(54, 162, 235)',#}
+            {#            borderWidth: 1.5,#}
+            {#            fill : false#}
+            {#        },#}
+            {#        ],#}
+            {##}
+            {#    },#}
+            {#    options: {#}
+            {##}
+            {#        scales: {#}
+            {#            yAxes: [{#}
+            {#                ticks: {#}
+            {#                    beginAtZero: true#}
+            {#                }#}
+            {#            }]#}
+            {#        },#}
+            {#        elements: {#}
+            {#            line: {#}
+            {#                tension: 0#}
+            {#            }#}
+            {#        }#}
+            {#    }#}
+            //});
+            {#for (i = 0; i < myChart.data.datasets[0].data.length; i++) {#}
+            {#    if (myChart.data.datasets[0].data[i] > 0) {#}
+            {#        pointBackgroundColors.push("#90cd8a");#}
+            {#    } else {#}
+            {#        pointBackgroundColors.push("#f58368");#}
+            {#    }#}
+            {#}#}
+            {#myChart.update();#}
+
 
         }
         var ctx = document.getElementById("cruscotto").getContext("2d");

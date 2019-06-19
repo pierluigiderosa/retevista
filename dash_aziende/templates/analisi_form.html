@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load leaflet_tags crispy_forms_tags %}
+
+{% load static %}
+
+{% block script %}
+    {% leaflet_js plugins="forms" %}
+
+{% endblock %}
+
+{% block css %}
+    {% leaflet_css plugins="forms" %}
+    {{ form.media }}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        {% include "lateral_panel_dashboard.html" %}
+ <div class="col-lg-8  col-md-8">
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-row">
+                <h1 class="h2">Aggiungi / Edita analisi</h1>
+            </div>
+            {{ form|crispy }}
+
+
+            <input type="submit"/>
+        </form>
+    </div>
+    </div>
+    <script>
+        YourGeometryField = L.GeometryField.extend({
+            addTo: function (map) {
+                L.GeometryField.prototype.addTo.call(this, map);
+                // Customize map for field
+                console.log(this);
+            },
+            // See GeometryField source (static/leaflet/leaflet.forms.js) to override more stuff...
+        });
+    </script>
+
+{% endblock %}
+
+
+{% block extrastyle %}
+
+{% endblock %}

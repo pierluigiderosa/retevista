@@ -6,3 +6,4 @@ from django.apps import AppConfig
 
 class DashAziendeConfig(AppConfig):
     name = 'dash_aziende'
+    verbose_name = 'Dashboard aziende'

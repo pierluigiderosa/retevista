@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+{% load leaflet_tags %}
+{% load l10n %}
+
+{% block script %}
+    {% leaflet_js %}
+{% endblock %}
+{% block css %}
+    {% leaflet_css %}
+    <style>
+        .leaflet-container { height: 600px; width: 100%}
+    </style>
+{% endblock %}
+
+
+{% block content %}
+
+
+    <div class="row">
+        {% include "lateral_panel_dashboard.html" %}
+
+        <div class="col-md-4 p-0 bg-indigo h-md-100">
+
+            <div class="sticky-top">
+                <h1 class="h2">Analisi de suolo</h1>
+            </div>
+
+            <a class="btn btn-primary" id="add-analisi" title="Nuovo" role="button"><i class="fas fa-plus"></i></a>
+
+
+            {% for analisi in analisies %}
+                <div class="card border-primary mb-3" style="max-width: 48rem;">
+                    <div class="card-header">Id Campione {{ analisi.id_campione }} --- Data segnalazione:{{ analisi.data_segnalazione }}
+                    </div>
+                    <div class="card-body text-primary">
+                        <h5 class="card-title">Dettagli analisi</h5>
+
+                        <p class="card-text">
+                            pH: {{ analisi.pH }}
+                            sabbia: {{ analisi.sabbia }}
+                            limo: {{ analisi.limo }}
+                            argilla:{{ analisi.argilla }}
+                            sostanza organica: {{ analisi.OM }}
+                            azoto: {{ analisi.azoto }}
+                            fosforo: {{ analisi.fosforo }}
+                            potassio: {{ analisi.potassio }}
+                            Capacità di scambio cationico: {{ analisi.scambio_cationico }}
+                            Densità apparente: {{ analisi.den_apparente }}
+                            pietrosità: {{ analisi.pietrosita }}
+                            profondità: {{ analisi.profondita }}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Centra in mappa</small>
+                        <button title="Centra in mappa"
+                                xmin="{{ analisi.geom.x|unlocalize}}"
+                                ymin="{{ analisi.geom.y|unlocalize }}"
+                                class="btn btn-light btn-sm no-focus-highlight center-in-map">
+                            <i class="fas fa-map-marker-alt fa-lg"></i>
+                        </button>
+                         <a href="{% url 'update-analisi' pk=analisi.id %}"><i class="fas fa-edit fa-lg"></i></a>
+                         <a href="{% url 'delete-analisi' pk=analisi.id %}"><i class="fas fa-trash-alt fa-lg""></i></a>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+        {% block cards %}
+
+        {% endblock %}
+
+        <!-- Second Half -->
+
+        <div class="col-md-4 p-0 bg-white h-md-100">
+            {% leaflet_map "main" callback="main_map_init" %}
+        </div>
+    </div>
+    <script type="text/javascript">
+        function main_map_init (map, options) {
+            // Use Leaflet API bbox test 12.182465, 42.522724, 12.933811, 42.724821
+
+            {% if not bbox_condition %}
+                map.setView([{{ bbox.1|unlocalize }},{{ bbox.0|unlocalize }}], 12);  //setta il centro mappa
+            {% else %}
+                map.fitBounds([
+                    [{{ bbox.1|unlocalize }},{{ bbox.0|unlocalize }}],
+                    [{{ bbox.3|unlocalize }},{{ bbox.2|unlocalize }}]
+                ]);
+            {% endif %}
+
+
+            var dataurl = '{% url "analisi_geojson" %}';
+            var datacampi = '{% url "campi_geojson" %}';
+
+            //define a style for fields
+            var myStyle = {
+                "weight": 2,
+                "color": "#6e6e6e",
+                "opacity": 1,
+                "fillColor": "#5877de",
+                "fillOpacity": 0.8
+            };
+
+
+            // Download GeoJSON via Ajax
+            $.getJSON(dataurl, function (data) {
+                // Add GeoJSON layer
+                L.geoJson(data).addTo(map);
+            });
+            $.getJSON(datacampi, function (data) {
+                // Add GeoJSON layer
+                L.geoJson(data, {style: myStyle}).addTo(map);
+            });
+            $(".btn").click(function(event) {
+                event.preventDefault();
+                var xmin = $(this).attr("xmin");
+                ymin = $(this).attr("ymin");
+
+                console.log(xmin);
+                console.log(ymin);
+                {#map.setView([lng,lat], 12);#}
+                map.setView(
+                    [ymin,xmin],
+                    18
+                );
+
+            });
+
+
+        }
+        $('#add-analisi').click(function(){
+            window.location.href = '{% url 'form-analisi' %}'
+        });
+    </script>
+{% endblock %}
+
+
+{% block extrastyle %}
+
+{% endblock %}
