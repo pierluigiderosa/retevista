@@ -3,10 +3,15 @@
 from django.contrib.auth.models import User
 from django.contrib.gis import forms
 from django.forms import SelectDateWidget
+from django.forms.models import inlineformset_factory
 from django.views.generic import UpdateView
 from leaflet.forms.widgets import LeafletWidget
 
-from .models import Profile, campi, analisi_suolo
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset
+
+from .models import Profile, campi, analisi_suolo,\
+    fertilizzazione,operazioni_colturali
 
 LEAFLET_WIDGET_ATTRS = {
     'map_height': '500px',
@@ -24,7 +29,6 @@ class CampiAziendeForm(forms.ModelForm):
         model = campi
         fields = ('nome','coltura', 'geom')
         widgets = {'geom': LeafletWidget(attrs=LEAFLET_WIDGET_ATTRS)}
-
 
 
 class EditCampiAziende(UpdateView):
@@ -90,3 +94,29 @@ class AnalisiForm(forms.ModelForm):
         self.fields['campo'].queryset = campi.objects.filter(proprietario=Profile.objects.filter(user=user))
         # else:  # it's an UpdateView:
         #     self.fields['campo'].queryset = campi.objects.filter(proprietario=Profile.objects.filter(user=self.instance.user))  # active users + self.instance.user
+
+class FertilizzazioneForm(forms.ModelForm):
+    class Meta:
+        model = fertilizzazione
+        fields = '__all__'
+
+
+    @property
+    def helper(self):
+        helper = FormHelper()
+        helper.form_tag = False # This is crucial.
+
+        helper.layout = Layout(
+            Fieldset('Aggiungi un nuovo fertilizzante', 'fertilizzante'),
+        )
+
+        return helper
+
+
+class OperazioneColturaleForm(forms.ModelForm):
+    class Meta:
+        model=operazioni_colturali
+        fields='__all__'
+        widgets={
+            'data_operazione': DateInput(),
+        }

@@ -7,16 +7,19 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 from django.db import transaction
-from django.http import HttpResponse, HttpResponseRedirect
+from django.forms import inlineformset_factory
+from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, DeleteView
+from django.views.generic import UpdateView, DeleteView, CreateView
 from djgeojson.views import GeoJSONLayerView
 
-from django.contrib.gis.db.models import Extent
+from django.contrib.gis.db.models import Extent, Union
 
 from .models import campi,Profile,analisi_suolo
-from .forms import CampiAziendeForm,UserForm,ProfileForm,AnalisiForm
+from dash_aziende.models import fertilizzazione as fert_model ,operazioni_colturali as oper_model
+from .forms import CampiAziendeForm,UserForm,ProfileForm,AnalisiForm,\
+    FertilizzazioneForm,OperazioneColturaleForm
 from forecast import get as get_forecast
 
 # Create your views here.
@@ -52,6 +55,17 @@ def dashboard_fields(request,forecast=False):
         'bbox': bbox['geom__extent'],
         'forecast': forecast
                                               })
+
+@login_required
+def operazioni_colturali(request):
+    # tutte le tipologia di operazioni colturali
+    tipologia_operazioni = oper_model.operazione_choices
+    return render(request,"operazioni_dashboard.html",{
+        "tipologia_operazioni": tipologia_operazioni,
+
+    })
+
+@login_required
 def dashboard_analisi(request):
     campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=request.user))
     analisi_all = analisi_suolo.objects.filter(campo__in=campi_all)
@@ -68,6 +82,7 @@ def dashboard_analisi(request):
                       'bbox_condition': bbox_condition,
                   })
 
+#inizio delle views per i forms ----
 @login_required
 def form_campi(request):
     # if this is a POST request we need to process the form data
@@ -85,13 +100,54 @@ def form_campi(request):
             # ...
             messages.success(request, 'Il tuo campo è stato aggiunto!')
             # redirect to a new URL:
-            return redirect('main-dashboard')
+            return redirect('main-fields')
 
     # if a GET (or any other method) we'll create a blank form
     else:
         form = CampiAziendeForm()
 
     return render(request, 'dashboard_form.html', {'form': form})
+
+
+@login_required
+def form_operazioni(request):
+    '''This function creates a brand new fertilizzazione object with related Book objects using inlineformset_factory'''
+    fertilizzazione = fert_model()
+    fertilizzazione_form = FertilizzazioneForm(instance=fertilizzazione)  # setup a form for the parent
+
+
+
+    OperationFormSet = inlineformset_factory(
+        fert_model, oper_model,
+        form=OperazioneColturaleForm,
+        fields='__all__',
+        fk_name='operazione_fertilizzazione',
+        can_delete=False,
+        extra=1,
+    )
+
+    if request.method == "POST":
+        fertilizzazione_form = FertilizzazioneForm(request.POST,instance=fertilizzazione)
+        formset = OperationFormSet(request.POST, request.FILES,instance=fertilizzazione)
+
+        if fertilizzazione_form.is_valid():
+            created_fertilizzazione = fertilizzazione_form.save(commit=False)
+            formset = OperationFormSet(request.POST, request.FILES, instance=created_fertilizzazione)
+
+            if formset.is_valid():
+                created_fertilizzazione.save()
+                formset.save()
+                return HttpResponseRedirect('/')
+    else:
+        fertilizzazione_form = FertilizzazioneForm(instance=fertilizzazione)
+        formset = OperationFormSet(instance=fertilizzazione)
+
+    return render(request,"operazioni_form.html",{
+        "fertilizzazione_form": fertilizzazione_form,
+        "formset_operazione": formset,
+    })
+
+
 
 @login_required
 def form_analisi(request):
@@ -152,6 +208,25 @@ class AnalisiDeleteView(LoginRequiredMixin,DeleteView):
     template_name = 'confirm_delete.html'
     success_message = '''Successo: L'analisi è stato eliminato.'''
     success_url = reverse_lazy('main-analisi')
+
+
+@login_required()
+def get_data_charts(request):
+    campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=request.user))
+    campi_coltura_aggregati = campi_all.values('coltura__nome').annotate(Union('geom')).transform(3004)
+
+    coltura = []
+    area = []
+    for campo_coltura in campi_coltura_aggregati:
+        coltura.append(campo_coltura['coltura__nome'])
+        area.append(round(campo_coltura['geom__union'].area/10000.,3))
+    data = {
+        "labels": coltura,
+        "default": area,
+    }
+    return JsonResponse(data)
+
+
 
 
 @login_required

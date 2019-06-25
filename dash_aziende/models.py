@@ -139,21 +139,10 @@ class campi(models.Model):
         verbose_name_plural = 'campi'
 
 
+# da qui metto tutte le operazioni eseguibili
 
-class operazioni_colturali(models.Model):
-    operazione_choices = [
-        ('Fertilizzazione','Fertilizzazione'),
-        ('Irrigazione','Irrigazione'),
-        ('Raccolta','Raccolta'),
-        ('Trattamento','Trattamento'),
-        ('Gestione chioma','Gestione chioma'),
-        ('Gestione suolo','Gestione suolo'),
-        ('Semina o trapianto','Semina o trapianto'),
-        ('Lavorazione pre semina','Lavorazione pre semina'),
-        ('Altra operazione','Altra operazione')
-    ]
-    data_operazione= models.DateField(verbose_name='Data operazione')
-    campo = models.ForeignKey(campi,help_text='seleziona il campo')
+class fertilizzazione(models.Model):
+
     prodotto = models.CharField(max_length=50,choices=[('minerale','minerale'),('organico','organico')],verbose_name='Categoria di prodotto')
     fertilizzante_choices = [
         ('Nitrato di ammonio','Nitrato di ammonio'),
@@ -169,7 +158,82 @@ class operazioni_colturali(models.Model):
     ]
     fertilizzante = models.CharField(max_length=50,choices=fertilizzante_choices,verbose_name='Tipo di fertilizzante')
     kg_prodotto = models.FloatField(blank=True,null=True,verbose_name='Quantità totale di prodotto')
+    titolo_n = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Titolo N',help_text='espresso in %')
+    titolo_p2o5 = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Titolo P2O5',help_text='espresso in %')
+    titolo_k2o = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Titolo K2O',help_text='espresso in %')
 
+class irrigazione(models.Model):
+    portata = models.FloatField(validators=[MinValueValidator(0.0)],verbose_name='Portata impianto irriguo',help_text='espresso in l/h')
+    durata = models.FloatField(validators=[MinValueValidator(0.0)],verbose_name='Durata irrigazione',help_text='espresso in h')
+
+class raccolta(models.Model):
+    produzione =  models.FloatField(validators=[MinValueValidator(0.0)],verbose_name='Produzione totale (t)',help_text='espresso in t')
+
+class trattamento(models.Model):
+    prodotto_choices =[
+        ('Erbicida','Erbicida'),
+        ('Fungicida','Fungicida'),
+        ('Insetticida','Insetticida'),
+        ('Acaricida','Acaricida'),
+        ('Nematocida','Nematocida'),
+        ('Coadiuvante','Coadiuvante'),
+        ('Insetticida e fungicida','Insetticida e fungicida'),
+        ('Molluschicida','Molluschicida'),
+        ('Regolatore di crescita','Regolatore di crescita'),
+    ]
+    prodotto = models.CharField(max_length=50,choices=prodotto_choices,verbose_name='categoria di prodotto')
+    formulato = models.CharField(max_length=50,verbose_name='Formulato commerciale')
+    sostanze = models.CharField(max_length=50, verbose_name='Sostanze attive')
+    quantita = models.FloatField(validators=[MinValueValidator(0.0)],verbose_name='Quantità totale di prodotto')
+
+class semina(models.Model):
+    semina_choices=[
+        ('Semina di precisione ','Semina di precisione '),
+        ('Trapianto','Trapianto'),
+        ('Semina a spaglio','Semina a spaglio'),
+        ('Semina a spaglio','Semina a spaglio'),
+    ]
+    precocita_choices = [
+        ('Precoce','Precoce'),
+        ('Media','Media'),
+        ('Tardiva','Tardiva'),
+    ]
+    semina = models.CharField(max_length=50,choices=semina_choices,verbose_name='Modalità di semina o trapianto')
+    quantita = models.FloatField(validators=[MinValueValidator(0.0)], verbose_name='Quantità totale semente/piante')
+    precocita = models.CharField(max_length=50,choices=precocita_choices,verbose_name='pecocità varientà',help_text='espresso in piante')
+    lunghezza_ciclo = models.PositiveIntegerField(verbose_name='Lunghezza ciclo',help_text='espresso in giorni')
+    produzione = models.FloatField(validators=[MaxValueValidator(0.0)],verbose_name='Produzione totale attesa',help_text='espresso in t')
+
+
+# fine inserimento-------------
+
+class operazioni_colturali(models.Model):
+    operazione_choices = [
+        ('Fertilizzazione','Fertilizzazione'),
+        ('Irrigazione','Irrigazione'),
+        ('Raccolta','Raccolta'),
+        ('Trattamento','Trattamento'),
+        ('Gestione chioma','Gestione chioma'),
+        ('Gestione suolo','Gestione suolo'),
+        ('Semina o trapianto','Semina o trapianto'),
+        ('Lavorazione pre semina','Lavorazione pre semina'),
+        ('Altra operazione','Altra operazione')
+    ]
+    data_operazione= models.DateField(verbose_name='Data operazione')
+    campo = models.ForeignKey(campi,help_text='seleziona il campo')
+    operazione= models.CharField(max_length=50,choices=operazione_choices,default="",verbose_name="Operazione colturale")
+    note = models.TextField(blank=True,null=True)
+    #aggiungo tutte le relazioni esterne ai diversi tipi di operazione
+    operazione_fertilizzazione = models.ForeignKey(fertilizzazione, null=True, blank=True,
+                                     on_delete=models.CASCADE)
+    operazione_irrigazione = models.ForeignKey(irrigazione, null=True, blank=True,
+                                                   on_delete=models.CASCADE)
+    operazione_raccolta = models.ForeignKey(raccolta, null=True, blank=True,
+                                                   on_delete=models.CASCADE)
+    operazione_trattamento = models.ForeignKey(trattamento, null=True, blank=True,
+                                                   on_delete=models.CASCADE)
+    operazione_semina = models.ForeignKey(semina, null=True, blank=True,
+                                                   on_delete=models.CASCADE)
 
 class analisi_suolo(models.Model):
     data_segnalazione = models.DateField(verbose_name='Segnalato in data:')

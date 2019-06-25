@@ -11,9 +11,11 @@
 {% endblock %}
 
 {% block content %}
-<form action="" method="post">{% csrf_token %}
-    <p>Sei sicuro di vole cancellare l'oggetto <b>"{{ object }}"?</b></p>
-    <input type="submit" value="Conferma" />
-</form>
-
+    <div class="row">
+        {% include "lateral_panel_dashboard.html" %}
+        <form action="" method="post">{% csrf_token %}
+            <p>Sei sicuro di vole cancellare  <b>"{{ object }}"?</b></p>
+            <input type="submit" value="Conferma" />
+        </form>
+    </div>
 {% endblock %}
