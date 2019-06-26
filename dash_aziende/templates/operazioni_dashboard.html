@@ -27,52 +27,74 @@
             </div>
 
         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-           <i class="fas fa-plus"></i>Nuova operazione
+           <i class="fas fa-plus"></i> Nuova operazione
         </button>
         <div class="dropdown-menu">
             {% for single_tipologia in tipologia_operazioni %}
-                <a class="dropdown-item" href="#">{{ single_tipologia.1 }}</a>
+                <a class="dropdown-item" href="{% url 'form-operazioni' oper_type=single_tipologia.0 %}">{{ single_tipologia.1 }}</a>
             {% endfor %}
 
         </div>
 
 
-            {% for analisi in analisies %}
+            {% for operazione in operazioni_all %}
                 <div class="card border-primary mb-3" style="max-width: 48rem;">
-                    <div class="card-header">Id Campione {{ analisi.id_campione }} --- Data segnalazione:{{ analisi.data_segnalazione }}
+                    <div class="card-header">Operazione {{ operazione.operazione }}
+                        --- Data operazione:{{ operazione.data_operazione }} -- id:{{ operazione.id }}
                     </div>
                     <div class="card-body text-primary">
-                        <h5 class="card-title">Dettagli analisi</h5>
-
+                        <h5 class="card-title">Dettagli operazione</h5>
+                    {{ operazione.items }}
                         <p class="card-text">
-                            pH: {{ analisi.pH }}
-                            sabbia: {{ analisi.sabbia }}
-                            limo: {{ analisi.limo }}
-                            argilla:{{ analisi.argilla }}
-                            sostanza organica: {{ analisi.OM }}
-                            azoto: {{ analisi.azoto }}
-                            fosforo: {{ analisi.fosforo }}
-                            potassio: {{ analisi.potassio }}
-                            Capacità di scambio cationico: {{ analisi.scambio_cationico }}
-                            Densità apparente: {{ analisi.den_apparente }}
-                            pietrosità: {{ analisi.pietrosita }}
-                            profondità: {{ analisi.profondita }}
+                            {% if not operazione.operazione_fertilizzazione is None %}
+                                <p>Fertilizzazione</p>
+                                tipologia: {{ operazione.operazione_fertilizzazione.fertilizzante }}&nbsp;&nbsp;
+                                kg di prodotto: {{ operazione.operazione_fertilizzazione.kg_prodotto }}&nbsp;&nbsp;
+                                titolo di N: {{ operazione.operazione_fertilizzazione.titolo_n }}%&nbsp;&nbsp;
+                                titolo di K<sub>2</sub>O: {{ operazione.operazione_fertilizzazione.titolo_k2o }}%&nbsp;&nbsp;
+                                titolo di P<sub>2</sub>O<sub>5</sub>: {{ operazione.operazione_fertilizzazione.titolo_p2o5 }}%&nbsp;&nbsp;
+                            {% endif %}
+                            {% if not operazione.operazione_irrigazione is None %}
+                                <p>Irrigazione</p>
+                                durata: {{ operazione.operazione_irrigazione.durata }}&nbsp;&nbsp;
+                                portata: {{ operazione.operazione_irrigazione.portata }}
+                            {% endif %}
+                            {% if not operazione.operazione_semina is None %}
+                                <p>Semina</p>
+                                Lughezza ciclo: {{ operazione.operazione_semina.lunghezza_ciclo }} giorni&nbsp;&nbsp;
+                                precocità: {{ operazione.operazione_semina.precocita }}&nbsp;&nbsp;
+                                Modalità di semina: {{ operazione.operazione_semina.semina }}&nbsp;&nbsp;
+                                Quantità totale semente/piante: {{ operazione.operazione_semina.quantita }} kg&nbsp;&nbsp;
+                                Produzione totale attesa: {{ operazione.operazione_semina.produzione }} ton&nbsp;&nbsp;
+                            {% endif %}
+                            {% if not operazione.operazione_raccolta is None %}
+                                <p>Raccolta</p>
+                                Produzione totale (t): {{ operazione.operazione_raccolta.produzione}}
+                            {% endif %}
+                            {% if not operazione.operazione_trattamento is None %}
+                                <p>Trattamento</p>
+                                categoria di prodotto: {{ operazione.operazione_trattamento.prodotto }}&nbsp;&nbsp;
+                                Formulato commerciale: {{ operazione.operazione_trattamento.formulato }}&nbsp;&nbsp;
+                                Sostanze attive: {{ operazione.operazione_trattamento.sostanze }}&nbsp;&nbsp;
+                                Quantità totale di prodotto: {{ operazione.operazione_trattamento.quantita }} kg
+                            {% endif %}
                         </p>
                     </div>
                     <div class="card-footer">
                         <small class="text-muted">Centra in mappa</small>
                         <button title="Centra in mappa"
-                                xmin="{{ analisi.geom.x|unlocalize}}"
-                                ymin="{{ analisi.geom.y|unlocalize }}"
+                                    xmin="{{ operazione.campo.geom.extent.0|unlocalize}}"
+                                    ymin="{{ operazione.campo.geom.extent.1|unlocalize }}"
+                                    xmax="{{ operazione.campo.geom.extent.2|unlocalize }}"
+                                    ymax="{{ operazione.campo.geom.extent.3|unlocalize }}"
                                 class="btn btn-light btn-sm no-focus-highlight center-in-map">
                             <i class="fas fa-map-marker-alt fa-lg"></i>
                         </button>
-                         <a href="{% url 'update-analisi' pk=analisi.id %}"><i class="fas fa-edit fa-lg"></i></a>
-                         <a href="{% url 'delete-analisi' pk=analisi.id %}"><i class="fas fa-trash-alt fa-lg""></i></a>
+{#                         <a href="{% url 'update-analisi' pk=operazione.id %}"><i class="fas fa-edit fa-lg"></i></a>#}
+                         <a href="{% url 'delete-operazioni' pk=operazione.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
                     </div>
                 </div>
             {% endfor %}
-
         </div>
         {% block cards %}
 
@@ -88,14 +110,11 @@
         function main_map_init (map, options) {
             // Use Leaflet API bbox test 12.182465, 42.522724, 12.933811, 42.724821
 
-            {% if not bbox_condition %}
-                map.setView([{{ bbox.1|unlocalize }},{{ bbox.0|unlocalize }}], 12);  //setta il centro mappa
-            {% else %}
-                map.fitBounds([
-                    [{{ bbox.1|unlocalize }},{{ bbox.0|unlocalize }}],
-                    [{{ bbox.3|unlocalize }},{{ bbox.2|unlocalize }}]
-                ]);
-            {% endif %}
+            //map.setView([{{ bbox.1 }}, {{ bbox.0 }}], 12);
+            map.fitBounds([
+                [{{ bbox.1|unlocalize }},{{ bbox.0|unlocalize }}],
+                [{{ bbox.3|unlocalize }},{{ bbox.2|unlocalize }}]
+            ]);
 
 
             var dataurl = '{% url "analisi_geojson" %}';
@@ -120,25 +139,26 @@
                 // Add GeoJSON layer
                 L.geoJson(data, {style: myStyle}).addTo(map);
             });
-            $(".btn").click(function(event) {
-                event.preventDefault();
-                var xmin = $(this).attr("xmin");
-                ymin = $(this).attr("ymin");
+                $(".btn").click(function(event) {
+                    event.preventDefault();
+                    var xmin = $(this).attr("xmin");
+                    ymin = $(this).attr("ymin");
+                    xmax = $(this).attr("xmax");
+                    ymax = $(this).attr("ymax");
+                    console.log(xmin);
+                    console.log(ymin);
+                    {#map.setView([lng,lat], 12);#}
+                    map.fitBounds([
+                        [ymin,xmin],
+                        [ymax,xmax]
+                    ])
 
-                console.log(xmin);
-                console.log(ymin);
-                {#map.setView([lng,lat], 12);#}
-                map.setView(
-                    [ymin,xmin],
-                    18
-                );
-
-            });
+                });
 
 
         }
         $('#add-operazioni').click(function(){
-            window.location.href = '{% url 'form-operazioni' %}'
+            window.location.href = '{% url 'form-operazioni' oper_type=None %}'
         });
     </script>
 {% endblock %}

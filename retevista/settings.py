@@ -175,8 +175,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 #login
-LOGIN_REDIRECT_URL = 'homepage'
-LOGOUT_REDIRECT_URL = 'homepage'
+LOGIN_REDIRECT_URL = '/retevista/accounts/login/'
+LOGOUT_REDIRECT_URL = '/retevista'
 
 SERIALIZATION_MODULES = {
      "geojson": "django.contrib.gis.serializers.geojson",
@@ -189,7 +189,7 @@ LEAFLET_CONFIG = {
     'MIN_ZOOM': 1,
     'MAX_ZOOM': 23,
     'TILES': [
-        ('Wikimedia', 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png ', {'attribution': '&copy; OpenStreetMap contributors, under ODbL '}),
+        ('Wikimedia', 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png ', {'attribution': '&copy; <a href="http://www.openstreetmap.org/copyright/">OpenStreetMap</a> contributors, under ODbL '}),
 
         ('Esri Word Topo', 'http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x} ', {'attribution': '&copy; Esri'}),
 
@@ -199,7 +199,7 @@ LEAFLET_CONFIG = {
     'OVERLAYS': [
         ('Mapbox satellite',
          'https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA ',
-         {'attribution': '&copy; Mapbox'})
+         {'attribution': '&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a>'})
     ],
     'ATTRIBUTION_PREFIX': 'Powered by <a href="https://www.onegis.it/">onegis</a>',
     'MINIMAP': False,

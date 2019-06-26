@@ -21,8 +21,8 @@
  <div class="col-lg-8  col-md-8">
  <form action="." method="POST" >{% csrf_token %}
 {{ formset_operazione|crispy }}
-     <h2>pippo-------------</h2>
-     {{ fertilizzazione_form|crispy }}
+     <h2>{{ titolo_child }}</h2>
+     {{ child_form|crispy }}
 
 <input type="submit" value="submit">
 </form>

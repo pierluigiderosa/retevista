@@ -11,7 +11,8 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset
 
 from .models import Profile, campi, analisi_suolo,\
-    fertilizzazione,operazioni_colturali
+    fertilizzazione,irrigazione,semina,trattamento,raccolta,\
+    operazioni_colturali
 
 LEAFLET_WIDGET_ATTRS = {
     'map_height': '500px',
@@ -100,7 +101,6 @@ class FertilizzazioneForm(forms.ModelForm):
         model = fertilizzazione
         fields = '__all__'
 
-
     @property
     def helper(self):
         helper = FormHelper()
@@ -112,11 +112,78 @@ class FertilizzazioneForm(forms.ModelForm):
 
         return helper
 
+class IrrigazioneForm(forms.ModelForm):
+    class Meta:
+        model = irrigazione
+        fields = '__all__'
+
+    @property
+    def helper(self):
+        helper = FormHelper()
+        helper.form_tag = False # This is crucial.
+
+        helper.layout = Layout(
+            Fieldset('Aggiungi una nuova irrigazione', 'irrigazione'),
+        )
+
+        return helper
+
+
+class SeminaForm(forms.ModelForm):
+    class Meta:
+        model = semina
+        fields = '__all__'
+
+    @property
+    def helper(self):
+        helper = FormHelper()
+        helper.form_tag = False # This is crucial.
+
+        helper.layout = Layout(
+            Fieldset('Aggiungi una nuova semina', 'semina'),
+        )
+
+        return helper
+
+
+class TrattamentoForm(forms.ModelForm):
+    class Meta:
+        model = trattamento
+        fields = '__all__'
+
+    @property
+    def helper(self):
+        helper = FormHelper()
+        helper.form_tag = False # This is crucial.
+
+        helper.layout = Layout(
+            Fieldset('Aggiungi un nuovo trattamento', 'trattamento'),
+        )
+
+        return helper
+
+class RaccoltaForm(forms.ModelForm):
+    class Meta:
+        model = raccolta
+        fields = '__all__'
+
+    @property
+    def helper(self):
+        helper = FormHelper()
+        helper.form_tag = False # This is crucial.
+
+        helper.layout = Layout(
+            Fieldset('Aggiungi una nuova raccolta', 'raccolta'),
+        )
+
+        return helper
 
 class OperazioneColturaleForm(forms.ModelForm):
     class Meta:
         model=operazioni_colturali
-        fields='__all__'
+        # fields='__all__'
+        exclude = ('operazione','operazione_fertilizzazione','operazione_irrigazione','operazione_raccolta','operazione_trattamento','operazione_semina')
         widgets={
             'data_operazione': DateInput(),
         }
+

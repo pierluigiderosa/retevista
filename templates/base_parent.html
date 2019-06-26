@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="it">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block head_title %}Homepage Retevista DSS{% endblock head_title %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+    <!-- Mio css personale -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css">
+    <!-- CDN JQuery e Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"  type="text/javascript"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+    {% block script%}
+
+
+    {% endblock script %}
+    {% block css%}
+
+    {% endblock css %}
+</head>
+{% block extrastyle %}
+{% endblock extrastyle %}
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+
+<body>
+<!-- Messages -->
+
+<div>
+    {% if messages %}
+        {% for message in messages %}
+            <div style="border-radius:0;" {% if message.tags %} class="alert alert-icon alert-{{ message.tags }} alert-dismissible fade show mb-0" role="alert" {% endif %}>
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+<!-- End Messages -->
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="{% url 'homepage' %}">
+        <img src="{% static 'img/retevista.jpg' %}" width="90" height="30" class="d-inline-block align-top" alt="">
+        ReteVista DSS
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mx-auto w-100 justify-content-center">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'homepage' %}">Home <span class="sr-only">(current)</span></a>
+
+            </li>
+        <li class="nav-item">
+      <a class="nav-link" href="{% url 'main-dashboard' %}">Dashboard </a>
+    </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle"href="/dati" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dati
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'dati_orari' %}">Dati orari</a>
+                    <a class="dropdown-item" href="{% url 'dati_giornalieri' %}">Dati giornalieri aggregati</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'lista-spi' %}">Dati SPI</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'mappa-generale' %}">Mappa</a>
+                    {#                    se vogliamo mostrare alcune cose solo a certi gruppi di utenti#}
+                    {#                    {% if user.groups.all.0.name == "Rilevatore" %}#}
+                    {#                        <a class="dropdown-item" href="/domanda/assegna/">Assegnazione domande</a>#}
+                    {#                    {% endif %}#}
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="/elaborazioni/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Elaborazioni
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'lista-appezzamenti' %}">Appezzamenti</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown ml-auto">
+                {% if user.is_anonymous %}
+                    {#  <a class="btn btn-primary" href="{% url 'login' %}" role="button">Login</a>#}
+                    <a class="nav-link" href="{% url 'login' %}">
+                        Login
+                    </a>
+                {% else %}
+
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% if user.first_name or user.last_name %}
+                        {{ user.first_name }} {{ user.last_name }}
+                        {% else %}
+                        {{ user }}
+                        {% endif %}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+{#                        <a href="{% url 'update-profilo-aziendale' pk=user.id %}" class="dropdown-item"><i class="fas fa-pen-square"></i> Gestione Azienda</a>#}
+{#                        <a href="/profiles/user" class="dropdown-item"><i class="fas fa-user"></i> Profilo Utente</a>#}
+                        {% if user.is_staff %}
+                        <a href="{% url 'add-profilo-aziendale' %}" class="dropdown-item"><i class="far fa-building"></i> Aggiungi azienda</a>
+                            {% endif %}
+{#                        <a href="https://shop.agricolus.com" target="_blank" class="dropdown-item"><i class="fas fa-shopping-cart"></i> Shop</a>#}
+                        <a href="mailto:retevista@gmail.com " class="dropdown-item"><i class="fas fa-envelope"></i> Contattaci</a>
+                        <a href="{% url 'logout' %}" class="dropdown-item"><i class="fas fa-lock"></i> Esci</a>
+                    </div>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/retevista/elaborazioni/">Appezzamenti</a>
+                    </div>
+                    </li>
+                {% endif %}
+        </ul>
+
+
+    </div>
+</nav>
+{% block in_base %}
+
+{% endblock %}
+<div class="container-fluid contenuto">
+    {% block content%}
+
+    {% endblock content %}
+</div>
+
+
+{% block in_base_footer %}
+
+{% endblock %}
+</body>
+</html>

@@ -8,18 +8,19 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 from django.db import transaction
 from django.forms import inlineformset_factory
-from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
+from django.http import Http404, JsonResponse
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import UpdateView, DeleteView, CreateView
 from djgeojson.views import GeoJSONLayerView
 
 from django.contrib.gis.db.models import Extent, Union
 
 from .models import campi,Profile,analisi_suolo
-from dash_aziende.models import fertilizzazione as fert_model ,operazioni_colturali as oper_model
+from dash_aziende.models import fertilizzazione as fert_model ,operazioni_colturali as oper_model,\
+    irrigazione as irr_model, trattamento as tratt_model, semina as semina_model,raccolta as raccolta_model
 from .forms import CampiAziendeForm,UserForm,ProfileForm,AnalisiForm,\
-    FertilizzazioneForm,OperazioneColturaleForm
+    FertilizzazioneForm,OperazioneColturaleForm,IrrigazioneForm,TrattamentoForm,SeminaForm,RaccoltaForm
 from forecast import get as get_forecast
 
 # Create your views here.
@@ -57,11 +58,18 @@ def dashboard_fields(request,forecast=False):
                                               })
 
 @login_required
-def operazioni_colturali(request):
+def dash_operazioni_colturali(request):
+    # campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=request.user))
+    # latlong = []
+    # bbox = campi_all.aggregate(Extent('geom'))
     # tutte le tipologia di operazioni colturali
     tipologia_operazioni = oper_model.operazione_choices
+    operazioni_all = oper_model.objects.filter(campo__proprietario=Profile.objects.filter(user=request.user))
+    bbox = operazioni_all.aggregate(Extent('campo__geom'))
     return render(request,"operazioni_dashboard.html",{
         "tipologia_operazioni": tipologia_operazioni,
+        "operazioni_all": operazioni_all,
+        "bbox": bbox['campo__geom__extent'],
 
     })
 
@@ -110,41 +118,222 @@ def form_campi(request):
 
 
 @login_required
-def form_operazioni(request):
+def form_operazioni(request,oper_type=None):
     '''This function creates a brand new fertilizzazione object with related Book objects using inlineformset_factory'''
-    fertilizzazione = fert_model()
-    fertilizzazione_form = FertilizzazioneForm(instance=fertilizzazione)  # setup a form for the parent
+    query_campi_utente = campi.objects.filter(proprietario=Profile.objects.filter(user=request.user))
+    #caso fertilizzazione
+    if oper_type=='fertilizzazione':
+        child_operation = fert_model()
+        child_form = FertilizzazioneForm(instance=child_operation)  # setup a form for the parent
 
 
+        OperationFormSet = inlineformset_factory(
+            fert_model, oper_model,
+            form=OperazioneColturaleForm,
+            fields='__all__',
+            fk_name='operazione_fertilizzazione',
+            can_delete=False,
+            extra=1,
+        )
 
-    OperationFormSet = inlineformset_factory(
-        fert_model, oper_model,
-        form=OperazioneColturaleForm,
-        fields='__all__',
-        fk_name='operazione_fertilizzazione',
-        can_delete=False,
-        extra=1,
-    )
+        if request.method == "POST":
+            child_form = FertilizzazioneForm(request.POST,instance=child_operation)
+            formset = OperationFormSet(request.POST, request.FILES,instance=child_operation)
 
-    if request.method == "POST":
-        fertilizzazione_form = FertilizzazioneForm(request.POST,instance=fertilizzazione)
-        formset = OperationFormSet(request.POST, request.FILES,instance=fertilizzazione)
 
-        if fertilizzazione_form.is_valid():
-            created_fertilizzazione = fertilizzazione_form.save(commit=False)
-            formset = OperationFormSet(request.POST, request.FILES, instance=created_fertilizzazione)
+            if child_form.is_valid():
+                created_fertilizzazione = child_form.save(commit=False)
+                formset = OperationFormSet(request.POST, request.FILES, instance=created_fertilizzazione)
+                OperazioneColturaleForm.operazione=oper_type
 
-            if formset.is_valid():
-                created_fertilizzazione.save()
-                formset.save()
-                return HttpResponseRedirect('/')
+                if formset.is_valid():
+                    created_fertilizzazione.save()
+                    operazioni = formset.save(commit=False)
+
+                    for single_oper in operazioni:
+                        single_oper.operazione=oper_type
+                        single_oper.save()
+
+                messages.success(request, 'la tua fertilizzazione è stata aggiunta!')
+                # redirect to a new URL:
+                return redirect('main-operazioni-colturali')
+
+        else:
+            child_form = FertilizzazioneForm(instance=child_operation)
+
+            formset = OperationFormSet(instance=child_operation)
+            for form in formset.forms:
+                form.fields['campo'].queryset = query_campi_utente
+    
+    #caso irrigazione
+    elif oper_type=='irrigazione':
+        child_operation = irr_model()  #cambiare qui
+        child_form = IrrigazioneForm(instance=child_operation)  # setup a form for the parent CAMBIARE QUI
+
+        OperationFormSet = inlineformset_factory(
+            irr_model, oper_model,   #CAMBIARE QUI
+            form=OperazioneColturaleForm,
+            fields='__all__',
+            fk_name='operazione_irrigazione',  #CAMBIARE QUI
+            can_delete=False, 
+            extra=1,
+        )
+
+        if request.method == "POST":
+            child_form = IrrigazioneForm(request.POST,instance=child_operation)  #CAMBIARE QUI
+            formset = OperationFormSet(request.POST, request.FILES,instance=child_operation)
+
+            if child_form.is_valid():
+                created_fertilizzazione = child_form.save(commit=False)
+                created_fertilizzazione.operazione = oper_type
+                formset = OperationFormSet(request.POST, request.FILES, instance=created_fertilizzazione)
+
+                if formset.is_valid():
+                    created_fertilizzazione.save()
+                    operazioni = formset.save(commit=False)
+
+                    for single_oper in operazioni:
+                        single_oper.operazione=oper_type
+                        single_oper.save()
+
+                messages.success(request, 'la tua irrigazione è stata aggiunta!')
+                # redirect to a new URL:
+                return redirect('main-operazioni-colturali')
+        else:
+            child_form = IrrigazioneForm(instance=child_operation) #CAMBIARE QUI
+            formset = OperationFormSet(instance=child_operation)
+            for form in formset.forms:
+                form.fields['campo'].queryset = query_campi_utente
+
+    #caso trattamento
+    elif oper_type=='trattamento':
+        child_operation = tratt_model()  #cambiare qui
+        child_form = TrattamentoForm(instance=child_operation)  # setup a form for the parent CAMBIARE QUI
+
+        OperationFormSet = inlineformset_factory(
+            tratt_model, oper_model,   #CAMBIARE QUI
+            form=OperazioneColturaleForm,
+            fields='__all__',
+            fk_name='operazione_trattamento',  #CAMBIARE QUI
+            can_delete=False,
+            extra=1,
+        )
+
+        if request.method == "POST":
+            child_form = TrattamentoForm(request.POST,instance=child_operation)  #CAMBIARE QUI
+            formset = OperationFormSet(request.POST, request.FILES,instance=child_operation)
+
+            if child_form.is_valid():
+                created_fertilizzazione = child_form.save(commit=False)
+                created_fertilizzazione.operazione = oper_type
+                formset = OperationFormSet(request.POST, request.FILES, instance=created_fertilizzazione)
+
+                if formset.is_valid():
+                    created_fertilizzazione.save()
+                    operazioni = formset.save(commit=False)
+
+                    for single_oper in operazioni:
+                        single_oper.operazione=oper_type
+                        single_oper.save()
+
+                messages.success(request, 'il tuo trattamento è stato aggiunto!')
+                # redirect to a new URL:
+                return redirect('main-operazioni-colturali')
+        else:
+            child_form = TrattamentoForm(instance=child_operation) #CAMBIARE QUI
+            formset = OperationFormSet(instance=child_operation)
+            for form in formset.forms:
+                form.fields['campo'].queryset = query_campi_utente
+
+    #caso semina
+    elif oper_type=='semina_trapianto':
+        child_operation = semina_model()  #cambiare qui
+        child_form = SeminaForm(instance=child_operation)  # setup a form for the parent CAMBIARE QUI
+
+        OperationFormSet = inlineformset_factory(
+            semina_model, oper_model,   #CAMBIARE QUI
+            form=OperazioneColturaleForm,
+            fields='__all__',
+            fk_name='operazione_semina',  #CAMBIARE QUI
+            can_delete=False,
+            extra=1,
+        )
+
+        if request.method == "POST":
+            child_form = SeminaForm(request.POST,instance=child_operation)  #CAMBIARE QUI
+            formset = OperationFormSet(request.POST, request.FILES,instance=child_operation)
+
+            if child_form.is_valid():
+                created_fertilizzazione = child_form.save(commit=False)
+                created_fertilizzazione.operazione = oper_type
+                formset = OperationFormSet(request.POST, request.FILES, instance=created_fertilizzazione)
+
+                if formset.is_valid():
+                    created_fertilizzazione.save()
+                    operazioni = formset.save(commit=False)
+
+                    for single_oper in operazioni:
+                        single_oper.operazione=oper_type
+                        single_oper.save()
+
+                messages.success(request, 'la tua semina è stata aggiunta!')
+                # redirect to a new URL:
+                return redirect('main-operazioni-colturali')
+        else:
+            child_form = SeminaForm(instance=child_operation) #CAMBIARE QUI
+            formset = OperationFormSet(instance=child_operation)
+            for form in formset.forms:
+                form.fields['campo'].queryset = query_campi_utente
+
+    #caso raccolta
+    elif oper_type=='raccolta':
+        child_operation = raccolta_model()  #cambiare qui
+        child_form = RaccoltaForm(instance=child_operation)  # setup a form for the parent CAMBIARE QUI
+
+        OperationFormSet = inlineformset_factory(
+            raccolta_model, oper_model,   #CAMBIARE QUI
+            form=OperazioneColturaleForm,
+            fields='__all__',
+            fk_name='operazione_raccolta',  #CAMBIARE QUI
+            can_delete=False,
+            extra=1,
+        )
+
+        if request.method == "POST":
+            child_form = RaccoltaForm(request.POST,instance=child_operation)  #CAMBIARE QUI
+            formset = OperationFormSet(request.POST, request.FILES,instance=child_operation)
+
+            if child_form.is_valid():
+                created_fertilizzazione = child_form.save(commit=False)
+                created_fertilizzazione.operazione = oper_type
+                formset = OperationFormSet(request.POST, request.FILES, instance=created_fertilizzazione)
+
+                if formset.is_valid():
+                    created_fertilizzazione.save()
+                    operazioni = formset.save(commit=False)
+
+                    for single_oper in operazioni:
+                        single_oper.operazione=oper_type
+                        single_oper.save()
+
+                messages.success(request, 'la tua raccolta è stata aggiunta!')
+                # redirect to a new URL:
+                return redirect('main-operazioni-colturali')
+        else:
+            child_form = RaccoltaForm(instance=child_operation) #CAMBIARE QUI
+            formset = OperationFormSet(instance=child_operation)
+            for form in formset.forms:
+                form.fields['campo'].queryset = query_campi_utente
+
     else:
-        fertilizzazione_form = FertilizzazioneForm(instance=fertilizzazione)
-        formset = OperationFormSet(instance=fertilizzazione)
+        child_form=None
+        formset=None
+        oper_type=oper_type+' non ancora inserita. Contatta il gestore del sito'
 
     return render(request,"operazioni_form.html",{
-        "fertilizzazione_form": fertilizzazione_form,
+        "child_form": child_form,
         "formset_operazione": formset,
+        "titolo_child":oper_type,
     })
 
 
@@ -180,6 +369,13 @@ class CampoUpdateView(LoginRequiredMixin,UpdateView):
     success_message = 'Successo: Il campo è stato aggiornato.'
     success_url = reverse_lazy('main-fields')
 
+class edit_profileView(LoginRequiredMixin,UpdateView):
+    model = Profile
+    template_name = 'profile.html'
+    form_class = ProfileForm
+    success_url = reverse_lazy('homepage')
+
+
 class CampoDeleteView(LoginRequiredMixin,DeleteView):
     model = campi
     template_name = 'confirm_delete.html'
@@ -208,6 +404,12 @@ class AnalisiDeleteView(LoginRequiredMixin,DeleteView):
     template_name = 'confirm_delete.html'
     success_message = '''Successo: L'analisi è stato eliminato.'''
     success_url = reverse_lazy('main-analisi')
+
+class OperazioniDeleteView(LoginRequiredMixin,DeleteView):
+    model = oper_model
+    template_name = 'confirm_delete.html'
+    success_url = reverse_lazy('main-operazioni-colturali')
+    success_message = '''Successo: L'operazione è stata eliminata.'''
 
 
 @login_required()
@@ -250,7 +452,7 @@ def add_profile(request):
             user.groups.add(grouppoAgricoltori)
             messages.success(request, 'Il tuo profilo è stato aggiornato!')
             # redirect to a new URL:
-            return HttpResponseRedirect('/')
+            return reverse('homepage')
 
         else:
             messages.error(request, 'Per favore correggi gli errori sotto.')
@@ -265,7 +467,7 @@ def add_profile(request):
 class CampiGeoJson(GeoJSONLayerView):
     # Options
     precision = 4  # float
-    simplify = 0.5  # generalization
+    simplify = None  # generalization
     geom = 'geom'  # colonna geometrie
     properties = ['nome', ]
 

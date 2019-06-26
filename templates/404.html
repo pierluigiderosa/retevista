@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h3>la pagina che cerchi non può essere trovata.</h3>
+    <hr />
+    <p>Assicurati di aver inserito un URL corretto o cge la pagina non sia stata rimossa.</p>
+    <p>Per favore contatta l'amministratore del sito se pensi ci sia un errore.</p>
+    Ritorna alla <a href="{% url 'homepage' %}"> Homepage</a>
+{% endblock %}

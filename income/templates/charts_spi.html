@@ -35,7 +35,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'SPI index',
+                        label: 'SPI12',
                         backgroundColor: myColors,
                         data: defaultData,
                     },
@@ -45,13 +45,13 @@
             });
             for (i = 0; i < myBarChart.data.datasets[0].data.length; i++) {
                 if (myBarChart.data.datasets[0].data[i] < -2 || myBarChart.data.datasets[0].data[i] > 2 ) {
-                    myColors.push("#dc0611");
+                    myColors.push("#dc3ab7");
                 }
                 else if (myBarChart.data.datasets[0].data[i] >= -2 && myBarChart.data.datasets[0].data[i] < -1.5 || myBarChart.data.datasets[0].data[i] > 1.5 && myBarChart.data.datasets[0].data[i] <= 2 ) {
-                    myColors.push("#fd7600");
+                    myColors.push("#0000de");
                 }
                 else if (myBarChart.data.datasets[0].data[i] >= -1.5 && myBarChart.data.datasets[0].data[i] < -1 || myBarChart.data.datasets[0].data[i] > 1 && myBarChart.data.datasets[0].data[i] <= 1.5 ) {
-                    myColors.push("#fff800");
+                    myColors.push("#00deff");
                 }
 
                 else {
@@ -109,7 +109,7 @@
             type: "tsgauge",
             data: {
                 datasets: [{
-                    backgroundColor: ["#dc0611", "#fd7600", "#fff800","#71dc00", "#fff800", "#fd7600","#dc0611"],
+                    backgroundColor: ["#dc3ab7", "#0000de", "#00deff","#71dc00", "#00deff", "#0000de","#dc3ab7"],
                     borderWidth: 0,
                     gaugeData: {
                         value: {{ spi_1mese |safe }},
@@ -128,7 +128,7 @@
             type: "tsgauge",
             data: {
                 datasets: [{
-                    backgroundColor: ["#dc0611", "#fd7600", "#fff800","#71dc00", "#fff800", "#fd7600","#dc0611"],
+                    backgroundColor: ["#dc3ab7", "#0000de", "#00deff","#71dc00", "#00deff", "#0000de","#dc3ab7"],
                     borderWidth: 0,
                     gaugeData: {
                         value: {{ spi_3mese |safe }},
@@ -147,7 +147,7 @@
             type: "tsgauge",
             data: {
                 datasets: [{
-                    backgroundColor: ["#dc0611", "#fd7600", "#fff800","#71dc00", "#fff800", "#fd7600","#dc0611"],
+                    backgroundColor: ["#dc3ab7", "#0000de", "#00deff","#71dc00", "#00deff", "#0000de","#dc3ab7"],
                     borderWidth: 0,
                     gaugeData: {
                         value: {{ spi_6mese |safe }},
@@ -168,20 +168,20 @@
 
     <div class='row'>
         <div class='col-sm-12' url-endpoint='{% url "api-data" uid=uid %}'>
-            <h1>Grafici SPI di {{ nome_staz }}</h1>
+            <h3>Grafico relativo allo Standardized Precipitation Index (SPI) su base 12 mesi della stazione di {{ nome_staz }}</h3>
             <canvas id="myChart" width="400" height="200"></canvas>
             <div class="container">
                 <div class="row">
                     <div class="col-sm">
-                        <h2>{{ mese |date:"F" }} - Cruscotto a 1 mese SPI</h2>
+                        <h2>{{ mese |date:"F Y" }} - SPI 1 mese</h2>
                         <canvas id="cruscotto" ></canvas>
                     </div>
                     <div class="col-sm">
-                        <h2>{{ mese |date:"F" }} - Cruscotto a 3 mesi SPI</h2>
+                        <h2>{{ mese |date:"F Y" }} - SPI 3 mesi</h2>
                         <canvas id="cruscotto2" ></canvas>
                     </div>
                     <div class="col-sm">
-                        <h2>{{ mese |date:"F" }} - Cruscotto a 6 mesi SPI</h2>
+                        <h2>{{ mese |date:"F Y" }} - SPI 6 mesi</h2>
                         <canvas id="cruscotto3" ></canvas>
                     </div>
                 </div>

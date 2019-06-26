@@ -62397,3 +62397,1496 @@ DEBUG:root:2019-06-25 09:00:00
 WARNING:root:Val di Rose dato del non inserito in quanto gia presente
 DEBUG:root:2019-06-25 09:00:00
 INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:20:03.065310
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:20:03.352624
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:20:03.662960
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:20:03.948928
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:20:04.252313
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:20:04.547214
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:30:04.499183
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:30:04.917003
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:30:05.306055
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:30:05.686311
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:30:06.087160
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:30:06.475211
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:40:02.677587
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:40:02.952593
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:40:03.230625
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:40:03.503473
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:40:03.780942
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:40:04.048892
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:50:02.087666
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:50:02.418801
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:50:02.760905
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:50:03.043283
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:50:03.322557
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 09:50:03.605598
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:00:02.678626
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:00:02.995504
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:00:03.290197
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:00:03.635732
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:00:03.966559
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:00:04.270175
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:10:02.299994
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:10:02.581962
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:10:02.861984
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:10:03.134013
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:10:03.411532
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:10:03.689466
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:20:03.037968
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:20:03.318808
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:20:03.597408
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:20:03.870165
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:20:04.158119
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:20:04.436805
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:30:03.972462
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:30:04.421940
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:30:04.835663
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:30:05.244182
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:30:05.660110
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 10:30:06.082433
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 11:30:03.634677
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 11:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+DEBUG:root:2019-06-25 11:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 11:30:03.921149
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 11:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+DEBUG:root:2019-06-25 11:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 11:30:04.198227
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 11:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+DEBUG:root:2019-06-25 11:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 11:30:04.488814
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 11:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+DEBUG:root:2019-06-25 11:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 11:30:04.769545
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 11:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 10:00:00
+DEBUG:root:2019-06-25 11:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 11:30:05.187018
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 11:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 09:00:00
+DEBUG:root:2019-06-25 11:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:00:03.889915
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:no data in last 3 hours
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:00:04.724874
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:no data in last 3 hours
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:00:05.415777
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:no data in last 3 hours
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:00:06.198497
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:no data in last 3 hours
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:00:06.828534
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:no data in last 3 hours
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:00:07.507203
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:no data in last 3 hours
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:10:03.012440
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:10:03.283981
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:10:03.572277
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:10:03.851280
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:10:04.124100
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:10:04.411539
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:20:02.422629
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:20:02.693470
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:20:03.124104
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:20:03.397013
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:20:03.684699
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 14:20:03.958316
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 15:20:02.664403
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 15:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+DEBUG:root:2019-06-25 15:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 15:20:02.984674
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 15:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+DEBUG:root:2019-06-25 15:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 15:20:03.279237
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 15:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+DEBUG:root:2019-06-25 15:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 15:20:03.556221
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 15:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+DEBUG:root:2019-06-25 15:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 15:20:03.827184
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-25 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-25 15:20:04.104044
+INFO:root:ora osservazione:
+INFO:root:Tue, 25 Jun 2019 15:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-25 14:00:00
+DEBUG:root:2019-06-25 15:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:20:34.222831
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:no data in last 3 hours
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:20:34.583951
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:no data in last 3 hours
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:20:34.914987
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:no data in last 3 hours
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:20:35.261357
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:no data in last 3 hours
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:20:35.615337
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:no data in last 3 hours
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:20:35.947330
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:no data in last 3 hours
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+DEBUG:django_cron:Running cron: aggregate_data code income.aggregate_data
+DEBUG:django_cron:Running cron: do_bilancio code consiglio.bilancio
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:30:02.601329
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:30:03.296505
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:30:03.569407
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:30:03.847197
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:30:04.119961
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:30:04.413683
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:40:02.695562
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:40:02.960641
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:40:03.238177
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:40:03.510171
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:40:03.783787
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:40:04.061255
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:50:02.171551
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:50:03.462150
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:50:03.740127
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:50:04.018152
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:50:04.305949
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 09:50:04.594573
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 09:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 09:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:00:02.939396
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:00:03.320445
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:00:03.833899
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:00:04.331481
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:00:04.660309
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:00:04.949518
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 09:00:00
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:10:02.607728
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:10:02.904731
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:10:03.184923
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:10:03.462505
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:10:03.729991
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:10:04.009997
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:20:02.936603
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:20:03.202708
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:20:03.474853
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:20:03.750226
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:20:04.017178
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:20:04.299800
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:30:02.450165
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:30:03.029660
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:30:03.339939
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:30:03.617259
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:30:03.890285
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:30:04.163003
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:40:02.196444
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:40:03.183747
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:40:03.514630
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:40:03.802523
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:40:04.091131
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:40:04.368962
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:50:02.534475
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:50:02.956943
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:50:03.235109
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:50:03.515774
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:50:03.800254
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 10:50:04.061586
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 11:00:02.450490
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 11:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+DEBUG:root:2019-06-26 11:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 11:00:02.803486
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 11:00:03.087317
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 11:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+DEBUG:root:2019-06-26 11:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 11:00:03.573703
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 11:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+DEBUG:root:2019-06-26 11:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 11:00:03.959957
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 11:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+DEBUG:root:2019-06-26 11:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 11:00:04.274118
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 11:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+DEBUG:root:2019-06-26 11:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 11:40:02.505206
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 11:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 11:00:00
+WARNING:root:Benedetti Del Rio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 11:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 11:40:03.090844
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 10:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+WARNING:root:Le due Torri dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 10:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 11:40:03.564382
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 11:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 11:00:00
+WARNING:root:Bennicelli dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 11:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 11:40:03.874928
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 11:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 11:00:00
+WARNING:root:Bertoldo dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 11:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 11:40:04.188830
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 11:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 11:00:00
+WARNING:root:Castelluccio dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 11:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 11:40:04.473593
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 11:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 11:00:00
+WARNING:root:Val di Rose dato del non inserito in quanto gia presente
+DEBUG:root:2019-06-26 11:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 12:20:15.657841
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 12:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 11:00:00
+DEBUG:root:2019-06-26 12:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 12:20:15.971144
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 12:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 10:00:00
+DEBUG:root:2019-06-26 12:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 12:20:16.265081
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 12:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 11:00:00
+DEBUG:root:2019-06-26 12:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 12:20:16.558774
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 12:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 11:00:00
+DEBUG:root:2019-06-26 12:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 12:20:16.836608
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 12:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 11:00:00
+DEBUG:root:2019-06-26 12:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 12:20:17.124413
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 12:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 11:00:00
+DEBUG:root:2019-06-26 12:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 13:20:04.476988
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 13:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 12:00:00
+DEBUG:root:2019-06-26 13:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 13:20:04.780698
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 13:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 12:00:00
+DEBUG:root:2019-06-26 13:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 13:20:05.063635
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 13:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 12:00:00
+DEBUG:root:2019-06-26 13:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 13:20:05.341265
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 13:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 12:00:00
+DEBUG:root:2019-06-26 13:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 13:20:05.625205
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 13:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 12:00:00
+DEBUG:root:2019-06-26 13:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 13:20:05.912632
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 13:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 12:00:00
+DEBUG:root:2019-06-26 13:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 14:20:05.400559
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 13:00:00
+DEBUG:root:2019-06-26 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 14:20:05.731625
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 13:00:00
+DEBUG:root:2019-06-26 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 14:20:06.019561
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 13:00:00
+DEBUG:root:2019-06-26 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 14:20:06.298749
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 13:00:00
+DEBUG:root:2019-06-26 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 14:20:06.626565
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 13:00:00
+DEBUG:root:2019-06-26 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 14:20:06.904065
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 14:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 13:00:00
+DEBUG:root:2019-06-26 14:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 15:20:02.953118
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 15:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 14:00:00
+DEBUG:root:2019-06-26 15:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 15:20:03.233870
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 15:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 14:00:00
+DEBUG:root:2019-06-26 15:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 15:20:03.521823
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 15:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 14:00:00
+DEBUG:root:2019-06-26 15:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 15:20:03.794382
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 15:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 14:00:00
+DEBUG:root:2019-06-26 15:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 15:20:04.080416
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 15:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 14:00:00
+DEBUG:root:2019-06-26 15:00:00
+INFO:root:------
+INFO:root:ora del run:
+INFO:root:2019-06-26 15:20:04.357981
+INFO:root:ora osservazione:
+INFO:root:Wed, 26 Jun 2019 15:00:00 +0200
+DEBUG:root:ultima ora presente in DB delle ultime 3
+DEBUG:root:2019-06-26 14:00:00
+DEBUG:root:2019-06-26 15:00:00
+INFO:root:------

@@ -184,7 +184,7 @@ class trattamento(models.Model):
     prodotto = models.CharField(max_length=50,choices=prodotto_choices,verbose_name='categoria di prodotto')
     formulato = models.CharField(max_length=50,verbose_name='Formulato commerciale')
     sostanze = models.CharField(max_length=50, verbose_name='Sostanze attive')
-    quantita = models.FloatField(validators=[MinValueValidator(0.0)],verbose_name='Quantità totale di prodotto')
+    quantita = models.FloatField(validators=[MinValueValidator(0.0)],verbose_name='Quantità totale di prodotto',help_text='espresso in kg')
 
 class semina(models.Model):
     semina_choices=[
@@ -199,25 +199,25 @@ class semina(models.Model):
         ('Tardiva','Tardiva'),
     ]
     semina = models.CharField(max_length=50,choices=semina_choices,verbose_name='Modalità di semina o trapianto')
-    quantita = models.FloatField(validators=[MinValueValidator(0.0)], verbose_name='Quantità totale semente/piante')
-    precocita = models.CharField(max_length=50,choices=precocita_choices,verbose_name='pecocità varientà',help_text='espresso in piante')
+    quantita = models.FloatField(validators=[MinValueValidator(0.0)], verbose_name='Quantità totale semente/piante',help_text='espresso in Kg')
+    precocita = models.CharField(max_length=50,choices=precocita_choices,verbose_name='pecocità varietà',help_text='espresso in piante')
     lunghezza_ciclo = models.PositiveIntegerField(verbose_name='Lunghezza ciclo',help_text='espresso in giorni')
-    produzione = models.FloatField(validators=[MaxValueValidator(0.0)],verbose_name='Produzione totale attesa',help_text='espresso in t')
+    produzione = models.FloatField(validators=[MinValueValidator(0.0)],verbose_name='Produzione totale attesa',help_text='espresso in t')
 
 
 # fine inserimento-------------
 
 class operazioni_colturali(models.Model):
     operazione_choices = [
-        ('Fertilizzazione','Fertilizzazione'),
-        ('Irrigazione','Irrigazione'),
-        ('Raccolta','Raccolta'),
-        ('Trattamento','Trattamento'),
-        ('Gestione chioma','Gestione chioma'),
-        ('Gestione suolo','Gestione suolo'),
-        ('Semina o trapianto','Semina o trapianto'),
-        ('Lavorazione pre semina','Lavorazione pre semina'),
-        ('Altra operazione','Altra operazione')
+        ('fertilizzazione','Fertilizzazione'),
+        ('irrigazione','Irrigazione'),
+        ('raccolta','Raccolta'),
+        ('trattamento','Trattamento'),
+        ('gestione_chioma','Gestione chioma'),
+        ('gestione_suolo','Gestione suolo'),
+        ('semina_trapianto','Semina o trapianto'),
+        ('lavorazione_presemina','Lavorazione pre semina'),
+        ('altra','Altra operazione')
     ]
     data_operazione= models.DateField(verbose_name='Data operazione')
     campo = models.ForeignKey(campi,help_text='seleziona il campo')
@@ -234,6 +234,9 @@ class operazioni_colturali(models.Model):
                                                    on_delete=models.CASCADE)
     operazione_semina = models.ForeignKey(semina, null=True, blank=True,
                                                    on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '%s %s %s' % (self.operazione, self.data_operazione.strftime('%d/%m/%Y'), self.campo.nome)
 
 class analisi_suolo(models.Model):
     data_segnalazione = models.DateField(verbose_name='Segnalato in data:')
