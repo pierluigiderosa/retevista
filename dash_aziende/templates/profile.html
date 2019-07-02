@@ -18,7 +18,9 @@
     <form method="POST" class="post-form">
         {% csrf_token %}
         <div class="form-row">
-            <h1 class="h2">Aggiungi utente</h1>
+            <h1 class="h2">
+               {% if edit_profile %} Edita {% else %}Aggiungi {% endif %}utente
+            </h1>
         </div>
         <div class="form-row">
             <div class="form-group col-sm-4 col-lg-8">

@@ -1,28 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4070bad7-415d-47ea-be1e-561d8b114f06" name="Default Changelist" comment="before install wagtail">
-      <change afterPath="$PROJECT_DIR$/templates/404.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/base_parent.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/70768380-595e-4e42-9ea1-e1c5fb816ed0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/70768380-595e-4e42-9ea1-e1c5fb816ed0.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/70768380-595e-4e42-9ea1-e1c5fb816ed0/storage_v2/_src_/database/retevista_db.VLOjug/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/70768380-595e-4e42-9ea1-e1c5fb816ed0/storage_v2/_src_/database/retevista_db.VLOjug/schema/public.abK9xQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f7170e97-8b9c-4f03-a495-d45145509771.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f7170e97-8b9c-4f03-a495-d45145509771.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f7170e97-8b9c-4f03-a495-d45145509771/storage_v2/_src_/database/retevista_db.VLOjug/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f7170e97-8b9c-4f03-a495-d45145509771/storage_v2/_src_/database/retevista_db.VLOjug/schema/public.abK9xQ.meta" afterDir="false" />
+    <list default="true" id="4070bad7-415d-47ea-be1e-561d8b114f06" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cronjob.log" beforeDir="false" afterPath="$PROJECT_DIR$/cronjob.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/operazioni_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/operazioni_dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/operazioni_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/operazioni_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/profile.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_stations.log" beforeDir="false" afterPath="$PROJECT_DIR$/data_stations.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/income/templates/charts_spi.html" beforeDir="false" afterPath="$PROJECT_DIR$/income/templates/charts_spi.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/retevista/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/retevista/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/registration/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base_parent.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base_parent.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -132,7 +120,7 @@
         <entry file="file://$PROJECT_DIR$/dash_aziende/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="270">
-              <caret line="18" column="39" selection-start-line="18" selection-start-column="39" selection-end-line="18" selection-end-column="39" />
+              <caret line="18" column="48" selection-start-line="18" selection-start-column="48" selection-end-line="18" selection-end-column="48" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -143,47 +131,51 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dash_aziende/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="469" column="19" selection-start-line="469" selection-start-column="19" selection-end-line="469" selection-end-column="19" />
+            <state relative-caret-position="361">
+              <caret line="484" selection-start-line="484" selection-end-line="484" />
               <folding>
                 <element signature="e#24#63#0" expanded="true" />
+                <element signature="e#4569#13880#0" />
+                <element signature="e#14774#14972#0" />
+                <element signature="e#15035#15198#0" />
+                <element signature="e#15260#15806#0" />
+                <element signature="e#15869#16046#0" />
+                <element signature="e#16111#16301#0" />
+                <element signature="e#16356#16857#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/dash_aziende/templates/profile.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="27" selection-start-line="27" selection-end-line="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dash_aziende/forms.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="338">
+              <caret line="70" column="21" selection-start-line="70" selection-start-column="6" selection-end-line="70" selection-end-column="21" />
+              <folding>
+                <element signature="e#25#68#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/404.html">
+        <entry file="file://$PROJECT_DIR$/dash_aziende/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="41" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dash_aziende/templates/analisi_dashboard.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" selection-start-line="16" selection-end-line="16" selection-end-column="19" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/lateral_panel_dashboard.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="83" selection-start-line="22" selection-start-column="83" selection-end-line="22" selection-end-column="83" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/templates/base_parent.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
-              <caret line="103" column="63" selection-start-line="103" selection-start-column="63" selection-end-line="103" selection-end-column="63" />
+            <state relative-caret-position="180">
+              <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+              <folding>
+                <element signature="e#24#63#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -200,12 +192,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>_meta</find>
-      <find>operaz</find>
-      <find>OperazioneFormSet</find>
-      <find>author</find>
-      <find>BookFormSet</find>
-      <find>update-bilancio</find>
       <find>create-book</find>
       <find>dropdown-menu</find>
       <find>form-opera</find>
@@ -230,6 +216,12 @@
       <find>login</find>
       <find>HttpRedirect</find>
       <find>response</find>
+      <find>SPI</find>
+      <find>homepage rete</find>
+      <find>redirect</find>
+      <find>re</find>
+      <find>navbar-expan</find>
+      <find>navbar-expand</find>
     </findStrings>
     <replaceStrings>
       <replace>ET_mensile</replace>
@@ -272,7 +264,6 @@
         <option value="$PROJECT_DIR$/income/admin.py" />
         <option value="$PROJECT_DIR$/dash_aziende/templates/form.html" />
         <option value="$PROJECT_DIR$/income/views.py" />
-        <option value="$PROJECT_DIR$/dash_aziende/templates/profile.html" />
         <option value="$PROJECT_DIR$/dash_aziende/populate.py" />
         <option value="$PROJECT_DIR$/dash_aziende/apps.py" />
         <option value="$PROJECT_DIR$/dash_aziende/populate_data.py" />
@@ -287,20 +278,21 @@
         <option value="$PROJECT_DIR$/dash_aziende/templates/main_dash.html" />
         <option value="$PROJECT_DIR$/templates/lateral_panel_dashboard.html" />
         <option value="$PROJECT_DIR$/dash_aziende/templates/operazioni_form.html" />
-        <option value="$PROJECT_DIR$/dash_aziende/forms.py" />
         <option value="$PROJECT_DIR$/templates/base_partent.html" />
         <option value="$PROJECT_DIR$/templates/base.html" />
         <option value="$PROJECT_DIR$/dash_aziende/admin.py" />
         <option value="$PROJECT_DIR$/dash_aziende/models.py" />
-        <option value="$PROJECT_DIR$/dash_aziende/urls.py" />
         <option value="$PROJECT_DIR$/dash_aziende/templates/operazioni_dashboard.html" />
-        <option value="$PROJECT_DIR$/income/templates/charts_spi.html" />
         <option value="$PROJECT_DIR$/retevista/settings.py" />
-        <option value="$PROJECT_DIR$/dash_aziende/views.py" />
-        <option value="$PROJECT_DIR$/templates/404.html" />
         <option value="$PROJECT_DIR$/templates/registration/login.html" />
         <option value="&lt;9c489344-306f-4c67-9f05-1c4418036996&gt;/retevista/retevista/settings.py" />
+        <option value="$PROJECT_DIR$/templates/404.html" />
+        <option value="$PROJECT_DIR$/income/templates/charts_spi.html" />
         <option value="$PROJECT_DIR$/templates/base_parent.html" />
+        <option value="$PROJECT_DIR$/dash_aziende/forms.py" />
+        <option value="$PROJECT_DIR$/dash_aziende/views.py" />
+        <option value="$PROJECT_DIR$/dash_aziende/urls.py" />
+        <option value="$PROJECT_DIR$/dash_aziende/templates/profile.html" />
       </list>
     </option>
   </component>
@@ -316,6 +308,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -326,13 +319,28 @@
             <path>
               <item name="retevista" type="b2602c69:ProjectViewProjectNode" />
               <item name="retevista" type="462c0819:PsiDirectoryNode" />
+              <item name="dash_aziende" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="retevista" type="b2602c69:ProjectViewProjectNode" />
+              <item name="retevista" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="retevista" type="b2602c69:ProjectViewProjectNode" />
+              <item name="retevista" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="retevista" type="b2602c69:ProjectViewProjectNode" />
+              <item name="retevista" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -542,6 +550,12 @@
       <workItem from="1561380682311" duration="4542000" />
       <workItem from="1561445491396" duration="17023000" />
       <workItem from="1561534452406" duration="16412000" />
+      <workItem from="1561556964878" duration="638000" />
+      <workItem from="1561620054273" duration="752000" />
+      <workItem from="1561709524587" duration="1836000" />
+      <workItem from="1561715236597" duration="3465000" />
+      <workItem from="1562052708377" duration="279000" />
+      <workItem from="1562056596527" duration="2562000" />
     </task>
     <task id="LOCAL-00001" summary="addedd automatic procedure to read api ofr whether stations data">
       <created>1551709403892</created>
@@ -711,11 +725,18 @@
       <option name="project" value="LOCAL" />
       <updated>1561446677214</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="completata prima fase dash_aziende">
+      <created>1561557188038</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1561557188038</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="485265000" />
+    <option name="totallyTimeSpent" value="494797000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -728,22 +749,23 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.44051448" visible="true" weight="0.1765357" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.44051448" weight="0.18981738" />
       <window_info id="Favorites" order="1" side_tool="true" />
-      <window_info id="Structure" order="2" sideWeight="0.55948555" weight="0.2091865" />
+      <window_info id="Structure" order="2" sideWeight="0.55948555" visible="true" weight="0.2091865" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32937366" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.2537797" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2537797" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3574514" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32937366" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.4997233" weight="0.28401726" />
-      <window_info anchor="bottom" id="File Transfer" order="9" weight="0.32937366" />
+      <window_info anchor="bottom" id="File Transfer" order="9" visible="true" weight="0.32937366" />
       <window_info anchor="bottom" id="Database Changes" order="10" weight="0.32937366" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4991699" visible="true" weight="0.28401726" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4991699" weight="0.28185746" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5013835" side_tool="true" weight="0.39308855" />
       <window_info anchor="bottom" id="Database Console" order="13" weight="0.32937366" />
       <window_info anchor="bottom" id="Messages" order="14" />
@@ -782,7 +804,8 @@
     <MESSAGE value="form creation of campi" />
     <MESSAGE value="analisi e previsioni aggiunte con edita e delete" />
     <MESSAGE value="initial version for adding operazioni colturali" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial version for adding operazioni colturali" />
+    <MESSAGE value="completata prima fase dash_aziende" />
+    <option name="LAST_COMMIT_MESSAGE" value="completata prima fase dash_aziende" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -801,6 +824,16 @@
           <url>file://$PROJECT_DIR$/consiglio/bilancio_idrico.py</url>
           <line>203</line>
           <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
+          <line>435</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
+          <line>484</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -866,60 +899,53 @@ else:
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
+        <expression-string>request.user.profile</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>request.user</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>Profile.objects.filter(user=request.user).exists()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>Profile.objects.filter(user=request.user)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>Profile.objects.get(user=request.user)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>Profile.objects.get(user=request.user).count()</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>Profile.objects.get(user=request.user).count(+)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>Profile.objects.get(user=self.request.user)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>campi.objects.filter(proprietario=Profile.objects.filter(user=request.user))</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>campi.objects.filter(proprietario=Profile.objects.filter(user=user))</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>oper_model.objects.all().count()</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>oper_model.objects.filter(campo__proprietario=Profile.objects.filter(user=request.user))</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>oper_model.objects.filter(campo__proprietario=Profile.objects.filter(user=request.user)).count()</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>query_campi_utente</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>query_campi_utente.count()</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>child_form.fields</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>child_form.validate_unique()</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/.virtualenvs/retevista/lib/python2.7/site-packages/django/template/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="989" selection-start-line="989" selection-end-line="989" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dash_aziende/forecast.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -1139,26 +1165,11 @@ else:
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dash_aziende/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="209" column="6" selection-start-line="209" selection-start-column="6" selection-end-line="209" selection-end-column="6" />
-          <folding>
-            <element signature="e#24#63#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dash_aziende/templates/dashboard.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="82" column="12" selection-start-line="82" selection-start-column="12" selection-end-line="82" selection-end-column="49" />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dash_aziende/templates/profile.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-90" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dash_aziende/templates/operazioni_dashboard.html">
@@ -1198,13 +1209,6 @@ else:
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/income/templates/charts_spi.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="150" selection-start-line="150" selection-end-line="150" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/retevista/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2444">
@@ -1218,16 +1222,6 @@ else:
           <filtering>
             <filter text="" />
           </filtering>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dash_aziende/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="68" column="19" lean-forward="true" selection-start-line="68" selection-start-column="19" selection-end-line="68" selection-end-column="19" />
-          <folding>
-            <element signature="e#25#68#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1250,37 +1244,10 @@ else:
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dash_aziende/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="39" selection-start-line="18" selection-start-column="39" selection-end-line="18" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dash_aziende/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="469" column="19" selection-start-line="469" selection-start-column="19" selection-end-line="469" selection-end-column="19" />
-          <folding>
-            <element signature="e#24#63#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" column="14" lean-forward="true" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/404.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="41" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -1298,10 +1265,10 @@ else:
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dash_aziende/templates/analisi_dashboard.html">
+    <entry file="file://$PROJECT_DIR$/templates/404.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" selection-start-line="16" selection-end-line="16" selection-end-column="19" />
+        <state relative-caret-position="105">
+          <caret line="7" column="78" selection-start-line="7" selection-start-column="78" selection-end-line="7" selection-end-column="78" />
         </state>
       </provider>
     </entry>
@@ -1312,10 +1279,81 @@ else:
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/dash_aziende/templates/analisi_dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" selection-start-line="16" selection-end-line="16" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/income/templates/charts_spi.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="356">
+          <caret line="158" selection-start-line="158" selection-end-line="158" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/floating-labels.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/base_parent.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="103" column="63" selection-start-line="103" selection-start-column="63" selection-end-line="103" selection-end-column="63" />
+        <state relative-caret-position="221">
+          <caret line="50" column="34" selection-start-line="50" selection-start-column="34" selection-end-line="50" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dash_aziende/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="48" selection-start-line="18" selection-start-column="48" selection-end-line="18" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dash_aziende/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+          <folding>
+            <element signature="e#24#63#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dash_aziende/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="70" column="21" selection-start-line="70" selection-start-column="6" selection-end-line="70" selection-end-column="21" />
+          <folding>
+            <element signature="e#25#68#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dash_aziende/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="484" selection-start-line="484" selection-end-line="484" />
+          <folding>
+            <element signature="e#24#63#0" expanded="true" />
+            <element signature="e#4569#13880#0" />
+            <element signature="e#14774#14972#0" />
+            <element signature="e#15035#15198#0" />
+            <element signature="e#15260#15806#0" />
+            <element signature="e#15869#16046#0" />
+            <element signature="e#16111#16301#0" />
+            <element signature="e#16356#16857#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dash_aziende/templates/profile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
         </state>
       </provider>
     </entry>

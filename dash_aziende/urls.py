@@ -2,7 +2,8 @@ from django.conf.urls import url
 
 from .views import dashboard_fields,form_campi,add_profile,CampiGeoJson,form_analisi,dashboard_analisi,\
     AnalisiGeoJson,CampoUpdateView,AnalisiUpdateView,\
-    CampoDeleteView,AnalisiDeleteView,dashboard_main,get_data_charts,dash_operazioni_colturali,form_operazioni,OperazioniDeleteView,edit_profileView
+    CampoDeleteView,AnalisiDeleteView,dashboard_main,get_data_charts,dash_operazioni_colturali,form_operazioni,\
+    OperazioniDeleteView,edit_profile
 from .models import campi,analisi_suolo
 
 urlpatterns = [
@@ -15,7 +16,7 @@ urlpatterns = [
     url(r'^add/operazioni/(?P<oper_type>\D+)/$', form_operazioni, name='form-operazioni'),
     url(r'^delete/operazione/(?P<pk>\d+)$', OperazioniDeleteView.as_view(), name='delete-operazioni'),
     url(r'^registrazione/$',add_profile,name='add-profilo-aziendale'),
-    url(r'^update/registrazione/(?P<pk>\d+)$', edit_profileView.as_view(), name='update-profilo-aziendale'),
+    url(r'^update/registrazione/$', edit_profile, name='update-profilo-aziendale'),
     url(r'^campi.geojson$', CampiGeoJson.as_view(model=campi), name='campi_geojson'),
     url(r'^analisi.geojson$', AnalisiGeoJson.as_view(model=analisi_suolo), name='analisi_geojson'),
     url(r'^api/data/$', get_data_charts, name='api-data-dash'),

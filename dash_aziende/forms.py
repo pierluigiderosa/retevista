@@ -58,7 +58,7 @@ class UserForm(forms.ModelForm):
         fields = ('username', 'password','first_name', 'last_name', 'email')
         widgets = {
             # telling Django your password field in the mode is a password input on the template
-            'password': forms.PasswordInput
+            'password': forms.PasswordInput(),
         }
 
     def save(self, commit=True):
@@ -67,6 +67,15 @@ class UserForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = (
+            'email',
+            'first_name',
+            'last_name'
+        )
 
 class ProfileForm(forms.ModelForm):
     class Meta:

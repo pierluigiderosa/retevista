@@ -20,7 +20,8 @@ from .models import campi,Profile,analisi_suolo
 from dash_aziende.models import fertilizzazione as fert_model ,operazioni_colturali as oper_model,\
     irrigazione as irr_model, trattamento as tratt_model, semina as semina_model,raccolta as raccolta_model
 from .forms import CampiAziendeForm,UserForm,ProfileForm,AnalisiForm,\
-    FertilizzazioneForm,OperazioneColturaleForm,IrrigazioneForm,TrattamentoForm,SeminaForm,RaccoltaForm
+    FertilizzazioneForm,OperazioneColturaleForm,IrrigazioneForm,TrattamentoForm,SeminaForm,RaccoltaForm,\
+    EditProfileForm
 from forecast import get as get_forecast
 
 # Create your views here.
@@ -369,11 +370,7 @@ class CampoUpdateView(LoginRequiredMixin,UpdateView):
     success_message = 'Successo: Il campo è stato aggiornato.'
     success_url = reverse_lazy('main-fields')
 
-class edit_profileView(LoginRequiredMixin,UpdateView):
-    model = Profile
-    template_name = 'profile.html'
-    form_class = ProfileForm
-    success_url = reverse_lazy('homepage')
+
 
 
 class CampoDeleteView(LoginRequiredMixin,DeleteView):
@@ -431,7 +428,7 @@ def get_data_charts(request):
 
 
 
-@login_required
+@login_required()
 @transaction.atomic
 def add_profile(request):
     if request.method == 'POST':
@@ -450,9 +447,9 @@ def add_profile(request):
             profile_form.save()  # Gracefully save the form
             grouppoAgricoltori = Group.objects.get(name='Agricoltori')
             user.groups.add(grouppoAgricoltori)
-            messages.success(request, 'Il tuo profilo è stato aggiornato!')
+            messages.success(request, 'Il tuo profilo è stato creato!')
             # redirect to a new URL:
-            return reverse('homepage')
+            return redirect('homepage')
 
         else:
             messages.error(request, 'Per favore correggi gli errori sotto.')
@@ -461,8 +458,49 @@ def add_profile(request):
         profile_form = ProfileForm()
     return render(request, 'profile.html', {
         'user_form': user_form,
-        'profile_form': profile_form
+        'profile_form': profile_form,
     })
+
+@login_required()
+def edit_profile(request):
+    editing_profile = False
+    if Profile.objects.filter(user=request.user).exists():
+        editing_profile = True
+
+        if request.method == 'POST':
+            form = EditProfileForm(request.POST, instance=request.user)
+            profile_form = ProfileForm(request.POST, request.FILES,
+                                       instance=request.user.profile)  # request.FILES is show the selected image or file
+
+            if form.is_valid() and profile_form.is_valid():
+                user_form = form.save()
+                custom_form = profile_form.save(False)
+                custom_form.user = user_form
+                custom_form.save()
+                messages.success(request, 'Il tuo profilo è stato aggiornato!')
+
+                return redirect('homepage')
+        else:
+            form = EditProfileForm(instance=request.user)
+            profile_form = ProfileForm(instance=request.user.profile)
+            # args = {}
+            # # args.update(csrf(request))
+            # args['form'] = form
+            # args['profile_form'] = profile_form
+        return render(request, 'profile.html', {
+            'user_form': form,
+            'profile_form': profile_form,
+            'edit_profile': editing_profile,
+        })
+    else:
+        messages.warning(request,'Non si appartiene al gruppo degli agricoltori')
+        return render(request,'profile.html',{
+            'editing_profile': editing_profile,
+        })
+
+
+
+
 
 class CampiGeoJson(GeoJSONLayerView):
     # Options

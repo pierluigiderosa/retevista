@@ -44,16 +44,24 @@
                 options:{}
             });
             for (i = 0; i < myBarChart.data.datasets[0].data.length; i++) {
-                if (myBarChart.data.datasets[0].data[i] < -2 || myBarChart.data.datasets[0].data[i] > 2 ) {
-                    myColors.push("#dc3ab7");
+                if (myBarChart.data.datasets[0].data[i] < -2) {
+                    myColors.push("#dc0611");
                 }
-                else if (myBarChart.data.datasets[0].data[i] >= -2 && myBarChart.data.datasets[0].data[i] < -1.5 || myBarChart.data.datasets[0].data[i] > 1.5 && myBarChart.data.datasets[0].data[i] <= 2 ) {
-                    myColors.push("#0000de");
+                else if (myBarChart.data.datasets[0].data[i] >= -2 && myBarChart.data.datasets[0].data[i] < -1.5) {
+                          myColors.push("#fd7600");
+                                }
+                else if (myBarChart.data.datasets[0].data[i] >= -1.5 && myBarChart.data.datasets[0].data[i] < -1) {
+                    myColors.push("#fff800");
                 }
-                else if (myBarChart.data.datasets[0].data[i] >= -1.5 && myBarChart.data.datasets[0].data[i] < -1 || myBarChart.data.datasets[0].data[i] > 1 && myBarChart.data.datasets[0].data[i] <= 1.5 ) {
+                else if (myBarChart.data.datasets[0].data[i] > 1 && myBarChart.data.datasets[0].data[i] <= 1.5 ) {
                     myColors.push("#00deff");
                 }
-
+                else if (myBarChart.data.datasets[0].data[i] > 1.5 && myBarChart.data.datasets[0].data[i] <= 2 ) {
+                    myColors.push("#0000de");
+                }
+                else if (myBarChart.data.datasets[0].data[i] > 2 ) {
+                    myColors.push("#dc3ab7");
+                }
                 else {
                     myColors.push("#71DC00");
                 }
@@ -109,7 +117,7 @@
             type: "tsgauge",
             data: {
                 datasets: [{
-                    backgroundColor: ["#dc3ab7", "#0000de", "#00deff","#71dc00", "#00deff", "#0000de","#dc3ab7"],
+                    backgroundColor: ["#dc0611","#fd7600", "#fff800","#71dc00","#00deff", "#0000de","#dc3ab7"],
                     borderWidth: 0,
                     gaugeData: {
                         value: {{ spi_1mese |safe }},
@@ -128,7 +136,7 @@
             type: "tsgauge",
             data: {
                 datasets: [{
-                    backgroundColor: ["#dc3ab7", "#0000de", "#00deff","#71dc00", "#00deff", "#0000de","#dc3ab7"],
+                    backgroundColor: ["#dc0611","#fd7600", "#fff800","#71dc00","#00deff", "#0000de","#dc3ab7"],
                     borderWidth: 0,
                     gaugeData: {
                         value: {{ spi_3mese |safe }},
@@ -147,7 +155,7 @@
             type: "tsgauge",
             data: {
                 datasets: [{
-                    backgroundColor: ["#dc3ab7", "#0000de", "#00deff","#71dc00", "#00deff", "#0000de","#dc3ab7"],
+                    backgroundColor: ["#dc0611","#fd7600", "#fff800","#71dc00","#00deff", "#0000de","#dc3ab7"],
                     borderWidth: 0,
                     gaugeData: {
                         value: {{ spi_6mese |safe }},
