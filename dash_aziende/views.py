@@ -348,10 +348,11 @@ def form_analisi(request):
         # check whether it's valid:
         if form.is_valid():
             analisi = form.save(commit=False)
-
-            analisi.save()
             # process the data in form.cleaned_data as required
             # ...
+
+            analisi.save()
+
             messages.success(request, 'la tua analisi è stata aggiunta!')
             # redirect to a new URL:
             return redirect('main-dashboard')

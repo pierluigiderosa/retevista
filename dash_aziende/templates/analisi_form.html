@@ -5,6 +5,7 @@
 
 {% block script %}
     {% leaflet_js plugins="forms" %}
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 {% endblock %}
 
@@ -18,21 +19,22 @@
 
     <div class="row">
         {% include "lateral_panel_dashboard.html" %}
- <div class="col-lg-8  col-md-8">
+        <div class="col-lg-8  col-md-8">
 
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-row">
-                <h1 class="h2">Aggiungi / Edita analisi</h1>
-            </div>
-            {{ form|crispy }}
+            <form method="POST" id="form-analisi">
+                {% csrf_token %}
+                <div class="form-row">
+                    <h1 class="h2">Aggiungi / Edita analisi [[ somma ]] </h1>
+                </div>
+
+                {{ form|crispy }}
 
 
-            <input type="submit"/>
-        </form>
+                <input type="submit"/>
+            </form>
+        </div>
     </div>
-    </div>
-    <script>
+    <script type="application/javascript">
         YourGeometryField = L.GeometryField.extend({
             addTo: function (map) {
                 L.GeometryField.prototype.addTo.call(this, map);
@@ -40,6 +42,21 @@
                 console.log(this);
             },
             // See GeometryField source (static/leaflet/leaflet.forms.js) to override more stuff...
+        });
+
+        var app = new Vue({
+            delimiters: ['[[', ']]'],
+            el: '#form-analisi',
+            data: {
+                sabbia: 10,
+                limo: 10,
+                argilla: 10,
+            },
+             computed: {
+                somma: function () {
+                    return Number(this.sabbia) + Number(this.limo) +Number(this.argilla)
+                }
+            }
         });
     </script>
 

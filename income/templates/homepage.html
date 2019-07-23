@@ -10,54 +10,65 @@
 
 
     <div class="container-fluid">
-    <div class="row">
-        <div class="col banner"></div>
-    </div>
-    <div class="row">
-        <div class="w-100 px-2">
-            <div class="h1 mt-5 text-center">About IT Wonders</div>
-            <p class="mt-3">IT Wonders is a web software company based in Singapore &amp; Johor, Malaysia. We specialise in developing system and custom web development from sketch (not template based!!) based on your business requirements. We adopted professional web
-                development process, this includes following process (based on project scope):
-            </p>
-            <div class="pl-5">
-                <li>Details Design</li>
-                <li>Use Case Analysis</li>
-                <li>Database Schema Design</li>
-                <li>Mockup</li>
-                <li>Code Development</li>
-                <li>Version Control</li>
-                <li>Testing</li>
-                <li>Deployment</li>
+        <div class="jumbotron text-center">
+            <div class="container">
+                <img src="{% static 'img/logo-Vista.jpg' %}" class="img-fluid" alt="">
+                <h2>VETRINA INFORMATICA PER SISTEMI DI TRASPARENZA NELL’AGROALIMENTARE</h2>
+
+                <h2 class="lead">iFarm © è la piattaforma web mobile dedicata agli operatori e tecnici in agricoltura (accessibile attraverso un sistema di autenticazione) per la gestione tecnica, amministrativa, economica e cartografica dell’azienda agricola.</h2>
+                <hr class="my-4"><div class="row">
             </div>
-            <p class="pt-3">
-                This Bootstrap 4 Editor is one of the tools we develop and use internally. Then we decided to make it available to the public as well so more can make use of it. We hope you enjoy using it and let us know if you have any feedbacks about it in our
-                <a href="https://facebook.com/itwonders.web" target="_blank">Facebook</a>. Thanks and see you around!
-            </p>
+
+                <h2 class="lead">iFarm® ti consente la registrazione e consultazione degli interventi sempre ed ovunque, in tutta sicurezza.</h2>
+                <hr class="my-4"><div class="row">
+            </div>
+                {#          <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>#}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="w-100 px-2">
+                <div class="h1 mt-5 text-center">Come funziona</div>
+                <p class="mt-2">Sono disponibili le informazioni relative alla modalità di coltivazione nel rispetto della Sostenibilità globale dell’azienda attraverso modelli di consiglio irriguo o dose ottimale di fertilizzanti.</p>
+
+                <p class="mt-2">Tutte le informazioni riguardanti la coltura e la storia del prodotto dalla semina alla raccolta geo referenziate nella  mappa aziendale.</p>
+
+                <p class="mt-2">Il consiglio irriguo permetterà di conoscere il fabbisogno idrico esatto della coltura secondo le condizioni meteo reali nel campo.</p>
+
+                <p class="mt-2">La dose ottimale di concimazione consentirà di dosare gli elementi nutritivi secondo i fabbisogni della coltura e la tipologia di terreno. Sarà possibile anche esportare queste informazioni sui moderni strumenti di agricoltura di precisione.</p>
+
+                <p class="mt-2">Nella software sarà inoltre possibile accedere ai risultati sintetici delle elaborazione prodotte (grafici, tabelle, indicatori – raccolti in un cruscotto informativo) sia a partire dai dati degli studi che dai dati acquisti in real time.</p>
+
+                <p class="mt-2">Partendo da una registrazione facile degli interventi, il programma consente di tenere sotto controllo le attività colturali (itinerario tecnico) e di conseguenza le stampe che semplificano la gestione amministrativa.</p>
+
+            </div>
         </div>
     </div>
-</div>
-    <div class="jumbotron">
-    <h1 class="display-4">Hello, world!
-    </h1>
-    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-    <hr class="my-4"><div class="row">
-</div>
-    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-    <p class="lead">
-        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-    </p>
-</div>
-<style>
-    .banner {
-        background: url(https://retevista.files.wordpress.com/2018/06/pexels-photo-533189.jpeg?w=1400&h=400&crop=1);
-        min-width: 100%;
-        background-size: cover;
-        background-color: #000000;
-        text-align: center;
-        padding-top: 30%;
-        padding-bottom: 12%;
-    }
-</style>
+
+    <style>
+        .jumbotron{
+            {#background-image: url({% static 'img/logo-Vista.jpg' %});#}
+            {#background-size: cover;#}
+            background-size: 100% 100%;
+            height: 100%;
+
+
+
+        }
+        .img-fluid{
+            height: 200px;
+            width: -webkit-fill-available;
+        }
+        .banner {
+            background: url({% static 'img/logo-Vista.jpg' %});
+            min-width: 100%;
+            background-size: cover;
+            background-color: #000000;
+            text-align: center;
+            padding-top: 30%;
+            padding-bottom: 12%;
+        }
+    </style>
 
 {% endblock %}
 

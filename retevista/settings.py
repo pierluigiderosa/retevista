@@ -33,7 +33,7 @@ else:
     DEBUG=False
 #DEBUG=True
 
-ALLOWED_HOSTS = ['127.0.0.1','www.onegis.it']
+ALLOWED_HOSTS = ['127.0.0.1','www.onegis.it','onegis.it']
 
 
 # Application definition

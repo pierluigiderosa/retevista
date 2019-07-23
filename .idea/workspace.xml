@@ -5,11 +5,14 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cronjob.log" beforeDir="false" afterPath="$PROJECT_DIR$/cronjob.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/analisi_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/analisi_form.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_stations.log" beforeDir="false" afterPath="$PROJECT_DIR$/data_stations.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/income/templates/charts_spi.html" beforeDir="false" afterPath="$PROJECT_DIR$/income/templates/charts_spi.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/income/templates/homepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/income/templates/homepage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/retevista/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/retevista/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/_footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/_footer.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base_parent.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base_parent.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -119,8 +122,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dash_aziende/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="48" selection-start-line="18" selection-start-column="48" selection-end-line="18" selection-end-column="48" />
+            <state relative-caret-position="135">
+              <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -131,36 +134,38 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dash_aziende/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="484" selection-start-line="484" selection-end-line="484" />
+            <state relative-caret-position="543">
+              <caret line="117" column="34" selection-start-line="117" selection-start-column="34" selection-end-line="117" selection-end-column="34" />
               <folding>
                 <element signature="e#24#63#0" expanded="true" />
-                <element signature="e#4569#13880#0" />
-                <element signature="e#14774#14972#0" />
-                <element signature="e#15035#15198#0" />
-                <element signature="e#15260#15806#0" />
-                <element signature="e#15869#16046#0" />
-                <element signature="e#16111#16301#0" />
-                <element signature="e#16356#16857#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/dash_aziende/templates/profile.html">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dash_aziende/templates/dashboard_form.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="27" selection-start-line="27" selection-end-line="27" />
+            <state relative-caret-position="174">
+              <caret line="28" column="12" selection-start-line="28" selection-start-column="12" selection-end-line="35" selection-end-column="18" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dash_aziende/templates/analisi_form.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="510">
+              <caret line="50" column="26" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dash_aziende/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="70" column="21" selection-start-line="70" selection-start-column="6" selection-end-line="70" selection-end-column="21" />
+            <state relative-caret-position="273">
+              <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
               <folding>
                 <element signature="e#25#68#0" expanded="true" />
               </folding>
@@ -171,8 +176,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dash_aziende/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+            <state relative-caret-position="446">
+              <caret line="255" column="14" selection-start-line="255" selection-start-column="4" selection-end-line="255" selection-end-column="14" />
               <folding>
                 <element signature="e#24#63#0" expanded="true" />
               </folding>
@@ -192,12 +197,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>create-book</find>
-      <find>dropdown-menu</find>
-      <find>form-opera</find>
-      <find>form-oper</find>
-      <find>{% url</find>
-      <find>oper_model</find>
       <find>',</find>
       <find>{% url 'form-ope</find>
       <find>add-operazioni</find>
@@ -222,6 +221,12 @@
       <find>re</find>
       <find>navbar-expan</find>
       <find>navbar-expand</find>
+      <find>username</find>
+      <find>agrisurvey</find>
+      <find>DSS</find>
+      <find>vetrina</find>
+      <find>img</find>
+      <find>edit_prof</find>
     </findStrings>
     <replaceStrings>
       <replace>ET_mensile</replace>
@@ -242,9 +247,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/consiglio/bilancio_idrico.py" />
-        <option value="$PROJECT_DIR$/consiglio/urls.py" />
-        <option value="$PROJECT_DIR$/income/templates/dati_giornalieri.html" />
         <option value="$PROJECT_DIR$/consiglio/WriteToExcel.py" />
         <option value="$PROJECT_DIR$/income/templates/mappa.html" />
         <option value="$PROJECT_DIR$/income/load.py" />
@@ -270,7 +272,6 @@
         <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
         <option value="$PROJECT_DIR$/dash_aziende/forecast.py" />
         <option value="$PROJECT_DIR$/dash_aziende/templates/dashboard_form.html" />
-        <option value="$PROJECT_DIR$/dash_aziende/templates/analisi_form.html" />
         <option value="$PROJECT_DIR$/dash_aziende/templates/analisi_dashboard.html" />
         <option value="$PROJECT_DIR$/dash_aziende/templates/dashboard.html" />
         <option value="$PROJECT_DIR$/dash_aziende/templates/confirm_delete.html" />
@@ -288,11 +289,15 @@
         <option value="&lt;9c489344-306f-4c67-9f05-1c4418036996&gt;/retevista/retevista/settings.py" />
         <option value="$PROJECT_DIR$/templates/404.html" />
         <option value="$PROJECT_DIR$/income/templates/charts_spi.html" />
-        <option value="$PROJECT_DIR$/templates/base_parent.html" />
-        <option value="$PROJECT_DIR$/dash_aziende/forms.py" />
-        <option value="$PROJECT_DIR$/dash_aziende/views.py" />
         <option value="$PROJECT_DIR$/dash_aziende/urls.py" />
         <option value="$PROJECT_DIR$/dash_aziende/templates/profile.html" />
+        <option value="$PROJECT_DIR$/templates/base_parent.html" />
+        <option value="$PROJECT_DIR$/templates/_footer.html" />
+        <option value="$PROJECT_DIR$/static/css/main.css" />
+        <option value="$PROJECT_DIR$/income/templates/homepage.html" />
+        <option value="$PROJECT_DIR$/dash_aziende/views.py" />
+        <option value="$PROJECT_DIR$/dash_aziende/templates/analisi_form.html" />
+        <option value="$PROJECT_DIR$/dash_aziende/forms.py" />
       </list>
     </option>
   </component>
@@ -319,11 +324,6 @@
             <path>
               <item name="retevista" type="b2602c69:ProjectViewProjectNode" />
               <item name="retevista" type="462c0819:PsiDirectoryNode" />
-              <item name="dash_aziende" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="retevista" type="b2602c69:ProjectViewProjectNode" />
-              <item name="retevista" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -331,6 +331,12 @@
               <item name="retevista" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
               <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="retevista" type="b2602c69:ProjectViewProjectNode" />
+              <item name="retevista" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="img" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="retevista" type="b2602c69:ProjectViewProjectNode" />
@@ -356,9 +362,12 @@
     <property name="database.console.LAST_STATE" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/templates" />
     <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -555,7 +564,10 @@
       <workItem from="1561709524587" duration="1836000" />
       <workItem from="1561715236597" duration="3465000" />
       <workItem from="1562052708377" duration="279000" />
-      <workItem from="1562056596527" duration="2562000" />
+      <workItem from="1562056596527" duration="3823000" />
+      <workItem from="1563193592834" duration="2566000" />
+      <workItem from="1563870842995" duration="7979000" />
+      <workItem from="1563881095928" duration="11157000" />
     </task>
     <task id="LOCAL-00001" summary="addedd automatic procedure to read api ofr whether stations data">
       <created>1551709403892</created>
@@ -732,11 +744,18 @@
       <option name="project" value="LOCAL" />
       <updated>1561557188038</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="added editing profile">
+      <created>1562059320204</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1562059320204</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="494797000" />
+    <option name="totallyTimeSpent" value="517760000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -751,9 +770,9 @@
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.44051448" weight="0.18981738" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.44051448" visible="true" weight="0.19645822" />
       <window_info id="Favorites" order="1" side_tool="true" />
-      <window_info id="Structure" order="2" sideWeight="0.55948555" visible="true" weight="0.2091865" />
+      <window_info id="Structure" order="2" sideWeight="0.55948555" weight="0.2091865" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32937366" />
       <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2537797" />
@@ -763,14 +782,14 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32937366" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.4997233" weight="0.28401726" />
-      <window_info anchor="bottom" id="File Transfer" order="9" visible="true" weight="0.32937366" />
+      <window_info anchor="bottom" id="File Transfer" order="9" weight="0.32937366" />
       <window_info anchor="bottom" id="Database Changes" order="10" weight="0.32937366" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4991699" weight="0.28185746" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.4991699" weight="0.2801724" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5013835" side_tool="true" weight="0.39308855" />
       <window_info anchor="bottom" id="Database Console" order="13" weight="0.32937366" />
       <window_info anchor="bottom" id="Messages" order="14" />
       <window_info anchor="bottom" id="REST Client" order="15" weight="0.3423326" />
-      <window_info anchor="bottom" id="Python Console" order="16" sideWeight="0.4986165" weight="0.3911638" />
+      <window_info anchor="bottom" id="Python Console" order="16" sideWeight="0.4986165" weight="0.39092872" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -805,7 +824,8 @@
     <MESSAGE value="analisi e previsioni aggiunte con edita e delete" />
     <MESSAGE value="initial version for adding operazioni colturali" />
     <MESSAGE value="completata prima fase dash_aziende" />
-    <option name="LAST_COMMIT_MESSAGE" value="completata prima fase dash_aziende" />
+    <MESSAGE value="added editing profile" />
+    <option name="LAST_COMMIT_MESSAGE" value="added editing profile" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -827,12 +847,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
-          <line>435</line>
+          <line>436</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
-          <line>484</line>
+          <line>485</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
@@ -946,71 +966,6 @@ else:
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dash_aziende/forecast.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="64" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="64" />
-          <folding>
-            <element signature="e#144#159#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/consiglio/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/consiglio/templates/lista_appezzamenti.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/consiglio/templates/update_bilancio.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="7" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/consiglio/templates/create_bilancio.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dash_aziende/templates/dashboard_form.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="54" selection-start-line="26" selection-start-column="54" selection-end-line="26" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.virtualenvs/retevista/lib/python2.7/site-packages/django/views/generic/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="113" column="4" selection-start-line="113" selection-start-column="4" selection-end-line="113" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.virtualenvs/retevista/lib/python2.7/site-packages/django/utils/functional.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="88" selection-start-line="88" selection-end-line="88" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.virtualenvs/retevista/lib/python2.7/site-packages/django/views/generic/detail.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="109" column="6" selection-start-line="109" selection-start-column="6" selection-end-line="109" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.virtualenvs/retevista/lib/python2.7/site-packages/django/views/generic/edit.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="286" column="43" selection-start-line="286" selection-start-column="43" selection-end-line="286" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dash_aziende/templates/confirm_delete.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -1046,20 +1001,6 @@ else:
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="609">
           <caret line="62" column="20" selection-start-line="62" selection-start-column="20" selection-end-line="73" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dash_aziende/templates/main_dash.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="609">
-          <caret line="61" column="39" selection-start-line="61" selection-start-column="39" selection-end-line="61" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dash_aziende/templates/analisi_form.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
-          <caret line="27" column="26" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -1244,13 +1185,6 @@ else:
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="14" lean-forward="true" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/registration/login.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
@@ -1279,13 +1213,6 @@ else:
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dash_aziende/templates/analisi_dashboard.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" selection-start-line="16" selection-end-line="16" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/income/templates/charts_spi.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="356">
@@ -1296,64 +1223,164 @@ else:
     <entry file="file://$PROJECT_DIR$/static/css/floating-labels.css">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base_parent.html">
+    <entry file="file://$USER_HOME$/.virtualenvs/retevista/lib/python2.7/site-packages/django/contrib/messages/api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="484">
+          <caret line="101" column="4" selection-start-line="101" selection-start-column="4" selection-end-line="101" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.virtualenvs/retevista/lib/python2.7/site-packages/django/contrib/messages/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.virtualenvs/retevista/lib/python2.7/site-packages/django/contrib/auth/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
+          <caret line="368" column="6" selection-start-line="368" selection-start-column="6" selection-end-line="368" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.virtualenvs/retevista/lib/python2.7/site-packages/django/forms/widgets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="313" column="6" selection-start-line="313" selection-start-column="6" selection-end-line="313" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/consiglio/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="29" column="27" selection-start-line="29" selection-start-column="19" selection-end-line="29" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dash_aziende/templates/profile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="80" selection-start-line="21" selection-start-column="80" selection-end-line="21" selection-end-column="80" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/_footer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="63" selection-start-line="12" selection-start-column="63" selection-end-line="12" selection-end-column="63" />
+          <folding>
+            <element signature="n#style#0;n#footer#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#0;n#footer#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#font#0;n#font#0;n#font#0;n#p#0;n#div#0;n#footer#0;n#!!top" expanded="true" />
+            <element signature="e#514#520#0#HTML" expanded="true" />
+            <element signature="e#525#531#0#HTML" expanded="true" />
+            <element signature="n#style#0;n#p#1;n#div#0;n#footer#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#font#0;n#font#0;n#font#0;n#p#1;n#div#0;n#footer#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/Style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1381" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/income/templates/homepage.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="810">
+          <caret line="59" column="42" selection-start-line="59" selection-start-column="42" selection-end-line="59" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base_parent.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
           <caret line="50" column="34" selection-start-line="50" selection-start-column="34" selection-end-line="50" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dash_aziende/templates/analisi_dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1155">
+          <caret line="16" selection-start-line="16" selection-end-line="16" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dash_aziende/templates/main_dash.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="474">
+          <caret line="61" column="39" selection-start-line="61" selection-start-column="39" selection-end-line="61" selection-end-column="39" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dash_aziende/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="48" selection-start-line="18" selection-start-column="48" selection-end-line="18" selection-end-column="48" />
+        <state relative-caret-position="135">
+          <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dash_aziende/models.py">
+    <entry file="file://$PROJECT_DIR$/dash_aziende/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+        <state relative-caret-position="543">
+          <caret line="117" column="34" selection-start-line="117" selection-start-column="34" selection-end-line="117" selection-end-column="34" />
           <folding>
             <element signature="e#24#63#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dash_aziende/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="255" column="14" selection-start-line="255" selection-start-column="4" selection-end-line="255" selection-end-column="14" />
+          <folding>
+            <element signature="e#24#63#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dash_aziende/templates/dashboard_form.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="28" column="12" selection-start-line="28" selection-start-column="12" selection-end-line="35" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dash_aziende/templates/analisi_form.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="50" column="26" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dash_aziende/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="70" column="21" selection-start-line="70" selection-start-column="6" selection-end-line="70" selection-end-column="21" />
+        <state relative-caret-position="273">
+          <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
           <folding>
             <element signature="e#25#68#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dash_aziende/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="484" selection-start-line="484" selection-end-line="484" />
-          <folding>
-            <element signature="e#24#63#0" expanded="true" />
-            <element signature="e#4569#13880#0" />
-            <element signature="e#14774#14972#0" />
-            <element signature="e#15035#15198#0" />
-            <element signature="e#15260#15806#0" />
-            <element signature="e#15869#16046#0" />
-            <element signature="e#16111#16301#0" />
-            <element signature="e#16356#16857#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dash_aziende/templates/profile.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
         </state>
       </provider>
     </entry>

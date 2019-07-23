@@ -10,14 +10,14 @@ from leaflet.forms.widgets import LeafletWidget
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset
 
-from .models import Profile, campi, analisi_suolo,\
-    fertilizzazione,irrigazione,semina,trattamento,raccolta,\
+from .models import Profile, campi, analisi_suolo, \
+    fertilizzazione,irrigazione,semina,trattamento,raccolta, \
     operazioni_colturali
 
 LEAFLET_WIDGET_ATTRS = {
     'map_height': '500px',
     'map_width': '100%',
-    # 'display_raw': 'false',
+    # 'display_raw': 'true',
     'map_srid': 4326,
 }
 
@@ -89,13 +89,21 @@ class DateInput(forms.DateInput):
 class YourMapWidget(LeafletWidget):
     geometry_field_class = 'YourGeometryField'
 
+
+
 class AnalisiForm(forms.ModelForm):
     class Meta:
         model = analisi_suolo
         fields = '__all__'
         widgets = {
             'data_segnalazione': DateInput(),
-            'geom': LeafletWidget(attrs=LEAFLET_WIDGET_ATTRS)
+            'geom': LeafletWidget(attrs=LEAFLET_WIDGET_ATTRS),
+            "sabbia": forms.NumberInput(attrs={
+                                               'v-model': "sabbia"},),
+            "limo": forms.NumberInput(attrs={
+                                               'v-model': "limo"}, ),
+            "argilla": forms.NumberInput(attrs={
+                                               'v-model': "argilla"}, ),
         }
 
     def __init__(self, user, *args, **kwargs):
@@ -104,6 +112,22 @@ class AnalisiForm(forms.ModelForm):
         self.fields['campo'].queryset = campi.objects.filter(proprietario=Profile.objects.filter(user=user))
         # else:  # it's an UpdateView:
         #     self.fields['campo'].queryset = campi.objects.filter(proprietario=Profile.objects.filter(user=self.instance.user))  # active users + self.instance.user
+
+    def clean(self):
+        sabbia = self.cleaned_data['sabbia']
+        limo = self.cleaned_data['limo']
+        argilla = self.cleaned_data['argilla']
+        argilla=float(argilla)
+        limo = float(limo)
+        sabbia = float(sabbia)
+        totale = argilla+limo+sabbia
+        if totale <99 or  totale > 101:
+            self.add_error("sabbia",'la somma non fa 100%')
+            self.add_error("limo", 'la somma non fa 100%')
+            self.add_error("argilla", 'la somma non fa 100%')
+
+        return self.cleaned_data
+
 
 class FertilizzazioneForm(forms.ModelForm):
     class Meta:
