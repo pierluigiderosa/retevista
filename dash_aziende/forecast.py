@@ -17,6 +17,14 @@ def get(latitudine=43.22,longitudine=12.433):
 
     response = urllib.urlopen(url_complete)
     data = json.loads(response.read())
+    data['trattamento'] = False
+    if data['wind']['speed'] < 2.5:
+        if data['main']['temp'] > 10 and data['main']['temp'] < 25:
+            if data['main']['humidity'] > 50:
+                data['trattamento']=True
+
+
+    pass
     return data
 
 

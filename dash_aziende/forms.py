@@ -8,16 +8,16 @@ from django.views.generic import UpdateView
 from leaflet.forms.widgets import LeafletWidget
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset
+from crispy_forms.layout import Layout, Fieldset, Row, Column, Submit,HTML
 
-from .models import Profile, campi, analisi_suolo, \
-    fertilizzazione,irrigazione,semina,trattamento,raccolta, \
+from .models import Profile, campi, analisi_suolo,\
+    fertilizzazione,irrigazione,semina,trattamento,raccolta,\
     operazioni_colturali
 
 LEAFLET_WIDGET_ATTRS = {
     'map_height': '500px',
     'map_width': '100%',
-    # 'display_raw': 'true',
+    # 'display_raw': 'false',
     'map_srid': 4326,
 }
 
@@ -98,12 +98,9 @@ class AnalisiForm(forms.ModelForm):
         widgets = {
             'data_segnalazione': DateInput(),
             'geom': LeafletWidget(attrs=LEAFLET_WIDGET_ATTRS),
-            "sabbia": forms.NumberInput(attrs={
-                                               'v-model': "sabbia"},),
-            "limo": forms.NumberInput(attrs={
-                                               'v-model': "limo"}, ),
-            "argilla": forms.NumberInput(attrs={
-                                               'v-model': "argilla"}, ),
+            'sabbia': forms.NumberInput(attrs={'v-model':"sabbia"}),
+            'argilla': forms.NumberInput(attrs={'v-model': "argilla"}),
+            'limo': forms.NumberInput(attrs={'v-model': "limo"})
         }
 
     def __init__(self, user, *args, **kwargs):
@@ -111,7 +108,43 @@ class AnalisiForm(forms.ModelForm):
         # if self.instance.pk is None:
         self.fields['campo'].queryset = campi.objects.filter(proprietario=Profile.objects.filter(user=user))
         # else:  # it's an UpdateView:
-        #     self.fields['campo'].queryset = campi.objects.filter(proprietario=Profile.objects.filter(user=self.instance.user))  # active users + self.instance.user
+        # personalizzare il layout del form
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('data_segnalazione', css_class='form-group col-md-3 mb-0'),
+                Column('campo', css_class='form-group col-md-3 mb-0'),
+                Column('id_campione',css_class='form-group col-md-3 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('sabbia', css_class='form-group col-md-3 mb-0'),
+                Column('limo', css_class='form-group col-md-3 mb-0'),
+                Column('argilla', css_class='form-group col-md-3 mb-0'),
+                HTML('''<p>somme delle percentuali [[ somma ]]%</p>'''),
+                css_class='form-row',
+                css_id='form-analisi'
+
+            ),
+            Row(
+                Column('pH', css_class='form-group col-md-2 mb-0'),
+                Column('OM', css_class='form-group col-md-2 mb-0'),
+                Column('azoto', css_class='form-group col-md-2 mb-0'),
+                Column('fosforo', css_class='form-group col-md-2 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('potassio', css_class='form-group col-md-2 mb-0'),
+                Column('scambio_cationico', css_class='form-group col-md-2 mb-0'),
+                Column('den_apparente', css_class='form-group col-md-2 mb-0'),
+                Column('pietrosita', css_class='form-group col-md-2 mb-0'),
+                Column('profondita', css_class='form-group col-md-2 mb-0'),
+                css_class='form-row'
+            ),
+            'note',
+            'geom',
+            Submit('submit', 'Invia')
+        )
 
     def clean(self):
         sabbia = self.cleaned_data['sabbia']

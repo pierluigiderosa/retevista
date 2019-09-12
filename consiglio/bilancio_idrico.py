@@ -171,8 +171,10 @@ def calc_bilancio():
             pioggia_cumulata = dato_giornaliero.rain_cumulata
             quota =  quote_stazioni.objects.filter(stazioni=stazione_closest).first().quota
             Et0 = ET_sistemista(Z=quota, Tmax=Tmax, Tmin=Tmin, Tmean=Tmean, RH_max=RH_max, RH_min=RH_min, SRmedia=SRmedia, U2=vel_vento, day=ieri.strftime('%d%m%Y'), stazione=stazione_closest)
+            print('id coltura:')
             print(appezzam_singolo.coltura.id)
             Kc_calcolata = calc_Kc_elenco(appezzam_singolo.coltura.id)
+            print 'Kc= '
             print Kc_calcolata
 
 

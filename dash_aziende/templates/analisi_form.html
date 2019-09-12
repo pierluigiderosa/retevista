@@ -21,20 +21,11 @@
         {% include "lateral_panel_dashboard.html" %}
         <div class="col-lg-8  col-md-8">
 
-            <form method="POST" id="form-analisi">
-                {% csrf_token %}
-                <div class="form-row">
-                    <h1 class="h2">Aggiungi / Edita analisi [[ somma ]] </h1>
-                </div>
-
-                {{ form|crispy }}
-
-
-                <input type="submit"/>
-            </form>
+            <h1 class="h2">Aggiungi / Edita analisi</h1>
+            {% crispy form %}
         </div>
     </div>
-    <script type="application/javascript">
+    <script>
         YourGeometryField = L.GeometryField.extend({
             addTo: function (map) {
                 L.GeometryField.prototype.addTo.call(this, map);
@@ -48,16 +39,26 @@
             delimiters: ['[[', ']]'],
             el: '#form-analisi',
             data: {
-                sabbia: 10,
-                limo: 10,
-                argilla: 10,
+                sabbia: 0,
+                limo: 0,
+                argilla: 0,
             },
-             computed: {
+            computed: {
                 somma: function () {
-                    return Number(this.sabbia) + Number(this.limo) +Number(this.argilla)
+                    return Number(this.sabbia) + Number(this.limo) + Number(this.argilla)
+                },
+                colore: function () {
+                  somma = Number(this.sabbia) + Number(this.limo) + Number(this.argilla);
+                  col_res="black"
+                  if (somma <= 100){
+                      col_res="red"
+                  }
+                  return col_res
+
                 }
             }
         });
+
     </script>
 
 {% endblock %}

@@ -32,8 +32,32 @@
         </div>
     </div>
     <script type="text/javascript">
+        function onEachFeature(feature, layer) {
+            // does this feature have a property named popupContent?
+            if (feature.properties && feature.properties.popupContent) {
+                layer.bindPopup(feature.properties.popupContent);
+            }
+        }
+
         function main_map_init (map, options) {
             // Use Leaflet API here
+
+            var dataurl = '{% url "campi_geojson" %}';
+
+            var myStyle = {
+                "weight": 2,
+                "color": "#000000",
+                "opacity": 1,
+                "fillColor": "#ff6284",
+                "fillOpacity": 0.8
+            };
+
+            // Download GeoJSON via Ajax
+            $.getJSON(dataurl, function (data) {
+                // Add GeoJSON layer
+                L.geoJson(data, {style: myStyle
+                }).addTo(map);
+            });
 
         }
         var endpoint = "{% url 'api-data-dash' %}"
