@@ -33,7 +33,13 @@ def dashboard_main(request):
 
 @login_required
 def dashboard_fields(request,forecast=False):
-    campi_all =  campi.objects.filter(proprietario=Profile.objects.filter(user=request.user))
+    utente = request.user
+    if utente.groups.filter(name='Agricoltori').exists():
+        campi_all =  campi.objects.filter(proprietario=Profile.objects.filter(user=utente))
+        staff = False
+    if utente.is_staff or utente.groups.filter(name='Universita').exists():
+        campi_all = campi.objects.all()
+        staff=True
     latlong = []
     bbox = campi_all.aggregate(Extent('geom'))
     forecast_data = []
@@ -54,6 +60,7 @@ def dashboard_fields(request,forecast=False):
 
     return render(request, "dashboard.html", {
         'campi':zipped,
+        'staff': staff,
         'bbox': bbox['geom__extent'],
         'forecast': forecast
                                               })
@@ -102,7 +109,9 @@ def form_campi(request):
         if form.is_valid():
             campo = form.save(commit=False)
 
-            campo.proprietario = Profile.objects.get(user=request.user)
+            #automaticamente assegno il proprietario del campo
+            if request.user.groups.filter(name='Agricoltori').exists():
+                campo.proprietario = Profile.objects.get(user=request.user)
 
             campo.save()
             # process the data in form.cleaned_data as required
@@ -114,8 +123,12 @@ def form_campi(request):
     # if a GET (or any other method) we'll create a blank form
     else:
         form = CampiAziendeForm()
+        if request.user.groups.filter(name='Agricoltori').exists():
+            sel_proprietario =False
+        if request.user.is_staff or request.user.groups.filter(name='Universita').exists():
+            sel_proprietario =True
 
-    return render(request, 'dashboard_form.html', {'form': form})
+    return render(request, 'dashboard_form.html', {'form': form,'proprietario': sel_proprietario})
 
 
 @login_required

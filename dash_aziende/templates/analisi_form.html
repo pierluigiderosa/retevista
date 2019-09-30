@@ -47,14 +47,64 @@
                 somma: function () {
                     return Number(this.sabbia) + Number(this.limo) + Number(this.argilla)
                 },
-                colore: function () {
-                  somma = Number(this.sabbia) + Number(this.limo) + Number(this.argilla);
-                  col_res="black"
-                  if (somma <= 100){
-                      col_res="red"
-                  }
-                  return col_res
+                tessituraF: function(){
+                    sand= Number(this.sabbia)
+                    clay=Number(this.limo)
+                    silt=100-sand-clay
+                    if ((silt + 1.5*clay) < 15) {
+                        texture = "SAND";
+                        tessitura = "sabbioso";
+                    } else if ((silt + 1.5*clay >= 15) && (silt + 2*clay < 30)) {
+                        texture = "LOAMY SAND";
+                        tessitura = "sabbioso franco";
+                    } else if ((clay >= 7 && clay < 20) && (sand > 52) && ((silt + 2*clay) >= 30) || (clay < 7 && silt < 50 && (silt+2*clay)>=30)) {
+                        texture = "SANDY LOAM";
+                        tessitura = "franco sabbioso";
+                    } else if ((clay >= 7 && clay < 27) && (silt >= 28 && silt < 50) && (sand <= 52)) {
+                        texture = "LOAM";
+                        tessitura = "franco";
+                    } else if ((silt >= 50 && (clay >= 12 && clay < 27)) || ((silt >= 50 && silt < 80) && clay < 12)) {
+                        texture = "SANDY LOAM";
+                    } else if ((clay >= 7 && clay < 20) && (sand > 52) && ((silt + 2*clay) >= 30) || (clay < 7 && silt < 50 && (silt+2*clay)>=30)) {
+                        texture = "SILT LOAM";
+                    } else if (silt >= 80 && clay < 12) {
+                        texture = "SILT";
+                        tessitura = "limoso";
+                    } else if ((clay >= 20 && clay < 35) && (silt < 28) && (sand > 45))  {
+                        texture = "SANDY CLAY LOAM";
+                        tessitura = "Franco sabbioso argilloso";
+                    } else if ((clay >= 27 && clay < 40) && (sand > 20 && sand <= 45))  {
+                        texture = "CLAY LOAM";
+                        tessitura="franco argilloso";
+                    } else if ((clay >= 27 && clay < 40) && (sand  <= 20))  {
+                        texture = "SILTY CLAY LOAM";
+                        tessitura="franco limoso argilloso";
+                    } else if (clay >= 35 && sand > 45)  {
+                        texture = "SANDY CLAY LOAM";
+                        tessitura="franco sabbioso argilloso";
+                    } else if ((clay >= 20 && clay < 35) && (silt < 28) && (sand > 45))  {
+                        texture = "SANDY CLAY";
+                        tessitura = "Argilloso sabbioso";
+                    } else if (clay >= 40 && silt >= 40)  {
+                        texture = "SILTY CLAY";
+                        tessitura="argilloso limoso";
+                    } else if (clay >= 40 && sand <= 45 && silt < 40) {
+                        texture = "CLAY";
+                        tessitura = "Argilloso";
+                    } else {
+                        texture = "Good evening";
+                        tessitura = "Altro";
+                    }
+                    return tessitura.toUpperCase();
 
+                },
+                colore: function () {
+                    somma = Number(this.sabbia) + Number(this.limo) + Number(this.argilla);
+                    col_res="black"
+                    if (somma <= 100){
+                        col_res="red"
+                    }
+                    return col_res
                 }
             }
         });

@@ -6,7 +6,8 @@
 <script>
     {% block jquery %}
         //var endpoint = '/elaborazioni/api/data/1'
-        var endpoint = "{% url 'api-data' uid=uid %}"
+        {#TODO modificare la riga sotto con url api-data-campi#}
+        var endpoint = "{% url 'api-data-campi' uid=uid %}"
         var defaultData = []
         var labels = []
         var customertsDjango = parseInt("{{ customers }}") * 2

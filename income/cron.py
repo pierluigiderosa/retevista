@@ -2,7 +2,7 @@ from django_cron import CronJobBase, Schedule
 from datetime import datetime
 from get_data_stations import get_and_put
 from aggregate_data import aggrega
-from consiglio.bilancio_idrico import calc_bilancio
+from consiglio.bilancio_idrico import calc_bilancio,calc_bilancio_campo
 
 class MyCronJob(CronJobBase):
     RUN_EVERY_MINS = 2 # every 2 hours
@@ -79,3 +79,15 @@ class do_bilancio(CronJobBase):
         print 'calcolo bilancio alle'
         print str(datetime.now())
         calc_bilancio()
+
+class do_bilancioCampi(CronJobBase):
+    RUN_AT_TIMES = ['01:10']
+    RETRY_AFTER_FAILURE_MINS = 5
+
+    schedule = Schedule(run_at_times=RUN_AT_TIMES,retry_after_failure_mins=RETRY_AFTER_FAILURE_MINS)
+    code = 'consiglio.bilancio.appezzamentoCampo'  # a unique code
+
+    def do(self):
+        print 'calcolo bilancio per i campi alle'
+        print str(datetime.now())
+        calc_bilancio_campo()

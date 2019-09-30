@@ -165,6 +165,7 @@ CRON_CLASSES = [
     "income.cron.get_data",
     "income.cron.aggregate_data",
     "income.cron.do_bilancio",
+    "income.cron.do_bilancioCampi",
 ]
 
 DJANGO_CRON_LOCKFILE_PATH = [

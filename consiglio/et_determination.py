@@ -5,7 +5,7 @@ from math import pi, sin, acos, tan, cos, sqrt
 Tmean = 16.9
 Tmin = 12.3
 Tmax = 21.5
-#TODO
+
 #cancencellare la riga sotto
 from income.models import stazioni_retevista
 stazione=stazioni_retevista.objects.all()[0]

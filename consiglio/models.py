@@ -2,10 +2,12 @@
 from __future__ import unicode_literals
 
 from dateutil.utils import today
+from django.utils import timezone
 from django.contrib.gis.db import models
 from django.urls import reverse
 from income.models import stazioni_retevista
 
+from dash_aziende.models import campi as campi_agricoli
 # Create your models here.
 from django.core.validators import MinValueValidator, MaxValueValidator
 
@@ -101,6 +103,34 @@ class appezzamento(models.Model):
         verbose_name = 'Appezzamento'
         verbose_name_plural = 'Appezzamenti'
 
+class appezzamentoCampo(models.Model):
+    '''
+    Nuovo modello per la gestione dell'appezzamento da campo inserito da parte di aziende agricole
+    '''
+    campi = models.ForeignKey(campi_agricoli)
+    soglia = models.FloatField(default=5.0)
+    cap_di_campo = models.FloatField(verbose_name='capacità di campo', help_text='celle C16',default=0)
+    punto_appassimento = models.FloatField(verbose_name='punto di appassimento', help_text='celle C17',default=0)
+    den_app = models.FloatField(verbose_name='densità apparente del terreno',default=0.0)
+    cap_idrica = models.FloatField(verbose_name='capacità idrica massima', help_text='celle C18 e C3',default=0)
+    ris_fac_util = models.FloatField(verbose_name='riserva facilmente utilizzabile', help_text='celle C4',default=0.0)
+    vol_irriguo = models.FloatField(verbose_name='dose intervento irriguo',default=0)
+    perc_riserva_util = models.PositiveIntegerField(verbose_name='percentuale riserva facilmente utilizzabile',
+                                                    help_text='celle C5',default=1)
+    data_apporto_irriguo = models.DateField(verbose_name='data ultimo apporto irriguo',default=timezone.now)
+    volume_apporto_irriguo = models.PositiveIntegerField(verbose_name='volume dell\'ultimo apporto irriguo (mc)',default=10)
+    kc_datasheet = models.FileField(upload_to='kc_spreadsheet', verbose_name='Kc csv file',
+                                    default='kc_spreadsheet/Kc_elenco.csv')
+    data_semina = models.DateField(verbose_name='data di semina o trapianto',default=timezone.now)
+    durata_ciclo = models.PositiveIntegerField(verbose_name='durata ciclo colturale (giorni)',default=1)
+    strato_radici = models.FloatField(verbose_name='strato esplorato dalle radici (cm)',default=0.0)
+
+    def __str__(self):
+        return "appezz: %s-%s-%s" %(self.campi.nome,self.campi.coltura,self.campi.proprietario)
+
+    class Meta:
+        verbose_name = 'Appezzamento new'
+        verbose_name_plural = 'Appezzamenti new'
 
 class bilancio(models.Model):
     '''
@@ -125,7 +155,8 @@ class bilancio(models.Model):
     stazione = models.ForeignKey(stazioni_retevista)
 
 
-    appezzamento = models.ForeignKey(appezzamento)
+    appezzamento = models.ForeignKey(appezzamento,null=True)
+    appezzamentoDaCampo = models.ForeignKey(appezzamentoCampo,null=True)
 
 
     def get_absolute_url(self):

@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib.gis import admin
-from .models import appezzamento,coltura,settore,bilancio
+from .models import appezzamento,coltura,settore,bilancio,appezzamentoCampo
 # Register your models here.
 
 
@@ -17,3 +17,5 @@ admin.site.register(appezzamento, appezzamentoAdmin)
 admin.site.register(coltura,colturaAdmin)
 admin.site.register(settore)
 admin.site.register(bilancio)
+
+admin.site.register(appezzamentoCampo)

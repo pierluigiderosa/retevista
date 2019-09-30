@@ -17,6 +17,8 @@ class stazioni_retevista(models.Model):
     did = models.CharField(max_length=25)
     geom = models.MultiPointField(srid=4326)
     objects = models.GeoManager()
+    quota = models.FloatField(default=300.0)
+
 
     def __str__(self):
         return self.nome

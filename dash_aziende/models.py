@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import datetime
+
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator,MaxValueValidator
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 # Create your models here.
 
 
@@ -60,11 +63,20 @@ class colture(models.Model):
     def __str__(self):
         return self.nome
 
+def current_year():
+    return datetime.date.today().year
+
+
+def max_value_year(value):
+    return MaxValueValidator(current_year()+10)(value)
+
+
+
 class campi(models.Model):
     nome = models.CharField(max_length=250)
     coltura = models.ForeignKey(colture,blank=True,null=True,default="")
     geom = models.PolygonField(srid=4326)
-    proprietario = models.ForeignKey(Profile,on_delete=models.CASCADE,verbose_name='Proprietario_campo',blank=True,null=True,default="")
+    proprietario = models.ForeignKey(Profile,on_delete=models.CASCADE,verbose_name='Proprietario campo',blank=True,null=True,default="")
     data_inizio = models.DateField(blank=True,null=True,verbose_name="Data inizio lavori",help_text="definisci la data di inizio lavori per la coltura corrente")
     usi_colturali_choices = [
         ('fresco', 'da consumo fresco'),
@@ -127,6 +139,9 @@ class campi(models.Model):
         ('Altro','Altro'),
     ]
     proprieta = models.CharField(blank=True, null=True, choices=proprieta_choices, max_length=50)
+    dataApportoIrriguo = models.DateField(blank=True, null=True, help_text="Data ultimo apporto irriguo", verbose_name="Data apporto irriguo")
+    annataAgraria = models.PositiveIntegerField(
+        default=current_year(), validators=[MinValueValidator(2010), max_value_year])
 
     note = models.TextField(blank=True,null=True)
     objects = models.GeoManager()
@@ -137,6 +152,9 @@ class campi(models.Model):
     class Meta:
         verbose_name = 'campo'
         verbose_name_plural = 'campi'
+        ordering = ["proprietario","nome"]
+
+
 
 
 # da qui metto tutte le operazioni eseguibili

@@ -32,7 +32,7 @@
             {% for campo,area,latlong,previsioni in campi %}
                 <div class="col-md-6 col-lg-4 col-xl-3 mt-2">
                     <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="{% static 'img/agrisurvey.jpg' %}" alt="Card image cap">
+                        <img class="card-img-top" src="{% static 'img/rice_field.jpg' %}" alt="Card image cap">
                         <div class="card-header">
                             <h4 class="card-title">{{ campo.nome }}</h4>
                             <button title="Centra in mappa"
@@ -62,7 +62,10 @@
                                 </div>
 
                             {% else %}
-                            <p class="card-text">Some quick example text to build on the card. Coltura: {{ campo.coltura }}</p>
+                            <p class="card-text">Estratto delle info sul campo. Coltura: {{ campo.coltura }},
+                                {% if campo.dataApportoIrriguo %} Data ultimo apporto irriguo {{ campo.dataApportoIrriguo }}{% endif %}, Annata agraria: {{ campo.annataAgraria }}
+                            {% if staff %}Azienda: {{ campo.proprietario }}{% endif %}
+                            </p>
                             {% endif %}
                         </div>
                     <div class="card-footer">

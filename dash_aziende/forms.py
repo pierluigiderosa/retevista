@@ -28,8 +28,9 @@ class CampiAziendeForm(forms.ModelForm):
 
     class Meta:
         model = campi
-        fields = ('nome','coltura', 'geom')
+        fields = ('nome','coltura', 'geom','proprietario')
         widgets = {'geom': LeafletWidget(attrs=LEAFLET_WIDGET_ATTRS)}
+
 
 
 class EditCampiAziende(UpdateView):
@@ -121,7 +122,8 @@ class AnalisiForm(forms.ModelForm):
                 Column('sabbia', css_class='form-group col-md-3 mb-0'),
                 Column('limo', css_class='form-group col-md-3 mb-0'),
                 Column('argilla', css_class='form-group col-md-3 mb-0'),
-                HTML('''<p>somme delle percentuali [[ somma ]]%</p>'''),
+                # HTML('''<p>somme delle percentuali [[ somma ]]%</p>'''),
+                HTML('''<p>tessitura: [[ tessituraF ]]</p>'''),
                 css_class='form-row',
                 css_id='form-analisi'
 

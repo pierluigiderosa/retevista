@@ -5,7 +5,7 @@ from django.contrib.gis import admin
 from leaflet.admin import LeafletGeoAdmin
 
 
-from .models import Profile,campi,analisi_suolo,operazioni_colturali
+from .models import Profile,campi,analisi_suolo,operazioni_colturali,colture
 
 # Register your models here.
 
@@ -21,3 +21,5 @@ class ProfileAdmin(admin.ModelAdmin):
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(analisi_suolo)
 admin.site.register(operazioni_colturali)
+
+admin.site.register(colture)

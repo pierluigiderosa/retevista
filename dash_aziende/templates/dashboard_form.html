@@ -33,6 +33,11 @@
                 <div class="form-group col-md-4 mb-0">
                     {{ form.coltura|as_crispy_field }}
                 </div>
+                {% if proprietario %}
+                <div class="form-group col-md-4 mb-0">
+                    {{ form.proprietario|as_crispy_field }}
+                </div>
+                {% endif %}
             </div>
             <div class="form-row">
                 <div class="form-group col-md-8 mb-0">
