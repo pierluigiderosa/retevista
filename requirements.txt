@@ -3,7 +3,7 @@ chardet==3.0.4
 colorful==0.5.0
 colorize==1.1.0
 dj-database-url==0.5.0
-Django==1.11.20
+Django==1.11.23
 django-bootstrap-modal-forms==1.4.1
 django-common-helpers==0.9.2
 django-crispy-forms==1.7.2
