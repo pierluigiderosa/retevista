@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from .models import bilancio
+from django.contrib.gis import forms
+from .models import bilancio,rasterAppezzamento
 from bootstrap_modal_forms.forms import BSModalForm
 
 class BilancioForm(BSModalForm):
@@ -28,3 +29,8 @@ class CustomAuthenticationForm(AuthenticationForm):
     class Meta:
         model = User
         fields = ['username', 'password']
+
+class RasterCasaForm(forms.ModelForm):
+    class Meta:
+        model = rasterAppezzamento
+        fields = ('appezzamento','titolo','tipologia','raster')

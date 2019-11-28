@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load leaflet_tags crispy_forms_tags %}
+
+{% load static %}
+
+{% block script %}
+
+{% endblock %}
+
+{% block css %}
+ {{ form.media }}
+
+{% endblock %}
+
+{#{% block content %}#}
+{# <div class="col-lg-8  col-md-8">#}
+{##}
+{#        <form method="POST">#}
+{#            {% csrf_token %}#}
+{#            <div class="form-row">#}
+{#                <h1 class="h2">Aggiungi il raster</h1>#}
+{#            </div>#}
+{#            <div class="form-row">#}
+{#                <div class="form-group col-md-4 mb-0">#}
+{#                    {{ form.appezzamento|as_crispy_field }}#}
+{#                </div>#}
+{#                <div class="form-group col-md-4 mb-0">#}
+{#                    {{ form.raster }}#}
+{#                </div>#}
+{#            </div>#}
+{#                <div class="form-row">#}
+{#             <div class="form-group col-md-4 mb-0">#}
+{#                    {{ form.titolo|as_crispy_field }}#}
+{#                </div>#}
+{#            <div class="form-group col-md-4 mb-0">#}
+{#                    {{ form.tipologia|as_crispy_field }}#}
+{#                </div>#}
+{#            </div>#}
+{#            <input type="submit"/>#}
+{#                </form>#}
+{# Put {{ formset.errors }} and {{ formset.non_field_errors }} or {{ form.errors }} and {{ form.non_field_errors }}#}
+{# </div>#}
+{#    </div>#}
+{##}
+{##}
+{#{% endblock %}#}
+
+{% block content %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+  </form>
+
+  <p><a href="{% url 'homepage' %}">Return to home</a></p>
+{% endblock %}

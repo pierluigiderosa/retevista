@@ -1,11 +1,12 @@
 from django_cron import CronJobBase, Schedule
 from datetime import datetime
-from get_data_stations import get_and_put
-from aggregate_data import aggrega
-from consiglio.bilancio_idrico import calc_bilancio,calc_bilancio_campo
+from income.get_data_stations import get_and_put
+from income.aggregate_data import aggrega
+from consiglio.bilancio_idrico import calc_bilancio
+from consiglio.bilancio_idrico import calc_bilancio_campo
 
 class MyCronJob(CronJobBase):
-    RUN_EVERY_MINS = 2 # every 2 hours
+    RUN_EVERY_MINS = 1 # every 2 hours
 
     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
     code = 'my_app.my_cron_job'    # a unique code
@@ -14,11 +15,12 @@ class MyCronJob(CronJobBase):
         with open("/tmp/test.txt", "a") as myfile:
             myfile.write(str(datetime.now())+'----\n')
         print str(datetime.now())
+        print 'sono qua'
         pass    # do your thing here
-
+        print 'sono qua 2'
 
 class get_data(CronJobBase):
-    RUN_EVERY_MINS = 2
+    # RUN_EVERY_MINS = 2
     RETRY_AFTER_FAILURE_MINS = 5
     RUN_AT_TIMES = ['00:15',
                     '01:15',
@@ -79,15 +81,16 @@ class do_bilancio(CronJobBase):
         print 'calcolo bilancio alle'
         print str(datetime.now())
         calc_bilancio()
-
-class do_bilancioCampi(CronJobBase):
-    RUN_AT_TIMES = ['01:10']
-    RETRY_AFTER_FAILURE_MINS = 5
-
-    schedule = Schedule(run_at_times=RUN_AT_TIMES,retry_after_failure_mins=RETRY_AFTER_FAILURE_MINS)
-    code = 'consiglio.bilancio.appezzamentoCampo'  # a unique code
-
-    def do(self):
-        print 'calcolo bilancio per i campi alle'
-        print str(datetime.now())
         calc_bilancio_campo()
+
+# class do_bilancioCampi(CronJobBase):
+#     RUN_AT_TIMES = ['01:10']
+#     RETRY_AFTER_FAILURE_MINS = 5
+#
+#     schedule = Schedule(run_at_times=RUN_AT_TIMES,retry_after_failure_mins=RETRY_AFTER_FAILURE_MINS)
+#     code = 'consiglio.bilancio.appezzamentoCampo'  # a unique code
+#
+#     def do(self):
+#         print 'calcolo bilancio per i campi alle'
+#         print str(datetime.now())
+#         calc_bilancio_campo()

@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from dateutil.utils import today
 from django.utils import timezone
 from django.contrib.gis.db import models
+from django.contrib.gis.gdal import GDALRaster
 from django.urls import reverse
 from income.models import stazioni_retevista
 
@@ -108,12 +109,12 @@ class appezzamentoCampo(models.Model):
     Nuovo modello per la gestione dell'appezzamento da campo inserito da parte di aziende agricole
     '''
     campi = models.ForeignKey(campi_agricoli)
-    soglia = models.FloatField(default=5.0)
-    cap_di_campo = models.FloatField(verbose_name='capacità di campo', help_text='celle C16',default=0)
-    punto_appassimento = models.FloatField(verbose_name='punto di appassimento', help_text='celle C17',default=0)
-    den_app = models.FloatField(verbose_name='densità apparente del terreno',default=0.0)
+    soglia = models.FloatField(default=5.0,verbose_name='tolleranza pioggia utile',help_text='espresso in mm')
+    cap_di_campo = models.FloatField(verbose_name='capacità di campo', help_text='espresso in g/100g <br>celle C16',default=0)
+    punto_appassimento = models.FloatField(verbose_name='punto di appassimento', help_text='espresso in g/100g <br>celle C17',default=0)
+    den_app = models.FloatField(verbose_name='densità apparente del terreno',default=0.0,help_text='espresso in g/cm<sup>3</sup>')
     cap_idrica = models.FloatField(verbose_name='capacità idrica massima', help_text='celle C18 e C3',default=0)
-    ris_fac_util = models.FloatField(verbose_name='riserva facilmente utilizzabile', help_text='celle C4',default=0.0)
+    ris_fac_util = models.FloatField(verbose_name='riserva facilmente utilizzabile', help_text='espresso in mm<br>celle C4',default=0.0)
     vol_irriguo = models.FloatField(verbose_name='dose intervento irriguo',default=0)
     perc_riserva_util = models.PositiveIntegerField(verbose_name='percentuale riserva facilmente utilizzabile',
                                                     help_text='celle C5',default=1)
@@ -121,9 +122,14 @@ class appezzamentoCampo(models.Model):
     volume_apporto_irriguo = models.PositiveIntegerField(verbose_name='volume dell\'ultimo apporto irriguo (mc)',default=10)
     kc_datasheet = models.FileField(upload_to='kc_spreadsheet', verbose_name='Kc csv file',
                                     default='kc_spreadsheet/Kc_elenco.csv')
+    ks_datasheet = models.FileField(upload_to='ks_spreadsheet', verbose_name='Ks csv file',
+                                    default='ks_spreadsheet/Kc_elenco.csv')
     data_semina = models.DateField(verbose_name='data di semina o trapianto',default=timezone.now)
     durata_ciclo = models.PositiveIntegerField(verbose_name='durata ciclo colturale (giorni)',default=1)
     strato_radici = models.FloatField(verbose_name='strato esplorato dalle radici (cm)',default=0.0)
+    note = models.TextField(default='', blank=True, null=True)
+    Airr_min = models.FloatField(default=0.0,blank=True,null=True,verbose_name='Soglia effettivo inizio intervento irriguo Airr_min',help_text='espresso in mm')
+    Airr_minFlag = models.BooleanField(default=False,blank=True,verbose_name='Utilizzo valore di soglia intervento irriguo')
 
     def __str__(self):
         return "appezz: %s-%s-%s" %(self.campi.nome,self.campi.coltura,self.campi.proprietario)
@@ -163,9 +169,38 @@ class bilancio(models.Model):
         return reverse('bilancio-detail', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return '%s %s' %( self.data_rif,self.appezzamento.nome)
+        return '%s %s' %( self.data_rif,self.appezzamentoDaCampo)
 
     class Meta:
         ordering = ('-data_rif',)
         verbose_name = 'Bilancio'
         verbose_name_plural = 'Bilanci'
+
+
+class rasterAppezzamento(models.Model):
+    '''
+    modello per la catalogazione dei raster di CASA --unitus per consiglio azotato
+    '''
+    tipologia_choices = [
+        ('OM', 'Sostanza organica'),
+    ]
+    appezzamento = models.ForeignKey(appezzamentoCampo,verbose_name='Appezzamento aziendale',help_text='Appezzamento aziandale al quale associare il raster')
+    raster = models.FileField(upload_to='rasterCasa',verbose_name='raster geotif',help_text='caricare un raster nel SR 4326 -- lat/long wgs84')
+    titolo = models.CharField(max_length=250,verbose_name='Titolo del raster',help_text='inserire il titolo rappresentativo del raster')
+    tipologia = models.CharField(max_length=250,choices=tipologia_choices,verbose_name='Tipologia del raster',default=tipologia_choices[0],blank=True,null=True)
+
+
+    def __str__(self):
+        return 'raster %s %s di %s' %(self.titolo,self.tipologia,self.appezzamento)
+
+
+
+    def save(self, *args, **kwargs):
+        #TODO: aggiungere i controlli sul raster
+        super(rasterAppezzamento, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name='Mappa raster'
+        verbose_name_plural='Mappe raster'
+        # order_with_respect_to = 'appezzamento'
+        ordering = ['appezzamento']

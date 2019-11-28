@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+<title>{% block head_title %}{{ block.super }} | Riepilogo raster caricati {% endblock head_title %}</title>
+{% block content %}
+    <div class="col-8  col-md-4"><h3>Lista dei raster caricati</h3>
+    <a class="btn btn-primary" id="add-field" title="Nuovo" role="button"><i class="fas fa-plus"></i></a>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Titolo</th>
+                <th scope="col">tipologia</th>
+                <th scope="col">campo</th>
+                <th scope="col">#</th>
+                <th scope="col">cancella</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for raster in rasters %}
+                <tr>
+                    <td>{{ raster.titolo }}</td>
+                    <td>{{ raster.tipologia }}</td>
+                    <td>{{ raster.appezzamento }}</td>
+                    <td><div class="btn-group-vertical">
+                        <a class="btn btn-info" href="{% url 'mappa-fertilizzazione' uid=raster.id %}" role="button">apri mappa</a>
+                    </div>
+                    </td>
+                    <td>
+                        <a href="{% url 'delete-raster-casa' pk=raster.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
+                    </td>
+                </tbody>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script type="text/javascript">
+    $('#add-field').click(function(){
+            window.location.href = '{% url 'add-raster-casa' %}'
+        });
+    </script>
+
+{% endblock %}

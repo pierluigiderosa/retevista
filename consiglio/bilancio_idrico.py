@@ -25,6 +25,26 @@ def line_eq(P1 = [100, 400],P2 = [240, 265],x=3):
     y = a * x + b
     return y
 
+def costanteTerrenoModificata(PA,CC,den_app,stratoRadicale,RFUperc=50):
+    '''
+
+    :param PA: punto di appassimento - cella C11 foglio
+    :param CC: capacità di campo - cella C12 foglio
+    :param den_app: densità apparente - cella c13 foglio
+    :param stratoRadicale: strato esplorato dalle radici - cella c14 foglio
+    :RFUperc
+    :return:
+    '''
+
+    CCmodificato =(10000.*(CC*0.01)*den_app*stratoRadicale)*0.1
+    PAmodificato =(10000.*(PA*0.01)*den_app*stratoRadicale)*0.1
+    # capacità idrica utilizzabile
+    U = CCmodificato-PAmodificato
+    RFU = RFUperc*U/100.
+    Airr_min = U - RFU
+    print CCmodificato,PAmodificato,U,RFU,Airr_min
+    return CCmodificato,PAmodificato,U,RFU,Airr_min
+
 def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c7=55,ctm_c3=65,cap_id_max=55,area_irrigata_mq=3840,Et0=0,dose_antropica=0):
     if pioggia>soglia:
         pioggia_5=pioggia
@@ -229,6 +249,7 @@ def calc_bilancio():
 
 
 def calc_bilancio_campo():
+
     ieri = dt.date.today() - dt.timedelta(days=1)
     oggi =dt.date.today()
 
@@ -244,7 +265,7 @@ def calc_bilancio_campo():
             distance=Distance('geom', appezzam_pnt)
         ).order_by('distance').first()
         dato_giornaliero = dati_aggregati_daily.objects.filter(data=ieri,stazione=stazione_closest)
-
+        print oggi
         if dato_giornaliero.count()>=1:
             dato_giornaliero = dato_giornaliero.first()
 
@@ -263,7 +284,11 @@ def calc_bilancio_campo():
             print('id coltura:')
             print(app_campo.campi.coltura.id)
             serieKc = Series.from_csv(app_campo.kc_datasheet.path,header=0,parse_dates=['data'])
-            Kc_calcolata = Kc = serieKc[dt.date.today().strftime('%d/%m/%Y')][0]
+            #TODO correggere Ks
+            # serieKs = Series.from_csv(app_campo.ks_datasheet.path,header=0,parse_dates=['data'])
+            # Ks = serieKs[dt.date.today().strftime('%d/%m/%Y')][0]
+            Kc = serieKc[dt.date.today().strftime('%d/%m/%Y')][0]
+            Kc_calcolata = Kc*1
             print 'Kc= '
             print Kc_calcolata
 
@@ -285,12 +310,23 @@ def calc_bilancio_campo():
             areaCampo = app_campo.campi.geom.area
 
 
-
+            #TODO: modifiche per nuove implementazione
             cap_id_util = app_campo.cap_idrica
+            #cap_id_util deve essere U da costante terreno modificata
+
             # ctm_c7 viene chiamato Airr_min
             Amin_Irr =cap_id_util-app_campo.ris_fac_util
+            #Amin_irr deve essere letto da calcolo
 
-            Etc,P_ep,L,Lambda,a,Au,A,dose, A, Irr_mm, irrigazione = bilancio_idrico(pioggia_cumulata,soglia=soglia,Kc=Kc_calcolata,ctm_c7=Amin_Irr,ctm_c3=cap_id_util,cap_id_max=cap_id_max,area_irrigata_mq=areaCampo,Et0=Et0,dose_antropica = dose_antropica)
+            Etc,P_ep,L,Lambda,a,Au,A,dose, A, Irr_mm, irrigazione = bilancio_idrico(pioggia_cumulata,
+                                                                                    soglia=soglia,
+                                                                                    Kc=Kc_calcolata,
+                                                                                    ctm_c7=Amin_Irr, #da calcolo
+                                                                                    ctm_c3=cap_id_util, #da calcolo U
+                                                                                    cap_id_max=cap_id_max,
+                                                                                    area_irrigata_mq=areaCampo,
+                                                                                    Et0=Et0,
+                                                                                    dose_antropica = dose_antropica)
 
 
             #salvataggio dati

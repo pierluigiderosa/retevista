@@ -42,7 +42,16 @@
         function main_map_init (map, options) {
             // Use Leaflet API here
 
-            var dataurl = '{% url "campi_geojson" %}';
+            map.fitBounds([
+                [{{ bbox.1|unlocalize }},{{ bbox.0|unlocalize }}],
+                [{{ bbox.3|unlocalize }},{{ bbox.2|unlocalize }}]
+            ]);
+            {% if staff %}
+            var dataurl = '{% url "campi_geojson" %}?user=staff';
+            {% else %}
+                        var dataurl = '{% url "campi_geojson" %}?user=agricoltore';
+            {% endif %}
+
 
             var myStyle = {
                 "weight": 2,
@@ -55,7 +64,11 @@
             // Download GeoJSON via Ajax
             $.getJSON(dataurl, function (data) {
                 // Add GeoJSON layer
-                L.geoJson(data, {style: myStyle
+                  var campi_layer  =L.geoJson(data, {
+                      style: myStyle,
+                      onEachFeature: function (feature, layer) {
+                        layer.bindPopup('<h5>Nome:</h5>'+'<h6>'+feature.properties.nome+'</h6>');
+                    }
                 }).addTo(map);
             });
 

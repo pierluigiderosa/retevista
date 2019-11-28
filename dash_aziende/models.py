@@ -181,7 +181,7 @@ class fertilizzazione(models.Model):
     titolo_k2o = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Titolo K2O',help_text='espresso in %')
 
 class irrigazione(models.Model):
-    portata = models.FloatField(validators=[MinValueValidator(0.0)],verbose_name='Portata impianto irriguo',help_text='espresso in l/h')
+    portata = models.FloatField(validators=[MinValueValidator(0.0)],verbose_name='Volume irriguo',help_text='espresso in m<sup>3</sup>')
     durata = models.FloatField(validators=[MinValueValidator(0.0)],verbose_name='Durata irrigazione',help_text='espresso in h')
 
 class raccolta(models.Model):
@@ -263,16 +263,22 @@ class analisi_suolo(models.Model):
     sabbia = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Sabbia')
     limo = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Limo')
     argilla = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Argilla')
-    pH = models.PositiveIntegerField()
+    pH = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(14.0)],verbose_name='Grado di reazione (pH)',help_text='espresso in -log(H<sub>3</sub>O)<sup>+</sup>')
+    conduttivita_elettrica=models.FloatField(default=0.0,verbose_name='Conduttività elettrica',help_text='espressa in dS/m')
     OM = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Sostanza organica',help_text='espressa in %')
     azoto = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Azoto totale (N)',help_text='espresso in g/kg')
     fosforo = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Fosforo assimilabile (P)',help_text='espresso in mg/kg')
-    potassio = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Potassio Scambiabile (K)',help_text='espresso in mmol/dmc')
+    potassio = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(1000.0)],verbose_name='Potassio Scambiabile (K)',help_text='espresso in mmol/dmc')
     scambio_cationico = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Capacità di scambio cationico (CSC)',help_text='espressa in Meq/100g')
+    CACO3_tot = models.FloatField(default=0.0,verbose_name='Calcare totale (come CaCO<sub>3</sub>)',help_text='espresso in g/Kg')
+    CACO3_att = models.FloatField(default=0.0,verbose_name='Calcare attivo (come CaCO<sub>3</sub>)',help_text='espresso in g/Kg')
     den_apparente = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Densità apparente')
     pietrosita = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Pietrosità')
     profondita = models.PositiveIntegerField(verbose_name='Profondità',help_text='espressa in cm')
-    note = models.TextField(blank=True,null=True)
+    note = models.TextField(blank=True,null=True,default='')
+    cap_di_campo = models.FloatField(verbose_name='capacità di campo', help_text='cella ??',default=0)
+    punto_appassimento = models.FloatField(verbose_name='punto di appassimento', help_text='celle C17',default=0)
+
     geom = models.PointField(srid=4326)
     objects = models.GeoManager()
 
@@ -282,6 +288,5 @@ class analisi_suolo(models.Model):
     class Meta:
         verbose_name = 'analisi del suolo'
         verbose_name_plural = 'analisi dei suoli'
-
 
 

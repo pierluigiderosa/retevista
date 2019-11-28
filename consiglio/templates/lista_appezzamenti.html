@@ -8,29 +8,33 @@
                 <th scope="col">Nome</th>
                 <th scope="col">Coltura</th>
                 <th scope="col">proprietario</th>
-                <th scope="col">cap di campo C16</th>
+                <th scope="col">cap di campo C13</th>
                 <th scope="col">punto di appass. C17</th>
                 <th scope="col">cap idr C3 e C18</th>
                 <th scope="col">ris idr fac util C4</th>
                 <th scope="col">perc riserva util C5</th>
+                <th scope="col">strato radici cm</th>
+                <th scope="col">Airr_min calcolo</th>
                 <th scope="col">#</th>
             </tr>
             </thead>
             <tbody>
             {% for appezzamento in appez_campo %}
                 <tr>
-                    <td>{{ appezzamento.campi.nome }}</td>
-                    <td>{{ appezzamento.campi.coltura }}</td>
-                    <td>{{ appezzamento.campi.proprietario }}</td>
-                    <td>{{ appezzamento.cap_di_campo }}</td>
-                    <td>{{ appezzamento.punto_appassimento }}</td>
-                    <td>{{ appezzamento.cap_idrica }}</td>
-                    <td>{{ appezzamento.ris_fac_util }}</td>
-                    <td>{{ appezzamento.perc_riserva_util }}</td>
+                    <td>{{ appezzamento.0.campi.nome }}</td>
+                    <td>{{ appezzamento.0.campi.coltura }}</td>
+                    <td>{{ appezzamento.0.campi.proprietario }}</td>
+                    <td>valore da appezz.: {{ appezzamento.0.cap_di_campo }}<br>valore da analisi: {{ appezzamento.1 }}<br>CC modificato calcolo: {{ appezzamento.6 }}</td>
+                    <td>da appez: {{ appezzamento.0.punto_appassimento }}<br>da analisi: {{ appezzamento.2 }}</td>
+                    <td>da appezz: {{ appezzamento.0.cap_idrica }}<br>da calcolo: {{ appezzamento.8 }}</td>
+                    <td>da appezz: {{ appezzamento.0.ris_fac_util }}<br>da calcolo: {{ appezzamento.9 }}</td>
+                    <td>{{ appezzamento.0.perc_riserva_util }}</td>
+                    <td>{{ appezzamento.0.strato_radici }}</td>
+                    <td>{{ appezzamento.10 }}</td>
 {#                    todo correggere da qua#}
                     <td><div class="btn-group-vertical">
-                        <a class="btn btn-info" href="{% url 'singolo_appez_campo' uid=appezzamento.id %}" role="button">Dettaglio</a>
-                        <a class="btn btn-info" href="{% url 'chart-view-campo' uid=appezzamento.id %}" role="button">Grafici</a>
+                        <a class="btn btn-info" href="{% url 'singolo_appez_campo' uid=appezzamento.0.id %}" role="button">Dettaglio</a>
+                        <a class="btn btn-info" href="{% url 'chart-view-campo' uid=appezzamento.0.id %}" role="button">Grafici</a>
                     </div>
                     </td>
                 </tr>

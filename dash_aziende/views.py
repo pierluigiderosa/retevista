@@ -28,8 +28,23 @@ from forecast import get as get_forecast
 
 @login_required
 def dashboard_main(request):
+    utente = request.user
+    campi_all = None
+    if utente.groups.filter(name='Agricoltori').exists():
+        campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=utente))
+        staff = False
+    elif utente.is_staff or utente.groups.filter(name='Universita').exists():
+        campi_all = campi.objects.all()
+        staff = True
+    else:
+        campi_all = campi.objects.none()
+    latlong = []
+    bbox = campi_all.aggregate(Extent('geom'))
 
-    return render(request,"main_dash.html")
+    return render(request,"main_dash.html",{
+        'bbox': bbox['geom__extent'],
+        'staff':staff,
+    })
 
 @login_required
 def dashboard_fields(request,forecast=False):
@@ -83,7 +98,14 @@ def dash_operazioni_colturali(request):
 
 @login_required
 def dashboard_analisi(request):
-    campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=request.user))
+    utente = request.user
+    if utente.groups.filter(name='Agricoltori').exists():
+        campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=utente))
+        staff = False
+    if utente.is_staff or utente.groups.filter(name='Universita').exists():
+        campi_all = campi.objects.all()
+        staff = True
+    # campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=request.user))
     analisi_all = analisi_suolo.objects.filter(campo__in=campi_all)
     bbox_condition = True
     if analisi_all.count() == 1:
@@ -134,7 +156,14 @@ def form_campi(request):
 @login_required
 def form_operazioni(request,oper_type=None):
     '''This function creates a brand new fertilizzazione object with related Book objects using inlineformset_factory'''
-    query_campi_utente = campi.objects.filter(proprietario=Profile.objects.filter(user=request.user))
+    utente = request.user
+    if utente.groups.filter(name='Agricoltori').exists():
+        query_campi_utente = campi.objects.filter(proprietario=Profile.objects.filter(user=request.user))
+        staff = False
+    if utente.is_staff or utente.groups.filter(name='Universita').exists():
+        query_campi_utente = campi.objects.all()
+        staff = True
+
     #caso fertilizzazione
     if oper_type=='fertilizzazione':
         child_operation = fert_model()
@@ -524,8 +553,11 @@ class CampiGeoJson(GeoJSONLayerView):
     properties = ['nome', ]
 
     def get_queryset(self):
-        # pk_id = self.request.GET.get('agricoltore')
-        context = campi.objects.filter(proprietario=Profile.objects.get(user=self.request.user))
+        userStaff = self.request.GET.get('user')
+        if userStaff == 'staff':
+            context = campi.objects.all()
+        else:
+            context = campi.objects.filter(proprietario=Profile.objects.get(user=self.request.user))
         return context
 
 class AnalisiGeoJson(GeoJSONLayerView):

@@ -23,7 +23,7 @@
         <div class="col-md-4 p-0 bg-indigo h-md-100">
 
             <div class="sticky-top">
-                <h1 class="h2">Analisi de suolo</h1>
+                <h1 class="h2">Analisi del suolo</h1>
             </div>
 
             <a class="btn btn-primary" id="add-analisi" title="Nuovo" role="button"><i class="fas fa-plus"></i></a>
@@ -34,6 +34,7 @@
                     <div class="card-header">Id Campione {{ analisi.id_campione }} --- Data segnalazione:{{ analisi.data_segnalazione }}
                     </div>
                     <div class="card-body text-primary">
+                        <h4>nome campo: {{ analisi.campo.nome }}</h4>
                         <h5 class="card-title">Dettagli analisi</h5>
 
                         <p class="card-text">
@@ -49,6 +50,9 @@
                             Densità apparente: {{ analisi.den_apparente }}
                             pietrosità: {{ analisi.pietrosita }}
                             profondità: {{ analisi.profondita }}
+                            capacità di campo: {{ analisi.cap_di_campo }}
+                            Calcare totale: {{ analisi.CACO3_tot }}
+                            Calcare attivo: {{ analisi.CACO3_att }}
                         </p>
                     </div>
                     <div class="card-footer">

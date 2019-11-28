@@ -107,7 +107,10 @@ class AnalisiForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
         super(AnalisiForm, self).__init__(*args, **kwargs)
         # if self.instance.pk is None:
-        self.fields['campo'].queryset = campi.objects.filter(proprietario=Profile.objects.filter(user=user))
+        if user.is_staff or user.groups.filter(name='Universita').exists():
+            self.fields['campo'].queryset = campi.objects.all()
+        else:
+            self.fields['campo'].queryset = campi.objects.filter(proprietario=Profile.objects.filter(user=user))
         # else:  # it's an UpdateView:
         # personalizzare il layout del form
         self.helper = FormHelper()
@@ -136,12 +139,21 @@ class AnalisiForm(forms.ModelForm):
                 css_class='form-row'
             ),
             Row(
+                Column('CACO3_tot',css_class='form-group col-md-3 mb-0'),
+                Column('CACO3_att',css_class='form-group col-md-3 mb-0'),
+                Column('conduttivita_elettrica',css_class='form-group col-md-3 mb-0')
+            ),
+            Row(
                 Column('potassio', css_class='form-group col-md-2 mb-0'),
                 Column('scambio_cationico', css_class='form-group col-md-2 mb-0'),
                 Column('den_apparente', css_class='form-group col-md-2 mb-0'),
                 Column('pietrosita', css_class='form-group col-md-2 mb-0'),
                 Column('profondita', css_class='form-group col-md-2 mb-0'),
                 css_class='form-row'
+            ),
+            Row(
+              Column('cap_di_campo', css_class='form-group col-md-4 mb-0'),
+              Column('punto_appassimento', css_class='form-group col-md-4 mb-0'),
             ),
             'note',
             'geom',

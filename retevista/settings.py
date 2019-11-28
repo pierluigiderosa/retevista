@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-    "django_tables2",
+    'django_tables2',
     'django_filters',
     'bootstrap_modal_forms',
     'djgeojson',
@@ -161,11 +161,11 @@ EMAIL_USE_SSL = True
 
 CRON_CLASSES = [
     #
-    #"income.cron.MyCronJob",
+    # 'income.cron.MyCronJob22'
     "income.cron.get_data",
     "income.cron.aggregate_data",
     "income.cron.do_bilancio",
-    "income.cron.do_bilancioCampi",
+    # "income.cron.do_bilancioCampi",
 ]
 
 DJANGO_CRON_LOCKFILE_PATH = [
