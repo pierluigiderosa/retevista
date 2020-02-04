@@ -2,7 +2,7 @@ from django_cron import CronJobBase, Schedule
 from datetime import datetime
 from income.get_data_stations import get_and_put
 from income.aggregate_data import aggrega
-from consiglio.bilancio_idrico import calc_bilancio
+# from consiglio.bilancio_idrico import calc_bilancio
 from consiglio.bilancio_idrico import calc_bilancio_campo
 
 class MyCronJob(CronJobBase):
@@ -80,7 +80,7 @@ class do_bilancio(CronJobBase):
     def do(self):
         print 'calcolo bilancio alle'
         print str(datetime.now())
-        calc_bilancio()
+        # calc_bilancio()
         calc_bilancio_campo()
 
 # class do_bilancioCampi(CronJobBase):

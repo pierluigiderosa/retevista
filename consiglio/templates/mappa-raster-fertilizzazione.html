@@ -13,7 +13,7 @@
     <div style="width:30%;float:left;">
         <h1>Raster {{ nome }}</h1>
 
-        <b>{{ nome }}</b> al punto cliccato vale: <span id="windSpeedValue">?</span></p>
+        <b>Mappa {{ nome }}</b> al punto cliccato vale: <span id="windSpeedValue">?</span></p>
         <button onclick="window.location.href = '{% url "lista-fertilizzazione" %}';">Indietro</button>
 
     </div>
@@ -23,6 +23,9 @@
 <script>
     var marker;
     var mymap = L.map('mapid').setView([{{ originy|unlocalize }}, {{ originx|unlocalize }}], 16);
+
+    //elenco delle tipologia di palette:
+    //http://santilland.github.io/plotty/index.html
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 		maxZoom: 18,
@@ -35,12 +38,12 @@
     var windSpeed = L.leafletGeotiff(
             url='{{ raster.url }}',
             options={band: 0,
-                displayMin: 1,
-                displayMax: 30,
+                displayMin: {{ minimo }},
+                displayMax: {{ massimo }},
                 name: 'Wind speed',
-                colorScale: 'rainbow',
+                colorScale: 'inferno',
                 clampLow: false,
-                clampHigh: true,
+                clampHigh: false,
                 //vector:true,
                 //arrowSize: 20,
             }

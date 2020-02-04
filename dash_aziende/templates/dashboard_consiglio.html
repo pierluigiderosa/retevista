@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static %}
+{% load leaflet_tags %}
+{% load l10n %}
+
+{% block script %}
+    {% leaflet_js %}
+{% endblock %}
+{% block css %}
+    {% leaflet_css %}
+    <style>
+        .leaflet-container { height: 600px; width: 100%}
+    </style>
+{% endblock %}
+
+
+{% block content %}
+
+
+    <div class="row">
+        {% include "lateral_panel_dashboard.html" %}
+
+        <div class="col-md-4 p-0 bg-indigo h-md-100">
+
+            <div class="sticky-top">
+                <h1 class="h2">Consiglio irriguo</h1>
+            </div>
+
+
+            {% for appezzamento,area,meteo,bilanci,extent in appezzamenti %}
+                <div class="col-md-6 col-lg-4 col-xl-3 mt-2">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="{% static 'img/rice_field.jpg' %}" alt="Card image cap">
+                        <div class="card-header">
+                            <h4 class="card-title">{{ appezzamento.campi.nome }}</h4>
+                            <button title="Centra in mappa"
+                                    xmin="{{ extent.0|unlocalize}}"
+                                    ymin="{{ extent.1|unlocalize }}"
+                                    xmax="{{ extent.2|unlocalize }}"
+                                    ymax="{{ extent.3|unlocalize }}"
+                                    class="btn btn-light btn-sm no-focus-highlight center-in-map">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </button>
+                            <span class="card-area"><strong class="measure">{{ area }}</strong> ha</span>
+                            <hr>
+                            <span class="card-area"><strong class="measure">Coltura <u>{{ appezzamento.campi.coltura }}</u></strong></span>
+                        </div>
+                        <div class="card-body">
+                            {% if bilanci.Irrigazione %}
+                                <div class="card-textmb-2 bg-success text-white">Intervento irriguo Si</div>
+                            {% else %}
+                                <div class="card-text mb-2 bg-light text-dark">Intervento irriguo No</div>
+                            {% endif %}
+                            <p class="card-text">Et giornalieria {{ meteo.EtCorrente|floatformat }} mm</p>
+                            <p class="card-text">T media {{ meteo.TCorrente }} °C</p>
+                            <p class="card-text">Ur {{ meteo.UmRelCorrente }} %</p>
+                            <p class="card-text">Velocità del vento {{ meteo.WindCorrente|floatformat }} m/s</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{% url 'info-view-campo' uid=appezzamento.id %}"><i class="fas fa-info-circle fa-lg"></i></a>
+                            <a href="{% url 'chart-view-campo' uid=appezzamento.id %}"><i class="far fa-chart-bar fa-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+
+            {% endfor %}
+
+        </div>
+        {% block cards %}
+
+        {% endblock %}
+
+        <!-- Second Half -->
+
+        <div class="col-md-4 p-0 bg-white h-md-100">
+            {% leaflet_map "main" callback="main_map_init" %}
+        </div>
+    </div>
+    <script type="text/javascript">
+        function main_map_init (map, options) {
+            // Use Leaflet API bbox test 12.182465, 42.522724, 12.933811, 42.724821
+
+            {% if  bbox_condition %}
+                map.setView([{{ bbox.1|unlocalize }},{{ bbox.0|unlocalize }}], 12);  //setta il centro mappa
+            {% else %}
+                map.fitBounds([
+                    [{{ bbox.1|unlocalize }},{{ bbox.0|unlocalize }}],
+                    [{{ bbox.3|unlocalize }},{{ bbox.2|unlocalize }}]
+                ]);
+            {% endif %}
+
+
+            {% if staff %}
+                var dataurl = '{% url "campi_geojson" %}?user=staff';
+            {% else %}
+                var dataurl = '{% url "campi_geojson" %}?user=agricoltore';
+            {% endif %}
+
+
+            //define a style for fields
+            var myStyle = {
+                "weight": 2,
+                "color": "#6e6e6e",
+                "opacity": 1,
+                "fillColor": "#5877de",
+                "fillOpacity": 0.8
+            };
+
+
+            // Download GeoJSON via Ajax
+            $.getJSON(dataurl, function (data) {
+                // Add GeoJSON layer
+                L.geoJson(data).addTo(map);
+            });
+
+            $(".btn").click(function(event) {
+                event.preventDefault();
+                var xmin = $(this).attr("xmin");
+                ymin = $(this).attr("ymin");
+
+                console.log(xmin);
+                console.log(ymin);
+                {#map.setView([lng,lat], 12);#}
+                map.setView(
+                    [ymin,xmin],
+                    18
+                );
+
+            });
+
+
+        }
+        $('#add-analisi').click(function(){
+            window.location.href = '{% url 'form-analisi' %}'
+        });
+    </script>
+{% endblock %}
+
+
+{% block extrastyle %}
+
+{% endblock %}

@@ -162,6 +162,10 @@ def calc_Kc_elenco(coltura_id):
     return Kc
 
 def calc_bilancio():
+    '''
+    Questa funzione non viene più utilizzata-- Obsoleta
+    :return:
+    '''
     ieri = dt.date.today() - dt.timedelta(days=1)
     oggi =dt.date.today()
 
@@ -249,6 +253,10 @@ def calc_bilancio():
 
 
 def calc_bilancio_campo():
+    '''
+    Funzione che calcola il bilancio ogni mattina per il giorno corrente
+    :return:
+    '''
 
     ieri = dt.date.today() - dt.timedelta(days=1)
     oggi =dt.date.today()
@@ -286,8 +294,8 @@ def calc_bilancio_campo():
             serieKc = Series.from_csv(app_campo.kc_datasheet.path,header=0,parse_dates=['data'])
             #TODO correggere Ks
             # serieKs = Series.from_csv(app_campo.ks_datasheet.path,header=0,parse_dates=['data'])
-            # Ks = serieKs[dt.date.today().strftime('%d/%m/%Y')][0]
-            Kc = serieKc[dt.date.today().strftime('%d/%m/%Y')][0]
+            # Ks = serieKs[ieri.strftime('%d/%m/%Y')][0]
+            Kc = serieKc[ieri.strftime('%d/%m/%Y')][0]
             Kc_calcolata = Kc*1
             print 'Kc= '
             print Kc_calcolata
@@ -311,17 +319,36 @@ def calc_bilancio_campo():
 
 
             #TODO: modifiche per nuove implementazione
-            cap_id_util = app_campo.cap_idrica
+            if app_campo.campi.analisi_suolo_set.exists():
+                analisi = app_campo.campi.analisi_suolo_set.first()
+                cap_di_campo_Analisi = analisi.cap_di_campo
+                punto_appassimentoAnalisi = analisi.punto_appassimento
+                den_apparenteAnalisi = analisi.den_apparente
+            else:
+                cap_di_campo_Analisi = app_campo.cap_di_campo
+                punto_appassimentoAnalisi = app_campo.punto_appassimento
+                den_apparenteAnalisi = app_campo.den_app
+            strato_radici = app_campo.strato_radici
+            RFUperc = app_campo.perc_riserva_util
+            CCmodificato, PAmodificato, U, RFU, Airr_min = costanteTerrenoModificata(
+                PA=punto_appassimentoAnalisi,
+                CC=cap_di_campo_Analisi,
+                den_app=den_apparenteAnalisi,
+                stratoRadicale=strato_radici / 100., RFUperc=RFUperc)
+
+
+            cap_id_util=U
+            #cap_id_util = app_campo.cap_idrica #versione prima modifica calcolo automatico
             #cap_id_util deve essere U da costante terreno modificata
 
             # ctm_c7 viene chiamato Airr_min
-            Amin_Irr =cap_id_util-app_campo.ris_fac_util
+            # Airr_min =cap_id_util-app_campo.ris_fac_util #versione prima modifica calcolo automatico
             #Amin_irr deve essere letto da calcolo
 
             Etc,P_ep,L,Lambda,a,Au,A,dose, A, Irr_mm, irrigazione = bilancio_idrico(pioggia_cumulata,
                                                                                     soglia=soglia,
                                                                                     Kc=Kc_calcolata,
-                                                                                    ctm_c7=Amin_Irr, #da calcolo
+                                                                                    ctm_c7=Airr_min, #da calcolo
                                                                                     ctm_c3=cap_id_util, #da calcolo U
                                                                                     cap_id_max=cap_id_max,
                                                                                     area_irrigata_mq=areaCampo,
@@ -342,6 +369,7 @@ def calc_bilancio_campo():
                     Lambda = Lambda,
                     a = a,
                     Au = Au,
+                    Amin_irr = cap_id_max,
                     A = A,
                     Irrigazione = irrigazione,
                     dose = dose,

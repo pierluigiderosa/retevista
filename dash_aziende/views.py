@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
+from django.contrib.gis.db.models.functions import Distance
 from django.db import transaction
 from django.forms import inlineformset_factory
 from django.http import Http404, JsonResponse
@@ -17,6 +18,8 @@ from djgeojson.views import GeoJSONLayerView
 from django.contrib.gis.db.models import Extent, Union
 
 from .models import campi,Profile,analisi_suolo
+from income.models import dati_orari, stazioni_retevista
+from consiglio.models import bilancio,appezzamentoCampo
 from dash_aziende.models import fertilizzazione as fert_model ,operazioni_colturali as oper_model,\
     irrigazione as irr_model, trattamento as tratt_model, semina as semina_model,raccolta as raccolta_model
 from .forms import CampiAziendeForm,UserForm,ProfileForm,AnalisiForm,\
@@ -81,6 +84,55 @@ def dashboard_fields(request,forecast=False):
                                               })
 
 @login_required
+def dashboard_consiglio(request):
+    utente = request.user
+    campi_all = None
+    if utente.groups.filter(name='Agricoltori').exists():
+        campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=utente))
+        staff = False
+    elif utente.is_staff or utente.groups.filter(name='Universita').exists():
+        campi_all = campi.objects.all()
+        staff = True
+    else:
+        campi_all = campi.objects.none()
+
+    appezzamentoCampo.objects.filter(campi=campi_all)
+    appezzamenti = appezzamentoCampo.objects.filter(campi__in=campi_all)
+    areeKm2 = []
+    dati_meteorologici = []
+    bilanci =[]
+    extent_campi = []
+    # appezzamenti3004 = appezzamenti.transform(3004, field_name='geom')
+    for app_singolo in appezzamenti:
+        extent_campi.append(app_singolo.campi.geom.extent)
+        app_singolo.campi.geom.transform(3004)
+        areeKm2.append(round(app_singolo.campi.geom.area / 10000., 1))  # calcolo area in ha
+        #prendo i dati della stazione meteo più vicina
+        stazione_closest = stazioni_retevista.objects.annotate(
+            distance=Distance('geom', app_singolo.campi.geom)
+        ).order_by('distance').first()
+        dati_orari_prossimi = dati_orari.objects.filter(stazione=stazione_closest).first()
+        dati_meteorologici.append(
+            {'EtCorrente': float(dati_orari_prossimi.et_cum_day) * 25.4,
+            'TCorrente': float(dati_orari_prossimi.temp),
+            'UmRelCorrente': float(dati_orari_prossimi.humRel),
+            'WindCorrente': float(dati_orari_prossimi.windSpeed)}
+        )
+        #prendo i dati del bilancio corrispondente ad appezzamento
+        bilanci.append( bilancio.objects.filter(appezzamentoDaCampo=app_singolo).first() )
+
+
+
+    bbox = campi_all.aggregate(Extent('geom'))
+    zipped=zip(appezzamenti,areeKm2,dati_meteorologici,bilanci,extent_campi)
+
+    return render(request, "dashboard_consiglio.html", {
+        'bbox': bbox['geom__extent'],
+        'appezzamenti': zipped,
+        'staff': staff,
+    })
+
+@login_required
 def dash_operazioni_colturali(request):
     # campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=request.user))
     # latlong = []
@@ -110,12 +162,13 @@ def dashboard_analisi(request):
     bbox_condition = True
     if analisi_all.count() == 1:
         bbox_condition = False
-    bbox = analisi_all.aggregate(Extent('geom'))
+    bbox = campi_all.aggregate(Extent('geom'))
 
 
     return render(request,'analisi_dashboard.html',
                   {
                       'analisies':analisi_all,
+                      'staff': staff,
                       'bbox': bbox['geom__extent'],
                       'bbox_condition': bbox_condition,
                   })

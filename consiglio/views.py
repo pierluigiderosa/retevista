@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from datetime import datetime,timedelta
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.gis.db.models.functions import Distance
 from django.http import Http404, HttpResponse, JsonResponse
 
 from django.shortcuts import render, redirect
@@ -12,6 +15,7 @@ from django.views.generic import DeleteView
 from django_common.mixin import LoginRequiredMixin
 
 from consiglio.models import appezzamento,bilancio,appezzamentoCampo,rasterAppezzamento
+from income.models import stazioni_retevista, dati_aggregati_daily
 from .WriteToExcel import WriteToExcel
 from consiglio.bilancio_idrico import costanteTerrenoModificata
 from .forms import BilancioForm, RasterCasaForm
@@ -42,18 +46,18 @@ def lista_appezzamenti(request):
     U_list = []
     RFU_list=[]
     Airr_min_list = []
-    for appezzamentoNew in lista_appezCampo:
-        if appezzamentoNew.campi.analisi_suolo_set.exists():
-            analisi = appezzamentoNew.campi.analisi_suolo_set.first()
+    for app_campo in lista_appezCampo:
+        if app_campo.campi.analisi_suolo_set.exists():
+            analisi = app_campo.campi.analisi_suolo_set.first()
             cap_di_campo_Analisi = analisi.cap_di_campo
             punto_appassimentoAnalisi =analisi.punto_appassimento
             den_apparenteAnalisi = analisi.den_apparente
         else:
-            cap_di_campo_Analisi = appezzamentoNew.cap_di_campo
-            punto_appassimentoAnalisi = appezzamentoNew.punto_appassimento
-            den_apparenteAnalisi = appezzamentoNew.den_app
-        strato_radici = appezzamentoNew.strato_radici
-        RFUperc = appezzamentoNew.perc_riserva_util
+            cap_di_campo_Analisi = app_campo.cap_di_campo
+            punto_appassimentoAnalisi = app_campo.punto_appassimento
+            den_apparenteAnalisi = app_campo.den_app
+        strato_radici = app_campo.strato_radici
+        RFUperc = app_campo.perc_riserva_util
         CCmodificato,PAmodificato,U,RFU,Airr_min = costanteTerrenoModificata(
             PA=punto_appassimentoAnalisi,
             CC=cap_di_campo_Analisi,
@@ -123,7 +127,7 @@ def singolo_appezz(request,uid=99):
 
     return render(request,'singolo_appez.html',context)
 
-def singolo_appezz_campo(request,uid=99):
+def singolo_appezz_campo(request,uid=999):
     try:
         UID = int(uid)
     except ValueError:
@@ -141,6 +145,50 @@ def singolo_appezz_campo(request,uid=99):
 
     return render(request, 'singolo_appez.html', context)
 
+def infoViewCampo(request,uid=999):
+    try:
+        UID = int(uid)
+    except ValueError:
+        raise Http404()
+    appez_riferimento = appezzamentoCampo.objects.get(pk=UID)
+    bilancio_appezzam = bilancio.objects.filter(appezzamentoDaCampo=UID).first()
+    ultimo_intervento_irriguo = bilancio.objects.filter(appezzamentoDaCampo=UID,Irrigazione=True).first()
+
+    #calcolo giorni ciclo colturale
+    delta = datetime.now().date() - ultimo_intervento_irriguo.data_rif
+
+    # calcolo di U e Amin_irr
+    if appez_riferimento.campi.analisi_suolo_set.exists():
+        analisi = appez_riferimento.campi.analisi_suolo_set.first()
+        cap_di_campo_Analisi = analisi.cap_di_campo
+        punto_appassimentoAnalisi = analisi.punto_appassimento
+        den_apparenteAnalisi = analisi.den_apparente
+    else:
+        cap_di_campo_Analisi = appez_riferimento.cap_di_campo
+        punto_appassimentoAnalisi = appez_riferimento.punto_appassimento
+        den_apparenteAnalisi = appez_riferimento.den_app
+
+    strato_radici = appez_riferimento.strato_radici
+    RFUperc = appez_riferimento.perc_riserva_util
+    CCmodificato, PAmodificato, U, RFU, Airr_min = costanteTerrenoModificata(
+        PA=punto_appassimentoAnalisi,
+        CC=cap_di_campo_Analisi,
+        den_app=den_apparenteAnalisi,
+        stratoRadicale=strato_radici / 100., RFUperc=RFUperc)
+
+
+
+    context= {
+
+        'appezzamento': appez_riferimento,
+        'bilancio_appezzam': bilancio_appezzam,
+        'ultimo_intervento': ultimo_intervento_irriguo,
+        'giorni_ciclo_colturale': delta.days,
+        'Ucalcolo': U,
+        'Amin_irr':Airr_min,
+    }
+
+    return render(request,'singolo_appez_info.html',context)
 
 class BilancioCreateView(BSModalCreateView):
     template_name = 'create_bilancio.html'
@@ -191,19 +239,31 @@ def get_data(request, uid=1):
     default_items = []
     Etc = []
     A = []
+    Amin_irr = []
     dose = []
+    Ks = []
+    Kc = []
+    Irr_mm=[]
     for bilancio_giorno in bilancio_appezzam:
         labels.append(bilancio_giorno.data_rif.strftime('%d/%m/%Y'))
         default_items.append(bilancio_giorno.pioggia_cum)
         Etc.append(bilancio_giorno.Etc)
         A.append(bilancio_giorno.A)
+        Amin_irr.append(bilancio_giorno.Amin_irr)
         dose.append(bilancio_giorno.dose)
+        Kc.append(bilancio_giorno.Kc)
+        Ks.append(bilancio_giorno.Ks)
+        Irr_mm.append(bilancio_giorno.Irr_mm)
     data = {
         "labels": labels,
         "default": default_items,
         "Etc": Etc,
         "A": A,
+        "Amin_irr": Amin_irr,
         "dose": dose,
+        "Kc": Kc,
+        "Ks": Ks,
+        "Irr":Irr_mm,
         "users": User.objects.all().count(),
     }
     return JsonResponse(data)
@@ -214,23 +274,56 @@ def get_campi_data(request,uid=1):
     except ValueError:
         raise Http404()
     bilancio_appezzam = bilancio.objects.filter(appezzamentoDaCampo=uid)
+    # prendo i dati meteo della stazione più vicina
+    geometria_campo = bilancio_appezzam[0].appezzamentoDaCampo.campi.geom
+    appezzam_pnt = geometria_campo.centroid
+    stazione_closest = stazioni_retevista.objects.annotate(
+        distance=Distance('geom', appezzam_pnt)
+    ).order_by('distance').first()
+    dato_giornaliero = dati_aggregati_daily.objects.filter(stazione=stazione_closest)
     labels = []
     default_items = []
     Etc = []
     A = []
+    Amin_irr = []
     dose = []
+    Tmin = []
+    Tmedia = []
+    Tmax = []
+    Ks = []
+    Kc = []
+    Irr_mm = []
     for bilancio_giorno in bilancio_appezzam:
         labels.append(bilancio_giorno.data_rif.strftime('%d/%m/%Y'))
         default_items.append(bilancio_giorno.pioggia_cum)
         Etc.append(bilancio_giorno.Etc)
         A.append(bilancio_giorno.A)
+        Amin_irr.append(bilancio_giorno.Amin_irr)
+        giorno_precedente = bilancio_giorno.data_rif-timedelta(days=1)
+        dato_meteorologico = dati_aggregati_daily.objects.get(stazione=stazione_closest, data=giorno_precedente)
+        Tmin.append(
+            dato_meteorologico.temp_min)
+        Tmedia.append(
+            dato_meteorologico.temp_mean)
+        Tmax.append(
+            dato_meteorologico.temp_max)
+        Kc.append(bilancio_giorno.Kc)
+        Ks.append(bilancio_giorno.Ks)
         dose.append(bilancio_giorno.dose)
+        Irr_mm.append(bilancio_giorno.Irr_mm)
     data = {
         "labels": labels,
         "default": default_items,
         "Etc": Etc,
         "A": A,
+        "Amin_irr":Amin_irr,
+        "Tmin": Tmin,
+        "Tmedia":Tmedia,
+        "Tmax":Tmax,
         "dose": dose,
+        "Kc":Kc,
+        "Ks":Ks,
+        "Irr": Irr_mm,
         "users": User.objects.all().count(),
     }
     return JsonResponse(data)
@@ -251,7 +344,7 @@ def form_add_raster(request):
         if form.is_valid():
             raster = form.save(commit=False)
 
-            # automaticamente possp fare operazioni se necessario
+            # automaticamente posso fare operazioni se necessario
 
             raster.save()
             messages.success(request, 'Il tuo raster è stato aggiunto!')
@@ -266,14 +359,14 @@ def form_add_raster(request):
 
     return render(request, 'raster_form.html', {'form': form})
 
-
+@login_required()
 def raster_lista(request):
     rasterAll = rasterAppezzamento.objects.all()
     return render(request,"lista-raster-fertilizzazione.html",{
         "rasters":rasterAll,
     })
 
-
+@login_required()
 def raster_mappa(request,uid=1):
     try:
         uid = int(uid)
@@ -283,10 +376,18 @@ def raster_mappa(request,uid=1):
 
     rasterSingolo = rasterAppezzamento.objects.get(pk=uid)
     rst = GDALRaster(rasterSingolo.raster.path, write=False)
+    #prendo il massimo ed il minimo dai valori del raster
+    dati=rst.bands[0].data()
+    massimo=dati.max()
+    #filtro tutti i valori sotto-100 per non prendere i valori negativi del raster
+    minimo = dati[(dati > -1000)].min()
+
     context = {
         "uid":uid,
         "raster":rasterSingolo.raster,
         "nome":rasterSingolo.titolo,
+        "minimo":minimo,
+        "massimo":massimo,
         "originx":rst.origin.x,
         "originy": rst.origin.y,
                }

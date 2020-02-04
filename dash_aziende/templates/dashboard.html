@@ -44,6 +44,8 @@
                                 <i class="fas fa-map-marker-alt"></i>
                             </button>
                             <span class="card-area"><strong class="measure">{{ area }}</strong> ha</span>
+                            <hr>
+                            <span class="card-area"><strong class="measure">Coltura <u>{{ campo.coltura }}</u></strong></span>
                         </div>
                         <div class="card-body">
                             {% if forecast %}
@@ -62,8 +64,8 @@
                                 </div>
 
                             {% else %}
-                            <p class="card-text">Estratto delle info sul campo. Coltura: {{ campo.coltura }},
-                                {% if campo.dataApportoIrriguo %} Data ultimo apporto irriguo {{ campo.dataApportoIrriguo }}{% endif %}, Annata agraria: {{ campo.annataAgraria }}
+                            <p class="card-text">Estratto delle info sul campo.
+                                {% if campo.dataApportoIrriguo %} Data ultimo apporto irriguo {{ campo.dataApportoIrriguo }},{% endif %} Annata agraria: {{ campo.annataAgraria }}
                             {% if staff %}Azienda: {{ campo.proprietario }}{% endif %}
                             </p>
                             {% endif %}
@@ -93,8 +95,11 @@
                 [{{ bbox.1|unlocalize }},{{ bbox.0|unlocalize }}],
                 [{{ bbox.3|unlocalize }},{{ bbox.2|unlocalize }}]
             ]);
-
-            var dataurl = '{% url "campi_geojson" %}';
+            {% if staff %}
+            var dataurl = '{% url "campi_geojson" %}?user=staff';
+            {% else %}
+                        var dataurl = '{% url "campi_geojson" %}?user=agricoltore';
+            {% endif %}
 
             var myStyle = {
                 "weight": 2,

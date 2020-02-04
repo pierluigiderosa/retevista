@@ -94,8 +94,12 @@
             {% endif %}
 
 
-            var dataurl = '{% url "analisi_geojson" %}';
-            var datacampi = '{% url "campi_geojson" %}';
+             {% if staff %}
+            var dataurl = '{% url "campi_geojson" %}?user=staff';
+            {% else %}
+                        var dataurl = '{% url "campi_geojson" %}?user=agricoltore';
+            {% endif %}
+
 
             //define a style for fields
             var myStyle = {
@@ -112,10 +116,7 @@
                 // Add GeoJSON layer
                 L.geoJson(data).addTo(map);
             });
-            $.getJSON(datacampi, function (data) {
-                // Add GeoJSON layer
-                L.geoJson(data, {style: myStyle}).addTo(map);
-            });
+
             $(".btn").click(function(event) {
                 event.preventDefault();
                 var xmin = $(this).attr("xmin");

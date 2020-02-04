@@ -8,7 +8,7 @@
         //var endpoint = '/elaborazioni/api/data/1'
         {#TODO modificare la riga sotto con url api-data-campi#}
         var endpoint = "{% url 'api-data-campi' uid=uid %}"
-        var defaultData = []
+        var rainData = []
         var labels = []
         var customertsDjango = parseInt("{{ customers }}") * 2
         //console.log(customertsDjango)
@@ -17,9 +17,15 @@
             url: endpoint,
             success: function (data) {
                 labels = data.labels
-                defaultData = data.default
+                rainData = data.default
                 EtcData = data.Etc
                 Adata = data.A
+                Airr_minData = data.Amin_irr
+                Tmindata = data.Tmin
+                Tmaxdata = data.Tmax
+                Tmediadata = data.Tmedia
+                Ksdata = data.Ks
+                Kcdata = data.Kc
                 setChart()
             },
             error: function (error_data) {
@@ -31,29 +37,25 @@
         function setChart() {
             var ctx = document.getElementById('myChart').getContext('2d');
             var ctx2 = document.getElementById('myChart2').getContext('2d');
+            var ctx3 = document.getElementById('myChart1').getContext('2d');
+            var ctx4 = document.getElementById('myChart1a').getContext('2d');
+            var ctx5 = document.getElementById('myChart3').getContext('2d');
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'pioggia cumulata',
-                        data: defaultData,
-                        backgroundColor: 'rgb(54, 162, 235)',
-                        borderColor: 'rgb(54, 162, 235)',
-                        borderWidth: 1,
-                        fill : false
-                    },{
-                        label: 'Etc',
-                        data: EtcData,
+                        label: 'Contenuto idrico',
+                        data: Adata,
                         backgroundColor: 'rgb(255,98,132)',
                         borderColor: 'rgb(255,98,132)',
                         borderWidth: 1,
                         fill : false
                     },{
-                        label: 'A',
-                        data: Adata,
-                        backgroundColor: 'rgb(89,165,135)',
-                        borderColor: 'rgb(89,165,135)',
+                        label: 'Soglia Intervento',
+                        data: Airr_minData,
+                        backgroundColor: 'rgb(54,162,235)',
+                        borderColor: 'rgb(54,162,235)',
                         borderWidth: 1,
                         fill : false
                     }],
@@ -69,10 +71,123 @@
                         }]
                     },
                     elements: {
-        line: {
-            tension: 0
-        }
-    }
+                        line: {
+                            tension: 0.2
+                        }
+                    }
+                }
+            });
+            var myChart = new Chart(ctx4, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'T. massima',
+                        data: Tmaxdata,
+                        backgroundColor: 'rgb(50,149,216)',
+                        borderColor: 'rgb(50,149,216)',
+                        borderWidth: 1,
+                        fill : false
+                    },{
+                        label: 'T. minima',
+                        data: Tmindata,
+                        backgroundColor: 'rgb(240,93,124)',
+                        borderColor: 'rgb(240,93,124)',
+                        borderWidth: 1,
+                        fill : false
+                    },{
+                        label: 'T. media',
+                        data: Tmediadata,
+                        backgroundColor: 'rgb(255,206,91)',
+                        borderColor: 'rgb(255,206,91)',
+                        borderWidth: 1,
+                        fill : false
+                    }],
+
+                },
+                options: {
+
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    elements: {
+                        line: {
+                            tension: 0.2
+                        }
+                    }
+                }
+            });
+            var myChart = new Chart(ctx3, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'EtC',
+                        data: EtcData,
+                        backgroundColor: 'rgb(0,0,222)',
+                        borderColor: 'rgb(0,0,222)',
+                        borderWidth: 1,
+                        fill : false
+                    }],
+
+                },
+                options: {
+
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    elements: {
+                        line: {
+                            tension: 0.2
+                        }
+                    }
+                }
+            });
+            var myChart = new Chart(ctx5, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Kc',
+                        steppedLine: 'before',
+                        data: Kcdata,
+                        backgroundColor: 'rgb(50,149,216)',
+                        borderColor: 'rgb(50,149,216)',
+                        borderWidth: 1,
+                        fill : false
+                    },{
+                        label: 'Ks',
+                        steppedLine: 'before',
+                        data: Ksdata,
+                        backgroundColor: 'rgb(240,93,124)',
+                        borderColor: 'rgb(240,93,124)',
+                        borderWidth: 1,
+                        fill : false
+                    }],
+
+                },
+                options: {
+
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    elements: {
+                        line: {
+                            tension: 0.2
+                        }
+                    }
                 }
             });
             var myChart = new Chart(ctx2, {
@@ -81,23 +196,9 @@
                     labels: labels,
                     datasets: [{
                         label: 'pioggia cumulata',
-                        data: defaultData,
-                        backgroundColor: 'rgb(54, 162, 235)',
-                        borderColor: 'rgb(54, 162, 235)',
-                        borderWidth: 1,
-                        fill : false
-                    },{
-                        label: 'Etc',
-                        data: EtcData,
-                        backgroundColor: 'rgb(255,98,132)',
-                        borderColor: 'rgb(255,98,132)',
-                        borderWidth: 1,
-                        fill : false
-                    },{
-                        label: 'A',
-                        data: Adata,
-                        backgroundColor: 'rgb(89,165,135)',
-                        borderColor: 'rgb(89,165,135)',
+                        data: rainData,
+                        backgroundColor: 'rgb(255,144,167,0.5)',
+                        borderColor: 'rgb(255,144,167)',
                         borderWidth: 1,
                         fill : false
                     }],
@@ -113,10 +214,10 @@
                         }]
                     },
                     elements: {
-        line: {
-            tension: 0
-        }
-    }
+                        line: {
+                            tension: 0
+                        }
+                    }
                 }
             });
         }
@@ -130,7 +231,11 @@
         <div class='col-sm-12' url-endpoint='{% url "api-data" uid=uid %}'>
             <h1>Grafici di {{ nome_app }}</h1>
             <canvas id="myChart" width="400" height="200"></canvas>
+            <canvas id="myChart1" width="400" height="200"></canvas>
             <canvas id="myChart2" width="400" height="200"></canvas>
+            <canvas id="myChart1a" width="400" height="200"></canvas>
+             <canvas id="myChart3" width="400" height="200"></canvas>
+
         </div>
     </div>
 

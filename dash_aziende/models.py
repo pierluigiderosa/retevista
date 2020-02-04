@@ -276,10 +276,12 @@ class analisi_suolo(models.Model):
     pietrosita = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Pietrosità')
     profondita = models.PositiveIntegerField(verbose_name='Profondità',help_text='espressa in cm')
     note = models.TextField(blank=True,null=True,default='')
-    cap_di_campo = models.FloatField(verbose_name='capacità di campo', help_text='cella ??',default=0)
+    cap_di_campo = models.FloatField(verbose_name='capacità di campo'
+                                     ,default=2,validators=[MinValueValidator(1.0),
+                                      MaxValueValidator(100)])
     punto_appassimento = models.FloatField(verbose_name='punto di appassimento', help_text='celle C17',default=0)
 
-    geom = models.PointField(srid=4326)
+    # geom = models.PointField(srid=4326)
     objects = models.GeoManager()
 
     def __str__(self):
@@ -288,5 +290,6 @@ class analisi_suolo(models.Model):
     class Meta:
         verbose_name = 'analisi del suolo'
         verbose_name_plural = 'analisi dei suoli'
+
 
 

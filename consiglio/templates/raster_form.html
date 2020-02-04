@@ -8,12 +8,11 @@
 {% endblock %}
 
 {% block css %}
- {{ form.media }}
+    {{ form.media }}
 
 {% endblock %}
 
 {#{% block content %}#}
-{# <div class="col-lg-8  col-md-8">#}
 {##}
 {#        <form method="POST">#}
 {#            {% csrf_token %}#}
@@ -46,11 +45,17 @@
 {#{% endblock %}#}
 
 {% block content %}
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Upload</button>
-  </form>
+    <div class="col-lg-8  col-md-8">
 
-  <p><a href="{% url 'homepage' %}">Return to home</a></p>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-row">
+                <h1 class="h2">Aggiungi il raster</h1>
+            </div>
+            {{ form|crispy }}
+            <button type="submit">Invia</button>
+        </form>
+    </div>
+
+    <p><a href="{% url 'homepage' %}">Torna alla homepage</a></p>
 {% endblock %}

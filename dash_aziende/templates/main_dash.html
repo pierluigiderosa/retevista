@@ -80,7 +80,7 @@
             url: endpoint,
             success: function (data) {
                 labels = data.labels;
-                defaultData = data.default;
+                rainData = data.default;
                 setChart()
             },
             error: function (error_data) {
@@ -97,7 +97,7 @@
                     labels: labels,
                     datasets: [{
                         label: 'coltura',
-                        data: defaultData,
+                        data: rainData,
                         backgroundColor: 'rgb(54, 162, 235)',
                         borderColor: 'rgb(54, 162, 235)',
                         borderWidth: 1,

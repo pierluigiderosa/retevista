@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load other_tags %}
+
+{% load static %}
+{% block script %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.2/dist/Chart.bundle.min.js"></script>
+    <script src="{% static 'js/Gauge.js' %}"></script>
+{% endblock %}
+<script>
+    {% block jquery %}
+        var ctx3 = document.getElementById("cruscotto3").getContext("2d");
+        new Chart(ctx3, {
+            type: "tsgauge",
+            data: {
+                datasets: [{
+                    backgroundColor: ["#dc0611","#71dc00"],
+                    borderWidth: 0,
+                    gaugeData: {
+                        value: {{ bilancio_appezzam.A|floatdot:2 }},
+                        valueColor: "#535353"
+                    },
+                    gaugeLimits: [0,{{ Amin_irr|safe }},{{ Ucalcolo|safe }}]
+                }]
+            },
+            options: {
+                events: [],
+                showMarkers: true
+            }
+        });
+    {% endblock %}
+</script>
+{% block content %}
+    <main role="main">
+        <div class="jumbotron">
+            <div class="container">
+                <h3 class="display-5">Nome appezzamento: <p class="text-primary">{{ appezzamento.campi.nome }}</p></h3>
+                <p>Data odierna {% now "j F Y" %}</p>
+                <p>Coltura: {{ appezzamento.campi.coltura }}</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-sm">
+                    {% if  bilancio_appezzam.Irrigazione %}
+                        <p>* Intervento irriguo: SI</p>
+                    {% else %}
+                        <p>* Intervento irriguo: NO</p>
+                    {% endif %}
+                    <p>* Dose consigliata: {{ bilancio_appezzam.dose }}</p>
+
+                </div>
+                <div class="col-">
+                    <h4>Grafico</h4>
+                    <canvas id="cruscotto3"></canvas>
+                </div>
+            </div>
+            <p class="bg-info text-white">Info coltivazione</p>
+            <dl class="row">
+                <dt class="col-sm-3">Dose ultimo apporto irriguo</dt>
+                <dd class="col-sm-9">{{ ultimo_intervento.dose }}</dd>
+                <dt class="col-sm-3 text-truncate">Data ultimo intervento irriguo:</dt>
+                <dd class="col-sm-9">{{ ultimo_intervento.data_rif }}</dd>
+                <dt class="col-sm-3">Giorni ciclo colturale trascorsi</dt>
+                <dd class="col-sm-9">{{ giorni_ciclo_colturale }}</dd>
+                <dt class="col-sm-3">Valore Kc alla data del {{ bilancio_appezzam.data_rif }}</dt>
+                <dd class="col-sm-9">{{ bilancio_appezzam.Kc }}</dd>
+                <dt class="col-sm-3">Valore Ks alla data del {{ bilancio_appezzam.data_rif }}</dt>
+                <dd class="col-sm-9">{{ bilancio_appezzam.Ks }}</dd>
+            </dl>
+        </div>
+    </main>
+
+
+    <!-- Create book button -->
+    {#<button class="create-book btn btn-primary" type="button" name="button">Crea bilancio nuovo -- sperimentale</button>#}
+
+{% endblock %}

@@ -101,8 +101,8 @@ class appezzamento(models.Model):
         return self.nome
 
     class Meta:
-        verbose_name = 'Appezzamento'
-        verbose_name_plural = 'Appezzamenti'
+        verbose_name = 'Appezzamento old'
+        verbose_name_plural = 'Appezzamenti old'
 
 class appezzamentoCampo(models.Model):
     '''
@@ -135,8 +135,8 @@ class appezzamentoCampo(models.Model):
         return "appezz: %s-%s-%s" %(self.campi.nome,self.campi.coltura,self.campi.proprietario)
 
     class Meta:
-        verbose_name = 'Appezzamento new'
-        verbose_name_plural = 'Appezzamenti new'
+        verbose_name = 'Appezzamento'
+        verbose_name_plural = 'Appezzamenti'
 
 class bilancio(models.Model):
     '''
@@ -145,6 +145,7 @@ class bilancio(models.Model):
     data_rif = models.DateField(verbose_name='data calcolo bilancio',default=today)
     pioggia_cum=models.FloatField(verbose_name='pioggia cumulata',default=0.0)
     Kc = models.FloatField(default=0.0)
+    Ks = models.FloatField(default=1.0)
     Et0=models.FloatField(default=0.0,verbose_name='EvapoTraspirazione metodo esteso')
     Etc = models.FloatField(default=0.0)
     P_ep = models.FloatField(verbose_name='P - Ep (mm)',default=0.0)
@@ -153,6 +154,7 @@ class bilancio(models.Model):
     a = models.FloatField(default=0.0)
     Au = models.FloatField(verbose_name='A>U mm',default=0.0)
     A = models.FloatField(default=0.0,verbose_name='capacità idrica massima',help_text='colonna L')
+    Amin_irr = models.FloatField(default=40.0,verbose_name='Amin Irr',blank=True,null=True)
     Irrigazione = models.NullBooleanField(default=False,blank=True,null=True)
     dose = models.FloatField(default=0.0)
     dose_antropica = models.FloatField(default=0.0,verbose_name='Dose irrigua antropica (mm)')
@@ -184,7 +186,7 @@ class rasterAppezzamento(models.Model):
     tipologia_choices = [
         ('OM', 'Sostanza organica'),
     ]
-    appezzamento = models.ForeignKey(appezzamentoCampo,verbose_name='Appezzamento aziendale',help_text='Appezzamento aziandale al quale associare il raster')
+    appezzamento = models.ForeignKey(campi_agricoli,verbose_name='Appezzamento aziendale',help_text='Campo aziendale al quale associare il raster')
     raster = models.FileField(upload_to='rasterCasa',verbose_name='raster geotif',help_text='caricare un raster nel SR 4326 -- lat/long wgs84')
     titolo = models.CharField(max_length=250,verbose_name='Titolo del raster',help_text='inserire il titolo rappresentativo del raster')
     tipologia = models.CharField(max_length=250,choices=tipologia_choices,verbose_name='Tipologia del raster',default=tipologia_choices[0],blank=True,null=True)

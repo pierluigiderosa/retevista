@@ -18,7 +18,7 @@ class appezzamentoCampoAdmin(admin.ModelAdmin):
     # search_fields = ('campi',)
     pass
 
-admin.site.register(appezzamento, appezzamentoAdmin)
+#admin.site.register(appezzamento, appezzamentoAdmin)
 admin.site.register(coltura,colturaAdmin)
 admin.site.register(settore)
 admin.site.register(bilancio)

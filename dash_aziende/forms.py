@@ -156,7 +156,7 @@ class AnalisiForm(forms.ModelForm):
               Column('punto_appassimento', css_class='form-group col-md-4 mb-0'),
             ),
             'note',
-            'geom',
+            # 'geom',
             Submit('submit', 'Invia')
         )
 
