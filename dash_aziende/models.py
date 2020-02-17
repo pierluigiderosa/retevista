@@ -58,6 +58,9 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 class colture(models.Model):
     nome =models.CharField(max_length=250)
+    excel_fitofarmaci = models.FileField(upload_to='excel_fitofarmaci', verbose_name='Fitofarmaci excel file',
+                           default='excel_fitofarmaci/Diserbo_Erbacee_LGN_2020.xlsx'
+                           )
 
 
     def __str__(self):
@@ -255,6 +258,10 @@ class operazioni_colturali(models.Model):
 
     def __str__(self):
         return '%s %s %s' % (self.operazione, self.data_operazione.strftime('%d/%m/%Y'), self.campo.nome)
+
+    class Meta:
+        verbose_name = 'operazione colturale'
+        verbose_name_plural = 'Operazioni colturali'
 
 class analisi_suolo(models.Model):
     data_segnalazione = models.DateField(verbose_name='Segnalato in data:')

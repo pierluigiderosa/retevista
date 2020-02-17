@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 from django.contrib.gis.db.models.functions import Distance
+from django.core import serializers
 from django.db import transaction
 from django.forms import inlineformset_factory
 from django.http import Http404, JsonResponse
@@ -17,7 +18,7 @@ from djgeojson.views import GeoJSONLayerView
 
 from django.contrib.gis.db.models import Extent, Union
 
-from .models import campi,Profile,analisi_suolo
+from dash_aziende.models import campi,Profile,analisi_suolo
 from income.models import dati_orari, stazioni_retevista
 from consiglio.models import bilancio,appezzamentoCampo
 from dash_aziende.models import fertilizzazione as fert_model ,operazioni_colturali as oper_model,\
@@ -172,6 +173,37 @@ def dashboard_analisi(request):
                       'bbox': bbox['geom__extent'],
                       'bbox_condition': bbox_condition,
                   })
+
+#inizio delle view per i consumatori
+@login_required
+def dash_consumatore(request,uid=-9999):
+    try:
+        UID = int(uid)
+    except ValueError:
+        raise Http404()
+    if uid==-9999:
+        azienda = Profile.objects.get(id=15)
+    else:
+        azienda = Profile.objects.get(id=uid)
+
+
+    campi_all = campi.objects.filter(proprietario=azienda)
+
+    bbox = campi_all.aggregate(Extent('geom'))
+    return render(request,'dash_consumatore.html',{
+        'campi': campi_all,
+        'bbox': bbox['geom__extent'],
+        "azienda": azienda,
+    })
+
+@login_required
+def dash_list_consumatore(request):
+    aziende = Profile.objects.all()
+
+    return render(request, 'dash_list_consumatore.html', {
+        'aziende': aziende,
+    })
+
 
 #inizio delle views per i forms ----
 @login_required
@@ -594,7 +626,29 @@ def edit_profile(request):
             'editing_profile': editing_profile,
         })
 
+def CampiEstesiJson(request):
+    #todo aggiungere and request.is_ajax()
+    if request.method == 'GET':
+        campoID = request.GET.get('campo')
 
+        campo=campi.objects.filter(id=campoID).values('nome','coltura','data_inizio',
+                                                      'uso_colturale','precocita','data_semina',
+                                                      'data_raccolta','semente','produzione',
+                                                      'irrigato','tessitura','drenaggio',
+                                                      'gestione','pendenza','dataApportoIrriguo',
+                                                      )
+        operazioni = oper_model.objects.filter(campo=campi.objects.get(id=campoID)).values(
+            'operazione','data_operazione','operazione_fertilizzazione','operazione_irrigazione',
+            'operazione_raccolta','operazione_trattamento','operazione_semina',
+        )
+
+        data_dict = {'campo':list(campo),'n_operazioni':len(operazioni)}
+        for id_operazione in range(len(operazioni)):
+            data_dict['operazione'+str(id_operazione)]=operazioni[id_operazione]
+
+        return JsonResponse(data_dict, safe=False)
+    else:
+        return Http404
 
 
 
@@ -603,15 +657,22 @@ class CampiGeoJson(GeoJSONLayerView):
     precision = 4  # float
     simplify = None  # generalization
     geom = 'geom'  # colonna geometrie
-    properties = ['nome', ]
+    properties = ['nome','coltura', ]
 
     def get_queryset(self):
         userStaff = self.request.GET.get('user')
+        if 'campo' in self.request.GET:
+            campoID = self.request.GET.get('campo')
+            context = campi.objects.filter(id=campoID)
+            return context
+
         if userStaff == 'staff':
             context = campi.objects.all()
         else:
             context = campi.objects.filter(proprietario=Profile.objects.get(user=self.request.user))
         return context
+
+
 
 class AnalisiGeoJson(GeoJSONLayerView):
     # Options

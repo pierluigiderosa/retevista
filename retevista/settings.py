@@ -190,9 +190,9 @@ LEAFLET_CONFIG = {
     'MIN_ZOOM': 1,
     'MAX_ZOOM': 23,
     'TILES': [
-        ('Wikimedia', 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png ', {'attribution': '&copy; <a href="http://www.openstreetmap.org/copyright/">OpenStreetMap</a> contributors, under ODbL '}),
-
         ('Esri Word Topo', 'http://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x} ', {'attribution': '&copy; Esri'}),
+        ('Wikimedia', 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png ', {
+            'attribution': '&copy; <a href="http://www.openstreetmap.org/copyright/">OpenStreetMap</a> contributors, under ODbL '}),
 
         ('Stamen', 'http://a.tile.stamen.com/terrain/{z}/{x}/{y}.png', {'attribution': '&copy; Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap', 'maxZoom': 22}),
 

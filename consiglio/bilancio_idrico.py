@@ -108,11 +108,14 @@ def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c7=55,ctm_c3=65,cap_id_max=55,area
 
 
 def calc_Kc(coltura_id):
+    '''
+    funzione per il calcolo di Ks a partire da parametri noti. Adesso l'implemetazione è stata modificata.
+    Obsoleta e non utilizzata
+    '''
     from consiglio.models import coltura
     colture=coltura.objects.all()
 
     coltura_calcolo = colture.filter(id=coltura_id)
-    #TODO controllo se non c'è la coltura...
     #new variables
     coltura_calcolo = coltura_calcolo.first()
     kc_ini = coltura_calcolo.kc_ini
@@ -318,7 +321,7 @@ def calc_bilancio_campo():
             areaCampo = app_campo.campi.geom.area
 
 
-            #TODO: modifiche per nuove implementazione
+            #nuova implementazione
             if app_campo.campi.analisi_suolo_set.exists():
                 analisi = app_campo.campi.analisi_suolo_set.first()
                 cap_di_campo_Analisi = analisi.cap_di_campo

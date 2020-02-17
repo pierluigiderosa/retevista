@@ -3,7 +3,7 @@ from django.conf.urls import url
 from .views import dashboard_fields,form_campi,add_profile,CampiGeoJson,form_analisi,dashboard_analisi,\
     AnalisiGeoJson,CampoUpdateView,AnalisiUpdateView,\
     CampoDeleteView,AnalisiDeleteView,dashboard_main,get_data_charts,dash_operazioni_colturali,form_operazioni,\
-    OperazioniDeleteView,edit_profile,dashboard_consiglio
+    OperazioniDeleteView,edit_profile,dashboard_consiglio,dash_consumatore,CampiEstesiJson, dash_list_consumatore
 from .models import campi,analisi_suolo
 
 urlpatterns = [
@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^registrazione/$',add_profile,name='add-profilo-aziendale'),
     url(r'^update/registrazione/$', edit_profile, name='update-profilo-aziendale'),
     url(r'^campi.geojson$', CampiGeoJson.as_view(model=campi), name='campi_geojson'),
+    url(r'^campiEstesi.json$', CampiEstesiJson, name='campi_estesi_json'),
     url(r'^analisi.geojson$', AnalisiGeoJson.as_view(model=analisi_suolo), name='analisi_geojson'),
     url(r'^api/data/$', get_data_charts, name='api-data-dash'),
     url(r'fields/$', dashboard_fields, name='main-fields'),
@@ -25,5 +26,7 @@ urlpatterns = [
     url(r'consiglio/$',dashboard_consiglio,name='main-consiglio'),
     url(r'forecast/$',dashboard_fields,{'forecast': True},name='main-forecast'),
     url(r'operazioni/$', dash_operazioni_colturali, name='main-operazioni-colturali'),
+    url(r'consumatore/$', dash_list_consumatore, name='main-consumatore-list'),
+    url(r'consumatore/(?P<uid>\d+)$', dash_consumatore, name='main-consumatore'),
     url(r'^$', dashboard_main, name='main-dashboard')
 ]

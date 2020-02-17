@@ -19,7 +19,7 @@ class appezzamentoCampoAdmin(admin.ModelAdmin):
     pass
 
 #admin.site.register(appezzamento, appezzamentoAdmin)
-admin.site.register(coltura,colturaAdmin)
+# admin.site.register(coltura,colturaAdmin)
 admin.site.register(settore)
 admin.site.register(bilancio)
 

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% load l10n %}
+
+{% block content %}
+<div class="content-wrapper " id="main-content">
+                                    <h3>Scegli l'azienda</h3>
+<ul class="list-unstyled">
+    {% for singola_azienda in aziende %}
+                            <li>
+    <a href="{% url 'main-consumatore' uid=singola_azienda.id %}" class="btn btn-outline-secondary btn-block btn-lg my-1">{{ singola_azienda.user.first_name }} {{ singola_azienda.user.last_name }} {{ singola_azienda.city }}</a>
+                </li>
+    {% endfor %}
+</ul>
+</div>
+{% endblock %}
