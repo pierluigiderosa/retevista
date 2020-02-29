@@ -2,6 +2,7 @@
 {% load static %}
 {% load leaflet_tags %}
 {% load l10n %}
+{% load data_tags %}
 
 {% block script %}
     {% leaflet_js %}
@@ -31,7 +32,7 @@
 
             {% for campo,area,latlong,previsioni in campi %}
                 <div class="col-md-6 col-lg-4 col-xl-3 mt-2">
-                    <div class="card" style="width: 18rem;">
+                    <div class="card" style="width: 24rem;">
                         <img class="card-img-top" src="{% static 'img/rice_field.jpg' %}" alt="Card image cap">
                         <div class="card-header">
                             <h4 class="card-title">{{ campo.nome }}</h4>
@@ -49,6 +50,8 @@
                         </div>
                         <div class="card-body">
                             {% if forecast %}
+                                <div class="row mt-2">
+                                <div class="col-8">
                                 <h4>situazione corrente</h4>
                                 <div class="weather-forecast"><small class="condition clearfix">
                                 <img src="http://openweathermap.org/img/w/{{ previsioni.weather.0.icon }}.png" class="float-left">
@@ -61,6 +64,16 @@
                                     {% else %}
                                      <p style="color:red;"><span>NON OTTIMALE PER IL TRATTAMENTO</span></p>
                                 {% endif %}
+                                </div>
+                                </div>
+                                <div class="col-4">
+                                    <h6>Previsione</h6>
+                                    <small><strong>{{ campo.previsione_meteo.daily.data.2.time|print_timestamp }}</strong>:<br>
+                                        {{ campo.previsione_meteo.daily.data.2.precipIntensity|floatformat }} mm</small><hr>
+                                    <small><strong>{{ campo.previsione_meteo.daily.data.3.time|print_timestamp }} </strong>:<br>
+                                        {{ campo.previsione_meteo.daily.data.3.precipIntensity|floatformat }} mm</small>
+
+                                </div>
                                 </div>
 
                             {% else %}
@@ -82,7 +95,7 @@
 
         <!-- Second Half -->
 
-        <div class="col-md-4 p-0 bg-white h-md-100">
+        <div class="col-md-6 p-0 bg-white h-md-100">
             {% leaflet_map "main" callback="main_map_init" %}
         </div>
     </div>

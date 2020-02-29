@@ -3,7 +3,8 @@ from django.conf.urls import url
 from .views import dashboard_fields,form_campi,add_profile,CampiGeoJson,form_analisi,dashboard_analisi,\
     AnalisiGeoJson,CampoUpdateView,AnalisiUpdateView,\
     CampoDeleteView,AnalisiDeleteView,dashboard_main,get_data_charts,dash_operazioni_colturali,form_operazioni,\
-    OperazioniDeleteView,edit_profile,dashboard_consiglio,dash_consumatore,CampiEstesiJson, dash_list_consumatore
+    OperazioniDeleteView,edit_profile,dashboard_consiglio,dash_consumatore,\
+    CampiEstesiJson, dash_list_consumatore,operazioniJson
 from .models import campi,analisi_suolo
 
 urlpatterns = [
@@ -19,6 +20,7 @@ urlpatterns = [
     url(r'^update/registrazione/$', edit_profile, name='update-profilo-aziendale'),
     url(r'^campi.geojson$', CampiGeoJson.as_view(model=campi), name='campi_geojson'),
     url(r'^campiEstesi.json$', CampiEstesiJson, name='campi_estesi_json'),
+    url(r'^operazioni.json$', operazioniJson, name='operazioni_dettaglio_json'),
     url(r'^analisi.geojson$', AnalisiGeoJson.as_view(model=analisi_suolo), name='analisi_geojson'),
     url(r'^api/data/$', get_data_charts, name='api-data-dash'),
     url(r'fields/$', dashboard_fields, name='main-fields'),

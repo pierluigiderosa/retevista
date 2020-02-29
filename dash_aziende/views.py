@@ -18,7 +18,7 @@ from djgeojson.views import GeoJSONLayerView
 
 from django.contrib.gis.db.models import Extent, Union
 
-from dash_aziende.models import campi,Profile,analisi_suolo
+from dash_aziende.models import campi, Profile, analisi_suolo
 from income.models import dati_orari, stazioni_retevista
 from consiglio.models import bilancio,appezzamentoCampo
 from dash_aziende.models import fertilizzazione as fert_model ,operazioni_colturali as oper_model,\
@@ -626,6 +626,7 @@ def edit_profile(request):
             'editing_profile': editing_profile,
         })
 
+#chiamate per json
 def CampiEstesiJson(request):
     #todo aggiungere and request.is_ajax()
     if request.method == 'GET':
@@ -639,7 +640,7 @@ def CampiEstesiJson(request):
                                                       )
         operazioni = oper_model.objects.filter(campo=campi.objects.get(id=campoID)).values(
             'operazione','data_operazione','operazione_fertilizzazione','operazione_irrigazione',
-            'operazione_raccolta','operazione_trattamento','operazione_semina',
+            'operazione_raccolta','operazione_trattamento','operazione_semina','id'
         )
 
         data_dict = {'campo':list(campo),'n_operazioni':len(operazioni)}
@@ -647,6 +648,60 @@ def CampiEstesiJson(request):
             data_dict['operazione'+str(id_operazione)]=operazioni[id_operazione]
 
         return JsonResponse(data_dict, safe=False)
+    else:
+        return Http404
+
+
+def operazioniJson(request):
+    if request.method == 'GET':
+        operazioneID = request.GET.get('operazione')
+        # operazioneID=8 # todo debug -- togli la riga
+        operazione = oper_model.objects.get(id=operazioneID)
+        operazioneDict = {}
+        if operazione.operazione_fertilizzazione is not None:
+            dettaglio_operazione = fert_model.objects.filter(id = operazione.operazione_fertilizzazione.id ).values(
+                'fertilizzante','kg_prodotto','titolo_p2o5','titolo_n','titolo_k2o'
+            )
+            for field in dettaglio_operazione.first().keys():
+                nome_esteso = fert_model._meta.get_field(field).verbose_name
+                valore = dettaglio_operazione.first()[field]
+                operazioneDict[nome_esteso]=valore
+        if operazione.operazione_irrigazione is not None:
+            dettaglio_operazione = irr_model.objects.filter(id = operazione.operazione_irrigazione.id ).values(
+                'portata','durata',
+            )
+            for field in dettaglio_operazione.first().keys():
+                nome_esteso = irr_model._meta.get_field(field).verbose_name
+                valore = dettaglio_operazione.first()[field]
+                operazioneDict[nome_esteso]=valore
+        if operazione.operazione_raccolta is not None:
+            dettaglio_operazione = raccolta_model.objects.filter(id=operazione.operazione_raccolta.id).values(
+                'produzione',
+            )
+            for field in dettaglio_operazione.first().keys():
+                nome_esteso = raccolta_model._meta.get_field(field).verbose_name
+                valore = dettaglio_operazione.first()[field]
+                operazioneDict[nome_esteso]=valore
+
+        if operazione.operazione_trattamento is not None:
+            dettaglio_operazione = tratt_model.objects.filter(id=operazione.operazione_trattamento.id).values(
+                'prodotto','formulato','sostanze','quantita',
+            )
+            for field in dettaglio_operazione.first().keys():
+                nome_esteso = tratt_model._meta.get_field(field).verbose_name
+                valore = dettaglio_operazione.first()[field]
+                operazioneDict[nome_esteso] = valore
+
+        if operazione.operazione_semina is not None:
+            dettaglio_operazione = semina_model.objects.filter(id=operazione.operazione_semina.id).values(
+                'semina', 'quantita','precocita','lunghezza_ciclo','produzione',
+            )
+            for field in dettaglio_operazione.first().keys():
+                nome_esteso = semina_model._meta.get_field(field).verbose_name
+                valore = dettaglio_operazione.first()[field]
+                operazioneDict[nome_esteso] = valore
+
+        return JsonResponse(operazioneDict,safe=False)
     else:
         return Http404
 

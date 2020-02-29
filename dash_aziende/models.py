@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import datetime
 
 from django.contrib.gis.db import models
+from django.contrib.postgres.fields import JSONField
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator,MaxValueValidator
 
@@ -147,6 +148,7 @@ class campi(models.Model):
         default=current_year(), validators=[MinValueValidator(2010), max_value_year])
 
     note = models.TextField(blank=True,null=True)
+    previsione_meteo = JSONField(blank=True,null=True)
     objects = models.GeoManager()
 
     def __str__(self):
@@ -234,11 +236,11 @@ class operazioni_colturali(models.Model):
         ('irrigazione','Irrigazione'),
         ('raccolta','Raccolta'),
         ('trattamento','Trattamento'),
-        ('gestione_chioma','Gestione chioma'),
-        ('gestione_suolo','Gestione suolo'),
+        # ('gestione_chioma','Gestione chioma'),
+        # ('gestione_suolo','Gestione suolo'),
         ('semina_trapianto','Semina o trapianto'),
-        ('lavorazione_presemina','Lavorazione pre semina'),
-        ('altra','Altra operazione')
+        # ('lavorazione_presemina','Lavorazione pre semina'),
+        # ('altra','Altra operazione')
     ]
     data_operazione= models.DateField(verbose_name='Data operazione')
     campo = models.ForeignKey(campi,help_text='seleziona il campo')

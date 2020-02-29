@@ -29,7 +29,7 @@ def WriteToExcel(appezzamento, bilanci):
     cell_center = workbook.add_format({
        'align': 'center'
     })
-    title_text = u"{0} {1}".format(ugettext("Report per appezzamento: "), appezzamento.nome)
+    title_text = u"{0} {1}".format(ugettext("Report per appezzamento: "), appezzamento.campi.nome)
     worksheet_s.merge_range('A1:P1', title_text, title)
     #add rows header
     worksheet_s.write(1, 0, ugettext("data"), header)

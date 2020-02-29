@@ -2,39 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4070bad7-415d-47ea-be1e-561d8b114f06" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dash_aziende/templatetags/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dash_aziende/templatetags/data_tags.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/70768380-595e-4e42-9ea1-e1c5fb816ed0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/70768380-595e-4e42-9ea1-e1c5fb816ed0.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/70768380-595e-4e42-9ea1-e1c5fb816ed0/storage_v2/_src_/database/retevista_db.VLOjug/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/70768380-595e-4e42-9ea1-e1c5fb816ed0/storage_v2/_src_/database/retevista_db.VLOjug/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/f7170e97-8b9c-4f03-a495-d45145509771.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f7170e97-8b9c-4f03-a495-d45145509771.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/f7170e97-8b9c-4f03-a495-d45145509771/storage_v2/_src_/database/retevista_db.VLOjug/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f7170e97-8b9c-4f03-a495-d45145509771/storage_v2/_src_/database/retevista_db.VLOjug/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f7170e97-8b9c-4f03-a495-d45145509771/storage_v2/_src_/database/retevista_db.VLOjug/schema/public.abK9xQ.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f7170e97-8b9c-4f03-a495-d45145509771/storage_v2/_src_/database/retevista_db.VLOjug/schema/public.abK9xQ.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/consiglio/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/consiglio/bilancio_idrico.py" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/bilancio_idrico.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/consiglio/et_determination.py" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/et_determination.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/consiglio/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/consiglio/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/consiglio/templates/charts.html" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/templates/charts.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/consiglio/templates/lista_appezzamenti.html" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/templates/lista_appezzamenti.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/consiglio/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/consiglio/WriteToExcel.py" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/WriteToExcel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/consiglio/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cronjob.log" beforeDir="false" afterPath="$PROJECT_DIR$/cronjob.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dash_aziende/forecast.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/forecast.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/analisi_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/analisi_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/analisi_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/analisi_dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/dash_consumatore.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/dash_consumatore.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/dashboard_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/dashboard_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dash_aziende/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_stations.log" beforeDir="false" afterPath="$PROJECT_DIR$/data_stations.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/income/cron.py" beforeDir="false" afterPath="$PROJECT_DIR$/income/cron.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/income/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/income/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/income/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/income/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/income/templates/homepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/income/templates/homepage.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/retevista/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/retevista/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/img/rice_field.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/static/img/rice_field.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base_parent.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base_parent.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/lateral_panel_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/lateral_panel_dashboard.html" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,41 +50,6 @@
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="postgres@onegis" type="feb32156:DbDataSourceImpl" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="postgres@onegis" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="postgres@onegis" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="retevista_db: database" type="162271b6:PgImplModel$Database" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="postgres@onegis" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="retevista_db: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="postgres@onegis" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="retevista_db: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="postgres@onegis" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="retevista_db: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
-        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
@@ -139,8 +99,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
+        <option value="JavaScript File" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -157,6 +118,11 @@
   </component>
   <component name="ProjectId" id="1OVeLpxTdZtvnLPIviOb76Kjwi3" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
@@ -168,14 +134,14 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/static/img/vantaggi" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/dash_aziende/templates" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="web.server" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -183,24 +149,12 @@
       <recent name="$PROJECT_DIR$/consiglio/templates" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/static/img/vantaggi" />
-      <recent name="$PROJECT_DIR$/static/js" />
-      <recent name="$PROJECT_DIR$/static/css" />
-      <recent name="$PROJECT_DIR$/templates" />
       <recent name="$PROJECT_DIR$/dash_aziende/templates" />
+      <recent name="$PROJECT_DIR$/consiglio/templates" />
+      <recent name="$PROJECT_DIR$/static/js" />
+      <recent name="$PROJECT_DIR$/static/img/vantaggi" />
+      <recent name="$PROJECT_DIR$/static/css" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -261,42 +215,15 @@
     </configuration>
   </component>
   <component name="ServiceViewManager">
-    <option name="allServicesViewState">
-      <serviceView>
-        <treeState>
-          <expand>
-            <path>
-              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@29c2d39e" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-            </path>
-            <path>
-              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@29c2d39e" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@27ce8c8e" type="9fbbdea:ServiceModel$ServiceNode" />
-            </path>
-            <path>
-              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@29c2d39e" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@245f88c8" type="9fbbdea:ServiceModel$ServiceNode" />
-            </path>
-            <path>
-              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@217feaf4" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-            </path>
-            <path>
-              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@217feaf4" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@714c269c" type="9fbbdea:ServiceModel$ServiceNode" />
-            </path>
-            <path>
-              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@217feaf4" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@5ee23cf6" type="9fbbdea:ServiceModel$ServiceNode" />
-            </path>
-          </expand>
-          <select />
-        </treeState>
-      </serviceView>
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
     </option>
   </component>
   <component name="SvnConfiguration">
@@ -436,7 +363,67 @@
       <workItem from="1569769023123" duration="35000" />
       <workItem from="1569769078992" duration="2035000" />
       <workItem from="1569857868275" duration="1459000" />
-      <workItem from="1569869919975" duration="1754000" />
+      <workItem from="1569869919975" duration="1902000" />
+      <workItem from="1569946571921" duration="1742000" />
+      <workItem from="1569949079953" duration="1187000" />
+      <workItem from="1570116548083" duration="2469000" />
+      <workItem from="1570127471686" duration="2157000" />
+      <workItem from="1570168717272" duration="1048000" />
+      <workItem from="1570555192697" duration="22000" />
+      <workItem from="1572269222668" duration="2664000" />
+      <workItem from="1572540809523" duration="3406000" />
+      <workItem from="1572887712620" duration="6902000" />
+      <workItem from="1573052322359" duration="7513000" />
+      <workItem from="1573495085254" duration="2923000" />
+      <workItem from="1573503904806" duration="1288000" />
+      <workItem from="1573750650044" duration="1146000" />
+      <workItem from="1573832549708" duration="1153000" />
+      <workItem from="1574097803592" duration="4117000" />
+      <workItem from="1574107131606" duration="2563000" />
+      <workItem from="1574267846457" duration="1868000" />
+      <workItem from="1574357755070" duration="2797000" />
+      <workItem from="1574697920878" duration="9932000" />
+      <workItem from="1574934509398" duration="6543000" />
+      <workItem from="1575295166405" duration="1927000" />
+      <workItem from="1575574682636" duration="661000" />
+      <workItem from="1575576260997" duration="280000" />
+      <workItem from="1575649003477" duration="2281000" />
+      <workItem from="1575913920630" duration="1009000" />
+      <workItem from="1576082030483" duration="1300000" />
+      <workItem from="1576098455494" duration="133000" />
+      <workItem from="1576332648597" duration="348000" />
+      <workItem from="1578305477288" duration="148000" />
+      <workItem from="1578428235783" duration="316000" />
+      <workItem from="1579032586355" duration="581000" />
+      <workItem from="1579033369509" duration="1369000" />
+      <workItem from="1579119218803" duration="857000" />
+      <workItem from="1579278260015" duration="3960000" />
+      <workItem from="1579536487145" duration="2773000" />
+      <workItem from="1579548986202" duration="1502000" />
+      <workItem from="1579801678123" duration="2157000" />
+      <workItem from="1580132770706" duration="4148000" />
+      <workItem from="1580141027694" duration="7710000" />
+      <workItem from="1580481306383" duration="9343000" />
+      <workItem from="1580837445626" duration="2376000" />
+      <workItem from="1581009187564" duration="953000" />
+      <workItem from="1581357644559" duration="244000" />
+      <workItem from="1581358068473" duration="5028000" />
+      <workItem from="1581438246783" duration="35000" />
+      <workItem from="1581438301041" duration="6186000" />
+      <workItem from="1581444915998" duration="4081000" />
+      <workItem from="1581452939871" duration="1964000" />
+      <workItem from="1581528736337" duration="3986000" />
+      <workItem from="1581615170613" duration="3317000" />
+      <workItem from="1581699208784" duration="16000" />
+      <workItem from="1581946898039" duration="2142000" />
+      <workItem from="1581970381423" duration="2387000" />
+      <workItem from="1582047140266" duration="3477000" />
+      <workItem from="1582805425701" duration="3112000" />
+      <workItem from="1582828584012" duration="307000" />
+      <workItem from="1582906892317" duration="1991000" />
+      <workItem from="1582920126793" duration="3570000" />
+      <workItem from="1582969466409" duration="3970000" />
+      <workItem from="1582985251426" duration="3756000" />
     </task>
     <task id="LOCAL-00001" summary="addedd automatic procedure to read api ofr whether stations data">
       <created>1551709403892</created>
@@ -641,7 +628,35 @@
       <option name="project" value="LOCAL" />
       <updated>1568293563562</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="added new appezzamento linked to campo and upgraded all functions">
+      <created>1569871805180</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1569871805180</updated>
+    </task>
+    <task id="LOCAL-00031" summary="added raster casa managment">
+      <created>1574940736595</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1574940736595</updated>
+    </task>
+    <task id="LOCAL-00032" summary="completed graphs for appezzamenti">
+      <created>1580839540069</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1580839540069</updated>
+    </task>
+    <task id="LOCAL-00033" summary="modulo consumatore">
+      <created>1581948530714</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1581948530714</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -661,9 +676,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="addedd automatic procedure to read api ofr whether stations data" />
-    <MESSAGE value="strated writing consiglio irriguo" />
-    <MESSAGE value="wroted funcions ofr ET determination" />
     <MESSAGE value="first creations of methods for consiglio irriguo" />
     <MESSAGE value="correction of some bugs on bilancio" />
     <MESSAGE value="strating creation of calc bilancio irriguo" />
@@ -685,7 +697,85 @@
     <MESSAGE value="added editing profile" />
     <MESSAGE value="added vue to control sum of clay silt and sand" />
     <MESSAGE value="small changes on menu dashboard" />
-    <option name="LAST_COMMIT_MESSAGE" value="small changes on menu dashboard" />
+    <MESSAGE value="added new appezzamento linked to campo and upgraded all functions" />
+    <MESSAGE value="added raster casa managment" />
+    <MESSAGE value="completed graphs for appezzamenti" />
+    <MESSAGE value="modulo consumatore" />
+    <option name="LAST_COMMIT_MESSAGE" value="modulo consumatore" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="918" y="252" width="814" height="593" key="#xdebugger.evaluate" timestamp="1582049747522">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="918" y="252" width="814" height="593" key="#xdebugger.evaluate/67.27.1853.1053@67.27.1853.1053" timestamp="1582049747522" />
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2" timestamp="1581948529789">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="558" y="149" width="860" height="807" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1581948529789" />
+    <state x="167" y="125" width="1653" height="855" key="DirDiffDialog" timestamp="1582989025674">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="167" y="125" width="1653" height="855" key="DirDiffDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1582989025674" />
+    <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1581439509739">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1581439509739" />
+    <state width="1807" height="207" key="GridCell.Tab.0.bottom" timestamp="1582989029410">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="1807" height="207" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1582989029410" />
+    <state width="1807" height="207" key="GridCell.Tab.0.center" timestamp="1582989029407">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="1807" height="207" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1582989029407" />
+    <state width="1807" height="207" key="GridCell.Tab.0.left" timestamp="1582989029406">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="1807" height="207" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1582989029406" />
+    <state width="1807" height="207" key="GridCell.Tab.0.right" timestamp="1582989029409">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="1807" height="207" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1582989029409" />
+    <state width="1807" height="304" key="GridCell.Tab.1.bottom" timestamp="1582050623312">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="1807" height="304" key="GridCell.Tab.1.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1582050623312" />
+    <state width="1807" height="304" key="GridCell.Tab.1.center" timestamp="1582050623312">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="1807" height="304" key="GridCell.Tab.1.center/67.27.1853.1053@67.27.1853.1053" timestamp="1582050623312" />
+    <state width="1807" height="304" key="GridCell.Tab.1.left" timestamp="1582050623312">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="1807" height="304" key="GridCell.Tab.1.left/67.27.1853.1053@67.27.1853.1053" timestamp="1582050623312" />
+    <state width="1807" height="304" key="GridCell.Tab.1.right" timestamp="1582050623312">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="1807" height="304" key="GridCell.Tab.1.right/67.27.1853.1053@67.27.1853.1053" timestamp="1582050623312" />
+    <state x="482" y="187" key="SettingsEditor" timestamp="1581438284445">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="482" y="187" key="SettingsEditor/67.27.1853.1053@67.27.1853.1053" timestamp="1581438284445" />
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1581948533648">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1581948533648" />
+    <state width="926" height="527" key="XDebugger.FullValuePopup" timestamp="1582985441367">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="926" height="527" key="XDebugger.FullValuePopup/67.27.1853.1053@67.27.1853.1053" timestamp="1582985441367" />
+    <state x="649" y="380" key="com.intellij.ide.util.TipDialog" timestamp="1582985252204">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="649" y="380" key="com.intellij.ide.util.TipDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1582985252204" />
+    <state x="841" y="314" width="707" height="578" key="find.popup" timestamp="1582988788691">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="841" y="314" width="707" height="578" key="find.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1582988788691" />
+    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1581615684034">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1581615684034" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -696,49 +786,109 @@
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/consiglio/bilancio_idrico.py</url>
-          <line>205</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
-          <line>449</line>
+          <line>563</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
-          <line>498</line>
+          <line>612</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dash_aziende/forecast.py</url>
-          <line>27</line>
+          <line>29</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/consiglio/views.py</url>
-          <line>48</line>
+          <line>107</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
-          <line>42</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/consiglio/bilancio_idrico.py</url>
-          <line>283</line>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/consiglio/bilancio_idrico.py</url>
-          <line>318</line>
+          <line>385</line>
           <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/income/aggregate_data.py</url>
+          <line>42</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/consiglio/views.py</url>
+          <line>66</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
+          <line>726</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
+          <line>168</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/consiglio/bilancio_idrico.py</url>
+          <line>350</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/consiglio/bilancio_idrico.py</url>
+          <line>362</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/consiglio/bilancio_idrico.py</url>
+          <line>342</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
           <line>126</line>
-          <option name="timeStamp" value="25" />
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/consiglio/views.py</url>
+          <line>300</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/consiglio/views.py</url>
+          <line>303</line>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
+          <line>661</line>
+          <option name="timeStamp" value="60" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
+          <line>703</line>
+          <option name="timeStamp" value="61" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="django-line">
+          <url>file://$PROJECT_DIR$/consiglio/templates/lista_appezzamenti.html</url>
+          <line>23</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="django-line">
+          <url>file://$PROJECT_DIR$/dash_aziende/templates/dashboard_consiglio.html</url>
+          <line>87</line>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="django-line">
+          <url>file://$PROJECT_DIR$/dash_aziende/templates/dashboard_consiglio.html</url>
+          <line>36</line>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="django-line">
+          <url>file://$PROJECT_DIR$/dash_aziende/templates/dash_list_consumatore.html</url>
+          <line>10</line>
+          <option name="timeStamp" value="59" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

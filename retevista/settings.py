@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'django.contrib.postgres',
     'django_tables2',
     'django_filters',
     'bootstrap_modal_forms',
@@ -165,7 +166,7 @@ CRON_CLASSES = [
     "income.cron.get_data",
     "income.cron.aggregate_data",
     "income.cron.do_bilancio",
-    # "income.cron.do_bilancioCampi",
+    "income.cron.get_forecast",
 ]
 
 DJANGO_CRON_LOCKFILE_PATH = [
@@ -177,7 +178,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 #login
 LOGIN_REDIRECT_URL = '/retevista/accounts/login/'
-LOGOUT_REDIRECT_URL = '/retevista'
+LOGOUT_REDIRECT_URL = '/retevista/'
 
 SERIALIZATION_MODULES = {
      "geojson": "django.contrib.gis.serializers.geojson",

@@ -262,7 +262,7 @@ class OperazioneColturaleForm(forms.ModelForm):
     class Meta:
         model=operazioni_colturali
         # fields='__all__'
-        exclude = ('operazione','operazione_fertilizzazione','operazione_irrigazione','operazione_raccolta','operazione_trattamento','operazione_semina')
+        exclude = ('note','operazione','operazione_fertilizzazione','operazione_irrigazione','operazione_raccolta','operazione_trattamento','operazione_semina')
         widgets={
             'data_operazione': DateInput(),
         }

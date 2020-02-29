@@ -2,7 +2,7 @@ from django_cron import CronJobBase, Schedule
 from datetime import datetime
 from income.get_data_stations import get_and_put
 from income.aggregate_data import aggrega
-# from consiglio.bilancio_idrico import calc_bilancio
+from dash_aziende.forecast import save_forecast
 from consiglio.bilancio_idrico import calc_bilancio_campo
 
 class MyCronJob(CronJobBase):
@@ -82,6 +82,18 @@ class do_bilancio(CronJobBase):
         print str(datetime.now())
         # calc_bilancio()
         calc_bilancio_campo()
+
+class get_forecast(CronJobBase):
+    RUN_AT_TIMES = ['03:00']
+    RETRY_AFTER_FAILURE_MINS = 5
+
+    schedule = Schedule(run_at_times=RUN_AT_TIMES, retry_after_failure_mins=RETRY_AFTER_FAILURE_MINS)
+    code = 'dash.forecast'  # a unique code
+
+    def do(self):
+        print 'prese previsioni'
+        print str(datetime.now())
+        save_forecast()
 
 # class do_bilancioCampi(CronJobBase):
 #     RUN_AT_TIMES = ['01:10']

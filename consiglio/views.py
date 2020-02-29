@@ -209,8 +209,8 @@ def export_appezz(request,uid=99):
     except ValueError:
         raise Http404()
 
-    appez_riferimento = appezzamento.objects.get(pk=UID)
-    bilancio_appezzam = bilancio.objects.filter(appezzamento=uid)
+    appez_riferimento = appezzamentoCampo.objects.get(pk=UID)
+    bilancio_appezzam = bilancio.objects.filter(appezzamentoDaCampo=uid)
 
     response = HttpResponse(content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename=Report.xlsx'
