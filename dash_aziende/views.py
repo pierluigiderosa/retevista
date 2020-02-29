@@ -135,18 +135,25 @@ def dashboard_consiglio(request):
 
 @login_required
 def dash_operazioni_colturali(request):
-    # campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=request.user))
-    # latlong = []
-    # bbox = campi_all.aggregate(Extent('geom'))
-    # tutte le tipologia di operazioni colturali
+    utente = request.user
+    oper_all = None
+    if utente.groups.filter(name='Agricoltori').exists():
+        oper_all = oper_model.objects.filter(campo__proprietario=Profile.objects.filter(user=utente))
+        staff = False
+    elif utente.is_staff or utente.groups.filter(name='Universita').exists():
+        oper_all = oper_model.objects.all()
+        staff = True
+    else:
+        oper_all = oper_model.objects.none()
+
+
     tipologia_operazioni = oper_model.operazione_choices
-    operazioni_all = oper_model.objects.filter(campo__proprietario=Profile.objects.filter(user=request.user))
-    bbox = operazioni_all.aggregate(Extent('campo__geom'))
+    bbox = oper_all.aggregate(Extent('campo__geom'))
     return render(request,"operazioni_dashboard.html",{
         "tipologia_operazioni": tipologia_operazioni,
-        "operazioni_all": operazioni_all,
+        "operazioni_all": oper_all,
         "bbox": bbox['campo__geom__extent'],
-
+        'staff': staff,
     })
 
 @login_required
@@ -738,6 +745,11 @@ class AnalisiGeoJson(GeoJSONLayerView):
 
     def get_queryset(self):
         # pk_id = self.request.GET.get('agricoltore')
-        campi_all =  campi.objects.filter(proprietario=Profile.objects.get(user=self.request.user))
+        utente = self.request.user
+        if utente.is_staff or utente.groups.filter(name='Universita').exists():
+            campi_all =  campi.objects.all()
+        else:
+            campi_all =  campi.objects.filter(proprietario=Profile.objects.get(user=self.request.user))
         context = analisi_suolo.objects.filter(campo__in=campi_all)
         return context
+

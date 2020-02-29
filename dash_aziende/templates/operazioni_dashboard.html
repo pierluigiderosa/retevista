@@ -38,6 +38,7 @@
 
 
             {% for operazione in operazioni_all %}
+                <div class="col-12 mt-2">
                 <div class="card border-primary mb-3" style="max-width: 48rem;">
                     <div class="card-header">Operazione {{ operazione.operazione }}
                         --- Data operazione:{{ operazione.data_operazione }} -- id:{{ operazione.id }}
@@ -94,6 +95,7 @@
                          <a href="{% url 'delete-operazioni' pk=operazione.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
                     </div>
                 </div>
+                </div>
             {% endfor %}
         </div>
         {% block cards %}
@@ -117,8 +119,11 @@
             ]);
 
 
-            var dataurl = '{% url "analisi_geojson" %}';
-            var datacampi = '{% url "campi_geojson" %}';
+            {% if staff %}
+                var datacampi = '{% url "campi_geojson" %}?user=staff';
+            {% else %}
+                var datacampi = '{% url "campi_geojson" %}?user=agricoltore';
+            {% endif %}
 
             //define a style for fields
             var myStyle = {
@@ -131,10 +136,7 @@
 
 
             // Download GeoJSON via Ajax
-            $.getJSON(dataurl, function (data) {
-                // Add GeoJSON layer
-                L.geoJson(data).addTo(map);
-            });
+
             $.getJSON(datacampi, function (data) {
                 // Add GeoJSON layer
                 L.geoJson(data, {style: myStyle}).addTo(map);

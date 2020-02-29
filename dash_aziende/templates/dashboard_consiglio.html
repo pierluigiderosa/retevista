@@ -5,6 +5,8 @@
 
 {% block script %}
     {% leaflet_js %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/1.0.2/proj4leaflet.js"></script>
 {% endblock %}
 {% block css %}
     {% leaflet_css %}
@@ -113,6 +115,34 @@
                 // Add GeoJSON layer
                 L.geoJson(data).addTo(map);
             });
+
+                        //parte per inserire il catasto
+            var ETRS89width= 18.99-5.93;
+            var startResolution = ETRS89width/1024;
+            var grid_resolution = new Array(22);
+            for (var i = 0; i < 22; ++i) {
+                grid_resolution[i] = startResolution / Math.pow(2, i);
+            }
+            var crs_6706 = new L.Proj.CRS('EPSG:6706',
+                '+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs',
+                {
+                    resolutions: grid_resolution,
+                    origin: [0, 0],
+                    bounds: L.bounds([5.93, 34.76], [18.99, 47.1])
+                });
+            var url= 'https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php';
+
+            var lc = map.layerscontrol;
+            lc.addOverlay(
+                        L.tileLayer.wms(url, {
+                layers: 'CP.CadastralParcel,vestizioni',
+                crs: crs_6706,
+                format: 'image/png',
+                maxZoom: 21,
+                transparent: true,
+            }),
+                        'Catasto Agnezia Entrate'
+                    );
 
             $(".btn").click(function(event) {
                 event.preventDefault();

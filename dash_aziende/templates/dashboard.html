@@ -6,6 +6,8 @@
 
 {% block script %}
     {% leaflet_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/1.0.2/proj4leaflet.js"></script>
 {% endblock %}
 {% block css %}
     {% leaflet_css %}
@@ -51,42 +53,42 @@
                         <div class="card-body">
                             {% if forecast %}
                                 <div class="row mt-2">
-                                <div class="col-8">
-                                <h4>situazione corrente</h4>
-                                <div class="weather-forecast"><small class="condition clearfix">
-                                <img src="http://openweathermap.org/img/w/{{ previsioni.weather.0.icon }}.png" class="float-left">
-                                <strong>{{ previsioni.weather.0.description }}</strong></small>
-                                    <p><span>Temperatura <strong>{{ previsioni.main.temp }} </strong>°c</span></p>
-                                    <p><span>Vento <strong>{{ previsioni.wind.speed }} </strong>m/s<i class="fa-lg wi wi-wind towards-null-deg"></i></span></p>
-                                    <p><span>Umidità <strong>{{ previsioni.main.humidity }} </strong>%</span></p>
-                                {% if  previsioni.trattamento %}
-                                    <p style="color:#71dc00;"><span>OTTIMALE PER IL TRATTAMENTO</span></p>
-                                    {% else %}
-                                     <p style="color:red;"><span>NON OTTIMALE PER IL TRATTAMENTO</span></p>
-                                {% endif %}
-                                </div>
-                                </div>
-                                <div class="col-4">
-                                    <h6>Previsione</h6>
-                                    <small><strong>{{ campo.previsione_meteo.daily.data.2.time|print_timestamp }}</strong>:<br>
-                                        {{ campo.previsione_meteo.daily.data.2.precipIntensity|floatformat }} mm</small><hr>
-                                    <small><strong>{{ campo.previsione_meteo.daily.data.3.time|print_timestamp }} </strong>:<br>
-                                        {{ campo.previsione_meteo.daily.data.3.precipIntensity|floatformat }} mm</small>
+                                    <div class="col-8">
+                                        <h4>situazione corrente</h4>
+                                        <div class="weather-forecast"><small class="condition clearfix">
+                                            <img src="http://openweathermap.org/img/w/{{ previsioni.weather.0.icon }}.png" class="float-left">
+                                            <strong>{{ previsioni.weather.0.description }}</strong></small>
+                                            <p><span>Temperatura <strong>{{ previsioni.main.temp }} </strong>°c</span></p>
+                                            <p><span>Vento <strong>{{ previsioni.wind.speed }} </strong>m/s<i class="fa-lg wi wi-wind towards-null-deg"></i></span></p>
+                                            <p><span>Umidità <strong>{{ previsioni.main.humidity }} </strong>%</span></p>
+                                            {% if  previsioni.trattamento %}
+                                                <p style="color:#71dc00;"><span>OTTIMALE PER IL TRATTAMENTO</span></p>
+                                            {% else %}
+                                                <p style="color:red;"><span>NON OTTIMALE PER IL TRATTAMENTO</span></p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <h6>Previsione</h6>
+                                        <small><strong>{{ campo.previsione_meteo.daily.data.2.time|print_timestamp }}</strong>:<br>
+                                            {{ campo.previsione_meteo.daily.data.2.precipIntensity|floatformat }} mm</small><hr>
+                                        <small><strong>{{ campo.previsione_meteo.daily.data.3.time|print_timestamp }} </strong>:<br>
+                                            {{ campo.previsione_meteo.daily.data.3.precipIntensity|floatformat }} mm</small>
 
-                                </div>
+                                    </div>
                                 </div>
 
                             {% else %}
-                            <p class="card-text">Estratto delle info sul campo.
-                                {% if campo.dataApportoIrriguo %} Data ultimo apporto irriguo {{ campo.dataApportoIrriguo }},{% endif %} Annata agraria: {{ campo.annataAgraria }}
-                            {% if staff %}Azienda: {{ campo.proprietario }}{% endif %}
-                            </p>
+                                <p class="card-text">Estratto delle info sul campo.
+                                    {% if campo.dataApportoIrriguo %} Data ultimo apporto irriguo {{ campo.dataApportoIrriguo }},{% endif %} Annata agraria: {{ campo.annataAgraria }}
+                                    {% if staff %}Azienda: {{ campo.proprietario }}{% endif %}
+                                </p>
                             {% endif %}
                         </div>
-                    <div class="card-footer">
-                        <a href="{% url 'update-campi' pk=campo.id %}"><i class="fas fa-edit fa-lg"></i></a>
-                        <a href="{% url 'delete-campi' pk=campo.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
-                    </div>
+                        <div class="card-footer">
+                            <a href="{% url 'update-campi' pk=campo.id %}"><i class="fas fa-edit fa-lg"></i></a>
+                            <a href="{% url 'delete-campi' pk=campo.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
+                        </div>
                     </div>
                 </div>
             {% endfor %}
@@ -109,9 +111,9 @@
                 [{{ bbox.3|unlocalize }},{{ bbox.2|unlocalize }}]
             ]);
             {% if staff %}
-            var dataurl = '{% url "campi_geojson" %}?user=staff';
+                var dataurl = '{% url "campi_geojson" %}?user=staff';
             {% else %}
-                        var dataurl = '{% url "campi_geojson" %}?user=agricoltore';
+                var dataurl = '{% url "campi_geojson" %}?user=agricoltore';
             {% endif %}
 
             var myStyle = {
@@ -127,21 +129,51 @@
                 // Add GeoJSON layer
                 L.geoJson(data, {style: myStyle}).addTo(map);
             });
-                $(".btn").click(function(event) {
-                    event.preventDefault();
-                    var xmin = $(this).attr("xmin");
-                    ymin = $(this).attr("ymin");
-                    xmax = $(this).attr("xmax");
-                    ymax = $(this).attr("ymax");
-                    console.log(xmin);
-                    console.log(ymin);
-                    {#map.setView([lng,lat], 12);#}
-                    map.fitBounds([
-                        [ymin,xmin],
-                        [ymax,xmax]
-                    ])
 
+            //parte per inserire il catasto
+            var ETRS89width= 18.99-5.93;
+            var startResolution = ETRS89width/1024;
+            var grid_resolution = new Array(22);
+            for (var i = 0; i < 22; ++i) {
+                grid_resolution[i] = startResolution / Math.pow(2, i);
+            }
+            var crs_6706 = new L.Proj.CRS('EPSG:6706',
+                '+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs',
+                {
+                    resolutions: grid_resolution,
+                    origin: [0, 0],
+                    bounds: L.bounds([5.93, 34.76], [18.99, 47.1])
                 });
+            var url= 'https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php';
+
+            var lc = map.layerscontrol;
+            lc.addOverlay(
+                        L.tileLayer.wms(url, {
+                layers: 'CP.CadastralParcel,vestizioni',
+                crs: crs_6706,
+                format: 'image/png',
+                maxZoom: 21,
+                transparent: true,
+            }),
+                        'Catasto Agnezia Entrate'
+                    );
+
+
+            $(".btn").click(function(event) {
+                event.preventDefault();
+                var xmin = $(this).attr("xmin");
+                ymin = $(this).attr("ymin");
+                xmax = $(this).attr("xmax");
+                ymax = $(this).attr("ymax");
+                console.log(xmin);
+                console.log(ymin);
+                {#map.setView([lng,lat], 12);#}
+                map.fitBounds([
+                    [ymin,xmin],
+                    [ymax,xmax]
+                ])
+
+            });
 
 
         }
