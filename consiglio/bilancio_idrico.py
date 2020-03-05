@@ -2,6 +2,7 @@
 from math import exp
 import numpy as np
 import datetime as dt
+from django.core.mail import send_mail
 
 from income.models import stazioni_retevista,dati_aggregati_daily,quote_stazioni
 from consiglio.models import appezzamento, bilancio,appezzamentoCampo
@@ -45,7 +46,9 @@ def costanteTerrenoModificata(PA,CC,den_app,stratoRadicale,RFUperc=50):
     print CCmodificato,PAmodificato,U,RFU,Airr_min
     return CCmodificato,PAmodificato,U,RFU,Airr_min
 
-def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c7=55,ctm_c3=65,cap_id_max=55,area_irrigata_mq=3840,Et0=0,dose_antropica=0):
+def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c7=55,ctm_c3=65,
+                    cap_id_max=55,area_irrigata_mq=3840,Et0=0,dose_antropica=0,
+                    posticipa=False):
     if pioggia>soglia:
         pioggia_5=pioggia
     else:
@@ -58,16 +61,23 @@ def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c7=55,ctm_c3=65,cap_id_max=55,area
     #cap_id_max corrisponde alla colonna L
     if cap_id_max < ctm_c7:
         irrigazione = True
+        #TODO inviare mail
+        # send_mail('Assegnazione domanda', body.encode("utf8"), 'comunicazioni@agrisurvey.it', [to_mail])
+
     else:
         irrigazione = False
+
+    #P - Ep controllato con irrigazione
     if irrigazione:
-        dose = ctm_c3-cap_id_max  #va dato A giorno precedente
+        if posticipa is True:
+            if dose_antropica==0:
+                dose = ctm_c3-cap_id_max  #va dato A giorno precedente
     else:
         dose=0
 
     #P-Ep
-    if cap_id_max<ctm_c7:
-        P_ep = dose + dose_antropica - Etc + pioggia_5
+    if irrigazione:
+        P_ep = pioggia_5 - Etc + dose_antropica + dose
     else:
         P_ep = pioggia_5 - Etc + dose_antropica
 
@@ -163,96 +173,96 @@ def calc_Kc_elenco(coltura_id):
     # accesso al giorno
     Kc = serie[dt.date.today().strftime('%d/%m/%Y')][0]
     return Kc
-
-def calc_bilancio():
-    '''
-    Questa funzione non viene più utilizzata-- Obsoleta
-    :return:
-    '''
-    ieri = dt.date.today() - dt.timedelta(days=1)
-    oggi =dt.date.today()
-
-    # prendo gli a appezzamenti
-    appezzamenti=appezzamento.objects.all()
-    for appezzam_singolo in appezzamenti:
-
-        appezzam_pnt = appezzam_singolo.geom
-        soglia = appezzam_singolo.soglia
-
-        stazione_closest = stazioni_retevista.objects.annotate(
-            distance=Distance('geom', appezzam_pnt)
-        ).order_by('distance').first()
-
-        dato_giornaliero = dati_aggregati_daily.objects.filter(data=ieri,stazione=stazione_closest)
-        if dato_giornaliero.count()>=1:
-            dato_giornaliero = dato_giornaliero.first()
-
-            # calcolo evapotraspirazione
-            Tmax = dato_giornaliero.temp_max
-            Tmin = dato_giornaliero.temp_min
-            Tmean = dato_giornaliero.temp_mean
-            RH_max = dato_giornaliero.humrel_max
-            RH_min = dato_giornaliero.humrel_min
-            SRmedia = dato_giornaliero.solar_rad_mean
-            vel_vento = dato_giornaliero.wind_speed_mean
-            pioggia_cumulata = dato_giornaliero.rain_cumulata
-            quota =  quote_stazioni.objects.filter(stazioni=stazione_closest).first().quota
-            Et0 = ET_sistemista(Z=quota, Tmax=Tmax, Tmin=Tmin, Tmean=Tmean, RH_max=RH_max, RH_min=RH_min, SRmedia=SRmedia, U2=vel_vento, day=ieri.strftime('%d%m%Y'), stazione=stazione_closest)
-            print('id coltura:')
-            print(appezzam_singolo.coltura.id)
-            Kc_calcolata = calc_Kc_elenco(appezzam_singolo.coltura.id)
-            print 'Kc= '
-            print Kc_calcolata
-
-
-            #calcolare cap_idrica_max che è la variabile A del giorno precedente, se assente è presente come dato in appezzamento
-            bilancio_giorno_prec = bilancio.objects.filter(data_rif=ieri, appezzamento=appezzam_singolo)
-            bilancio_odierno = bilancio.objects.filter(data_rif=oggi, appezzamento=appezzam_singolo)
-            nota=''
-            # dose antropica per irrigazione forzata
-            if bilancio_giorno_prec.count()==0:
-                cap_id_max = appezzam_singolo.cap_idrica
-                nota+='calcolo eseguito con cap id. max da valore appezzam.: '+str(cap_id_max)
-                dose_antropica = 0
-            elif bilancio_giorno_prec.count()==1:
-                cap_id_max= bilancio_giorno_prec[0].A
-                nota += 'calcolo eseguito con cap id. max da giorno precedente.: ' + str(round(cap_id_max,2))
-                dose_antropica = bilancio_giorno_prec[0].dose_antropica
-            area = appezzam_singolo.settore.area
-
-
-
-            cap_id_util = appezzam_singolo.cap_idrica
-            # ctm_c7 viene chiamato Airr_min
-            Amin_Irr =cap_id_util-appezzam_singolo.ris_fac_util
-
-            Etc,P_ep,L,Lambda,a,Au,A,dose, A, Irr_mm, irrigazione = bilancio_idrico(pioggia_cumulata,soglia=soglia,Kc=Kc_calcolata,ctm_c7=Amin_Irr,ctm_c3=cap_id_util,cap_id_max=cap_id_max,area_irrigata_mq=appezzam_singolo.settore.area,Et0=Et0,dose_antropica = dose_antropica)
-
-
-            #salvataggio dati
-            if bilancio_odierno.count()==0:
-                nuovo_bilancio_giornaliero = bilancio(
-                    data_rif=oggi,
-                    pioggia_cum=pioggia_cumulata,
-                    Kc = Kc_calcolata,
-                    Et0 = Et0,
-                    Etc = Et0*Kc_calcolata,
-                    P_ep = P_ep,
-                    L = L,
-                    Lambda = Lambda,
-                    a = a,
-                    Au = Au,
-                    A = A,
-                    Irrigazione = irrigazione,
-                    dose = dose,
-                    Irr_mm = Irr_mm,
-                    stazione = stazione_closest,
-                    appezzamento = appezzam_singolo,
-                    note=nota,
-                )
-                nuovo_bilancio_giornaliero.save()
-
-            print(ieri,stazione_closest.nome,Tmax,Tmin,RH_max,RH_min,SRmedia,vel_vento,Et0,pioggia_cumulata,cap_id_util,area, dose, A, Irr_mm)
+#
+# def calc_bilancio():
+#     '''
+#     Questa funzione non viene più utilizzata-- Obsoleta
+#     :return:
+#     '''
+#     ieri = dt.date.today() - dt.timedelta(days=1)
+#     oggi =dt.date.today()
+#
+#     # prendo gli a appezzamenti
+#     appezzamenti=appezzamento.objects.all()
+#     for appezzam_singolo in appezzamenti:
+#
+#         appezzam_pnt = appezzam_singolo.geom
+#         soglia = appezzam_singolo.soglia
+#
+#         stazione_closest = stazioni_retevista.objects.annotate(
+#             distance=Distance('geom', appezzam_pnt)
+#         ).order_by('distance').first()
+#
+#         dato_giornaliero = dati_aggregati_daily.objects.filter(data=ieri,stazione=stazione_closest)
+#         if dato_giornaliero.count()>=1:
+#             dato_giornaliero = dato_giornaliero.first()
+#
+#             # calcolo evapotraspirazione
+#             Tmax = dato_giornaliero.temp_max
+#             Tmin = dato_giornaliero.temp_min
+#             Tmean = dato_giornaliero.temp_mean
+#             RH_max = dato_giornaliero.humrel_max
+#             RH_min = dato_giornaliero.humrel_min
+#             SRmedia = dato_giornaliero.solar_rad_mean
+#             vel_vento = dato_giornaliero.wind_speed_mean
+#             pioggia_cumulata = dato_giornaliero.rain_cumulata
+#             quota =  quote_stazioni.objects.filter(stazioni=stazione_closest).first().quota
+#             Et0 = ET_sistemista(Z=quota, Tmax=Tmax, Tmin=Tmin, Tmean=Tmean, RH_max=RH_max, RH_min=RH_min, SRmedia=SRmedia, U2=vel_vento, day=ieri.strftime('%d%m%Y'), stazione=stazione_closest)
+#             print('id coltura:')
+#             print(appezzam_singolo.coltura.id)
+#             Kc_calcolata = calc_Kc_elenco(appezzam_singolo.coltura.id)
+#             print 'Kc= '
+#             print Kc_calcolata
+#
+#
+#             #calcolare cap_idrica_max che è la variabile A del giorno precedente, se assente è presente come dato in appezzamento
+#             bilancio_giorno_prec = bilancio.objects.filter(data_rif=ieri, appezzamento=appezzam_singolo)
+#             bilancio_odierno = bilancio.objects.filter(data_rif=oggi, appezzamento=appezzam_singolo)
+#             nota=''
+#             # dose antropica per irrigazione forzata
+#             if bilancio_giorno_prec.count()==0:
+#                 cap_id_max = appezzam_singolo.cap_idrica
+#                 nota+='calcolo eseguito con cap id. max da valore appezzam.: '+str(cap_id_max)
+#                 dose_antropica = 0
+#             elif bilancio_giorno_prec.count()==1:
+#                 cap_id_max= bilancio_giorno_prec[0].A
+#                 nota += 'calcolo eseguito con cap id. max da giorno precedente.: ' + str(round(cap_id_max,2))
+#                 dose_antropica = bilancio_giorno_prec[0].dose_antropica
+#             area = appezzam_singolo.settore.area
+#
+#
+#
+#             cap_id_util = appezzam_singolo.cap_idrica
+#             # ctm_c7 viene chiamato Airr_min
+#             Amin_Irr =cap_id_util-appezzam_singolo.ris_fac_util
+#
+#             Etc,P_ep,L,Lambda,a,Au,A,dose, A, Irr_mm, irrigazione = bilancio_idrico(pioggia_cumulata,soglia=soglia,Kc=Kc_calcolata,ctm_c7=Amin_Irr,ctm_c3=cap_id_util,cap_id_max=cap_id_max,area_irrigata_mq=appezzam_singolo.settore.area,Et0=Et0,dose_antropica = dose_antropica)
+#
+#
+#             #salvataggio dati
+#             if bilancio_odierno.count()==0:
+#                 nuovo_bilancio_giornaliero = bilancio(
+#                     data_rif=oggi,
+#                     pioggia_cum=pioggia_cumulata,
+#                     Kc = Kc_calcolata,
+#                     Et0 = Et0,
+#                     Etc = Et0*Kc_calcolata,
+#                     P_ep = P_ep,
+#                     L = L,
+#                     Lambda = Lambda,
+#                     a = a,
+#                     Au = Au,
+#                     A = A,
+#                     Irrigazione = irrigazione,
+#                     dose = dose,
+#                     Irr_mm = Irr_mm,
+#                     stazione = stazione_closest,
+#                     appezzamento = appezzam_singolo,
+#                     note=nota,
+#                 )
+#                 nuovo_bilancio_giornaliero.save()
+#
+#             print(ieri,stazione_closest.nome,Tmax,Tmin,RH_max,RH_min,SRmedia,vel_vento,Et0,pioggia_cumulata,cap_id_util,area, dose, A, Irr_mm)
 
 
 def calc_bilancio_campo():
@@ -356,7 +366,8 @@ def calc_bilancio_campo():
                                                                                     cap_id_max=cap_id_max,
                                                                                     area_irrigata_mq=areaCampo,
                                                                                     Et0=Et0,
-                                                                                    dose_antropica = dose_antropica)
+                                                                                    dose_antropica = dose_antropica,
+                                                                                    posticipa= bilancio_giorno_prec[0].Irr_posticipata)
 
 
             #salvataggio dati

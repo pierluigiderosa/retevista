@@ -160,6 +160,7 @@ class bilancio(models.Model):
     dose_antropica = models.FloatField(default=0.0,verbose_name='Dose irrigua antropica (mm)')
     note = models.TextField(default='',blank=True,null=True)
     Irr_mm = models.FloatField(default=0.0,verbose_name='Irrigazione in mc')
+    Irr_posticipata= models.BooleanField(default=False,verbose_name='Posticipa irrigazione')
     stazione = models.ForeignKey(stazioni_retevista)
 
 

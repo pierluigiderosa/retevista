@@ -15,9 +15,10 @@ class stazioni_retevista(models.Model):
     long = models.FloatField()
     nome = models.CharField(max_length=20)
     did = models.CharField(max_length=25)
+    quota = models.FloatField(default=300.0)
     geom = models.MultiPointField(srid=4326)
     objects = models.GeoManager()
-    quota = models.FloatField(default=300.0)
+
 
 
     def __str__(self):
@@ -132,3 +133,10 @@ class quote_stazioni(models.Model):
 
     def __str__(self):
         return 'quota: %s' % (self.stazioni)
+
+class iframe_stazioni(models.Model):
+    stazioni = models.OneToOneField(stazioni_retevista)
+    iframeURL = models.URLField(null=True,blank=True)
+
+    def __str__(self):
+        return 'URL: %s' % (self.stazioni)

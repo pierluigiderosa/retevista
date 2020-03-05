@@ -23,6 +23,7 @@ class BilancioForm(BSModalForm):
                   # 'stazione',
                   # 'appezzamento'
             'dose_antropica',
+            'Irr_posticipata',
                   ]
 
 class CustomAuthenticationForm(AuthenticationForm):

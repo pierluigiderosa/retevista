@@ -30,8 +30,8 @@
 
 
             {% for appezzamento,area,meteo,bilanci,extent in appezzamenti %}
-                <div class="col-md-6 col-lg-4 col-xl-3 mt-2">
-                    <div class="card" style="width: 18rem;">
+                <div class="col-md-6 col-lg-4 col-xl-6 mt-2">
+                    <div class="card" style="width: 22rem;">
                         <img class="card-img-top" src="{% static 'img/rice_field.jpg' %}" alt="Card image cap">
                         <div class="card-header">
                             <h4 class="card-title">{{ appezzamento.campi.nome }}</h4>
@@ -75,7 +75,7 @@
 
         <!-- Second Half -->
 
-        <div class="col-md-4 p-0 bg-white h-md-100">
+        <div class="col-md-6 p-0 bg-white h-md-100">
             {% leaflet_map "main" callback="main_map_init" %}
         </div>
     </div>
@@ -141,7 +141,7 @@
                 maxZoom: 21,
                 transparent: true,
             }),
-                        'Catasto Agnezia Entrate'
+                        'Catasto Agenzia Entrate'
                     );
 
             $(".btn").click(function(event) {

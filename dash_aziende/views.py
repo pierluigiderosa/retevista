@@ -19,7 +19,7 @@ from djgeojson.views import GeoJSONLayerView
 from django.contrib.gis.db.models import Extent, Union
 
 from dash_aziende.models import campi, Profile, analisi_suolo
-from income.models import dati_orari, stazioni_retevista
+from income.models import dati_orari, stazioni_retevista,iframe_stazioni
 from consiglio.models import bilancio,appezzamentoCampo
 from dash_aziende.models import fertilizzazione as fert_model ,operazioni_colturali as oper_model,\
     irrigazione as irr_model, trattamento as tratt_model, semina as semina_model,raccolta as raccolta_model
@@ -62,18 +62,24 @@ def dashboard_fields(request,forecast=False):
     latlong = []
     bbox = campi_all.aggregate(Extent('geom'))
     forecast_data = []
+    iframeURL=[]
     for campo in campi_all:
         latlong.append([campo.geom.centroid.x,campo.geom.centroid.y])
         if forecast:
             forecast_single = get_forecast(campo.geom.centroid.y,campo.geom.centroid.x)
             forecast_data.append(forecast_single)
+            stazione_closest = stazioni_retevista.objects.annotate(
+                distance=Distance('geom', campo.geom)
+            ).order_by('distance').first()
+            iframeURLsingolo=iframe_stazioni.objects.get(stazioni=stazione_closest)
+            iframeURL.append(iframeURLsingolo)
         else:
             forecast_data.append(None)
     areeKm2 = []
     campi3004 = campi_all.transform(3004, field_name='geom')
     for campo in campi3004:
         areeKm2.append(round(campo.geom.area/10000.,1)) #calcolo area in km2
-    zipped = zip(campi_all, areeKm2,latlong,forecast_data)
+    zipped = zip(campi_all, areeKm2,latlong,forecast_data,iframeURL)
 
 
 
@@ -736,20 +742,4 @@ class CampiGeoJson(GeoJSONLayerView):
 
 
 
-class AnalisiGeoJson(GeoJSONLayerView):
-    # Options
-    precision = 4  # float
-    simplify = 0.5  # generalization
-    geom = 'geom'  # colonna geometrie
-    properties = ['id_campione','data_segnalazione','campo','sabbia','limo','argilla','pH','OM','azoto','fosforo','potassio','scambio_cationico','den_apparente','pietrosita','profondita','note',]
-
-    def get_queryset(self):
-        # pk_id = self.request.GET.get('agricoltore')
-        utente = self.request.user
-        if utente.is_staff or utente.groups.filter(name='Universita').exists():
-            campi_all =  campi.objects.all()
-        else:
-            campi_all =  campi.objects.filter(proprietario=Profile.objects.get(user=self.request.user))
-        context = analisi_suolo.objects.filter(campo__in=campi_all)
-        return context
 

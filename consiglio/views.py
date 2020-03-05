@@ -31,7 +31,8 @@ from django.contrib.gis.gdal import GDALRaster
 
 def lista_appezzamenti(request):
 
-    lista_appez = appezzamento.objects.all()
+    #prima utilizzavo i vecchi appezzamenti
+    # lista_appez = appezzamento.objects.all()
     lista_appezCampo = appezzamentoCampo.objects.all()
 
     #todo test calcolo capacità di campo
@@ -81,7 +82,7 @@ def lista_appezzamenti(request):
     # ieri,stazione_nome,Tmax,Tmin,RH_max,RH_min,SRmedia,vel_vento,Et0,pioggia,cap_id_zero,area,dose, A, Irr_mm = calc_bilancio()
 
     context = {
-        'lista_appez':lista_appez,
+
         'appez_campo':total,
         # 'appez_campo':lista_appezCampo,
         # 'cap_di_campo':cap_di_campo_list,

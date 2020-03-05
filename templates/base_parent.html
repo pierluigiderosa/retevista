@@ -78,17 +78,22 @@
                     <a class="dropdown-item" href="{% url 'dati_giornalieri' %}">Dati giornalieri aggregati</a>
                     <a class="dropdown-item" href="{% url 'mappa-generale' %}">Cartografia capannine</a>
                     <div class="dropdown-divider"></div>
-                    <div class="dropdown-header">Dati idrologici</div>
+                    <div class="dropdown-header">UNIPG Fisgeo</div>
                     <a class="dropdown-item" href="{% url 'lista-spi' %}">Dati SPI</a>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-header">Consigli</div>
+                    <div class="dropdown-header">UNIPG Agraria</div>
                     <a class="dropdown-item" href="{% url 'lista-appezzamenti' %}">Consiglio irriguo per appezzamenti</a>
-                     <a class="dropdown-item" href="{% url 'lista-fertilizzazione' %}">Consiglio fertilizzazione azotata</a>
                     {#                    se vogliamo mostrare alcune cose solo a certi gruppi di utenti#}
                     {#                    {% if user.groups.all.0.name == "Rilevatore" %}#}
                     {#                        <a class="dropdown-item" href="/domanda/assegna/">Assegnazione domande</a>#}
                     {#                    {% endif %}#}
+
+                    <div class="dropdown-header">UNIPG Agraria</div>
+                    <a class="dropdown-item" href="{% url 'lista-fertilizzazione' %}">Consiglio fertilizzazione azotata</a>
+
                 </div>
+
+
+
             </li>
          <li class="nav-item">
                 <a class="nav-link" href="{% url 'main-consumatore-list' %}">Consumatore</a>

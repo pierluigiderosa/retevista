@@ -177,8 +177,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 #login
-LOGIN_REDIRECT_URL = '/retevista/accounts/login/'
-LOGOUT_REDIRECT_URL = '/retevista/'
+
+LOGIN_URL = '/retevista/accounts/login/'
+LOGOUT_REDIRECT_URL = '/retevista'
+
 
 SERIALIZATION_MODULES = {
      "geojson": "django.contrib.gis.serializers.geojson",
