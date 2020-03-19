@@ -18,14 +18,14 @@ from djgeojson.views import GeoJSONLayerView
 
 from django.contrib.gis.db.models import Extent, Union
 
-from dash_aziende.models import campi, Profile, analisi_suolo
+from dash_aziende.models import campi, Profile, analisi_suolo, macchinari, Trasporto
 from income.models import dati_orari, stazioni_retevista,iframe_stazioni
 from consiglio.models import bilancio,appezzamentoCampo
 from dash_aziende.models import fertilizzazione as fert_model ,operazioni_colturali as oper_model,\
     irrigazione as irr_model, trattamento as tratt_model, semina as semina_model,raccolta as raccolta_model
-from .forms import CampiAziendeForm,UserForm,ProfileForm,AnalisiForm,\
-    FertilizzazioneForm,OperazioneColturaleForm,IrrigazioneForm,TrattamentoForm,SeminaForm,RaccoltaForm,\
-    EditProfileForm
+from .forms import CampiAziendeForm, UserForm, ProfileForm, AnalisiForm, \
+    FertilizzazioneForm, OperazioneColturaleForm, IrrigazioneForm, TrattamentoForm, SeminaForm, RaccoltaForm, \
+    EditProfileForm, MacchinariForm, LogisticaForm
 from forecast import get as get_forecast
 
 # Create your views here.
@@ -65,14 +65,15 @@ def dashboard_fields(request,forecast=False):
     iframeURL=[]
     for campo in campi_all:
         latlong.append([campo.geom.centroid.x,campo.geom.centroid.y])
+        stazione_closest = stazioni_retevista.objects.annotate(
+                distance=Distance('geom', campo.geom)
+            ).order_by('distance').first()
+        iframeURLsingolo=iframe_stazioni.objects.get(stazioni=stazione_closest)
+        iframeURL.append(iframeURLsingolo.iframeURL)
         if forecast:
             forecast_single = get_forecast(campo.geom.centroid.y,campo.geom.centroid.x)
             forecast_data.append(forecast_single)
-            stazione_closest = stazioni_retevista.objects.annotate(
-                distance=Distance('geom', campo.geom)
-            ).order_by('distance').first()
-            iframeURLsingolo=iframe_stazioni.objects.get(stazioni=stazione_closest)
-            iframeURL.append(iframeURLsingolo)
+
         else:
             forecast_data.append(None)
     areeKm2 = []
@@ -87,7 +88,7 @@ def dashboard_fields(request,forecast=False):
         'campi':zipped,
         'staff': staff,
         'bbox': bbox['geom__extent'],
-        'forecast': forecast
+        'forecast': forecast,
                                               })
 
 @login_required
@@ -209,6 +210,46 @@ def dash_consumatore(request,uid=-9999):
         "azienda": azienda,
     })
 
+
+@login_required
+def list_macchinari(request,uid=-9999):
+    utente = request.user
+
+    if utente.groups.filter(name='Agricoltori').exists():
+        macchinari_all = macchinari.objects.filter(azienda=Profile.objects.filter(user=utente))
+        azienda = Profile.objects.filter(user=utente)
+    elif utente.is_staff or utente.groups.filter(name='Universita').exists():
+        macchinari_all = macchinari.objects.all()
+        azienda = Profile.objects.none()
+    else:
+        macchinari_all = macchinari.objects.none()
+        azienda = Profile.objects.none()
+
+
+    return render(request,'macchinari.html',{
+        'macchinari': macchinari_all,
+        "azienda": azienda
+    })
+
+@login_required
+def logistica_list(request):
+    utente = request.user
+    if utente.groups.filter(name='Agricoltori').exists():
+        macchinari_all = macchinari.objects.filter(azienda=Profile.objects.filter(user=utente))
+        azienda = Profile.objects.filter(user=utente)
+    elif utente.is_staff or utente.groups.filter(name='Universita').exists():
+        macchinari_all = macchinari.objects.all()
+        azienda = Profile.objects.none()
+    else:
+        macchinari_all = macchinari.objects.none()
+        azienda = Profile.objects.none()
+
+    trasporti = Trasporto.objects.all()
+    return render(request, 'logistica.html', {
+        'trasporti': trasporti,
+        "azienda": azienda
+    })
+
 @login_required
 def dash_list_consumatore(request):
     aziende = Profile.objects.all()
@@ -249,6 +290,63 @@ def form_campi(request):
             sel_proprietario =True
 
     return render(request, 'dashboard_form.html', {'form': form,'proprietario': sel_proprietario})
+
+@login_required
+def form_macchinari(request):
+    if request.method == 'POST':
+        form = MacchinariForm(request.POST)
+        if form.is_valid():
+            macchinario = form.save(commit=False)
+
+            # automaticamente assegno il proprietario del campo
+            if request.user.groups.filter(name='Agricoltori').exists():
+                macchinario.azienda = Profile.objects.get(user=request.user)
+
+            macchinario.save()
+            # process the data in form.cleaned_data as required
+            # ...
+            messages.success(request, 'Il tuo macchinario è stato aggiunto!')
+            # redirect to a new URL:
+            return redirect('lista-macchinari')
+
+            # if a GET (or any other method) we'll create a blank form
+    else:
+        form = MacchinariForm()
+        if request.user.groups.filter(name='Agricoltori').exists():
+            sel_proprietario = False
+        if request.user.is_staff or request.user.groups.filter(name='Universita').exists():
+            sel_proprietario = True
+
+    return render(request, 'macchinari_form.html', {'form': form, 'proprietario': sel_proprietario})
+
+
+@login_required
+def form_logistica_add(request):
+    if request.method == 'POST':
+        form = LogisticaForm(request.POST)
+        if form.is_valid():
+            logistica = form.save(commit=False)
+
+            # automaticamente assegno qualcosa qui
+            # if request.user.groups.filter(name='Agricoltori').exists():
+            #     macchinario.azienda = Profile.objects.get(user=request.user)
+
+            logistica.save()
+            # process the data in form.cleaned_data as required
+            # ...
+            messages.success(request, 'Il tuo trasporto è stato aggiunto!')
+            # redirect to a new URL:
+            return redirect('lista_logistica')
+
+            # if a GET (or any other method) we'll create a blank form
+    else:
+        form = LogisticaForm()
+        if request.user.groups.filter(name='Agricoltori').exists():
+            sel_proprietario = False
+        if request.user.is_staff or request.user.groups.filter(name='Universita').exists():
+            sel_proprietario = True
+
+    return render(request, 'logistica_form.html', {'form': form, 'proprietario': sel_proprietario})
 
 
 @login_required
@@ -504,12 +602,14 @@ def form_analisi(request):
     return render(request, 'analisi_form.html', {'form': form})
 
 
+
 class CampoUpdateView(LoginRequiredMixin,UpdateView):
     model = campi
     template_name = 'dashboard_form.html'
     form_class = CampiAziendeForm
     success_message = 'Successo: Il campo è stato aggiornato.'
     success_url = reverse_lazy('main-fields')
+    fields = '__all__'
 
 
 
@@ -536,12 +636,29 @@ class AnalisiUpdateView(LoginRequiredMixin,UpdateView):
         kwargs['user'] = self.request.user
         return kwargs
 
+class MacchinariUpdateView(LoginRequiredMixin,UpdateView):
+    model = macchinari
+    template_name = 'macchinari_form.html'
+    form_class = MacchinariForm
+    # fields = '__all__'
+    success_message = "Successo: Il macchinario è stato aggiornato."
+    success_url = reverse_lazy('lista-macchinari')
+
+
+
+
 
 class AnalisiDeleteView(LoginRequiredMixin,DeleteView):
     model = analisi_suolo
     template_name = 'confirm_delete.html'
     success_message = '''Successo: L'analisi è stato eliminato.'''
     success_url = reverse_lazy('main-analisi')
+
+class MacchinariDeleteView(LoginRequiredMixin,DeleteView):
+    model = macchinari
+    template_name = 'confirm_delete.html'
+    success_message = '''Successo: Il macchinario è stato eliminato.'''
+    success_url = reverse_lazy('lista-macchinari')
 
 class OperazioniDeleteView(LoginRequiredMixin,DeleteView):
     model = oper_model
@@ -739,7 +856,3 @@ class CampiGeoJson(GeoJSONLayerView):
         else:
             context = campi.objects.filter(proprietario=Profile.objects.get(user=self.request.user))
         return context
-
-
-
-

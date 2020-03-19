@@ -153,7 +153,7 @@ class bilancio(models.Model):
     Lambda = models.FloatField(default=0.0)
     a = models.FloatField(default=0.0)
     Au = models.FloatField(verbose_name='A>U mm',default=0.0)
-    A = models.FloatField(default=0.0,verbose_name='capacità idrica massima',help_text='colonna L')
+    A = models.FloatField(default=0.0,verbose_name='capacità idrica massima',help_text='colonna M')
     Amin_irr = models.FloatField(default=40.0,verbose_name='Amin Irr',blank=True,null=True)
     Irrigazione = models.NullBooleanField(default=False,blank=True,null=True)
     dose = models.FloatField(default=0.0)

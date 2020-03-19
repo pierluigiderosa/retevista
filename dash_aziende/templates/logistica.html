@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+{% load l10n %}
+
+
+{% block script %}
+
+{% endblock %}
+{% block css %}
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        {% include "lateral_panel_dashboard.html" %}
+
+        <div class="col-md-10 p-0 bg-indigo h-md-100">
+            <div class="sticky-top">
+                <h1 class="h2">Logistica</h1>
+            </div>
+            <a class="btn btn-primary" id="add-logistica" title="Nuovo" role="button"><i class="fas fa-plus"></i></a>
+
+            <h2 class="">Azienda {{ azienda.user.first_name }} {{ azienda.user.last_name }}<br><small class="text-muted" >{{ azienda.pec }}</small></h2>
+            <div class="card-group">
+                {% for trasporto in trasporti %}
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        $('#add-logistica').click(function(){
+            window.location.href = '{% url 'add-logistica' %}'
+        });
+    </script>
+
+{% endblock %}

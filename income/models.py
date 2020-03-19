@@ -121,7 +121,7 @@ class dati_orari(models.Model):
     objects = DataFrameManager()
 
     def __str__(self):
-        return '%s' %(str(self.dataora))
+        return '%s %s' %(str(self.dataora), str(self.stazione))
 
     class Meta:
           ordering = ('-dataora',) # helps in alphabetical listing. Sould be a tuple

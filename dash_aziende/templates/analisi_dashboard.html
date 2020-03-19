@@ -22,7 +22,7 @@
     <div class="row">
         {% include "lateral_panel_dashboard.html" %}
 
-        <div class="col-md-4 p-0 bg-indigo h-md-100">
+        <div class="col-md-7 p-0 bg-indigo h-md-100">
 
             <div class="sticky-top">
                 <h1 class="h2">Analisi del suolo</h1>
@@ -33,41 +33,43 @@
 
             {% for analisi in analisies %}
                 <div class="col-12 mt-2">
-                <div class="card border-primary mb-3" style="max-width: 48rem;">
+                <div class="card border-primary mb-3" style="max-width: 100%;">
                     <div class="card-header">Id Campione {{ analisi.id_campione }} --- Data segnalazione:{{ analisi.data_segnalazione }}
                     </div>
                     <div class="card-body text-primary">
                         <h4>nome campo: {{ analisi.campo.nome }}</h4>
                         <h5 class="card-title">Dettagli analisi</h5>
 
-                        <p class="card-text">
-                            pH: {{ analisi.pH }}
-                            sabbia: {{ analisi.sabbia }}
-                            limo: {{ analisi.limo }}
-                            argilla:{{ analisi.argilla }}
-                            sostanza organica: {{ analisi.OM }}
-                            azoto: {{ analisi.azoto }}
-                            fosforo: {{ analisi.fosforo }}
-                            potassio: {{ analisi.potassio }}
-                            Capacità di scambio cationico: {{ analisi.scambio_cationico }}
-                            Densità apparente: {{ analisi.den_apparente }}
-                            pietrosità: {{ analisi.pietrosita }}
-                            profondità: {{ analisi.profondita }}
-                            capacità di campo: {{ analisi.cap_di_campo }}
-                            Calcare totale: {{ analisi.CACO3_tot }}
-                            Calcare attivo: {{ analisi.CACO3_att }}
-                        </p>
+                        <div class="container">
+                        <ul class=" list-unstyled row">
+                           <li class="list-item col-sm-4"> pH: <strong>{{ analisi.pH }}</strong></li>
+                           <li class="list-item col-sm-4"> sabbia: <strong>{{ analisi.sabbia }}</strong></li>
+                           <li class="list-item col-sm-4"> limo: <strong>{{ analisi.limo }}</strong></li>
+                            <li class="list-item col-sm-4"> argilla:<strong>{{ analisi.argilla }}</strong></li>
+                            <li class="list-item col-sm-4"> sostanza organica:<strong>{{ analisi.OM }}</strong></li>
+                            <li class="list-item col-sm-4"> azoto: <strong>{{ analisi.azoto }}</strong></li>
+                            <li class="list-item col-sm-4"> fosforo:<strong>{{ analisi.fosforo }}</strong></li>
+                            <li class="list-item col-sm-4"> potassio:<strong>{{ analisi.potassio }}</strong></li>
+                            <li class="list-item col-sm-4"> Capacità di scambio cationico:<strong>{{ analisi.scambio_cationico }}</strong></li>
+                            <li class="list-item col-sm-4">Densità apparente:<strong>{{ analisi.den_apparente }}</strong></li>
+                            <li class="list-item col-sm-4">pietrosità:<strong>{{ analisi.pietrosita }}</strong></li>
+                            <li class="list-item col-sm-4">profondità:<strong>{{ analisi.profondita }}</strong></li>
+                            <li class="list-item col-sm-4">capacità di campo:<strong>{{ analisi.cap_di_campo }}</strong></li>
+                            <li class="list-item col-sm-4">Calcare totale:<strong>{{ analisi.CACO3_tot }}</strong></li>
+                            <li class="list-item col-sm-4">Calcare attivo:<strong>{{ analisi.CACO3_att }}</strong></li>
+                        </ul>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <small class="text-muted">Centra in mappa</small>
                         <button title="Centra in mappa"
-                                xmin="{{ analisi.geom.x|unlocalize}}"
-                                ymin="{{ analisi.geom.y|unlocalize }}"
+                                xmin="{{ analisi.campo.geom.centroid.x|unlocalize}}"
+                                ymin="{{ analisi.campo.geom.centroid.y|unlocalize }}"
                                 class="btn btn-light btn-sm no-focus-highlight center-in-map">
                             <i class="fas fa-map-marker-alt fa-lg"></i>
                         </button>
                          <a href="{% url 'update-analisi' pk=analisi.id %}"><i class="fas fa-edit fa-lg"></i></a>
-                         <a href="{% url 'delete-analisi' pk=analisi.id %}"><i class="fas fa-trash-alt fa-lg""></i></a>
+                         <a href="{% url 'delete-analisi' pk=analisi.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
                     </div>
                 </div>
                 </div>
@@ -80,7 +82,7 @@
 
         <!-- Second Half -->
 
-        <div class="col-md-6 p-0 bg-white h-md-100">
+        <div class="col-md-3 p-0 bg-white h-md-100">
             {% leaflet_map "main" callback="main_map_init" %}
         </div>
     </div>
@@ -159,7 +161,7 @@
                 {#map.setView([lng,lat], 12);#}
                 map.setView(
                     [ymin,xmin],
-                    18
+                    16
                 );
 
             });

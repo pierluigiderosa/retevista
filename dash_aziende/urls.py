@@ -1,11 +1,12 @@
 from django.conf.urls import url
 
-from .views import dashboard_fields,form_campi,add_profile,CampiGeoJson,form_analisi,dashboard_analisi,\
-    CampoUpdateView,AnalisiUpdateView,\
-    CampoDeleteView,AnalisiDeleteView,dashboard_main,get_data_charts,dash_operazioni_colturali,form_operazioni,\
-    OperazioniDeleteView,edit_profile,dashboard_consiglio,dash_consumatore,\
-    CampiEstesiJson, dash_list_consumatore,operazioniJson
-from .models import campi,analisi_suolo
+from .views import dashboard_fields, form_campi, add_profile, CampiGeoJson, form_analisi, dashboard_analisi, \
+    CampoUpdateView, AnalisiUpdateView, \
+    CampoDeleteView, AnalisiDeleteView, dashboard_main, get_data_charts, dash_operazioni_colturali, form_operazioni, \
+    OperazioniDeleteView, edit_profile, dashboard_consiglio, dash_consumatore, \
+    CampiEstesiJson, dash_list_consumatore, operazioniJson, list_macchinari, \
+    form_macchinari,MacchinariDeleteView,MacchinariUpdateView, logistica_list, form_logistica_add
+from .models import campi
 
 urlpatterns = [
     url(r'^add/form/$',form_campi,name='form-campi'),
@@ -18,6 +19,12 @@ urlpatterns = [
     url(r'^delete/operazione/(?P<pk>\d+)$', OperazioniDeleteView.as_view(), name='delete-operazioni'),
     url(r'^registrazione/$',add_profile,name='add-profilo-aziendale'),
     url(r'^update/registrazione/$', edit_profile, name='update-profilo-aziendale'),
+    url(r'^macchinari/add/$',form_macchinari,name='form-macchinari'),
+    url('macchinari/delete/(?P<pk>\d+)$', MacchinariDeleteView.as_view(), name='delete-macchinari'),
+    url('macchinari/update/(?P<pk>\d+)$', MacchinariUpdateView.as_view(), name='update-macchinari'),
+    url(r'^macchinari/$',list_macchinari,name='lista-macchinari'),
+    url(r'logistica/add$',form_logistica_add,name='add-logistica'),
+    url(r'logistica/$',logistica_list,name='lista_logistica'),
     url(r'^campi.geojson$', CampiGeoJson.as_view(model=campi), name='campi_geojson'),
     url(r'^campiEstesi.json$', CampiEstesiJson, name='campi_estesi_json'),
     url(r'^operazioni.json$', operazioniJson, name='operazioni_dettaglio_json'),

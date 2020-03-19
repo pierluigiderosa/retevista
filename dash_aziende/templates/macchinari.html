@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+{% load leaflet_tags %}
+{% load l10n %}
+
+
+{% block script %}
+
+{% endblock %}
+{% block css %}
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        {% include "lateral_panel_dashboard.html" %}
+
+        <div class="col-md-10 p-0 bg-indigo h-md-100">
+            <div class="sticky-top">
+                <h1 class="h2">Macchinari</h1>
+            </div>
+            <a class="btn btn-primary" id="add-macchinario" title="Nuovo" role="button"><i class="fas fa-plus"></i></a>
+
+            <h2 class="">Azienda {{ azienda.user.first_name }} {{ azienda.user.last_name }}<br><small class="text-muted" >{{ azienda.pec }}</small></h2>
+            <div class="card-group">
+                {% for macchina in macchinari %}
+                    <div class="card border-primary mb-3" style="max-width: 100%;">
+                        <div class="card-header">Macchinario <strong>{{ macchina.tipo_macchina }} --- {{ macchina.nome }}</strong>
+                        </div>
+                        <table class="table-light table">
+                            <thead>
+                            <tr>
+                                <th>Marca<br>{{ macchina.marca}}</th>
+                                <th>Modello<br>{{ macchina.modelloMacchinario}}</th>
+                                <th>Descrizione<br>{{ macchina.descrizione}}</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+                                <td>potenza:{{ macchina.potenza }}</td>
+                                <td>anno:{{ macchina.anno }}</td>
+                                <td>targa:{{ macchina.targa }}</td>
+                            </tr>
+
+                            <tr>
+                                <td>telaio {{ macchina.telaio}}</td>
+                                <td>Data di acquisto {{ macchina.data_acquisto}}</td>
+                                <td>
+                                    {% if macchina.libretto_circolazione %}
+                                    <a class="btn btn-outline-secondary" href="{{ macchina.libretto_circolazione.url }}" role="button">Libretto</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Data di controllo {{ macchina.data_controllo}}</td>
+                                <td>Data di revisione {{ macchina.data_revisione }}</td>
+                                <td>
+                                    {% if macchina.documento_assicurazione %}
+                                        <a class="btn btn-outline-secondary" href="{{ macchina.documento_assicurazione.url }}" role="button">Assicurazione</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {% if macchina.manuale_uso %}
+                                        <a class="btn btn-outline-secondary" href="{{ macchina.manuale_uso.url }}" role="button">manuale</a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if macchina.altri_allegati %}
+                                        <a class="btn btn-outline-secondary" href="{{ macchina.altri_allegati.url }}" role="button">Altro</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="card-footer">
+                           <a href="{% url 'update-macchinari' pk=macchina.id %}"><i class="fas fa-edit fa-lg"></i></a>
+                         <a href="{% url 'delete-macchinari' pk=macchina.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
+                        </div>
+
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+    <script type="text/javascript">
+
+        $('#add-macchinario').click(function(){
+            window.location.href = '{% url 'form-macchinari' %}'
+        });
+    </script>
+
+{% endblock %}

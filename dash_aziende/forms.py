@@ -12,7 +12,7 @@ from crispy_forms.layout import Layout, Fieldset, Row, Column, Submit,HTML
 
 from .models import Profile, campi, analisi_suolo,\
     fertilizzazione,irrigazione,semina,trattamento,raccolta,\
-    operazioni_colturali
+    operazioni_colturali,macchinari,Trasporto
 
 LEAFLET_WIDGET_ATTRS = {
     'map_height': '500px',
@@ -31,7 +31,26 @@ class CampiAziendeForm(forms.ModelForm):
         fields = ('nome','coltura', 'geom','proprietario')
         widgets = {'geom': LeafletWidget(attrs=LEAFLET_WIDGET_ATTRS)}
 
+class MacchinariForm(forms.ModelForm):
 
+    class Meta:
+        model = macchinari
+        fields =  ('tipo_macchina','nome','descrizione',
+                   'marca','modelloMacchinario','potenza',
+                   'anno','targa','telaio','data_acquisto',
+                   'data_revisione','data_controllo','libretto_circolazione',
+                   'documento_assicurazione','manuale_uso','altri_allegati',
+                   ) #escludo il campo aziende
+        widgets = {'data_acquisto': forms.SelectDateWidget,
+                   'data_controllo': forms.SelectDateWidget,
+                   'data_revisione': forms.SelectDateWidget}
+
+class LogisticaForm(forms.ModelForm):
+
+    class Meta:
+        model = Trasporto
+        fields='__all__'
+        widgets={'data': forms.DateTimeField(input_formats=['%d/%m/%Y %H:%M']),}
 
 class EditCampiAziende(UpdateView):
     model = campi

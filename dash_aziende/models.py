@@ -19,6 +19,7 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    denominazione = models.CharField(max_length=250,default="",verbose_name="Denominazione estesa",help_text="non usare caratteri accentati")
     pec = models.EmailField(null=True, blank=True)
     codiceSID = models.CharField(max_length=30, blank=True,verbose_name='Codice Destinatario (SID)')
     indirizzo = models.CharField(null=True, blank=True,max_length=250)
@@ -44,7 +45,7 @@ class Profile(models.Model):
     cellulare = models.CharField(verbose_name='Cellulare',max_length=25,blank=True,null=True)
 
     def __str__(self):
-        return '%s:%s' %(self.user.first_name,self.user.last_name)
+        return 'Azienda {}| {} {}'.format(self.denominazione,self.user.first_name,self.user.last_name)
 
     class Meta:
         verbose_name = 'Agricoltore'
@@ -77,6 +78,9 @@ def max_value_year(value):
 
 
 class campi(models.Model):
+    '''
+    Modello che contiene il campo delle aziende
+    '''
     nome = models.CharField(max_length=250)
     coltura = models.ForeignKey(colture,blank=True,null=True,default="")
     geom = models.PolygonField(srid=4326)
@@ -301,4 +305,111 @@ class analisi_suolo(models.Model):
         verbose_name_plural = 'analisi dei suoli'
 
 
+def current_year():
+    return datetime.date.today().year
+
+def max_value_current_year(value):
+    return MaxValueValidator(current_year())(value)
+
+
+class macchinari(models.Model):
+    '''
+    modello dei macchinari agricoli
+    '''
+    macchinari_choices = [
+        ('atomizzazione', 'Atomizzatore'),
+        ('pressa', 'Pressa'),
+        ('disco', 'Disco'),
+        ('spandiconcime', 'Spandiconcime'),
+        ('materiale irrigazione', 'Materiale irrigazione'),
+        ('altro','Altro'),
+        ('aratro', 'Aratro'),
+        ('rullo', 'Rullo'),
+        ('seminatrice', 'Seminatrice'),
+        ('trinciatrice', 'Trinciatrice'),
+        ('polverizzatrice', 'Polverizzatrice'),
+        ('stoccaggio', 'Stoccaggio'),
+        ('carro botte', 'Carro botte'),
+        ('voltafieno', 'Voltafieno'),
+        ('cingolato', 'Cingolato'),
+        ('trattore', 'Trattore'),
+
+    ]
+    azienda = models.ForeignKey(Profile)
+    tipo_macchina = models.CharField(max_length=50,choices=macchinari_choices,default="",verbose_name="Tipo")
+    nome = models.CharField(max_length=250)
+    descrizione = models.TextField(blank=True,null=True)
+    marca =  models.CharField(max_length=250)
+    modelloMacchinario =  models.CharField(max_length=250, verbose_name="modello")
+    potenza =   models.PositiveIntegerField(verbose_name="potenza in kwh")
+    anno = models.PositiveIntegerField(
+        default=current_year()-50, validators=[MinValueValidator(1950), max_value_current_year],
+        verbose_name="Anno di produzione",help_text="anno minimo 1950")
+    targa = models.CharField(max_length=10)
+    telaio = models.CharField(max_length=250)
+    data_acquisto = models.DateField(verbose_name="data di acquisto")
+    data_revisione = models.DateField(verbose_name="data di revisione")
+    data_controllo = models.DateField(verbose_name="data di controllo tecnico")
+    libretto_circolazione = models.FileField(upload_to='macchinari',verbose_name="Libretto di Circolazione",blank=True,null=True)
+    documento_assicurazione = models.FileField(upload_to='macchinari', verbose_name="Documento di assicurazione",
+                                             blank=True, null=True)
+    manuale_uso = models.FileField(upload_to='macchinari', verbose_name="Manuale d'uso",
+                                             blank=True, null=True)
+    altri_allegati = models.FileField(upload_to='macchinari', verbose_name="Altri allegati",
+                                             blank=True, null=True)
+
+    def __str__(self):
+        return 'macchinario {}, {}'.format(self.tipo_macchina,self.nome)
+
+    class Meta:
+        verbose_name = 'macchinario'
+        verbose_name_plural = 'macchinari'
+        # order_with_respect_to = 'azienda'
+        ordering = ['nome']
+
+class Magazzino(models.Model):
+    '''
+    modello geografico del magazzino
+    '''
+    nome = models.CharField(max_length=250)
+    geom = models.PointField(srid=4326)
+
+class Trasporto(models.Model):
+    '''
+    modello del trasporto del prodotto al magazzino
+    '''
+    quantita = models.IntegerField(verbose_name='Quantità')
+    coltura = models.ForeignKey(colture)
+    campo_origine = models.ForeignKey(campi,verbose_name='Origine - Lista campi')
+    desc_origine = models.CharField(max_length=500,verbose_name='Origine - Descrizione')
+    magazz_dest = models.ForeignKey(Magazzino,verbose_name='Destinazione - prodotto di magazzino')
+    desc_dest = models.CharField(max_length=500,verbose_name='Destinazione - Descrizione')
+    persona = models.CharField(max_length=500,verbose_name='Persona')
+    documento = models.CharField(max_length=500,verbose_name='N. Documento')
+    trasportatore = models.CharField(max_length=500, verbose_name='Trasportatore')
+    targa = models.CharField(max_length=500, verbose_name='Targa automezzo')
+    data = models.DateField(verbose_name='Data')
+    nota = models.TextField(blank=True,null=True)
+    allegato = models.FileField(upload_to='trasporto', verbose_name="Allegato",
+                                             blank=True, null=True)
+
+
+# class Landsat8Ndvi(models.Model):
+#     '''
+#     Modello che salva i raster landsat di ogni campo
+#     '''
+#     campo = models.ForeignKey(campi)
+#     giorno = models.DateField()
+#     rasterNdvi = models.FileField(upload_to='ndvi',verbose_name='raster ndvi geotif',help_text='caricare un raster nel SR 4326 -- lat/long wgs84')
+#     geometry = models.MultiPolygonField(srid=4326)
+#
+#     objects = models.GeoManager()
+#
+#     def __str__(self):
+#         return '{} {}'.format(self.campo,self.giorno)
+#
+#     class Meta:
+#         verbose_name = 'ndvi'
+#         verbose_name_plural = 'ndvi'
+#         ordering = ["campo", "giorno"]
 

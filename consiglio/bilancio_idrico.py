@@ -46,9 +46,12 @@ def costanteTerrenoModificata(PA,CC,den_app,stratoRadicale,RFUperc=50):
     print CCmodificato,PAmodificato,U,RFU,Airr_min
     return CCmodificato,PAmodificato,U,RFU,Airr_min
 
-def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c7=55,ctm_c3=65,
-                    cap_id_max=55,area_irrigata_mq=3840,Et0=0,dose_antropica=0,
-                    posticipa=False):
+def bilancio_idrico(pioggia, soglia=5, Kc=0, ctm_c7=55, ctm_c3=65,
+                    A_day_precedente=55, area_irrigata_mq=3840, Et0=0, dose_antropica=0,
+                    posticipa=False,
+                    nomeApp=None,
+                    Irrigazione_giorno_precedente=False,
+                    email=None):
     if pioggia>soglia:
         pioggia_5=pioggia
     else:
@@ -58,25 +61,30 @@ def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c7=55,ctm_c3=65,
     Etc=Et0*Kc
 
     #ctm_c7 viene chiamato Airr_min
-    #cap_id_max corrisponde alla colonna L
-    if cap_id_max < ctm_c7:
+    #cap_id_max corrisponde alla colonna M
+    if A_day_precedente < ctm_c7:
         irrigazione = True
-        #TODO inviare mail
-        # send_mail('Assegnazione domanda', body.encode("utf8"), 'comunicazioni@agrisurvey.it', [to_mail])
+        #invio mail
+        send_mail(
+            'Avvio procedura di irrigazione campo {}'.format(nomeApp),
+            'Si deve avviare la procedura di irrigazione al campo {}.\b'.format(nomeApp),
+            'retevista@gmail.com',
+            ['pierluigi.derosa@gmail.com','peppoloni.francy@gmail.com'], #in definitiva mettere email
+            fail_silently=False,
+        )
 
     else:
         irrigazione = False
 
     #P - Ep controllato con irrigazione
+    dose = 0
     if irrigazione:
-        if posticipa is True:
-            if dose_antropica==0:
-                dose = ctm_c3-cap_id_max  #va dato A giorno precedente
-    else:
-        dose=0
+        if posticipa is False and dose_antropica==0 and Irrigazione_giorno_precedente is True:
+            dose = ctm_c3 - A_day_precedente  #va dato A giorno precedente
+
 
     #P-Ep
-    if irrigazione:
+    if A_day_precedente < ctm_c7:
         P_ep = pioggia_5 - Etc + dose_antropica + dose
     else:
         P_ep = pioggia_5 - Etc + dose_antropica
@@ -91,11 +99,11 @@ def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c7=55,ctm_c3=65,
 
     a=0
     if Lambda != 0:
-        a=1.*cap_id_max/ctm_c3*exp(Lambda)
+        a= 1. * A_day_precedente / ctm_c3 * exp(Lambda)
 
     #Au
     if a==0:
-        Au = cap_id_max+P_ep
+        Au = A_day_precedente + P_ep
     else:
         Au = a * ctm_c3
 
@@ -106,15 +114,15 @@ def bilancio_idrico(pioggia,soglia=5,Kc=0,ctm_c7=55,ctm_c3=65,
         A = Au
 
     #Irr_mm
-    Irr_mm = 0
+    Irr_mc_ha = 0
     if irrigazione:
-        Irr_mm = dose* area_irrigata_mq/1000.
+        Irr_mc_ha = dose* area_irrigata_mq/1000.
 
 
 
 
         
-    return Etc,P_ep,L,Lambda,a,Au,A,dose, A, Irr_mm,irrigazione
+    return Etc,P_ep,L,Lambda,a,Au,A,dose, A, Irr_mc_ha,irrigazione
 
 
 def calc_Kc(coltura_id):
@@ -318,15 +326,21 @@ def calc_bilancio_campo():
             bilancio_giorno_prec = bilancio.objects.filter(data_rif=ieri, appezzamentoDaCampo=app_campo)
             bilancio_odierno = bilancio.objects.filter(data_rif=oggi, appezzamentoDaCampo=app_campo)
             nota=''
+
+            posticipa_Irr = None
+            Irrigazione_giorno_precedente = False
             # dose antropica per irrigazione forzata
             if bilancio_giorno_prec.count()==0:
                 cap_id_max = app_campo.cap_idrica
                 nota+='calcolo eseguito con cap id. max da valore appezzam.: '+str(cap_id_max)
                 dose_antropica = 0
+                posticipa_Irr = False
             elif bilancio_giorno_prec.count()==1:
                 cap_id_max= bilancio_giorno_prec[0].A
                 nota += 'calcolo eseguito con cap id. max da giorno precedente.: ' + str(round(cap_id_max,2))
                 dose_antropica = bilancio_giorno_prec[0].dose_antropica
+                posticipa_Irr = bilancio_giorno_prec[0].Irr_posticipata
+                Irrigazione_giorno_precedente = bilancio_giorno_prec[0].Irrigazione
             app_campo.campi.geom.transform(3004, clone=False)
             areaCampo = app_campo.campi.geom.area
 
@@ -361,13 +375,16 @@ def calc_bilancio_campo():
             Etc,P_ep,L,Lambda,a,Au,A,dose, A, Irr_mm, irrigazione = bilancio_idrico(pioggia_cumulata,
                                                                                     soglia=soglia,
                                                                                     Kc=Kc_calcolata,
-                                                                                    ctm_c7=Airr_min, #da calcolo
-                                                                                    ctm_c3=cap_id_util, #da calcolo U
-                                                                                    cap_id_max=cap_id_max,
+                                                                                    ctm_c7=Airr_min,  #da calcolo
+                                                                                    ctm_c3=cap_id_util,  #da calcolo U
+                                                                                    A_day_precedente=cap_id_max,
                                                                                     area_irrigata_mq=areaCampo,
                                                                                     Et0=Et0,
                                                                                     dose_antropica = dose_antropica,
-                                                                                    posticipa= bilancio_giorno_prec[0].Irr_posticipata)
+                                                                                    posticipa= posticipa_Irr,
+                                                                                    nomeApp=app_campo.campi.nome,
+                                                                                    Irrigazione_giorno_precedente=Irrigazione_giorno_precedente,
+                                                                                    email=app_campo.campi.proprietario.user.email)
 
 
             #salvataggio dati
@@ -395,3 +412,4 @@ def calc_bilancio_campo():
                 nuovo_bilancio_giornaliero.save()
 
             print(ieri,stazione_closest.nome,Tmax,Tmin,RH_max,RH_min,SRmedia,vel_vento,Et0,pioggia_cumulata,cap_id_util,areaCampo, dose, A, Irr_mm)
+            print('irrigazione giorno precedente: {}'.format(Irrigazione_giorno_precedente))
