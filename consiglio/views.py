@@ -15,6 +15,7 @@ from django.views.generic import DeleteView
 from django_common.mixin import LoginRequiredMixin
 
 from consiglio.models import appezzamento,bilancio,appezzamentoCampo,rasterAppezzamento
+from dash_aziende.models import campi
 from income.models import stazioni_retevista, dati_aggregati_daily
 from .WriteToExcel import WriteToExcel
 from consiglio.bilancio_idrico import costanteTerrenoModificata
@@ -270,6 +271,12 @@ def get_data(request, uid=1):
     return JsonResponse(data)
 
 def get_campi_data(request,uid=1):
+    '''
+    denominata api-data-campi
+    :param request:
+    :param uid:
+    :return: json
+    '''
     try:
         uid = int(uid)
     except ValueError:
@@ -281,7 +288,7 @@ def get_campi_data(request,uid=1):
     stazione_closest = stazioni_retevista.objects.annotate(
         distance=Distance('geom', appezzam_pnt)
     ).order_by('distance').first()
-    dato_giornaliero = dati_aggregati_daily.objects.filter(stazione=stazione_closest)
+
     labels = []
     default_items = []
     Etc = []
@@ -328,6 +335,47 @@ def get_campi_data(request,uid=1):
         "users": User.objects.all().count(),
     }
     return JsonResponse(data)
+
+def api_meteo_campi(request):
+    if request.method == 'GET':
+        campoID = request.GET.get('campo')
+        # campo = campi.objects.filter(id=campoID).values('nome','geom','coltura', 'data_inizio',
+        #                                                 'uso_colturale', 'precocita', 'data_semina',
+        #                                                 'data_raccolta', 'semente', 'produzione',
+        #                                                 'irrigato', 'tessitura', 'drenaggio',
+        #                                                 'gestione', 'pendenza', 'dataApportoIrriguo',
+        #                                                 )
+        campo = campi.objects.get(id=campoID)
+        stazione_closest = stazioni_retevista.objects.annotate(
+            distance=Distance('geom', campo.geom.centroid)
+        ).order_by('distance').first()
+
+        dati_meteo_daily = dati_aggregati_daily.objects.filter(stazione=stazione_closest)[:30]
+        # preparo la serializzazione
+        Tmin = [meteo.temp_min for meteo in dati_meteo_daily]
+        Tmean = [meteo.temp_mean for meteo in dati_meteo_daily]
+        Tmax = [meteo.temp_max for meteo in dati_meteo_daily]
+        wind = [meteo.wind_speed_mean for meteo in dati_meteo_daily]
+        rain = [meteo.rain_cumulata for meteo in dati_meteo_daily]
+        hum_max = [meteo.humrel_max for meteo in dati_meteo_daily]
+        hum_min = [meteo.humrel_min for meteo in dati_meteo_daily]
+        labels = [meteo.data.strftime('%d/%m/%Y') for meteo in dati_meteo_daily]
+
+        data ={
+            "labels": labels,
+            "Tmin": Tmin,
+            "Tmean": Tmean,
+            "Tmax": Tmax,
+            "wind": wind,
+            "rain": rain,
+            "hum_max": hum_max,
+            "hum_min": hum_min,
+            "nome": stazione_closest.nome,
+        }
+        return JsonResponse(data)
+    else:
+        return Http404
+
 
 class RasterCasaDeleteView(LoginRequiredMixin,DeleteView):
     model = rasterAppezzamento

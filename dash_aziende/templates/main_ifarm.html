@@ -16,9 +16,15 @@
 
 
 {% block content %}
-
+<div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">iFarm</h1>
+      <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+{#      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>#}
+    </div>
+  </div>
     <div class="row">
-        {% include "lateral_panel_dashboard.html" %}
+        {% include "lateral_panel_iFarm.html" %}
 
         <div class="col-md-4 p-0 bg-indigo h-md-100" url-endpoint='{% url "api-data-dash" %}'>
             <canvas id="myChart" width="400" height="200"></canvas>

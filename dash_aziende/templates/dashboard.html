@@ -8,6 +8,8 @@
     {% leaflet_js %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/1.0.2/proj4leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.2/dist/Chart.bundle.min.js"></script>
+
 {% endblock %}
 {% block css %}
     {% leaflet_css %}
@@ -16,26 +18,33 @@
     </style>
 {% endblock %}
 
-
 {% block content %}
 
 
     <div class="row">
-        {% include "lateral_panel_dashboard.html" %}
+    {% if forecast %}
+                {% include "lateral_panel_iLand.html" %}
+    {% else %}
+        {% include "lateral_panel_iFarm.html" %}
+    {% endif %}
 
         <div class="col-md-4 p-0 bg-indigo h-md-100">
 
             <div class="sticky-top">
-                <h1 class="h2">Dashboard</h1>
+                {% if forecast %}
+                    <h1 class="h2">iLand - poderi aziendali</h1>
+                {% else %}
+                <h1 class="h2">iFarm - poderi aziendali</h1>
+                {% endif %}
             </div>
-
-            <a class="btn btn-primary" id="add-field" title="Nuovo" role="button"><i class="fas fa-plus"></i></a>
-
-
+{% if not forecast %}
+            <a class="btn btn-primary" id="add-field" title="Nuovo" role="button"><i class="fas fa-plus"></i>Campo</a>
+         <a class="btn btn-primary" id="add-coltura" title="Nuovo" role="button"><i class="fas fa-plus"></i>Coltura</a>
+{% endif %}
             {% for campo,area,latlong,previsioni,iframeURL in campi %}
                 <div class="col-md-6 col-lg-4 col-xl-3 mt-2">
                     <div class="card" style="width: 24rem;">
-                        <img class="card-img-top" src="{% static 'img/rice_field.jpg' %}" alt="Card image cap">
+                        {#                        <img class="card-img-top" src="{% static 'img/rice_field.jpg' %}" alt="Card image cap">#}
                         <div class="card-header">
                             <h4 class="card-title">{{ campo.nome }}</h4>
                             <button title="Centra in mappa"
@@ -48,7 +57,8 @@
                             </button>
                             <span class="card-area"><strong class="measure">{{ area }}</strong> ha</span>
                             <hr>
-                            <span class="card-area"><strong class="measure">Coltura <u>{{ campo.coltura }}</u></strong></span>
+                            {#                            <span class="card-area"><strong class="measure">Coltura <u>{{ campo.coltura }}</u></strong></span>#}
+                            <span class="card-area"><strong class="measure">Codice univoco (Pyy) {{ campo.id }}</strong> </span>
                         </div>
                         <div class="card-body">
                             {% if forecast %}
@@ -70,35 +80,41 @@
                                     </div>
                                     <div class="col-4">
                                         <h6>Previsione</h6>
-                                        <small><strong>{{ campo.previsione_meteo.daily.data.2.time|print_timestamp }}</strong>:<br>
+                                        <small><strong>Domani<br>{{ campo.previsione_meteo.daily.data.2.time|print_timestamp }}</strong>:<br>
                                             {{ campo.previsione_meteo.daily.data.2.precipIntensity|floatformat }} mm</small><hr>
-                                        <small><strong>{{ campo.previsione_meteo.daily.data.3.time|print_timestamp }} </strong>:<br>
+                                        <small><strong>Dopodomani<br>{{ campo.previsione_meteo.daily.data.3.time|print_timestamp }} </strong>:<br>
                                             {{ campo.previsione_meteo.daily.data.3.precipIntensity|floatformat }} mm</small>
 
                                     </div>
                                 </div>
 
                             {% else %}
-                                <p class="card-text">Estratto delle info sul campo.
+
+                                <p class="card-text" style="background-color: #4adc98;">Giacitura {% if campo.pendenza %}{{ campo.pendenza }}{% else %}Non inserita{% endif %}</p>
+                                <p class="card-text" style="background-color: #03a1ab;">Temperatura suolo</p>
+                                <p class="card-text" style="background-color: #3295d8;">Umidità</p>
+                                <p>
                                     {% if campo.dataApportoIrriguo %} Data ultimo apporto irriguo {{ campo.dataApportoIrriguo }},{% endif %} Annata agraria: {{ campo.annataAgraria }}
                                     {% if staff %}Azienda: {{ campo.proprietario }}{% endif %}
                                 </p>
                             {% endif %}
                         </div>
                         <div class="card-footer">
-                            <a href="{% url 'update-campi' pk=campo.id %}"><i class="fas fa-edit fa-lg"></i></a>
-                            <a href="{% url 'delete-campi' pk=campo.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
-                            {% if forecast %}
+                            {% if not forecast %}
+
+                                <a href="{% url 'update-campi' pk=campo.id %}"><i class="fas fa-edit fa-lg"></i></a>
+                                <a href="{% url 'delete-campi' pk=campo.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
+                            {% else %}
+                                <a class="meteoBtn btn btn-outline-primary" id="campo{{ campo.id }}"  data-catid="{{ campo.id }}"><i class="far fa-chart-bar fa-lg"></i> - Meteo</a>
                                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#ModalIframeStazione{{ forloop.counter }}">
                                     {{ iframeURL.stazioni }}
                                 </button>
-
                                 <!-- Modal -->
                                 <div class="modal fade" id="ModalIframeStazione{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                      aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
-                                            <iframe src={{ iframeURL.iframeURL }} width='500' height='500' frameborder='0'></iframe>
+                                            {#                                            <iframe src={{ iframeURL.iframeURL }} width='500' height='500' frameborder='0'></iframe>#}
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
                                             </div>
@@ -116,11 +132,138 @@
         <!-- Second Half -->
 
         <div class="col-md-6 p-0 bg-white h-md-100">
-            {% leaflet_map "main" callback="main_map_init" %}
+            <ul class="nav nav-tabs">
+                <li class="nav-item"> <a href="" class="active nav-link" data-toggle="pill" data-target="#tabone"><i class="fas fa-map"></i>&nbsp;Mappa</a> </li>
+                {% if forecast %}
+                <li class="nav-item"> <a class="nav-link" href="" data-toggle="pill" data-target="#tabtwo" contenteditable="true"><i class="far fa-chart-bar fa-lg"></i>&nbsp;Grafici Meteorologici<br></a> </li>
+                {% endif %}
+            </ul>
+            <div class="tab-content mt-2">
+                <div class="tab-pane fade show active" id="tabone" role="tabpanel">
+                    {% leaflet_map "main" callback="main_map_init" %}
+                </div>
+                {% if forecast %}
+                <div class="tab-pane fade" id="tabtwo" role="tabpanel">
+                    <h4 id="helpMeteo">Devi cliccare sul bottone meteo</h4>
+                    <h3><div id="nomeStazione"></div></h3>
+                    <canvas id="myChart" width="400" height="200"></canvas>
+                    <canvas id="myChart2" width="400" height="200"></canvas>
+                </div>
+                {% endif %}
+            </div>
         </div>
     </div>
     <script type="text/javascript">
         function main_map_init (map, options) {
+
+            $('.meteoBtn').click(function () {
+                var id;
+                id = $(this).attr("data-catid")
+                console.log(id);
+                $.ajax(
+                    {
+                        type:"GET",
+                        url: '{% url "api-meteo-campi" %}',
+                        data:{
+                            campo:id
+                        },
+                        success: function (data) {
+                            console.log(data)
+                            labels = data.labels
+                            rainData = data.rain
+                            Tmindata = data.Tmin
+                            Tmaxdata = data.Tmax
+                            Tmediadata = data.Tmedia
+                            // aggiungi i dati qua
+                            setChart()
+                            $("#nomeStazione").html("Stazione meteo di azienda "+data.nome)
+                            $("#helpMeteo").hide()
+                        },
+                        error: function (error_data) {
+                            console.log("errore meteo")
+                            console.log(error_data)
+                        }
+                    });
+                function setChart() {
+                    var ctx = document.getElementById('myChart').getContext('2d');
+                    var ctx2 = document.getElementById('myChart2').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'T. massima',
+                                data: Tmaxdata,
+                                backgroundColor: 'rgb(50,149,216)',
+                                borderColor: 'rgb(50,149,216)',
+                                borderWidth: 1,
+                                fill : false
+                            },{
+                                label: 'T. minima',
+                                data: Tmindata,
+                                backgroundColor: 'rgb(240,93,124)',
+                                borderColor: 'rgb(240,93,124)',
+                                borderWidth: 1,
+                                fill : false
+                            },{
+                                label: 'T. media',
+                                data: Tmediadata,
+                                backgroundColor: 'rgb(255,206,91)',
+                                borderColor: 'rgb(255,206,91)',
+                                borderWidth: 1,
+                                fill : false
+                            }],
+
+                        },
+                        options: {
+
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            },
+                            elements: {
+                                line: {
+                                    tension: 0.2
+                                }
+                            }
+                        }
+                    });
+                    var myChart = new Chart(ctx2, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'pioggia cumulata',
+                                data: rainData,
+                                backgroundColor: 'rgb(255,144,167,0.5)',
+                                borderColor: 'rgb(255,144,167)',
+                                borderWidth: 1,
+                                fill : false
+                            }],
+
+                        },
+                        options: {
+
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            },
+                            elements: {
+                                line: {
+                                    tension: 0
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+
             // Use Leaflet API bbox test 12.182465, 42.522724, 12.933811, 42.724821
 
             //map.setView([40.712, -74.227], 12);  //setta il centro mappa
@@ -198,7 +341,9 @@
         $('#add-field').click(function(){
             window.location.href = '{% url 'form-campi' %}'
         });
-
+        $('#add-coltura').click(function(){
+            window.location.href = '{% url 'form-coltura' %}'
+        });
     </script>
 {% endblock %}
 

@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static %}
+{% load leaflet_tags %}
+{% load l10n %}
+
+{% block script %}
+    {% leaflet_js %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.2/dist/Chart.bundle.min.js"></script>
+{% endblock %}
+{% block css %}
+    {% leaflet_css %}
+    <style>
+        .leaflet-container { height: 600px; width: 100%}
+    </style>
+{% endblock %}
+
+
+{% block content %}
+<div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">iLand</h1>
+      <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+{#      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>#}
+    </div>
+  </div>
+    <div class="row">
+        {% include "lateral_panel_iLand.html" %}
+
+        <div class="col-md-4 p-0 bg-indigo h-md-100" url-endpoint='{% url "api-data-dash" %}'>
+            <canvas id="myChart" width="400" height="200"></canvas>
+
+            <h1>Operazioni per coltura</h1>
+
+        </div>
+
+        <div class="col-md-4 p-0 bg-white h-md-100">
+            {% leaflet_map "main" callback="main_map_init" %}
+        </div>
+    </div>
+    <script type="text/javascript">
+        function onEachFeature(feature, layer) {
+            // does this feature have a property named popupContent?
+            if (feature.properties && feature.properties.popupContent) {
+                layer.bindPopup(feature.properties.popupContent);
+            }
+        }
+
+        function main_map_init (map, options) {
+            // Use Leaflet API here
+
+            map.fitBounds([
+                [{{ bbox.1|unlocalize }},{{ bbox.0|unlocalize }}],
+                [{{ bbox.3|unlocalize }},{{ bbox.2|unlocalize }}]
+            ]);
+            {% if staff %}
+            var dataurl = '{% url "campi_geojson" %}?user=staff';
+            {% else %}
+                        var dataurl = '{% url "campi_geojson" %}?user=agricoltore';
+            {% endif %}
+
+
+            var myStyle = {
+                "weight": 2,
+                "color": "#000000",
+                "opacity": 1,
+                "fillColor": "#ff6284",
+                "fillOpacity": 0.8
+            };
+
+            // Download GeoJSON via Ajax
+            $.getJSON(dataurl, function (data) {
+                // Add GeoJSON layer
+                  var campi_layer  =L.geoJson(data, {
+                      style: myStyle,
+                      onEachFeature: function (feature, layer) {
+                        layer.bindPopup('<h5>Nome:</h5>'+'<h6>'+feature.properties.nome+'</h6>');
+                    }
+                }).addTo(map);
+            });
+
+        }
+        var endpoint = "{% url 'api-data-dash' %}"
+
+        $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function (data) {
+                labels = data.labels;
+                rainData = data.default;
+                setChart()
+            },
+            error: function (error_data) {
+                console.log("error")
+                console.log(error_data)
+
+            }
+        });
+        function setChart() {
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'coltura',
+                        data: rainData,
+                        backgroundColor: 'rgb(54, 162, 235)',
+                        borderColor: 'rgb(54, 162, 235)',
+                        borderWidth: 1,
+                        fill : false
+                    },]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Superficie per coltura',
+                        fontSize: 18
+                    },
+                    scales: {
+                        xAxes: [{
+                            barPercentage: 0.5,
+                            barThickness: 6,
+                            maxBarThickness: 15,
+                            minBarLength: 2,
+                            gridLines: {
+                                offsetGridLines: true
+                            }
+                        }]
+                    }
+
+                }
+            });
+        }
+
+    </script>
+
+
+{% endblock %}
+
+
+{% block extrastyle %}
+
+{% endblock %}

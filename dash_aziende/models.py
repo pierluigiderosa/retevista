@@ -64,9 +64,11 @@ class colture(models.Model):
                            default='excel_fitofarmaci/Diserbo_Erbacee_LGN_2020.xlsx'
                            )
 
-
     def __str__(self):
         return self.nome
+    class Meta:
+        verbose_name = 'Dizionario coltura'
+        verbose_name_plural = 'Dizionario colturale'
 
 def current_year():
     return datetime.date.today().year
@@ -148,8 +150,7 @@ class campi(models.Model):
     ]
     proprieta = models.CharField(blank=True, null=True, choices=proprieta_choices, max_length=50)
     dataApportoIrriguo = models.DateField(blank=True, null=True, help_text="Data ultimo apporto irriguo", verbose_name="Data apporto irriguo")
-    annataAgraria = models.PositiveIntegerField(
-        default=current_year(), validators=[MinValueValidator(2010), max_value_year])
+
 
     note = models.TextField(blank=True,null=True)
     previsione_meteo = JSONField(blank=True,null=True)
@@ -164,7 +165,48 @@ class campi(models.Model):
         ordering = ["proprietario","nome"]
 
 
+class ColturaDettaglio(models.Model):
+    nome =models.ForeignKey(colture,verbose_name='Nome della coltura')
+    campo = models.ForeignKey(campi)
+    annataAgraria = models.PositiveIntegerField(
+        default=current_year(), validators=[MinValueValidator(2010), max_value_year])
+    data_inizio = models.DateField(blank=True, null=True, verbose_name="Data inizio lavori",
+                                   help_text="definisci la data di inizio lavori per la coltura corrente")
+    usi_colturali_choices = [
+        ('fresco', 'da consumo fresco'),
+        ('industria', 'da industria'),
+        ('seme', 'da seme'),
+    ]
+    uso_colturale = models.CharField(max_length=250, choices=usi_colturali_choices, verbose_name='Uso colturale',
+                                     default='')
+    precocita_choices = [
+        ('precoce', 'precoce'),
+        ('media', 'media'),
+        ('tardiva', 'tardiva'),
+    ]
+    precocita = models.CharField(max_length=25, choices=precocita_choices, default='')
+    data_semina = models.DateField(blank=True, null=True, verbose_name='Data semina o trapianto',
+                                   help_text='data prevista per la semina o il trapianto')
+    data_raccolta = models.DateField(blank=True, null=True, verbose_name='Data attesa di raccolta',
+                                     help_text='data attesa di raccolta')
+    semente = models.FloatField(blank=True, null=True, verbose_name='Semente/piantine',
+                                help_text='Quantità totale semente/piantine')
+    produzione = models.FloatField(blank=True, null=True, verbose_name='Produzione totale attesa',
+                                   help_text='Inserisci la produzione totale attesa')
+    irrigato_choices = [
+        ('irrigato', 'Irrigato'),
+        ('irrigabile', 'Irrigabile'),
+        ('non irrigabile', 'non irrigabile'),
+    ]
+    irrigato = models.CharField(blank=True, null=True, choices=irrigato_choices, max_length=50)
 
+    def __str__(self):
+        return '{} annata:{}'.format(self.nome,self.annataAgraria)
+
+    class Meta:
+        verbose_name = 'Coltivazione'
+        verbose_name_plural = 'Coltivazioni'
+        unique_together = ('campo', 'annataAgraria')
 
 # da qui metto tutte le operazioni eseguibili
 
@@ -188,6 +230,10 @@ class fertilizzazione(models.Model):
     titolo_n = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Titolo N',help_text='espresso in %')
     titolo_p2o5 = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Titolo P2O5',help_text='espresso in %')
     titolo_k2o = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Titolo K2O',help_text='espresso in %')
+
+    def __str__(self):
+        return 'fertilizzazione {}'.format(self.id)
+
 
 class irrigazione(models.Model):
     portata = models.FloatField(validators=[MinValueValidator(0.0)],verbose_name='Volume irriguo',help_text='espresso in m<sup>3</sup>')
@@ -246,6 +292,7 @@ class operazioni_colturali(models.Model):
         # ('lavorazione_presemina','Lavorazione pre semina'),
         # ('altra','Altra operazione')
     ]
+    coltura_dettaglio= models.ForeignKey(ColturaDettaglio, blank=True, null=True, verbose_name='Coltura')
     data_operazione= models.DateField(verbose_name='Data operazione')
     campo = models.ForeignKey(campi,help_text='seleziona il campo')
     operazione= models.CharField(max_length=50,choices=operazione_choices,default="",verbose_name="Operazione colturale")
@@ -379,10 +426,9 @@ class Trasporto(models.Model):
     modello del trasporto del prodotto al magazzino
     '''
     quantita = models.IntegerField(verbose_name='Quantità')
-    coltura = models.ForeignKey(colture)
-    campo_origine = models.ForeignKey(campi,verbose_name='Origine - Lista campi')
+    coltura = models.ForeignKey(ColturaDettaglio,verbose_name='Coltivazione di origine')
     desc_origine = models.CharField(max_length=500,verbose_name='Origine - Descrizione')
-    magazz_dest = models.ForeignKey(Magazzino,verbose_name='Destinazione - prodotto di magazzino')
+    magazz_dest = models.ForeignKey(Magazzino,verbose_name='Destinazione - prodotto di magazzino',blank=True,null=True)
     desc_dest = models.CharField(max_length=500,verbose_name='Destinazione - Descrizione')
     persona = models.CharField(max_length=500,verbose_name='Persona')
     documento = models.CharField(max_length=500,verbose_name='N. Documento')
@@ -393,6 +439,11 @@ class Trasporto(models.Model):
     allegato = models.FileField(upload_to='trasporto', verbose_name="Allegato",
                                              blank=True, null=True)
 
+    def __str__(self):
+        return 'Trasporto di {}'.format(self.coltura)
+
+    class Meta:
+        unique_together = ('coltura',)
 
 # class Landsat8Ndvi(models.Model):
 #     '''

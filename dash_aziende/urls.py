@@ -1,15 +1,17 @@
 from django.conf.urls import url
 
 from .views import dashboard_fields, form_campi, add_profile, CampiGeoJson, form_analisi, dashboard_analisi, \
-    CampoUpdateView, AnalisiUpdateView, \
+    CampoUpdateView, AnalisiUpdateView, form_coltura,\
     CampoDeleteView, AnalisiDeleteView, dashboard_main, get_data_charts, dash_operazioni_colturali, form_operazioni, \
-    OperazioniDeleteView, edit_profile, dashboard_consiglio, dash_consumatore, \
-    CampiEstesiJson, dash_list_consumatore, operazioniJson, list_macchinari, \
-    form_macchinari,MacchinariDeleteView,MacchinariUpdateView, logistica_list, form_logistica_add
+    OperazioniDeleteView, edit_profile, dashboard_consiglio, dash_consumatore, main_biotipo,\
+    CampiEstesiJson, dash_list_consumatore, operazioniJson, list_macchinari, iFarmPrint_detail, \
+    form_macchinari, MacchinariDeleteView, MacchinariUpdateView, logistica_list, \
+    form_logistica_add, main_ifarm, main_iFarmPrint, caratt_chimico_fisiche, AnalisiJson
 from .models import campi
 
 urlpatterns = [
     url(r'^add/form/$',form_campi,name='form-campi'),
+    url(r'^add/coltura/$',form_coltura,name='form-coltura'),
     url('update/form/(?P<pk>\d+)$', CampoUpdateView.as_view(), name='update-campi'),
     url('delete/form/(?P<pk>\d+)$', CampoDeleteView.as_view(), name='delete-campi'),
     url(r'^add/analisi/$',form_analisi,name='form-analisi'),
@@ -28,13 +30,19 @@ urlpatterns = [
     url(r'^campi.geojson$', CampiGeoJson.as_view(model=campi), name='campi_geojson'),
     url(r'^campiEstesi.json$', CampiEstesiJson, name='campi_estesi_json'),
     url(r'^operazioni.json$', operazioniJson, name='operazioni_dettaglio_json'),
+    url(r'analisi.json$',AnalisiJson,name='api-analisi-json'),
     url(r'^api/data/$', get_data_charts, name='api-data-dash'),
     url(r'fields/$', dashboard_fields, name='main-fields'),
     url(r'analisi/$',dashboard_analisi,name='main-analisi'),
     url(r'consiglio/$',dashboard_consiglio,name='main-consiglio'),
-    url(r'forecast/$',dashboard_fields,{'forecast': True},name='main-forecast'),
+    url(r'forecast/$', dashboard_fields, {'forecast': True}, name='iland-forecast'),
+    url(r'^ccf/$', caratt_chimico_fisiche, name='iFarm-caratt-chimo-fisiche'),
     url(r'operazioni/$', dash_operazioni_colturali, name='main-operazioni-colturali'),
     url(r'consumatore/$', dash_list_consumatore, name='main-consumatore-list'),
     url(r'consumatore/(?P<uid>\d+)$', dash_consumatore, name='main-consumatore'),
-    url(r'^$', dashboard_main, name='main-dashboard')
+    url(r'ifarm/$', main_ifarm, name='main-ifarm'),
+    url(r'iFarmPrint/(?P<uid>\d+)$', iFarmPrint_detail, name='iFarmPrint-detail'),
+    url(r'iFarmPrint/$', main_iFarmPrint, name='main-iFarmPrint'),
+    url(r'^biotipo/$',main_biotipo,name='main-biotopo'),
+    url(r'^$', dashboard_main, name='main-iland')
 ]

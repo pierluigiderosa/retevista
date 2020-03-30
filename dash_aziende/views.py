@@ -18,14 +18,14 @@ from djgeojson.views import GeoJSONLayerView
 
 from django.contrib.gis.db.models import Extent, Union
 
-from dash_aziende.models import campi, Profile, analisi_suolo, macchinari, Trasporto
+from dash_aziende.models import campi, Profile, analisi_suolo, macchinari, Trasporto, ColturaDettaglio
 from income.models import dati_orari, stazioni_retevista,iframe_stazioni
 from consiglio.models import bilancio,appezzamentoCampo
 from dash_aziende.models import fertilizzazione as fert_model ,operazioni_colturali as oper_model,\
     irrigazione as irr_model, trattamento as tratt_model, semina as semina_model,raccolta as raccolta_model
 from .forms import CampiAziendeForm, UserForm, ProfileForm, AnalisiForm, \
     FertilizzazioneForm, OperazioneColturaleForm, IrrigazioneForm, TrattamentoForm, SeminaForm, RaccoltaForm, \
-    EditProfileForm, MacchinariForm, LogisticaForm
+    EditProfileForm, MacchinariForm, TrasportiForm, ColturaDettaglioForm
 from forecast import get as get_forecast
 
 # Create your views here.
@@ -45,9 +45,69 @@ def dashboard_main(request):
     latlong = []
     bbox = campi_all.aggregate(Extent('geom'))
 
-    return render(request,"main_dash.html",{
+    return render(request, "main_iland.html", {
         'bbox': bbox['geom__extent'],
         'staff':staff,
+    })
+
+@login_required
+def main_ifarm(request):
+    utente = request.user
+    if utente.groups.filter(name='Agricoltori').exists():
+        campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=utente))
+        staff = False
+    elif utente.is_staff or utente.groups.filter(name='Universita').exists():
+        campi_all = campi.objects.all()
+        staff = True
+    else:
+        campi_all = campi.objects.none()
+    bbox = campi_all.aggregate(Extent('geom'))
+
+    return render(request, "main_ifarm.html", {
+        'bbox': bbox['geom__extent'],
+        'staff':staff,
+    })
+
+@login_required
+def main_iFarmPrint(request):
+    utente = request.user
+    if utente.groups.filter(name='Agricoltori').exists():
+        campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=utente))
+        staff = False
+        Coltivazioni =ColturaDettaglio.objects.filter(campo__in=campi_all)
+    elif utente.is_staff or utente.groups.filter(name='Universita').exists():
+        campi_all = campi.objects.all()
+        staff = True
+        Coltivazioni =ColturaDettaglio.objects.filter(campo__in=campi_all)
+    else:
+        campi_all = campi.objects.none()
+        Coltivazioni =ColturaDettaglio.objects.filter(campo__in=campi_all)
+    bbox = campi_all.aggregate(Extent('geom'))
+
+    return render(request, "main_iFarmPrint.html", {
+        'bbox': bbox['geom__extent'],
+        'staff':staff,
+        'Coltivazioni': Coltivazioni,
+        'campi': campi_all,
+    })
+
+@login_required
+def iFarmPrint_detail(request,uid):
+    utente = request.user
+    try:
+        UID = int(uid)
+    except ValueError:
+        raise Http404()
+    campo = campi.objects.get(id=UID)
+    if campo.colturadettaglio_set.exists():
+        coltivazione = campo.colturadettaglio_set.first()
+        if coltivazione.trasporto_set.exists():
+            trasporto = coltivazione.trasporto_set.first()
+
+    return render(request,'iFarmprint_detail.html',{
+        'campo':campo,
+        'coltivazione':coltivazione,
+        'trasporto':trasporto,
     })
 
 @login_required
@@ -188,6 +248,24 @@ def dashboard_analisi(request):
                       'bbox_condition': bbox_condition,
                   })
 
+@login_required
+def caratt_chimico_fisiche(request):
+    utente = request.user
+    if utente.groups.filter(name='Agricoltori').exists():
+        campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=utente))
+        staff = False
+    if utente.is_staff or utente.groups.filter(name='Universita').exists():
+        campi_all = campi.objects.all()
+        staff = True
+    analisi_all = analisi_suolo.objects.filter(campo__in=campi_all)
+
+    return render(request,"caratt-chimico-fisiche-pedologiche.html",
+                  {
+                      'analisi': analisi_all,
+                      "staff": staff,
+                      "campi":campi_all,
+                  })
+
 #inizio delle view per i consumatori
 @login_required
 def dash_consumatore(request,uid=-9999):
@@ -251,6 +329,24 @@ def logistica_list(request):
     })
 
 @login_required
+def main_biotipo(request):
+    utente = request.user
+    if utente.groups.filter(name='Agricoltori').exists():
+        campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=utente))
+        staff = False
+    elif utente.is_staff or utente.groups.filter(name='Universita').exists():
+        campi_all = campi.objects.all()
+        staff = True
+    else:
+        campi_all = campi.objects.none()
+    bbox = campi_all.aggregate(Extent('geom'))
+
+    return render(request,'main_biotopo.html',{
+        'bbox': bbox['geom__extent'],
+        'staff': staff,
+    })
+
+@login_required
 def dash_list_consumatore(request):
     aziende = Profile.objects.all()
 
@@ -270,7 +366,7 @@ def form_campi(request):
         if form.is_valid():
             campo = form.save(commit=False)
 
-            #automaticamente assegno il proprietario del campo
+            # automaticamente assegno il proprietario del campo
             if request.user.groups.filter(name='Agricoltori').exists():
                 campo.proprietario = Profile.objects.get(user=request.user)
 
@@ -285,11 +381,34 @@ def form_campi(request):
     else:
         form = CampiAziendeForm()
         if request.user.groups.filter(name='Agricoltori').exists():
-            sel_proprietario =False
+            sel_proprietario = False
         if request.user.is_staff or request.user.groups.filter(name='Universita').exists():
-            sel_proprietario =True
+            sel_proprietario = True
 
-    return render(request, 'dashboard_form.html', {'form': form,'proprietario': sel_proprietario})
+    return render(request, 'dashboard_form.html', {'form': form, 'proprietario': sel_proprietario})
+
+@login_required
+def form_coltura(request):
+    if request.method == 'POST':
+        form = ColturaDettaglioForm(request.POST)
+        if form.is_valid():
+            coltura = form.save(commit=False)
+
+             # automaticamente assegno qualcosa se serve
+            coltura.save()
+            messages.success(request,'La coltura è stata aggiunta')
+            return redirect('main-fields')
+    else:
+        form = ColturaDettaglioForm()
+        if request.user.groups.filter(name='Agricoltori').exists():
+            sel_proprietario = False
+            campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=request.user))
+            form.fields['campo'].queryset = campi_all
+        if request.user.is_staff or request.user.groups.filter(name='Universita').exists():
+            sel_proprietario = True
+
+    return render(request, 'coltivazione_form.html', {'form': form, 'proprietario': sel_proprietario})
+
 
 @login_required
 def form_macchinari(request):
@@ -323,7 +442,7 @@ def form_macchinari(request):
 @login_required
 def form_logistica_add(request):
     if request.method == 'POST':
-        form = LogisticaForm(request.POST)
+        form = TrasportiForm(request.POST)
         if form.is_valid():
             logistica = form.save(commit=False)
 
@@ -340,7 +459,7 @@ def form_logistica_add(request):
 
             # if a GET (or any other method) we'll create a blank form
     else:
-        form = LogisticaForm()
+        form = TrasportiForm()
         if request.user.groups.filter(name='Agricoltori').exists():
             sel_proprietario = False
         if request.user.is_staff or request.user.groups.filter(name='Universita').exists():
@@ -355,9 +474,11 @@ def form_operazioni(request,oper_type=None):
     utente = request.user
     if utente.groups.filter(name='Agricoltori').exists():
         query_campi_utente = campi.objects.filter(proprietario=Profile.objects.filter(user=request.user))
+        colturadettaglioFilter = ColturaDettaglio.objects.filter(campo__in=query_campi_utente)
         staff = False
     if utente.is_staff or utente.groups.filter(name='Universita').exists():
         query_campi_utente = campi.objects.all()
+        colturadettaglioFilter = ColturaDettaglio.objects.all()
         staff = True
 
     #caso fertilizzazione
@@ -391,6 +512,7 @@ def form_operazioni(request,oper_type=None):
 
                     for single_oper in operazioni:
                         single_oper.operazione=oper_type
+                        single_oper.campo = single_oper.coltura_dettaglio.campo
                         single_oper.save()
 
                 messages.success(request, 'la tua fertilizzazione è stata aggiunta!')
@@ -402,7 +524,8 @@ def form_operazioni(request,oper_type=None):
 
             formset = OperationFormSet(instance=child_operation)
             for form in formset.forms:
-                form.fields['campo'].queryset = query_campi_utente
+                form.fields['coltura_dettaglio'].queryset = colturadettaglioFilter
+                # form.fields['campo'].queryset = query_campi_utente
     
     #caso irrigazione
     elif oper_type=='irrigazione':
@@ -433,6 +556,7 @@ def form_operazioni(request,oper_type=None):
 
                     for single_oper in operazioni:
                         single_oper.operazione=oper_type
+                        single_oper.campo = single_oper.coltura_dettaglio.campo
                         single_oper.save()
 
                 messages.success(request, 'la tua irrigazione è stata aggiunta!')
@@ -442,7 +566,8 @@ def form_operazioni(request,oper_type=None):
             child_form = IrrigazioneForm(instance=child_operation) #CAMBIARE QUI
             formset = OperationFormSet(instance=child_operation)
             for form in formset.forms:
-                form.fields['campo'].queryset = query_campi_utente
+                form.fields['coltura_dettaglio'].queryset = colturadettaglioFilter
+                # form.fields['campo'].queryset = query_campi_utente
 
     #caso trattamento
     elif oper_type=='trattamento':
@@ -473,6 +598,7 @@ def form_operazioni(request,oper_type=None):
 
                     for single_oper in operazioni:
                         single_oper.operazione=oper_type
+                        single_oper.campo = single_oper.coltura_dettaglio.campo
                         single_oper.save()
 
                 messages.success(request, 'il tuo trattamento è stato aggiunto!')
@@ -482,7 +608,8 @@ def form_operazioni(request,oper_type=None):
             child_form = TrattamentoForm(instance=child_operation) #CAMBIARE QUI
             formset = OperationFormSet(instance=child_operation)
             for form in formset.forms:
-                form.fields['campo'].queryset = query_campi_utente
+                form.fields['coltura_dettaglio'].queryset = colturadettaglioFilter
+                # form.fields['campo'].queryset = query_campi_utente
 
     #caso semina
     elif oper_type=='semina_trapianto':
@@ -513,6 +640,7 @@ def form_operazioni(request,oper_type=None):
 
                     for single_oper in operazioni:
                         single_oper.operazione=oper_type
+                        single_oper.campo = single_oper.coltura_dettaglio.campo
                         single_oper.save()
 
                 messages.success(request, 'la tua semina è stata aggiunta!')
@@ -522,7 +650,8 @@ def form_operazioni(request,oper_type=None):
             child_form = SeminaForm(instance=child_operation) #CAMBIARE QUI
             formset = OperationFormSet(instance=child_operation)
             for form in formset.forms:
-                form.fields['campo'].queryset = query_campi_utente
+                form.fields['coltura_dettaglio'].queryset = colturadettaglioFilter
+                # form.fields['campo'].queryset = query_campi_utente
 
     #caso raccolta
     elif oper_type=='raccolta':
@@ -553,6 +682,7 @@ def form_operazioni(request,oper_type=None):
 
                     for single_oper in operazioni:
                         single_oper.operazione=oper_type
+                        single_oper.campo = single_oper.coltura_dettaglio.campo
                         single_oper.save()
 
                 messages.success(request, 'la tua raccolta è stata aggiunta!')
@@ -562,7 +692,8 @@ def form_operazioni(request,oper_type=None):
             child_form = RaccoltaForm(instance=child_operation) #CAMBIARE QUI
             formset = OperationFormSet(instance=child_operation)
             for form in formset.forms:
-                form.fields['campo'].queryset = query_campi_utente
+                form.fields['coltura_dettaglio'].queryset = colturadettaglioFilter
+                # form.fields['campo'].queryset = query_campi_utente
 
     else:
         child_form=None
@@ -593,7 +724,7 @@ def form_analisi(request):
 
             messages.success(request, 'la tua analisi è stata aggiunta!')
             # redirect to a new URL:
-            return redirect('main-dashboard')
+            return redirect('main-iland')
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -781,6 +912,19 @@ def CampiEstesiJson(request):
     else:
         return Http404
 
+def AnalisiJson(request):
+    if request.method == "GET":
+        campoID = request.GET.get('campo')
+        analisi_all=analisi_suolo.objects.filter(campo__id=campoID).values(
+            'data_segnalazione','id_campione','sabbia','limo','argilla','pH',
+            'conduttivita_elettrica','OM','azoto','fosforo','potassio','scambio_cationico',
+            'CACO3_att','CACO3_tot','den_apparente','pietrosita','profondita',
+        )
+        response = {'totale': analisi_all.count(),
+                    'analisi':list(analisi_all)}
+        return JsonResponse(response,safe=False)
+    else:
+        return Http404
 
 def operazioniJson(request):
     if request.method == 'GET':
@@ -842,7 +986,7 @@ class CampiGeoJson(GeoJSONLayerView):
     precision = 4  # float
     simplify = None  # generalization
     geom = 'geom'  # colonna geometrie
-    properties = ['nome','coltura', ]
+    properties = ['nome','coltura', 'id']
 
     def get_queryset(self):
         userStaff = self.request.GET.get('user')

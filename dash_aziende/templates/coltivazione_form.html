@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load leaflet_tags crispy_forms_tags %}
+{% load static %}
+
+{% block script %}
+    {% leaflet_js plugins="forms" %}
+
+{% endblock %}
+
+{% block css %}
+    {% leaflet_css plugins="ALL" %}
+    {{ form.media }}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        {% include "lateral_panel_iFarm.html" %}
+
+        <div class="col-lg-8  col-md-8">
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-row">
+                    <h1 class="h2">Aggiungi la coltura</h1>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 mb-0">
+                        {{ form.nome|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4 mb-0">
+                        {{ form.campo|as_crispy_field }}
+                    </div>
+                <div class="form-group col-md-4 mb-0">
+                        {{ form.annataAgraria|as_crispy_field }}
+                    </div>
+                    {% if proprietario %}
+{#                        <div class="form-group col-md-4 mb-0">#}
+{#                            {{ form.proprietario|as_crispy_field }}#}
+{#                        </div>#}
+                    {% endif %}
+                </div>
+            <div class="form-row">
+                <div class="form-group col-md-4 mb-0">
+                    {{ form.data_inizio|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                    {{ form.uso_colturale|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                    {{ form.precocita|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3 mb-0">
+                    {{ form.data_semina|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-3 mb-0">
+                    {{ form.data_raccolta|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-3 mb-0">
+                    {{ form.semente|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-3 mb-0">
+                    {{ form.produzione|as_crispy_field }}
+                </div>
+            </div>
+
+
+                <input type="submit"/>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block extrastyle %}
+
+{% endblock %}

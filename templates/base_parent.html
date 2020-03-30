@@ -68,7 +68,13 @@
 
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'main-dashboard' %}">Azienda agricola</a>
+                <a class="nav-link" href="{% url 'main-iland' %}">iLand</a>
+            </li>
+        <li class="nav-item">
+                <a class="nav-link" href="{% url 'main-ifarm' %}">iFarm</a>
+            </li>
+        <li class="nav-item">
+                <a class="nav-link" href="{% url 'main-iFarmPrint' %}">iFarmPrint</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle"href="/dati" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Partner</a>
@@ -96,7 +102,7 @@
 
             </li>
          <li class="nav-item">
-                <a class="nav-link" href="{% url 'main-consumatore-list' %}">Consumatore</a>
+                <a class="nav-link" href="{% url 'main-consumatore-list' %}">iLabel</a>
             </li>
             <li class="nav-item dropdown ml-auto">
                 {% if user.is_anonymous %}

@@ -1,4 +1,5 @@
 # - *- coding: utf- 8 - *-
+import socket
 from math import exp
 import numpy as np
 import datetime as dt
@@ -50,6 +51,7 @@ def bilancio_idrico(pioggia, soglia=5, Kc=0, ctm_c7=55, ctm_c3=65,
                     A_day_precedente=55, area_irrigata_mq=3840, Et0=0, dose_antropica=0,
                     posticipa=False,
                     nomeApp=None,
+                    idAppezzamento=None,
                     Irrigazione_giorno_precedente=False,
                     email=None):
     if pioggia>soglia:
@@ -59,35 +61,7 @@ def bilancio_idrico(pioggia, soglia=5, Kc=0, ctm_c7=55, ctm_c3=65,
 
 
     Etc=Et0*Kc
-
-    #ctm_c7 viene chiamato Airr_min
-    #cap_id_max corrisponde alla colonna M
-    if A_day_precedente < ctm_c7:
-        irrigazione = True
-        #invio mail
-        send_mail(
-            'Avvio procedura di irrigazione campo {}'.format(nomeApp),
-            'Si deve avviare la procedura di irrigazione al campo {}.\b'.format(nomeApp),
-            'retevista@gmail.com',
-            ['pierluigi.derosa@gmail.com','peppoloni.francy@gmail.com'], #in definitiva mettere email
-            fail_silently=False,
-        )
-
-    else:
-        irrigazione = False
-
-    #P - Ep controllato con irrigazione
-    dose = 0
-    if irrigazione:
-        if posticipa is False and dose_antropica==0 and Irrigazione_giorno_precedente is True:
-            dose = ctm_c3 - A_day_precedente  #va dato A giorno precedente
-
-
-    #P-Ep
-    if A_day_precedente < ctm_c7:
-        P_ep = pioggia_5 - Etc + dose_antropica + dose
-    else:
-        P_ep = pioggia_5 - Etc + dose_antropica
+    P_ep = pioggia_5 - Etc + dose_antropica
 
     #L
     if P_ep>0:
@@ -112,6 +86,61 @@ def bilancio_idrico(pioggia, soglia=5, Kc=0, ctm_c7=55, ctm_c3=65,
         A = ctm_c3
     else:
         A = Au
+
+    #ctm_c7 viene chiamato Airr_min
+    #cap_id_max corrisponde alla colonna M
+    if A < ctm_c7:
+        irrigazione = True
+        if socket.gethostname() == 'pierluigidero':
+            #invio mail
+            send_mail(
+                'Avvio procedura di irrigazione campo {}'.format(nomeApp),
+                '''Si deve avviare la procedura di irrigazione al campo {}.\b PC di invio {}<br>
+                Vai alla pagina http://www.onegis.it/retevista/elaborazioni/infocampo/{} per inserire la dose.
+                '''.format(nomeApp,socket.gethostname(),idAppezzamento),
+                'retevista@gmail.com',
+                ['pierluigi.derosa@gmail.com','peppoloni.francy@gmail.com'], #in definitiva mettere email
+                fail_silently=False,
+            )
+        pass
+    else:
+        irrigazione = False
+
+    #P - Ep controllato con irrigazione
+    dose = 0
+    if irrigazione:
+        if posticipa is False and dose_antropica==0 and Irrigazione_giorno_precedente is True:
+            dose = ctm_c3 - A_day_precedente  #va dato A giorno precedente
+
+        P_ep = pioggia_5 - Etc + dose_antropica +dose
+
+        # L
+        if P_ep > 0:
+            L = 0
+        else:
+            L = P_ep
+
+        Lambda = L / ctm_c3
+
+        a = 0
+        if Lambda != 0:
+            a = 1. * A_day_precedente / ctm_c3 * exp(Lambda)
+
+        # Au
+        if a == 0:
+            Au = A_day_precedente + P_ep
+        else:
+            Au = a * ctm_c3
+
+        # A
+        if Au > ctm_c3:
+            A = ctm_c3
+        else:
+            A = Au
+
+
+
+
 
     #Irr_mm
     Irr_mc_ha = 0
@@ -181,97 +210,6 @@ def calc_Kc_elenco(coltura_id):
     # accesso al giorno
     Kc = serie[dt.date.today().strftime('%d/%m/%Y')][0]
     return Kc
-#
-# def calc_bilancio():
-#     '''
-#     Questa funzione non viene più utilizzata-- Obsoleta
-#     :return:
-#     '''
-#     ieri = dt.date.today() - dt.timedelta(days=1)
-#     oggi =dt.date.today()
-#
-#     # prendo gli a appezzamenti
-#     appezzamenti=appezzamento.objects.all()
-#     for appezzam_singolo in appezzamenti:
-#
-#         appezzam_pnt = appezzam_singolo.geom
-#         soglia = appezzam_singolo.soglia
-#
-#         stazione_closest = stazioni_retevista.objects.annotate(
-#             distance=Distance('geom', appezzam_pnt)
-#         ).order_by('distance').first()
-#
-#         dato_giornaliero = dati_aggregati_daily.objects.filter(data=ieri,stazione=stazione_closest)
-#         if dato_giornaliero.count()>=1:
-#             dato_giornaliero = dato_giornaliero.first()
-#
-#             # calcolo evapotraspirazione
-#             Tmax = dato_giornaliero.temp_max
-#             Tmin = dato_giornaliero.temp_min
-#             Tmean = dato_giornaliero.temp_mean
-#             RH_max = dato_giornaliero.humrel_max
-#             RH_min = dato_giornaliero.humrel_min
-#             SRmedia = dato_giornaliero.solar_rad_mean
-#             vel_vento = dato_giornaliero.wind_speed_mean
-#             pioggia_cumulata = dato_giornaliero.rain_cumulata
-#             quota =  quote_stazioni.objects.filter(stazioni=stazione_closest).first().quota
-#             Et0 = ET_sistemista(Z=quota, Tmax=Tmax, Tmin=Tmin, Tmean=Tmean, RH_max=RH_max, RH_min=RH_min, SRmedia=SRmedia, U2=vel_vento, day=ieri.strftime('%d%m%Y'), stazione=stazione_closest)
-#             print('id coltura:')
-#             print(appezzam_singolo.coltura.id)
-#             Kc_calcolata = calc_Kc_elenco(appezzam_singolo.coltura.id)
-#             print 'Kc= '
-#             print Kc_calcolata
-#
-#
-#             #calcolare cap_idrica_max che è la variabile A del giorno precedente, se assente è presente come dato in appezzamento
-#             bilancio_giorno_prec = bilancio.objects.filter(data_rif=ieri, appezzamento=appezzam_singolo)
-#             bilancio_odierno = bilancio.objects.filter(data_rif=oggi, appezzamento=appezzam_singolo)
-#             nota=''
-#             # dose antropica per irrigazione forzata
-#             if bilancio_giorno_prec.count()==0:
-#                 cap_id_max = appezzam_singolo.cap_idrica
-#                 nota+='calcolo eseguito con cap id. max da valore appezzam.: '+str(cap_id_max)
-#                 dose_antropica = 0
-#             elif bilancio_giorno_prec.count()==1:
-#                 cap_id_max= bilancio_giorno_prec[0].A
-#                 nota += 'calcolo eseguito con cap id. max da giorno precedente.: ' + str(round(cap_id_max,2))
-#                 dose_antropica = bilancio_giorno_prec[0].dose_antropica
-#             area = appezzam_singolo.settore.area
-#
-#
-#
-#             cap_id_util = appezzam_singolo.cap_idrica
-#             # ctm_c7 viene chiamato Airr_min
-#             Amin_Irr =cap_id_util-appezzam_singolo.ris_fac_util
-#
-#             Etc,P_ep,L,Lambda,a,Au,A,dose, A, Irr_mm, irrigazione = bilancio_idrico(pioggia_cumulata,soglia=soglia,Kc=Kc_calcolata,ctm_c7=Amin_Irr,ctm_c3=cap_id_util,cap_id_max=cap_id_max,area_irrigata_mq=appezzam_singolo.settore.area,Et0=Et0,dose_antropica = dose_antropica)
-#
-#
-#             #salvataggio dati
-#             if bilancio_odierno.count()==0:
-#                 nuovo_bilancio_giornaliero = bilancio(
-#                     data_rif=oggi,
-#                     pioggia_cum=pioggia_cumulata,
-#                     Kc = Kc_calcolata,
-#                     Et0 = Et0,
-#                     Etc = Et0*Kc_calcolata,
-#                     P_ep = P_ep,
-#                     L = L,
-#                     Lambda = Lambda,
-#                     a = a,
-#                     Au = Au,
-#                     A = A,
-#                     Irrigazione = irrigazione,
-#                     dose = dose,
-#                     Irr_mm = Irr_mm,
-#                     stazione = stazione_closest,
-#                     appezzamento = appezzam_singolo,
-#                     note=nota,
-#                 )
-#                 nuovo_bilancio_giornaliero.save()
-#
-#             print(ieri,stazione_closest.nome,Tmax,Tmin,RH_max,RH_min,SRmedia,vel_vento,Et0,pioggia_cumulata,cap_id_util,area, dose, A, Irr_mm)
-
 
 def calc_bilancio_campo():
     '''
@@ -383,6 +321,7 @@ def calc_bilancio_campo():
                                                                                     dose_antropica = dose_antropica,
                                                                                     posticipa= posticipa_Irr,
                                                                                     nomeApp=app_campo.campi.nome,
+                                                                                    idAppezzamento=app_campo.id,
                                                                                     Irrigazione_giorno_precedente=Irrigazione_giorno_precedente,
                                                                                     email=app_campo.campi.proprietario.user.email)
 

@@ -6,7 +6,7 @@ from leaflet.admin import LeafletGeoAdmin
 
 
 from .models import Profile,campi,analisi_suolo,operazioni_colturali,\
-    colture, macchinari
+    colture, macchinari,ColturaDettaglio,Trasporto,Magazzino
 
 # Register your models here.
 
@@ -25,3 +25,6 @@ admin.site.register(operazioni_colturali)
 
 admin.site.register(colture)
 admin.site.register(macchinari)
+admin.site.register(ColturaDettaglio)
+admin.site.register(Trasporto)
+admin.site.register(Magazzino)

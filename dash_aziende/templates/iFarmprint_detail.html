@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load l10n %}
+
+{% block content %}
+    <div class="row">
+        {% include "lateral_panel_iFarmPrint.html" %}
+        <div class="col-md-10">
+            {% if campo.colturadettaglio_set.exists  %}
+                <h3 class="text-primary">{{ campo.colturadettaglio_set.first.nome }} in {{ campo.nome }}|{{ campo.id }} di {{ campo.proprietario }}</h3><p>coltivazione</p>
+            {% else %}
+                <h3 class="text-primary">{{ campo.coltura }} in {{ campo.nome }}|{{ campo.id }} di {{ campo.proprietario }}</h3>
+            {% endif %}
+            <div class="row">
+                <div class="col-3">
+                    <ul class="nav nav-pills flex-column">
+                        <li class="nav-item" > <a href="" class="active nav-link" data-toggle="pill" data-target="#tabone">Prenotazione acquisto</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="" data-toggle="pill" data-target="#tabtwo">Produttività</a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#tabthree">Raccolto</a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#tabfour">Trasporto</a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#tabfive">Condizionamento</a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#tabsix">Stoccaggio</a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#tabseven">Trasformazione</a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#tabeight">Confezionamento</a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#tabnine">Consegna</a> </li>
+                    </ul>
+                </div>
+                <div class="col-9">
+                    <div class="tab-content bg-light border border-primary rounded-top">
+                        <div class="tab-pane fade show active" id="tabone" role="tabpanel">
+                            <h4>Prenotazine acquisto</h4>
+                            <p class="bg-warning">Da fare</p>
+                            <p class="bg-warning">In my soul and absorb its power, like the form of a beloved mistress, then I often think with longing. A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.</p>
+                        </div>
+                        <div class="tab-pane fade" id="tabtwo" role="tabpanel">
+                            <h4>Produttività</h4>
+                            <p style="background-color: #8fd19e">
+                                {% if coltivazione %}
+                                    Nome: {{ coltivazione.nome }}<br>
+                                    Annata agraria: {{ coltivazione.annataAgraria }}<br>
+                                    Data inizio lavori: {{ coltivazione.data_inizio }}<br>
+                                    Uso colturale: {{ coltivazione.uso_colturale }}<br>
+                                    Precocità: {{ coltivazione.precocita }}<br>
+                                    Data semina o trapianto: {{ coltivazione.data_semina }}<br>
+                                    Data attesa di raccolta: {{ coltivazione.data_raccolta }}<br>
+                                    Semente/piantine: {{ coltivazione.semente }}<br>
+                                    Produzione totale attesa: {{ coltivazione.produzione }}<br>
+                                    Irrigazione: {{ coltivazione.irrigato }}<br>
+
+                                {% else %}
+                                    <p class="bg-white">Nessun dato inserito</p>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="tab-pane fade" id="tabthree" role="tabpanel">
+                            <h4>Raccolto</h4>
+                            <p class="">Which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite. When I hear the buzz of the little world among the stalks, and grow familiar with the countless indescribable forms.</p>
+                        </div>
+                        <div class="tab-pane fade" id="tabfour" role="tabpanel">
+                            <h4>Trasporto</h4>
+                            <p style="background-color: #8fd19e">
+                            {% if trasporto %}
+                                quantità: {{ trasporto.quantita }}<br>
+                                Origine: {{ trasporto.desc_origine }}<br>
+                                Destinazione: {{ trasporto.magazz_dest }}<br>
+                                descrizione: {{ trasporto.desc_dest }}<br>
+                                Persona: {{ trasporto.persona }}<br>
+                                N° documento: {{ trasporto.documento }}<br>
+                                Trasportatore: {{ trasporto.trasportatore }}<br>
+                                Targa: {{ trasporto.targa }}<br>
+                                Data: {{ trasporto.data }}<br>
+                                Nota: {{ trasporto.nota }}<br>
+                                Allegato: {{ trasporto.allegato }}<br>
+                                </p>
+                            {% else %}
+                                <p class="bg-white">Nessun trasporto inserito</p>
+                            {% endif %}
+                        </div>
+                        <div class="tab-pane fade" id="tabfive" role="tabpanel">
+                            <h4>Condizionamento</h4>
+                            <p class="bg-warning">Cosa ci mettiamo?</p>
+                        </div>
+                        <div class="tab-pane fade" id="tabsix" role="tabpanel">
+                            <h4>Stoccaggio</h4>
+                            <p class="bg-warning">Cosa ci mettiamo?</p>
+                        </div>
+                        <div class="tab-pane fade" id="tabseven" role="tabpanel">
+                            <h4>Trasformazione</h4>
+                            <p class="bg-warning">Cosa ci mettiamo?</p>                        </div>
+                        <div class="tab-pane fade" id="tabeight" role="tabpanel">
+                            <h4>Confezionamento</h4>
+                            <p class="bg-warning">Cosa ci mettiamo?</p>                        </div>
+                        <div class="tab-pane fade" id="tabnine" role="tabpanel">
+                            <h4>Consegna</h4>
+                            <p class="bg-warning">Cosa ci mettiamo?</p>                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

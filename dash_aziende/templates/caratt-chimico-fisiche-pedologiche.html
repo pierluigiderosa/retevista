@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+{% load leaflet_tags %}
+{% load l10n %}
+
+
+{% block script %}
+
+{% endblock %}
+{% block css %}
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        {% include "lateral_panel_iFarm.html" %}
+        <div class="col-md-10 col-sm-12 p-0 bg-indigo h-md-100">
+            <div class="text-center col-md-12">
+                <h1 >Sceglio il tuo campo</h1>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 p-4" >
+                    {% for campo in campi %}
+                        <div class="card bg-light p-6">
+                            <div class="card-body p-4">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <h3 class="mb-0">{{ campo.nome }}</h3>
+                                    </div>
+                                    <div class="col-4 text-right">
+                                        <h2 class="mb-0"> <b>Pyy {{ campo.id }}</b> </h2>
+                                    </div>
+                                </div>
+                                <p class="my-3" >proprietà {{campo.proprietario}}</p>
+                                <ul class="pl-3">
+                                    <li>tessutura {% if campo.tessitura %}{{ campo.tessitura }}{% else %}Non inserito{% endif %}</li>
+                                    <li>Drenaggio {% if campo.drenaggio %}{{ campo.drenaggio }}{% else %}Non inserito{% endif %}</li>
+                                    <li>Gestione {% if campo.gestione %}{{ campo.gestione }}{% else %}Non inserito{% endif %}</li>
+                                </ul> <a class="btn btn-primary mt-3 stretched-link" href="#" pyy="{{ campo.id }}">Mostra caratteristiche</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 p-2">
+                    <ul class="nav nav-pills" >
+                        <li class="nav-item"> <a href="" class="active nav-link" data-toggle="pill" data-target="#tabone">Car. Chimico fisiche</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="" data-toggle="pill" data-target="#tabtwo">car. Pedologiche</a> </li>
+                    </ul>
+                    <div class="tab-content mt-2">
+                        <div class="tab-pane fade show active" id="tabone" role="tabpanel">
+                            <h4 class="">Caratteristiche chimico fisiche</h4>
+                            <div class="col-12 mt-2" id="cardchimicofisiche"></div>
+                            </div>
+                        <div class="tab-pane fade" id="tabtwo" role="tabpanel">
+                            <h4 class="">Caratteristiche pedologiche</h4>
+                            <div class="col-12 mt-2" id="cardpedologiche"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('.btn').click(function(){
+            var pyy;
+            pyy = $(this).attr("pyy");
+            $.ajax(
+                {
+                    type:"GET",
+                    url: '{% url "api-analisi-json" %}',
+                    data:{
+                        campo: pyy
+                    },
+                    success: function( data ){
+                        console.log(data)
+                        //crea html che accetta
+                        if (data.totale>0) {
+                            htmlcard = ''
+                            htmlcard2 = ''
+                            for (var i = 0; i < data.totale; i++) {
+                                htmlcard = '<div class="card border-primary mb-3" style="max-width: 100%;">';
+                                htmlcard += `<div class="card-header">Data segnalazione: ${data.analisi[i].data_segnalazione} </div>`;
+                                htmlcard += `<div class="card-body text-primary">
+                                            <h5 class="card-title">Dettagli analisi</h5>
+                                            <div class="container">
+                                                <ul class=" list-unstyled row">
+                                                    <li class="list-item col-sm-6">pH: <strong>${data.analisi[i].pH}</strong></li>
+                                                    <li class="list-item col-sm-6">sabbia: <strong>${data.analisi[i].sabbia}</strong></li>
+                                                    <li class="list-item col-sm-6">limo: <strong>${data.analisi[i].limo}</strong></li>
+                                                    <li class="list-item col-sm-6">argilla:<strong>${data.analisi[i].argilla}</strong></li>
+                                                    <li class="list-item col-sm-6">conduttività: <strong>${data.analisi[i].conduttivita_elettrica}</strong></li>
+                                                    <li class="list-item col-sm-6">OM: <strong>${data.analisi[i].OM}</strong></li>
+                                                    <li class="list-item col-sm-6">pietrosità: <strong>${data.analisi[i].pietrosita}</strong></li>
+
+                                                </ul>
+                                            </div>
+                                        </div>`
+                                htmlcard += '</div>'
+
+                                htmlcard2 = '<div class="card border-primary mb-3" style="max-width: 100%;">';
+                                htmlcard2 += `<div class="card-header">Data segnalazione: ${data.analisi[i].data_segnalazione} </div>`;
+                                htmlcard2 += `<div class="card-body text-primary">
+                                            <h5 class="card-title">Dettagli analisi</h5>
+                                            <div class="container">
+                                                <ul class=" list-unstyled row">
+                                                    <li class="list-item col-sm-6">densità: <strong>${data.analisi[i].pH}</strong></li>
+                                                    <li class="list-item col-sm-6">scambio cationico: <strong>${data.analisi[i].sabbia}</strong></li>
+                                                    <li class="list-item col-sm-6">CACO3 tot: <strong>${data.analisi[i].CACO3_tot}</strong></li>
+                                                    <li class="list-item col-sm-6">CACO3 att: <strong>${data.analisi[i].CACO3_att}</strong></li>
+                                                    <li class="list-item col-sm-6">Azoto: <strong>${data.analisi[i].azoto}</strong></li>
+                                                    <li class="list-item col-sm-6"> fosforo:<strong>${data.analisi[i].fosforo}</strong></li>
+                                                </ul>
+                                            </div>
+                                        </div>`
+                                htmlcard2 += '</div>'
+
+                            }
+                            $("#cardchimicofisiche").html(htmlcard);
+                            $("#cardpedologiche").html(htmlcard2);
+                        } else {
+                            $("#cardchimicofisiche").html('<h4 style="background-color: #ed969e">Nessun dato presente</h4>')
+                            $("#cardpedologiche").html('<h4 style="background-color: #ed969e">Nessun dato presente</h4>')
+                        }
+                    },
+                    error: function (richiesta,stato,errori) {
+                        console.log('Chiamata fallita: '+stato+"errori: "+errori)
+                    }
+
+                });
+        });
+    </script>
+{% endblock %}

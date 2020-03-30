@@ -12,7 +12,7 @@ from crispy_forms.layout import Layout, Fieldset, Row, Column, Submit,HTML
 
 from .models import Profile, campi, analisi_suolo,\
     fertilizzazione,irrigazione,semina,trattamento,raccolta,\
-    operazioni_colturali,macchinari,Trasporto
+    operazioni_colturali,macchinari,Trasporto,ColturaDettaglio
 
 LEAFLET_WIDGET_ATTRS = {
     'map_height': '500px',
@@ -28,29 +28,9 @@ class CampiAziendeForm(forms.ModelForm):
 
     class Meta:
         model = campi
-        fields = ('nome','coltura', 'geom','proprietario')
+        fields = ('nome', 'geom','proprietario')
         widgets = {'geom': LeafletWidget(attrs=LEAFLET_WIDGET_ATTRS)}
 
-class MacchinariForm(forms.ModelForm):
-
-    class Meta:
-        model = macchinari
-        fields =  ('tipo_macchina','nome','descrizione',
-                   'marca','modelloMacchinario','potenza',
-                   'anno','targa','telaio','data_acquisto',
-                   'data_revisione','data_controllo','libretto_circolazione',
-                   'documento_assicurazione','manuale_uso','altri_allegati',
-                   ) #escludo il campo aziende
-        widgets = {'data_acquisto': forms.SelectDateWidget,
-                   'data_controllo': forms.SelectDateWidget,
-                   'data_revisione': forms.SelectDateWidget}
-
-class LogisticaForm(forms.ModelForm):
-
-    class Meta:
-        model = Trasporto
-        fields='__all__'
-        widgets={'data': forms.DateTimeField(input_formats=['%d/%m/%Y %H:%M']),}
 
 class EditCampiAziende(UpdateView):
     model = campi
@@ -194,6 +174,16 @@ class AnalisiForm(forms.ModelForm):
 
         return self.cleaned_data
 
+class ColturaDettaglioForm(forms.ModelForm):
+    class Meta:
+        model =ColturaDettaglio
+        fields = '__all__'
+
+        widgets = {'data_semina': DateInput(),
+                   'data_raccolta': DateInput(),
+                   'data_inizio': DateInput()}
+
+
 
 class FertilizzazioneForm(forms.ModelForm):
     class Meta:
@@ -281,8 +271,30 @@ class OperazioneColturaleForm(forms.ModelForm):
     class Meta:
         model=operazioni_colturali
         # fields='__all__'
-        exclude = ('note','operazione','operazione_fertilizzazione','operazione_irrigazione','operazione_raccolta','operazione_trattamento','operazione_semina')
+        exclude = ('note','campo','operazione','operazione_fertilizzazione','operazione_irrigazione','operazione_raccolta','operazione_trattamento','operazione_semina')
         widgets={
             'data_operazione': DateInput(),
         }
 
+class MacchinariForm(forms.ModelForm):
+
+    class Meta:
+        model = macchinari
+        fields =  ('tipo_macchina','nome','descrizione',
+                   'marca','modelloMacchinario','potenza',
+                   'anno','targa','telaio','data_acquisto',
+                   'data_revisione','data_controllo','libretto_circolazione',
+                   'documento_assicurazione','manuale_uso','altri_allegati','azienda',
+                   )
+        widgets = {'data_acquisto': DateInput(),
+                   'data_controllo': DateInput(),
+                   'data_revisione': DateInput()}
+
+
+
+
+class TrasportiForm(forms.ModelForm):
+    class Meta:
+        model = Trasporto
+        fields = '__all__'
+        widgets = {'data': DateInput(), }

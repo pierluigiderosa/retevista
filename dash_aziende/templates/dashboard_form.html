@@ -16,22 +16,22 @@
 {% block content %}
 
     <div class="row">
-        {% include "lateral_panel_dashboard.html" %}
+        {% include "lateral_panel_iFarm.html" %}
 
         <div class="col-lg-8  col-md-8">
 
             <form method="POST">
                 {% csrf_token %}
                 <div class="form-row">
-                    <h1 class="h2">Aggiungi o modifica il campo</h1>
+                    <h1 class="h2">Aggiungi il campo</h1>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-4 mb-0">
                         {{ form.nome|as_crispy_field }}
                     </div>
-                    <div class="form-group col-md-4 mb-0">
-                        {{ form.coltura|as_crispy_field }}
-                    </div>
+{#                    <div class="form-group col-md-4 mb-0">#}
+{#                        {{ form.coltura|as_crispy_field }}#}
+{#                    </div>#}
                     {% if proprietario %}
                         <div class="form-group col-md-4 mb-0">
                             {{ form.proprietario|as_crispy_field }}
