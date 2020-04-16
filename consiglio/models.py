@@ -14,7 +14,6 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 
-
 class coltura(models.Model):
     '''
     Modello della coltura
@@ -186,6 +185,7 @@ class rasterAppezzamento(models.Model):
     '''
     tipologia_choices = [
         ('OM', 'Sostanza organica'),
+        ('classi','Zonizzazione'),
     ]
     appezzamento = models.ForeignKey(campi_agricoli,verbose_name='Appezzamento aziendale',help_text='Campo aziendale al quale associare il raster')
     raster = models.FileField(upload_to='rasterCasa',verbose_name='raster geotif',help_text='caricare un raster nel SR 4326 -- lat/long wgs84')
@@ -194,7 +194,7 @@ class rasterAppezzamento(models.Model):
 
 
     def __str__(self):
-        return 'raster %s %s di %s' %(self.titolo,self.tipologia,self.appezzamento)
+        return 'raster %s %s di %s' %(self.titolo,self.tipologia,self.appezzamento.proprietario)
 
 
 
@@ -204,6 +204,6 @@ class rasterAppezzamento(models.Model):
 
     class Meta:
         verbose_name='Mappa raster'
-        verbose_name_plural='Mappe raster'
+        verbose_name_plural='Mappe raster Casa'
         # order_with_respect_to = 'appezzamento'
         ordering = ['appezzamento']

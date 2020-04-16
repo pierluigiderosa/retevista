@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% load static %}
+{% load leaflet_tags %}
+{% load l10n %}
+
+{% block script %}
+    {% leaflet_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/1.0.2/proj4leaflet.js"></script>
+      <!-- Load Esri Leaflet from CDN -->
+  <script src="https://unpkg.com/esri-leaflet@2.3.3/dist/esri-leaflet.js"
+  integrity="sha512-cMQ5e58BDuu1pr9BQ/eGRn6HaR6Olh0ofcHFWe5XesdCITVuSBiBZZbhCijBe5ya238f/zMMRYIMIIg1jxv4sQ=="
+  crossorigin=""></script>
+{% endblock %}
+{% block css %}
+    {% leaflet_css %}
+    <style>
+        .leaflet-container { height: 600px; width: 100%}
+    </style>
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="row">
+        {% include "lateral_panel_iLand.html" %}
+
+
+        <div class="col-md-10 p-0 bg-white h-md-100">
+            {% leaflet_map "main" callback="main_map_init" %}
+        </div>
+    </div>
+    <script type="text/javascript">
+        function onEachFeature(feature, layer) {
+            // does this feature have a property named popupContent?
+            if (feature.properties && feature.properties.popupContent) {
+                layer.bindPopup(feature.properties.popupContent);
+            }
+        }
+
+        function main_map_init (map, options) {
+            // Use Leaflet API here
+
+            map.fitBounds([
+                [{{ bbox.1|unlocalize }},{{ bbox.0|unlocalize }}],
+                [{{ bbox.3|unlocalize }},{{ bbox.2|unlocalize }}]
+            ]);
+            {% if staff %}
+            var dataurl = '{% url "campi_geojson" %}?user=staff';
+            {% else %}
+                        var dataurl = '{% url "campi_geojson" %}?user=agricoltore';
+            {% endif %}
+
+
+            var myStyle = {
+                "weight": 2,
+                "color": "#000000",
+                "opacity": 1,
+                "fillColor": "#ff6284",
+                "fillOpacity": 0.8
+            };
+
+            // Download GeoJSON via Ajax
+            $.getJSON(dataurl, function (data) {
+                // Add GeoJSON layer
+                var campi_layer  =L.geoJson(data, {
+                    style: myStyle,
+                    onEachFeature: function (feature, layer) {
+                        layer.bindPopup('<h5>Pyy:</h5>'+'<h6>'+feature.properties.id+'</h6>');
+
+                    }
+                }).addTo(map);
+            });
+            var urlgeobotanica ="http://geo.umbriaterritorio.it/ArcGIS/rest/services/public/GEOB_50k_WGS84//MapServer/"
+            var geobotanicaUmbria = L.esri.dynamicMapLayer({
+              url: urlgeobotanica,
+              opacity: 0.5,
+              useCors: false
+            })
+            {#geobotanicaUmbria.addTo(map);#}
+
+
+
+            //parte per inserire il catasto
+            var ETRS89width= 18.99-5.93;
+            var startResolution = ETRS89width/1024;
+            var grid_resolution = new Array(22);
+            for (var i = 0; i < 22; ++i) {
+                grid_resolution[i] = startResolution / Math.pow(2, i);
+            }
+            var crs_6706 = new L.Proj.CRS('EPSG:6706',
+                '+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs',
+                {
+                    resolutions: grid_resolution,
+                    origin: [0, 0],
+                    bounds: L.bounds([5.93, 34.76], [18.99, 47.1])
+                });
+            var url= 'https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php';
+
+            var lc = map.layerscontrol;
+            lc.addOverlay(
+                L.tileLayer.wms(url, {
+                    layers: 'CP.CadastralParcel,vestizioni',
+                    crs: crs_6706,
+                    format: 'image/png',
+                    maxZoom: 21,
+                    transparent: true,
+                }),
+                'Catasto Agenzia Entrate'
+            );
+            lc.addOverlay(
+                L.esri.dynamicMapLayer({
+                      url: urlgeobotanica,
+                      opacity: 0.8,
+                      useCors: false
+                }),
+                'Geobotanica'
+            );
+            lc.addOverlay(
+                L.esri.dynamicMapLayer({
+                    url: "http://geo.umbriaterritorio.it/ArcGIS/rest/services/Public/BENI_PAESAGGISTICI_ART_142_136_DLGS_42_2004_GB/MapServer",
+                    layers: [0,23],
+                    opacity: 0.8,
+                    useCors: false
+                }),
+                'BENI TUTELATI art. 142 e art. 136'
+            );
+            lc.addOverlay(
+                L.esri.dynamicMapLayer({
+                    url: "http://geo.umbriaterritorio.it/ArcGIS/rest/services/Public/CARTA_FITOCLIMATICA_GB/MapServer",
+                    layers:[0],
+                    opacity: 0.8,
+                    useCors: false
+                }),
+                'CARTA FITOCLIMATICA Umbria'
+            );
+            lc.addOverlay(
+                L.esri.dynamicMapLayer({
+                    url: "http://geo.umbriaterritorio.it/ArcGIS/rest/services/Public/CARTA_USO_SUOLI_2010_WGS84/MapServer/",
+                    layers:[2],
+                    opacity:0.8,
+                    useCors:false
+                }),
+                'Uso del suolo Umbria'
+            );
+
+
+
+
+        }
+
+
+    </script>
+
+
+{% endblock %}
+
+
+{% block extrastyle %}
+
+{% endblock %}

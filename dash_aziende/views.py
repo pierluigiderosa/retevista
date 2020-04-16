@@ -69,7 +69,7 @@ def main_ifarm(request):
     })
 
 @login_required
-def main_iFarmPrint(request):
+def main_iFoodPrint(request):
     utente = request.user
     if utente.groups.filter(name='Agricoltori').exists():
         campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=utente))
@@ -92,7 +92,7 @@ def main_iFarmPrint(request):
     })
 
 @login_required
-def iFarmPrint_detail(request,uid):
+def iFoodPrint_detail(request, uid):
     utente = request.user
     try:
         UID = int(uid)
@@ -103,6 +103,11 @@ def iFarmPrint_detail(request,uid):
         coltivazione = campo.colturadettaglio_set.first()
         if coltivazione.trasporto_set.exists():
             trasporto = coltivazione.trasporto_set.first()
+        else:
+            trasporto = Trasporto.objects.none()
+    else:
+        coltivazione = ColturaDettaglio.objects.none()
+        trasporto = Trasporto.objects.none()
 
     return render(request,'iFarmprint_detail.html',{
         'campo':campo,

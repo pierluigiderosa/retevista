@@ -431,6 +431,16 @@ def raster_mappa(request,uid=1):
     #filtro tutti i valori sotto-100 per non prendere i valori negativi del raster
     minimo = dati[(dati > -1000)].min()
 
+    warning = True
+    error_desc = ''
+    if rst.srs.srid == 4326:
+        if rst.origin[0]<18:
+            warning = False
+        else:
+            error_desc = 'anche se il SR appare corretto  i valori non lo sono'
+    else:
+        error_desc = 'Il SR del raster non corrisponde a 4326'
+
     context = {
         "uid":uid,
         "raster":rasterSingolo.raster,
@@ -439,6 +449,8 @@ def raster_mappa(request,uid=1):
         "massimo":massimo,
         "originx":rst.origin.x,
         "originy": rst.origin.y,
+        "warning":warning,
+        "errore":error_desc,
                }
 
-    return render(request,"mappa-raster-fertilizzazione.html",context)
+    return render(request,"mappa-raster-fertilizzazione2.html",context)

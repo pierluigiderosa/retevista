@@ -21,7 +21,10 @@
     <div class="row">
         <div class="col-md-4" >
             <div class="accordion" id="accordionExample">
-                <h2 class="">{{ azienda.user.first_name }} {{ azienda.user.last_name }}<br><small class="text-muted" >{{ azienda.pec }}</small></h2>
+                <h2 class="">{{ azienda.user.first_name }} {{ azienda.user.last_name }}<br>
+                    {% if azienda.pec %}
+                    <small class="text-muted" >pec: {{ azienda.pec }}</small></h2>
+            {% endif %}
                 <div class="card">
                     <div class="card-header" id="headingOne">
                         <h5 class="mb-0">

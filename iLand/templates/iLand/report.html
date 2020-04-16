@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load leaflet_tags crispy_forms_tags %}
+
+{% load static %}
+
+{% block script %}
+
+{% endblock %}
+
+{% block head_title %}    Report vincoli {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            <form  method="get" id="catastale-form">
+
+                <div class="form-group">
+                    <label>Comune</label>
+                    <input type="text" class="form-control" id="comune" name="comune" placeholder="Comune">
+                    <small class="form-text text-muted">digita il nome del comune</small>
+                </div>
+                <div class="form-group">
+                    <label>Foglio</label>
+                    <input type="text" class="form-control" id="foglio" name="foglio" placeholder="Foglio">
+                </div>
+                <div class="form-group">
+                    <label>Particella</label>
+                    <input type="text" class="form-control" id="particella" name="particella" placeholder="Particella">
+                </div>
+                <input type="button" class="btn btn-info" id="bottone" value="Mostra i risultati">
+            </form>
+        </div>
+
+     <div class="col-md-4 m-2">
+    {% if vincoli %}
+        <h3>Vincoli presenti</h3>
+        <ul class="list-group">
+        {% for vincolo in vincoli %}
+            <li class="list-group-item">{{ vincolo.filename }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+     </div>
+     </div>
+    <div class="m-2">
+        <p class="font-weight-bold">Elenco dei dati catastali</p>
+
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" id="lista-catasto">
+
+            </li>
+        </ul>
+    </div>
+    <input
+            type="button"
+            class="btn btn-info"
+            value="produci il report"
+            style="display:none;"
+            id="make-report-btn"
+{#            onclick="location.href='{% url 'iLand:pdf-vincoli'  %}';"#}
+    >
+
+    <script>
+        $(document).ready(function() {
+            dataList=null
+            $("#bottone").click(function(){
+                var comune = $("#comune").val();
+                var foglio = $("#foglio").val();
+                var particella = $("#particella").val()
+                {#console.log(comune+':'+foglio+':'+particella)#}
+                $.ajax({
+                    type:"GET",
+                    url: '{% url "iLand:ricerca-catastale" %}',
+                    data:{
+                        comune:comune,
+                        foglio:foglio,
+                        particella:particella
+                    },
+                    success: function (data) {
+                        dataList = data
+                        $("#lista-catasto").empty()
+                        lista_catasto(data)
+                        // mostro il bottone per il report PDF
+                        document.getElementById('make-report-btn').style.display = "block";
+                    },
+                    error: function (error_data) {}
+                });
+                function lista_catasto(data) {
+                    for (i = 0; i < data["lista"].length; i++) {
+                        text="<div class='custom-control custom-checkbox'>"
+                        text += "<input type='checkbox' class='custom-control-input' id='check"+i+"' checked>"
+                        text += "<label class='custom-control-label' for='check"+i+"'>"
+                        text += 'comune: '+data["lista"][i].comune
+                        text += ' particella: '+data["lista"][i].particella
+                        text += ' foglio: '+data["lista"][i].foglio
+                        text += ' id: '+data["lista"][i].id
+                        text += "</label>";
+                        $("#lista-catasto").append(text);
+                    }
+
+                }
+            });
+
+        },
+            $("#make-report-btn").click(function () {
+                var url = "{% url 'iLand:pdf-vincoli' %}?features=";
+
+                function controlloSpunte() {
+                    ids=[]
+                    ids_str=''
+
+                    for (i=0; i < dataList["lista"].length;i++){
+                        if (document.getElementById("check"+i).checked){
+                            ids.push(dataList["lista"][i].id)
+                            ids_str += dataList["lista"][i].id+','
+                        }
+                    }
+                    for (j=0; j<ids.length;j++){
+                        url += ids[j]+','
+                    }
+
+                    return ids
+                }
+                ids = controlloSpunte()
+
+                document.getElementById('make-report-btn').setAttribute('onclick',location.href=url)
+
+            })
+        );
+
+
+    </script>
+{% endblock %}

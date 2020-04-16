@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load leaflet_tags crispy_forms_tags %}
+
+{% load static %}
+
+{% block script %}
+
+{% endblock %}
+
+{% block css %}
+    {{ form.media }}
+
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-8  col-md-8">
+
+<h1>Importa Shapefile</h1>
+{% if err_msg %}
+    <b><i>{{ err_msg }}</i></b>
+{% endif %}
+<form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Submit"/>
+
+
+</form>
+    </div>
+        <p><a href="{% url 'homepage' %}">Torna alla homepage</a></p>
+
+{% endblock %}

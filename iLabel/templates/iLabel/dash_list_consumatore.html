@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% load l10n %}
+
+{% block content %}
+<div class="content-wrapper " id="main-content">
+<h2>iLabel App</h2>
+                                    <h3>Scegli l'azienda</h3>
+<ul class="list-unstyled">
+    {% for singola_azienda in aziende %}
+                            <li>
+    <a href="{% url 'iLabel:main-azienda' uid=singola_azienda.id %}" class="btn btn-outline-secondary btn-block btn-lg my-1">
+        {% if singola_azienda.denominazione %} {{ singola_azienda.denominazione }} {% else %} {{ singola_azienda.user.first_name }} {{ singola_azienda.user.last_name }}{% endif %}
+    </a>
+                </li>
+    {% endfor %}
+</ul>
+</div>
+{% endblock %}

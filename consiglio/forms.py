@@ -34,4 +34,4 @@ class CustomAuthenticationForm(AuthenticationForm):
 class RasterCasaForm(forms.ModelForm):
     class Meta:
         model = rasterAppezzamento
-        fields = ('appezzamento','titolo','tipologia','raster')
+        fields = ('__all__')

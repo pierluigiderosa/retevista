@@ -4,9 +4,9 @@ from .views import dashboard_fields, form_campi, add_profile, CampiGeoJson, form
     CampoUpdateView, AnalisiUpdateView, form_coltura,\
     CampoDeleteView, AnalisiDeleteView, dashboard_main, get_data_charts, dash_operazioni_colturali, form_operazioni, \
     OperazioniDeleteView, edit_profile, dashboard_consiglio, dash_consumatore, main_biotipo,\
-    CampiEstesiJson, dash_list_consumatore, operazioniJson, list_macchinari, iFarmPrint_detail, \
+    CampiEstesiJson, dash_list_consumatore, operazioniJson, list_macchinari, iFoodPrint_detail, \
     form_macchinari, MacchinariDeleteView, MacchinariUpdateView, logistica_list, \
-    form_logistica_add, main_ifarm, main_iFarmPrint, caratt_chimico_fisiche, AnalisiJson
+    form_logistica_add, main_ifarm, main_iFoodPrint, caratt_chimico_fisiche, AnalisiJson
 from .models import campi
 
 urlpatterns = [
@@ -41,8 +41,8 @@ urlpatterns = [
     url(r'consumatore/$', dash_list_consumatore, name='main-consumatore-list'),
     url(r'consumatore/(?P<uid>\d+)$', dash_consumatore, name='main-consumatore'),
     url(r'ifarm/$', main_ifarm, name='main-ifarm'),
-    url(r'iFarmPrint/(?P<uid>\d+)$', iFarmPrint_detail, name='iFarmPrint-detail'),
-    url(r'iFarmPrint/$', main_iFarmPrint, name='main-iFarmPrint'),
+    url(r'iFoodPrint/(?P<uid>\d+)$', iFoodPrint_detail, name='iFoodPrint-detail'),
+    url(r'iFoodPrint/$', main_iFoodPrint, name='main-iFoodPrint'),
     url(r'^biotipo/$',main_biotipo,name='main-biotopo'),
     url(r'^$', dashboard_main, name='main-iland')
 ]

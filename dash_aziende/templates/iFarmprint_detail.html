@@ -5,7 +5,7 @@
 
 {% block content %}
     <div class="row">
-        {% include "lateral_panel_iFarmPrint.html" %}
+        {% include "lateral_panel_iFoodPrint.html" %}
         <div class="col-md-10">
             {% if campo.colturadettaglio_set.exists  %}
                 <h3 class="text-primary">{{ campo.colturadettaglio_set.first.nome }} in {{ campo.nome }}|{{ campo.id }} di {{ campo.proprietario }}</h3><p>coltivazione</p>
@@ -15,21 +15,21 @@
             <div class="row">
                 <div class="col-3">
                     <ul class="nav nav-pills flex-column">
-                        <li class="nav-item" > <a href="" class="active nav-link" data-toggle="pill" data-target="#tabone">Prenotazione acquisto</a> </li>
-                        <li class="nav-item"> <a class="nav-link" href="" data-toggle="pill" data-target="#tabtwo">Produttività</a> </li>
-                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#tabthree">Raccolto</a> </li>
-                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#tabfour">Trasporto</a> </li>
-                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#tabfive">Condizionamento</a> </li>
-                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#tabsix">Stoccaggio</a> </li>
-                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#tabseven">Trasformazione</a> </li>
-                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#tabeight">Confezionamento</a> </li>
-                        <li class="nav-item"> <a href="" class="nav-link" data-toggle="pill" data-target="#tabnine">Consegna</a> </li>
+                        <li class="nav-item" > <a href="" class="active nav-link border border-primary" data-toggle="pill" data-target="#tabone">Prenotazione acquisto</a> </li>
+                        <li class="nav-item"> <a class="nav-link border border-primary" href="" data-toggle="pill" data-target="#tabtwo">Produttività</a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link border border-primary" data-toggle="pill" data-target="#tabthree">Raccolto</a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link border border-primary" data-toggle="pill" data-target="#tabfour">Trasporto</a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link border border-primary" data-toggle="pill" data-target="#tabfive">Condizionamento</a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link border border-primary" data-toggle="pill" data-target="#tabsix">Stoccaggio</a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link border border-primary" data-toggle="pill" data-target="#tabseven">Trasformazione</a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link border border-primary" data-toggle="pill" data-target="#tabeight">Confezionamento</a> </li>
+                        <li class="nav-item"> <a href="" class="nav-link border border-primary" data-toggle="pill" data-target="#tabnine">Consegna</a> </li>
                     </ul>
                 </div>
                 <div class="col-9">
                     <div class="tab-content bg-light border border-primary rounded-top">
                         <div class="tab-pane fade show active" id="tabone" role="tabpanel">
-                            <h4>Prenotazine acquisto</h4>
+                            <h4>Prenotazione acquisto</h4>
                             <p class="bg-warning">Da fare</p>
                             <p class="bg-warning">In my soul and absorb its power, like the form of a beloved mistress, then I often think with longing. A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.</p>
                         </div>
@@ -45,8 +45,21 @@
                                     Data semina o trapianto: {{ coltivazione.data_semina }}<br>
                                     Data attesa di raccolta: {{ coltivazione.data_raccolta }}<br>
                                     Semente/piantine: {{ coltivazione.semente }}<br>
-                                    Produzione totale attesa: {{ coltivazione.produzione }}<br>
+                                    Produzione totale attesa: <b>{{ coltivazione.produzione }}</b><br>
                                     Irrigazione: {{ coltivazione.irrigato }}<br>
+
+                                {% elif campo.uso_colturale %}
+                                    <p class="text-info">Dato in campo</p>
+                                    Nome: {{ campo.coltura }}<br>
+                                    Data inizio lavori: {{ campo.data_inizio }}<br>
+                                    Uso colturale: {{ campo.uso_colturale }}<br>
+                                    Precocità: {{ coltivazione.precocita }}<br>
+                                    Data semina o trapianto: {{ campo.data_semina }}<br>
+                                    Data attesa di raccolta: {{ campo.data_raccolta }}<br>
+                                    Semente/piantine: {{ campo.semente }}<br>
+                                    Produzione totale attesa: <b>{{ campo.produzione }}</b><br>
+                                    Irrigazione: {{ campo.irrigato }}<br>
+
 
                                 {% else %}
                                     <p class="bg-white">Nessun dato inserito</p>

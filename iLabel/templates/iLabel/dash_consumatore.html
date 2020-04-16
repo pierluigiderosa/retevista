@@ -1,0 +1,418 @@
+{% extends "base.html" %}
+{% load static %}
+{% load leaflet_tags %}
+{% load l10n %}
+
+{% block script %}
+    {% leaflet_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/1.0.2/proj4leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+{% endblock %}
+{% block css %}
+    {% leaflet_css %}
+    <style>
+        .leaflet-container { height: 600px; width: 100%}
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-4" >
+            <div class="accordion" id="accordionExample">
+            <h2>iLabel App</h2>
+                <h2 class="">{{ azienda.user.first_name }} {{ azienda.user.last_name }}<br>
+                    {% if azienda.pec %}
+                    <small class="text-muted" >pec: {{ azienda.pec }}</small></h2>
+            {% endif %}
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Chi siamo
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Dove siamo
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Manifesto
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                        <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingQuattro">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseQuattro" aria-expanded="false" aria-controls="collapseQuattro">
+                                Progetto cultura
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseQuattro" class="collapse" aria-labelledby="headingQuattro" data-parent="#accordionExample">
+                        <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingFive">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                I prodotti
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
+                        <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        </div>
+                    </div>
+                </div>
+                <div class="blockquote mt-4">
+                    <h4 class="mt-2" contenteditable="true"><i class="fas fa-leaf"></i> Piano colturale</h4>
+                    <ul class="list-group list-group-flush">
+                        {% for campo in campi %}
+                            <li class="list-group-item">
+                                <small class="text-muted">{{ campo.nome }} {{ campo.coltura }} {{ campo.id }}</small>
+                                <a class="campobutton btn btn-info btn-sm" id="campo{{ campo.id }}"  data-catid="{{ campo.id }}">mostra</a> </p> <p id="message{{campo.id}}">
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <ul class="nav nav-tabs">
+                <li class="nav-item"> <a href="" class="active nav-link" data-toggle="pill" data-target="#tabone"><i class="fas fa-map"></i>&nbsp;Mappa</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="" data-toggle="pill" data-target="#tabtwo" contenteditable="true"><i class="fas fa-info-circle"></i>&nbsp;Dettagli<br></a> </li>
+            </ul>
+            <div class="tab-content mt-2">
+                <div class="tab-pane fade show active" id="tabone" role="tabpanel">
+                    <div class="col-md-12" style="">
+                        {#                  <iframe width="100%" height="400" src="https://maps.google.com/maps?q=New%20York&amp;z=14&amp;output=embed" scrolling="no" frameborder="0"></iframe>#}
+                        {% leaflet_map "main" callback="main_map_init" %}
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tabtwo" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6" style="">
+                            <h3 class="">Dati del campo <span class="badge badge-light"> INFO</span></h3>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-condensed mb-1 table-borderless">
+                                    <tbody>
+                                    <tr>
+                                        <th scope="row">Nome</th>
+                                        <td id="nome-campo"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Irrigato</th>
+                                        <td id="irrigato-campo"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Tessitura</th>
+                                        <td id="tessitura-campo"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Data apporto irriguo</th>
+                                        <td id="apporto-irriguo-campo"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Coltura</th>
+                                        <td id="coltura-campo"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Data di semina</th>
+                                        <td id="data-semina-campo"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Uso colturale</th>
+                                        <td id="uso-colturale-campo"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">drenaggio</th>
+                                        <td id="drenaggio-campo"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Precocità</th>
+                                        <td id="precocita-campo"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Produzione</th>
+                                        <td id="produzione-campo">ASSISI</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Data di inizio</th>
+                                        <td id="data-inizio-campo"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Pendenza</th>
+                                        <td id="pendenza-campo"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">data di raccolta</th>
+                                        <td id="data-raccolta-campo"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">gestione</th>
+                                        <td id="gestione-campo"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="">
+                            <div class="row">
+                                <div class="col-md-12" id="operazioni-colturali">
+                                    <h4 class="">Operazioni Colturali</h4>
+                                    <ul id="operazioni-colturaliUl">
+                                    </ul>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <hr>
+                                    <p class="" id="risultato">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tabthree" role="tabpanel">
+                    <p class="">When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        function formatDate(dataISO) {
+            var d = new Date(dataISO),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+
+            return [day, month, year].join('-');
+        }
+        function getColor(d) {
+            return d > 1000 ? '#800026' :
+                d > 500  ? '#BD0026' :
+                    d > 200  ? '#E31A1C' :
+                        d > 100  ? '#FC4E2A' :
+                            d > 50   ? '#FD8D3C' :
+                                d > 20   ? '#FEB24C' :
+                                    d > 10   ? '#FED976' :
+                                        '#FFEDA0';
+        }
+        function main_map_init (map, options) {
+            // Use Leaflet API here
+
+            map.fitBounds([
+                [{{ bbox.1|unlocalize }},{{ bbox.0|unlocalize }}],
+                [{{ bbox.3|unlocalize }},{{ bbox.2|unlocalize }}]
+            ]);
+
+            var dataurl = '{% url "campi_geojson" %}?user=staff';
+
+            var myStyle = {
+                "weight": 2,
+                "color": "#ffffff",
+                "opacity": 1,
+                "dashArray": 3,
+                "fillColor": "#FED976",
+                "fillOpacity": 0.7
+            };
+
+            //funzione per mostrare i dettagli di operazione
+            // da qui: https://stackoverflow.com/questions/4323848/how-to-handle-button-click-events-in-jquery
+            // questa modalità da usare per una funzione se il bottone è appended
+
+            $(document).on('click','#OperazioneBtn',function(){
+                var id;
+                id = $(this).attr("dataoperid");
+                $.ajax(
+                    {
+                        type:"GET",
+                        url: '{% url "operazioni_dettaglio_json" %}',
+                        data:{
+                            operazione: id
+                        },
+                        success: function( data )
+                        {
+                            console.log(data)
+                            const entries = Object.entries(data);
+                            var risultato = '<h5 class="">Dettagli</h5>'
+                            for (const [chiave, valore] of entries) {
+
+                                risultato +=(`${chiave}: ${valore}<br>`)
+                            }
+                            $('#risultato').html(risultato)
+                        },
+                        error: function (richiesta,stato,errori) {
+                            console.log('Chiamata fallita: '+stato+"errori: "+errori)
+                        }
+                    });
+            });
+
+            $('.campobutton').click(function(){
+                //clear some id HTML
+                $("#operazioni-colturaliUl").empty()
+                var id;
+                id = $(this).attr("data-catid");
+                $.ajax(
+                    {
+                        type:"GET",
+                        url: '{% url "campi_estesi_json" %}',
+                        data:{
+                            campo: id
+                        },
+                        success: function( data )
+                        {
+                            console.log(data)
+                            // popolo manualmente i paragrafi
+                            $("#nome-campo").html(data.campo[0].nome)
+                            $("#irrigato-campo").html(data.campo[0].irrigato)
+                            $("#tessitura-campo").html(data.campo[0].tessitura)
+                            $("#apporto-irriguo-campo").html(data.campo[0].dataApportoIrriguo)
+                            $("#coltura-campo").html(data.campo[0].coltura)
+                            $("#data-semina-campo").html(data.campo[0].data_semina)
+                            $("#uso-colturale-campo").html(data.campo[0].uso_colturale)
+                            $("#drenaggio-campo").html(data.campo[0].drenaggio)
+                            $("#precocita-campo").html(data.campo[0].precocita)
+                            $("#produzione-campo").html(data.campo[0].produzione)
+                            $("#data-inizio-campo").html(data.campo[0].data_inizio)
+                            $("#pendenza-campo").html(data.campo[0].pendenza)
+                            $("#data-raccolta-campo").html(data.campo[0].data_racccolta)
+                            $("#gestione-campo").html(data.campo[0].gestione)
+
+
+                            // test --
+                            if (data.n_operazioni > 0) {
+                                var risultato = ''
+                                for (i = 0; i < data.n_operazioni; i++) {
+                                    var idoper = data['operazione' + i].id
+                                    risultato += '<br>' + data['operazione' + i].operazione + ' in data ' + formatDate(data['operazione' + i].data_operazione);
+
+
+                                    console.log('operazione' + i);
+                                    const entries = Object.entries(data['operazione' + i]);
+                                    for (const [fruit, count] of entries) {
+                                        console.log(`There are ${count} ${fruit}s`)
+                                    }
+
+
+                                    //$("#operazioni-colturali").append(risultato);
+                                    var $btn = $('<input/>').attr({
+                                        type:'button',
+                                        name:'OperazioneBtn',
+                                        id : "OperazioneBtn",
+                                        value:'Mostra dettagli',
+                                        dataoperid:idoper,
+                                    });
+
+                                    $("#operazioni-colturaliUl").append('<li>'+data['operazione' + i].operazione+ ' in data:' + formatDate(data['operazione' + i].data_operazione)+'</li>');
+                                    $('#operazioni-colturaliUl').append($btn)
+
+                                }
+                            }
+
+                            // fine test---
+
+                            {#$( '#campo'+ id ).removeClass('btn btn-primary btn-lg');#}
+                            {#$( '#campo'+ id ).addClass('btn btn-success btn-lg'); #}
+                        },
+                        error: function (richiesta,stato,errori) {
+                            console.log('Chiamata fallita: '+stato+"errori: "+errori)
+                        }
+                    });
+            });
+
+
+
+            // Download GeoJSON via Ajax
+            $.getJSON(dataurl, function (data) {
+                // Add GeoJSON layer
+                L.geoJson(data, {
+                    style: myStyle,
+                    onEachFeature: function (feature, layer) {
+                        //layer.bindPopup('<h5>Nome:</h5>'+'<h6>'+feature.properties.nome+'</h6>');
+                        layer.bindTooltip(feature.properties.nome,{permanent: true,});
+                    }
+                }).addTo(map);
+                //parte per inserire il CTR UMBRIA
+                var ETRS89width= 18.99-5.93;
+                var startResolution = ETRS89width/1024;
+                var grid_resolution = new Array(22);
+                for (var i = 0; i < 22; ++i) {
+                    grid_resolution[i] = startResolution / Math.pow(2, i);
+                }
+                var crs_3004 = new L.Proj.CRS("EPSG:3004",
+                    "+proj=tmerc +lat_0=0 +lon_0=15 +k=0.9996 +x_0=2520000 +y_0=0 +ellps=intl +towgs84=-104.1,-49.1,-9.9,0.971,-2.917,0.714,-11.68 +units=m +no_defs",
+                    {
+                        resolutions: grid_resolution,
+                        origin: [0, 0],
+                        bounds: L.bounds([10.5,42.0], [14.6,44.0])
+                    });
+
+                var urlctrumbria = 'http://geo.umbriaterritorio.it/arcgis/services/CTR_10K/MapServer/WMSServer'
+                var wmsCTRUmbria = L.tileLayer.wms(urlctrumbria,{
+                        layers: ['geo_raster.GISMANAGER1.CTR_10k'],
+                        crs: crs_3004,
+                        format: 'image/png',
+                        maxZoom: 21,
+                        transparent: true,
+
+                    }
+                )
+                {#wmsCTRUmbria.addTo(map)#}
+                var lc = map.layerscontrol;
+                lc.addOverlay(
+                    L.tileLayer.wms(
+                        urlctrumbria,
+                        {layers: 'geo_raster.GISMANAGER1.CTR_10k',
+                            format: 'image/png',
+                            crs: crs_3004,
+                            transparent: true,
+                        }),
+                    'CTR Umbria'
+                );
+            });
+
+        }
+    </script>
+{% endblock %}

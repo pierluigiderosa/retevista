@@ -68,13 +68,16 @@
 
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'main-iland' %}">iLand</a>
+                <a class="nav-link" href="{% url 'iLand:main-iland' %}">iLand</a>
             </li>
-        <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="{% url 'main-ifarm' %}">iFarm</a>
             </li>
-        <li class="nav-item">
-                <a class="nav-link" href="{% url 'main-iFarmPrint' %}">iFarmPrint</a>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'main-iFoodPrint' %}">iFoodPrint</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'iLabel:main-ilabel' %}">iLabel</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle"href="/dati" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Partner</a>
@@ -101,9 +104,7 @@
 
 
             </li>
-         <li class="nav-item">
-                <a class="nav-link" href="{% url 'main-consumatore-list' %}">iLabel</a>
-            </li>
+
             <li class="nav-item dropdown ml-auto">
                 {% if user.is_anonymous %}
                     {#  <a class="btn btn-primary" href="{% url 'login' %}" role="button">Login</a>#}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% load leaflet_tags %}
+{% load l10n %}
+
+{% block head_title %}
+    iLabel -- ReteVISTA
+{% endblock %}
+
+
+{% block content %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">iLabel</h1>
+            <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+            {#      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>#}
+        </div>
+    </div>
+    <div class="container">
+          <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-4">
+              <p class="text-center">
+                <a href="{% url 'iLabel:main-aziende-list' %}" class="btn btn-sq-lg btn-primary">
+                  <i class="fa fa-user fa-5x"></i><br> Lista delle aziende <br>Accedi </a>
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p class="text-center" >
+                <a href="#" class="btn btn-sq-lg btn-success">
+                        <i class="fa fa-fire fa-5x" aria-hidden="true"></i><br/>
+                        Lista delle colture <br>Accedi
+                    </a>
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p class="text-center">
+                <a href="#" class="btn btn-sq-lg btn-info">
+                  <i class="fa fa-qrcode fa-5x" aria-hidden="true"></i><br>Genera Qr Code<br>Accedi </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}

@@ -26,6 +26,8 @@ urlpatterns = [
     url(r'^dati/', include('income.urls')),
     url(r'^elaborazioni/', include('consiglio.urls')),
     url(r'dashboard/',include('dash_aziende.urls')),
+    url(r'^iLabel/', include('iLabel.urls',namespace='iLabel')),
+    url(r'^iLand/', include('iLand.urls',namespace='iLand')),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^$', home_page, name='homepage')
 

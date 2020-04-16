@@ -8,7 +8,7 @@
         </h6>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'main-biotopo' %}">
+                <a class="nav-link" href="{% url 'iLand:main-biotopo' %}">
                     <i class="fa fa-leaf" aria-hidden="true"></i>
                     Biotopo
                 </a>
@@ -17,6 +17,18 @@
                 <a class="nav-link" href="{% url 'iland-forecast' %}">
                     <i class="fa fa-cloud"></i>
                     Microclima
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'iLand:catastino' %}">
+                    <i class="fa fa-map"></i>
+                    Catastino
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'iLand:report-vincoli' %}">
+                    <i class="fa fa-print" aria-hidden="true"></i>
+                    Servizio Report
                 </a>
             </li>
             <li class="nav-item">

@@ -17,13 +17,13 @@
 {% block content %}
 <div class="jumbotron">
     <div class="container">
-      <h1 class="display-3">iFarmPrint</h1>
+      <h1 class="display-3">iFoodPrint</h1>
       <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
 {#      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>#}
     </div>
   </div>
     <div class="row">
-        {% include "lateral_panel_iFarmPrint.html" %}
+        {% include "lateral_panel_iFoodPrint.html" %}
 
         <div class="col-md-5 p-2 bg-indigo h-md-100" url-endpoint='{% url "api-data-dash" %}'>
 
@@ -31,7 +31,7 @@
             <h6>per prenotare vai su prenotazione acquisti</h6>
 
         {% for campo in campi %}
-            <a href="{% url 'iFarmPrint-detail' uid=campo.id %}" class="btn btn-outline-secondary btn-block btn-lg my-1">
+            <a href="{% url 'iFoodPrint-detail' uid=campo.id %}" class="btn btn-outline-secondary btn-block btn-lg my-1">
             {{ forloop.counter }}
             {% if campo.colturadettaglio_set.exists  %}
                 <b>{{ campo.colturadettaglio_set.first.nome }}</b>
