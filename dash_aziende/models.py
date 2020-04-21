@@ -70,6 +70,8 @@ class colture(models.Model):
         verbose_name = 'Dizionario coltura'
         verbose_name_plural = 'Dizionario colturale'
 
+
+
 def current_year():
     return datetime.date.today().year
 
@@ -166,8 +168,11 @@ class campi(models.Model):
 
 
 class ColturaDettaglio(models.Model):
+    '''
+    Modello per la coltivazione del campo
+    '''
     nome =models.ForeignKey(colture,verbose_name='Nome della coltura')
-    campo = models.ForeignKey(campi)
+    campo = models.ForeignKey(campi, on_delete=models.CASCADE)
     annataAgraria = models.PositiveIntegerField(
         default=current_year(), validators=[MinValueValidator(2010), max_value_year])
     data_inizio = models.DateField(blank=True, null=True, verbose_name="Data inizio lavori",
@@ -207,6 +212,7 @@ class ColturaDettaglio(models.Model):
         verbose_name = 'Coltivazione'
         verbose_name_plural = 'Coltivazioni'
         unique_together = ('campo', 'annataAgraria')
+        ordering = ['-annataAgraria',]
 
 # da qui metto tutte le operazioni eseguibili
 

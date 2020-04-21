@@ -5,7 +5,7 @@
 
 {% block content %}
     <div class="row">
-        {% include "lateral_panel_iFoodPrint.html" %}
+        {% include "panels/lateral_panel_iFoodPrint.html" %}
         <div class="col-md-10">
             {% if campo.colturadettaglio_set.exists  %}
                 <h3 class="text-primary">{{ campo.colturadettaglio_set.first.nome }} in {{ campo.nome }}|{{ campo.id }} di {{ campo.proprietario }}</h3><p>coltivazione</p>

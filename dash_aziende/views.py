@@ -745,7 +745,7 @@ class CampoUpdateView(LoginRequiredMixin,UpdateView):
     form_class = CampiAziendeForm
     success_message = 'Successo: Il campo è stato aggiornato.'
     success_url = reverse_lazy('main-fields')
-    fields = '__all__'
+    # fields = '__all__'
 
 
 

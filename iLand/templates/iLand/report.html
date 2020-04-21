@@ -67,7 +67,7 @@
                 var comune = $("#comune").val();
                 var foglio = $("#foglio").val();
                 var particella = $("#particella").val()
-                {#console.log(comune+':'+foglio+':'+particella)#}
+                console.log(comune+':'+foglio+':'+particella)
                 $.ajax({
                     type:"GET",
                     url: '{% url "iLand:ricerca-catastale" %}',
@@ -80,6 +80,7 @@
                         dataList = data
                         $("#lista-catasto").empty()
                         lista_catasto(data)
+                        console.log(data)
                         // mostro il bottone per il report PDF
                         document.getElementById('make-report-btn').style.display = "block";
                     },

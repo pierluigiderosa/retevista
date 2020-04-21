@@ -120,16 +120,16 @@ def ricerca(request):
         comune = request.GET.get('comune', '')
         # toglier quando analizziamo altre aziende Appolloni
         foglio_results = Feature.objects.filter(
-            Q(shapefile__filename__startswith='Appol')&
+            Q(shapefile__filename__istartswith='Appol')&
             Q(attributevalue__value__icontains=foglio) &
             Q(attributevalue__attribute__name__exact='FOGLIO')).distinct()
         particella_results = Feature.objects.filter(
-            Q(shapefile__filename__startswith='Appol') &
+            Q(shapefile__filename__istartswith='Appol') &
             Q(attributevalue__value__icontains=particella) &
             Q(attributevalue__attribute__name__contains='PARTICELLA')
         ).distinct()
         comune_results = Feature.objects.filter(
-            Q(shapefile__filename__startswith='Appol') &
+            Q(shapefile__filename__istartswith='Appol') &
             Q(attributevalue__value__icontains=comune) &
             Q(attributevalue__attribute__name__contains='COMUNE')
         ).distinct()
