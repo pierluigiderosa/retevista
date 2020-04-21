@@ -22,10 +22,13 @@ from dash_aziende.models import campi, Profile, analisi_suolo, macchinari, Trasp
 from income.models import dati_orari, stazioni_retevista,iframe_stazioni
 from consiglio.models import bilancio,appezzamentoCampo
 from dash_aziende.models import fertilizzazione as fert_model ,operazioni_colturali as oper_model,\
-    irrigazione as irr_model, trattamento as tratt_model, semina as semina_model,raccolta as raccolta_model
+    irrigazione as irr_model, trattamento as tratt_model, semina as semina_model,raccolta as raccolta_model, \
+    raccolta_paglia as raccolta_paglia_model, diserbo as diserbo_model
+
 from .forms import CampiAziendeForm, UserForm, ProfileForm, AnalisiForm, \
-    FertilizzazioneForm, OperazioneColturaleForm, IrrigazioneForm, TrattamentoForm, SeminaForm, RaccoltaForm, \
-    EditProfileForm, MacchinariForm, TrasportiForm, ColturaDettaglioForm
+    FertilizzazioneForm, OperazioneColturaleForm, IrrigazioneForm, TrattamentoForm, SeminaForm, \
+    RaccoltaForm, \
+    EditProfileForm, MacchinariForm, TrasportiForm, ColturaDettaglioForm, RaccoltaPagliaForm, DiserboForm
 from forecast import get as get_forecast
 
 # Create your views here.
@@ -699,6 +702,156 @@ def form_operazioni(request,oper_type=None):
             for form in formset.forms:
                 form.fields['coltura_dettaglio'].queryset = colturadettaglioFilter
                 # form.fields['campo'].queryset = query_campi_utente
+
+    # caso raccolta paglia
+    elif oper_type=='raccolta_paglia':
+        child_operation = raccolta_paglia_model()  #cambiare qui
+        child_form = RaccoltaPagliaForm(instance=child_operation)  # setup a form for the parent CAMBIARE QUI
+
+        OperationFormSet = inlineformset_factory(
+            raccolta_paglia_model, oper_model,   #CAMBIARE QUI
+            form=OperazioneColturaleForm,
+            fields='__all__',
+            fk_name='operazione_raccolta_paglia',  #CAMBIARE QUI
+            can_delete=False,
+            extra=1,
+        )
+
+        if request.method == "POST":
+            child_form = RaccoltaPagliaForm(request.POST,instance=child_operation)  #CAMBIARE QUI
+            formset = OperationFormSet(request.POST, request.FILES,instance=child_operation)
+
+            if child_form.is_valid():
+                created_fertilizzazione = child_form.save(commit=False)
+                created_fertilizzazione.operazione = oper_type
+                formset = OperationFormSet(request.POST, request.FILES, instance=created_fertilizzazione)
+
+                if formset.is_valid():
+                    created_fertilizzazione.save()
+                    operazioni = formset.save(commit=False)
+
+                    for single_oper in operazioni:
+                        single_oper.operazione=oper_type
+                        single_oper.campo = single_oper.coltura_dettaglio.campo
+                        single_oper.save()
+
+                messages.success(request, 'la tua raccolta di paglia è stata aggiunta!')
+                # redirect to a new URL:
+                return redirect('main-operazioni-colturali')
+
+
+        else:
+            child_form = RaccoltaPagliaForm(instance=child_operation) #CAMBIARE QUI
+            formset = OperationFormSet(instance=child_operation)
+            for form in formset.forms:
+                form.fields['coltura_dettaglio'].queryset = colturadettaglioFilter
+                # form.fields['campo'].queryset = query_campi_utente
+
+    # caso diserbo
+    elif oper_type == 'diserbo':
+        child_operation = diserbo_model()  # cambiare qui
+        child_form = DiserboForm(instance=child_operation)  # setup a form for the parent CAMBIARE QUI
+
+        OperationFormSet = inlineformset_factory(
+            diserbo_model, oper_model,  # CAMBIARE QUI
+            form=OperazioneColturaleForm,
+            fields='__all__',
+            fk_name='operazione_diserbo',  # CAMBIARE QUI
+            can_delete=False,
+            extra=1,
+        )
+
+        if request.method == "POST":
+            child_form = DiserboForm(request.POST, instance=child_operation)  # CAMBIARE QUI
+            formset = OperationFormSet(request.POST, request.FILES, instance=child_operation)
+
+            if child_form.is_valid():
+                created_fertilizzazione = child_form.save(commit=False)
+                created_fertilizzazione.operazione = oper_type
+                formset = OperationFormSet(request.POST, request.FILES, instance=created_fertilizzazione)
+
+                if formset.is_valid():
+                    created_fertilizzazione.save()
+                    operazioni = formset.save(commit=False)
+
+                    for single_oper in operazioni:
+                        single_oper.operazione = oper_type
+                        single_oper.campo = single_oper.coltura_dettaglio.campo
+                        single_oper.save()
+
+                messages.success(request, 'il tuo diserbo è stato aggiunto!')
+                # redirect to a new URL:
+                return redirect('main-operazioni-colturali')
+
+
+        else:
+            child_form = DiserboForm(instance=child_operation)  # CAMBIARE QUI
+            formset = OperationFormSet(instance=child_operation)
+            for form in formset.forms:
+                form.fields['coltura_dettaglio'].queryset = colturadettaglioFilter
+                # form.fields['campo'].queryset = query_campi_utente
+
+
+    # casi solo data
+    elif oper_type=='aratura':
+        if request.method == 'POST':
+            form = OperazioneColturaleForm(request.POST)
+            if form.is_valid():
+                operazioni = form.save(commit=False)
+                operazioni.operazione= oper_type
+                operazioni.campo=operazioni.coltura_dettaglio.campo
+                operazioni.save()
+
+            messages.success(request,'La aratura è stata aggiunta')
+            return redirect('main-operazioni-colturali')
+        else:
+            formset = OperazioneColturaleForm()
+            child_form = None
+
+    elif oper_type=='estirpatura':
+        if request.method == 'POST':
+            form = OperazioneColturaleForm(request.POST)
+            if form.is_valid():
+                operazioni = form.save(commit=False)
+                operazioni.operazione= oper_type
+                operazioni.campo=operazioni.coltura_dettaglio.campo
+                operazioni.save()
+
+            messages.success(request,'La estirpatura è stata aggiunta')
+            return redirect('main-operazioni-colturali')
+        else:
+            formset = OperazioneColturaleForm()
+            child_form = None
+
+    elif oper_type=='erpicatura':
+        if request.method == 'POST':
+            form = OperazioneColturaleForm(request.POST)
+            if form.is_valid():
+                operazioni = form.save(commit=False)
+                operazioni.operazione= oper_type
+                operazioni.campo=operazioni.coltura_dettaglio.campo
+                operazioni.save()
+
+            messages.success(request,'La erpicatura è stata aggiunta')
+            return redirect('main-operazioni-colturali')
+        else:
+            formset = OperazioneColturaleForm()
+            child_form = None
+
+    elif oper_type=='rullatura':
+        if request.method == 'POST':
+            form = OperazioneColturaleForm(request.POST)
+            if form.is_valid():
+                operazioni = form.save(commit=False)
+                operazioni.operazione= oper_type
+                operazioni.campo=operazioni.coltura_dettaglio.campo
+                operazioni.save()
+
+            messages.success(request,'La rullatura è stata aggiunta')
+            return redirect('main-operazioni-colturali')
+        else:
+            formset = OperazioneColturaleForm()
+            child_form = None
 
     else:
         child_form=None

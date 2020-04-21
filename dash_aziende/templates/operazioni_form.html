@@ -20,11 +20,12 @@
         {% include "panels/lateral_panel_iFarm.html" %}
  <div class="col-lg-8  col-md-8">
  <form action="." method="POST" >{% csrf_token %}
+     <h2>inserisci <u>{{ titolo_child }}</u></h2>
 {{ formset_operazione|crispy }}
-     <h2>{{ titolo_child }}</h2>
+<hr>
      {{ child_form|crispy }}
 
-<input type="submit" value="submit">
+<input type="submit" value="Invia">
 </form>
  </div>
     </div>

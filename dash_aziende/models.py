@@ -69,8 +69,21 @@ class colture(models.Model):
     class Meta:
         verbose_name = 'Dizionario coltura'
         verbose_name_plural = 'Dizionario colturale'
+        ordering = ('nome',)
 
+class fasi_fenologiche(models.Model):
+    '''
+    Modello per la fasi fenologiche
+    '''
+    fase = models.CharField(max_length=50)
+    coltura_rif = models.ForeignKey(colture,verbose_name='coltura',on_delete=models.CASCADE)
 
+    def __str__(self):
+        return '%s, %s' %(self.fase, self.coltura_rif)
+    class Meta:
+        verbose_name_plural = 'Fasi fenologiche'
+        unique_together = ('fase','coltura_rif',)
+        ordering = ('coltura_rif','fase',)
 
 def current_year():
     return datetime.date.today().year
@@ -236,6 +249,7 @@ class fertilizzazione(models.Model):
     titolo_n = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Titolo N',help_text='espresso in %')
     titolo_p2o5 = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Titolo P2O5',help_text='espresso in %')
     titolo_k2o = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Titolo K2O',help_text='espresso in %')
+    fase_fenologica = models.ForeignKey(fasi_fenologiche,blank=True,null=True)
 
     def __str__(self):
         return 'fertilizzazione {}'.format(self.id)
@@ -247,6 +261,10 @@ class irrigazione(models.Model):
 
 class raccolta(models.Model):
     produzione =  models.FloatField(validators=[MinValueValidator(0.0)],verbose_name='Produzione totale (t)',help_text='espresso in t')
+
+class raccolta_paglia(models.Model):
+    produzione =  models.FloatField(validators=[MinValueValidator(0.0)],verbose_name='Produzione totale (t)',help_text='come si misura?')
+
 
 class trattamento(models.Model):
     prodotto_choices =[
@@ -283,8 +301,65 @@ class semina(models.Model):
     lunghezza_ciclo = models.PositiveIntegerField(verbose_name='Lunghezza ciclo',help_text='espresso in giorni')
     produzione = models.FloatField(validators=[MinValueValidator(0.0)],verbose_name='Produzione totale attesa',help_text='espresso in t')
 
+class diserbo(models.Model):
+    diserbo_choiches=[
+        ('Amidosulfuron', 'Amidosulfuron'),
+        ('Bifenox', 'Bifenox'),
+        ('Clodinafop', 'Clodinafop'),
+        ('Clopiralid', 'Clopiralid'),
+        ('Diclofop-metile', 'Diclofop-metile'),
+        ('Diclorprop-p', 'Diclorprop-p'),
+        ('Diflufenican', 'Diflufenican'),
+        ('Fenoxaprop-p-etile', 'Fenoxaprop-p-etile'),
+        ('Florasulam', 'Florasulam'),
+        ('Flufenacet', 'Flufenacet'),
+        ('Fluroxipyr', 'Fluroxipyr'),
+        ('Glifosate', 'Glifosate'),
+        ('Halaoxifen-metile', 'Halaoxifen-metile'),
+        ('Iodosulfuronmetil-sodium', 'Iodosulfuronmetil-sodium'),
+        ('MCPA', 'MCPA'),
+        ('Mecoprop-P', 'Mecoprop-P'),
+        ('Mesosulfuron-metile', 'Mesosulfuron-metile'),
+        ('Pendimetalin', 'Pendimetalin'),
+        ('Pinoxaden', 'Pinoxaden'),
+        ('Propoxycarbazone-sodium', 'Propoxycarbazone-sodium'),
+        ('Prosulfocarb', 'Prosulfocarb'),
+        ('Pyroxsulam', 'Pyroxsulam'),
+        ('Thiencarbazone', 'Thiencarbazone'),
+        ('Tifensulfuron-metile', 'Tifensulfuron-metile'),
+        ('Triallate', 'Triallate'),
+        ('Tribenuron-metile', 'Tribenuron-metile'),
+        ('Tritosulfuron', 'Tritosulfuron'),
 
+    ]
+    tipologia_diserbo = models.CharField(max_length=250,choices=diserbo_choiches,verbose_name='Tipologia di diserbo')
+
+    class Meta:
+        ordering = ('tipologia_diserbo',)
 # fine inserimento-------------
+
+# consumi di C02
+class consumiCO2(models.Model):
+    consumo_fertilizzazione = models.ForeignKey(fertilizzazione)
+    consumo_irrigazione =models.ForeignKey(irrigazione)
+    consumo_raccolta = models.ForeignKey(raccolta)
+    consumo_trattamento = models.ForeignKey(trattamento)
+    consumo_semina= models.ForeignKey(semina)
+    consumo = models.PositiveIntegerField()
+
+    def __str__(self):
+        return 'consumo %s %s' %(self.id,self.consumo)
+
+    class Meta:
+        unique_together = ['consumo_fertilizzazione','consumo_irrigazione',
+                           'consumo_raccolta','consumo_trattamento',
+                           'consumo_semina','consumo'
+                           ]
+
+
+
+# fine consumi
+
 
 class operazioni_colturali(models.Model):
     operazione_choices = [
@@ -292,11 +367,13 @@ class operazioni_colturali(models.Model):
         ('irrigazione','Irrigazione'),
         ('raccolta','Raccolta'),
         ('trattamento','Trattamento'),
-        # ('gestione_chioma','Gestione chioma'),
-        # ('gestione_suolo','Gestione suolo'),
+        ('aratura','Aratura'),
+        ('estirpatura','Estirpatura'),
         ('semina_trapianto','Semina o trapianto'),
-        # ('lavorazione_presemina','Lavorazione pre semina'),
-        # ('altra','Altra operazione')
+        ('erpicatura','Erpicatura'),
+        ('rullatura','Rullatura'),
+        ('raccolta_paglia', 'Raccolta paglia'),
+        ('diserbo', 'Diserbo'),
     ]
     coltura_dettaglio= models.ForeignKey(ColturaDettaglio, blank=True, null=True, verbose_name='Coltura')
     data_operazione= models.DateField(verbose_name='Data operazione')
@@ -313,6 +390,10 @@ class operazioni_colturali(models.Model):
     operazione_trattamento = models.ForeignKey(trattamento, null=True, blank=True,
                                                    on_delete=models.CASCADE)
     operazione_semina = models.ForeignKey(semina, null=True, blank=True,
+                                                   on_delete=models.CASCADE)
+    operazione_raccolta_paglia = models.ForeignKey(raccolta_paglia, null=True, blank=True,
+                                            on_delete=models.CASCADE)
+    operazione_diserbo = models.ForeignKey(diserbo, null=True, blank=True,
                                                    on_delete=models.CASCADE)
 
     def __str__(self):
@@ -450,6 +531,7 @@ class Trasporto(models.Model):
 
     class Meta:
         unique_together = ('coltura',)
+        verbose_name_plural = 'Trasporti'
 
 # class Landsat8Ndvi(models.Model):
 #     '''

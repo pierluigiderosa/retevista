@@ -10,9 +10,10 @@ from leaflet.forms.widgets import LeafletWidget
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Row, Column, Submit,HTML
 
-from .models import Profile, campi, analisi_suolo,\
-    fertilizzazione,irrigazione,semina,trattamento,raccolta,\
-    operazioni_colturali,macchinari,Trasporto,ColturaDettaglio
+from .models import Profile, campi, analisi_suolo, \
+    fertilizzazione, irrigazione, semina, trattamento, raccolta, \
+    operazioni_colturali, macchinari, Trasporto, \
+    ColturaDettaglio, raccolta_paglia, diserbo
 
 LEAFLET_WIDGET_ATTRS = {
     'map_height': '500px',
@@ -267,11 +268,48 @@ class RaccoltaForm(forms.ModelForm):
 
         return helper
 
+class RaccoltaPagliaForm(forms.ModelForm):
+    class Meta:
+        model = raccolta_paglia
+        fields = '__all__'
+
+    @property
+    def helper(self):
+        helper = FormHelper()
+        helper.form_tag = False # This is crucial.
+
+        helper.layout = Layout(
+            Fieldset('Aggiungi una nuova raccolta di paglia', 'raccolta'),
+        )
+
+        return helper
+
+class DiserboForm(forms.ModelForm):
+    class Meta:
+        model = diserbo
+        fields = '__all__'
+
+    @property
+    def helper(self):
+        helper = FormHelper()
+        helper.form_tag = False # This is crucial.
+
+        helper.layout = Layout(
+            Fieldset('Aggiungi un nuovo diserbo', 'diserbo'),
+        )
+
+        return helper
+
 class OperazioneColturaleForm(forms.ModelForm):
     class Meta:
         model=operazioni_colturali
         # fields='__all__'
-        exclude = ('note','campo','operazione','operazione_fertilizzazione','operazione_irrigazione','operazione_raccolta','operazione_trattamento','operazione_semina')
+        exclude = ('note','campo','operazione',
+                   'operazione_fertilizzazione','operazione_irrigazione',
+                   'operazione_raccolta',
+                   'operazione_trattamento','operazione_semina',
+                   'operazione_aratura','operazione_raccolta_paglia',
+                   'operazione_diserbo')
         widgets={
             'data_operazione': DateInput(),
         }

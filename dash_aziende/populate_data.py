@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from .models import colture as colture_model
+from dash_aziende.models import colture as colture_model,\
+    fasi_fenologiche
 
 scelte_colture =[
 'Actinidia',
@@ -137,7 +138,50 @@ scelte_colture =[
 ]
 
 
+
+
+
+fasi_cereali= ['Germinazione',
+               'sviluppo fogliare',
+               'accestimento',
+               'Levata',
+               'Botticella',
+               'emergenza infiorescenza, spigatura',
+               'fioritura',
+               'sviluppo della spiga',
+               'Riempimento granella',
+               'Senescenza']
+
+fasi_olivo = ['SVILUPPO DELLE FOGLIE',
+              'SVILUPPO DEI GERMOGLI',
+              'SVILUPPO DEI BOTTONI FIORALI',
+              'FIORITURA',
+              'SVILUPPO DEI FRUTTI',
+              'MATURAZIONE',
+              'ENTRATA IN RIPOSO']
+
+
 def popola_colture():
     for coltura in scelte_colture:
         singola_coltura_entry = colture_model(nome=coltura)
         singola_coltura_entry.save()
+
+def popola_fasi_fenologiche():
+    '''
+    utilizzo:
+    from dash_aziende.populate_data import popola_fasi_fenologiche
+    popola_fasi_fenologiche()
+    :return: Null - popola il db
+    '''
+    if colture_model.objects.filter(nome__exact='Frumento').exists():
+        cereale = colture_model.objects.get(nome__exact='Frumento')
+        for faseCereale in fasi_cereali:
+            fase = fasi_fenologiche(fase=faseCereale,coltura_rif=cereale)
+            fase.save()
+    # if colture_model.objects.filter(nome__exact='Olivo').exists():
+    #     olivo = colture_model.objects.get(nome__exact='Olivo')
+    #     for faseCereale in fasi_olivo:
+    #         fase = fasi_fenologiche(fase=faseCereale,coltura_rif=olivo)
+    #         fase.save()
+
+
