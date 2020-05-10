@@ -18,81 +18,48 @@
 <div class="jumbotron">
     <div class="container">
       <h1 class="display-3">iFoodPrint</h1>
-      <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-{#      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>#}
+        <img src="{% static 'img/i-foodprint.png' %}" class="rounded mx-auto d-block"/>
+      <p>La tracciabilità del prodotto, la sua costruzione e la sua caratterizzazione,
+          tutte le fasi vengono messe in chiaro e conosciute. Sapere cosa mangio e come lo devo mangiare.
+È  un progetto di cibo sostenibile per esigenze, diete e culture esigenti. L’analisi e i fabbisogni sono gli input la progettazione un sistema integrato.
     </div>
   </div>
     <div class="row">
-        {% include "panels/lateral_panel_iFoodPrint.html" %}
+    <div class="col-md-12 p-4">
+        <h1 class="text-center">Elenco Colture inserite</h1>
+        <h6 class="text-center">per prenotare vai su prenotazione acquisti</h6>
+    </div>
+    </div>
+    <div class="row">
 
-        <div class="col-md-5 p-2 bg-indigo h-md-100" url-endpoint='{% url "api-data-dash" %}'>
 
-            <h1>Elenco Colture inserite</h1>
-            <h6>per prenotare vai su prenotazione acquisti</h6>
+        <div class="col-md-6  p-4 bg-indigo h-md-100" url-endpoint='{% url "api-data-dash" %}'>
 
-        {% for campo in campi %}
-            <a href="{% url 'iFoodPrint-detail' uid=campo.id %}" class="btn btn-outline-secondary btn-block btn-lg my-1">
+<h3 class="text-center">Pannello 1</h3>
+
+         {% for coltivazione in Coltivazioni %}
+            <a href="{% url 'iFoodPrint-detail' uid=coltivazione.campo.id %}" class="btn btn-outline-secondary btn-block btn-lg my-1">
             {{ forloop.counter }}
-            {% if campo.colturadettaglio_set.exists  %}
-                <b>{{ campo.colturadettaglio_set.first.nome }}</b>
-                <b>annata: {{ campo.colturadettaglio_set.first.annataAgraria }}</b>
-            {% else %}
-                <b>{{ campo.coltura }}</b>
-            {% endif %}
-            <br><i>in</i> {{ campo }} pyy:{{ campo.id }} <i>di</i> {{ campo.proprietario }}
-            </a>
+            <b>{{ coltivazione.nome }}</b>
+            <b>annata: {{ coltivazione.annataAgraria }}</b>
+                <br><i>in</i> {{ coltivazione.campo }} pyy:{{ coltivazione.campo.id }} <i>di</i> {{ coltivazione.campo.proprietario }}</a>
         {% endfor %}
 
+
         </div>
 
-        <div class="col-md-5 p-2 bg-white h-md-100">
-            <h3>Cartografia appezzamenti</h3>
-            {% leaflet_map "main" callback="main_map_init" %}
+        <div class="col-md-6 p-4 bg-indigo bg-white h-md-100">
+
+<h3 class="text-center">Pannello 2</h3>
+           {% for coltivazione in Coltivazioni %}
+            <a href="{% url 'iFoodPrint-panel' uid=coltivazione.campo.id %}" class="btn btn-outline-secondary btn-block btn-lg my-1">
+            {{ forloop.counter }}
+            <b>{{ coltivazione.nome }}</b>
+            <b>annata: {{ coltivazione.annataAgraria }}</b>
+                <br><i>in</i> {{ coltivazione.campo }} pyy:{{ coltivazione.campo.id }} <i>di</i> {{ coltivazione.campo.proprietario }}</a>
+        {% endfor %}
         </div>
     </div>
-    <script type="text/javascript">
-        function onEachFeature(feature, layer) {
-            // does this feature have a property named popupContent?
-            if (feature.properties && feature.properties.popupContent) {
-                layer.bindPopup(feature.properties.popupContent);
-            }
-        }
-
-        function main_map_init (map, options) {
-            // Use Leaflet API here
-
-            map.fitBounds([
-                [{{ bbox.1|unlocalize }},{{ bbox.0|unlocalize }}],
-                [{{ bbox.3|unlocalize }},{{ bbox.2|unlocalize }}]
-            ]);
-            {% if staff %}
-            var dataurl = '{% url "campi_geojson" %}?user=staff';
-            {% else %}
-                        var dataurl = '{% url "campi_geojson" %}?user=agricoltore';
-            {% endif %}
-
-
-            var myStyle = {
-                "weight": 2,
-                "color": "#000000",
-                "opacity": 1,
-                "fillColor": "#ff6284",
-                "fillOpacity": 0.8
-            };
-
-            // Download GeoJSON via Ajax
-            $.getJSON(dataurl, function (data) {
-                // Add GeoJSON layer
-                  var campi_layer  =L.geoJson(data, {
-                      style: myStyle,
-                      onEachFeature: function (feature, layer) {
-                        layer.bindPopup('<h5>Nome:</h5>'+'<h6>'+feature.properties.nome+'</h6>');
-                    }
-                }).addTo(map);
-            });
-
-        }
-    </script>
 
 
 {% endblock %}

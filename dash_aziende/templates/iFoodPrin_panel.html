@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load l10n %}
+{% block script %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block extrastyle %}
+<style>
+.my-flex-container{
+    margin-bottom: 20px;
+}
+.my-flex-item5{
+    width: 25%;
+    border: 1px solid black;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="row bg-info  rounded mb-2 p-2"><p class="text-white text-center">{{ coltivazione }}</p></div>
+
+    <div class="d-flex flex-row align-items-start my-flex-container">
+        <div class="p-2  align-self-center my-flex-item">
+            <img class="rounded-circle border border-info" style="height: 100px" src="{% static 'img/logo-Vista_new.jpg' %}"  alt="">
+        </div>
+        <div class="p-2 my-flex-item">
+            <b class="text-info h4">AZIENDA: </b><i class="h4">{{ campo.proprietario.denominazione }} di {{ campo.proprietario.user.first_name}} {{ campo.proprietario.user.last_name }}</i><br>
+            <b>REGIONE:</b> Umbria<br>
+            <b>COMUNE:</b> Piegaro
+        </div>
+    </div>
+    <div class="d-flex flex-row justify-content-around my-flex-container-bottom">
+        <div class="p-2 mr-2 rounded my-flex-item5" style="background-color: #4472c3">
+            <img class="rounded-circle border border-info mx-auto mb-2 d-block"
+                 src="{% static 'img/logo-Vista_new.jpg' %}"
+                 style="height: 250px" alt="...">
+
+            <p class="h4 text-center text-white">IMPRONTA ECOLOGICA</p>
+            <ul class="text-white">
+                <li>
+                    CO2 emessa= {{ CO2 }} Ton
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+
+                </li>
+                <li>H20 utilizzata</li>
+                <li>N distributi {{ Ndistibuita }} Ton</li>
+            </ul>
+
+        </div>
+        <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Dettagli CO2 equivalente prodotta</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>CO2 equivalente in operazioni colturali: {{ CO2info.operazioni }} Kg</p>
+                                    <p>CO2 equivalente in trasporto:
+                                        {% if CO2info.trasporto %}
+                                        {{ CO2info.trasporto }} Kg
+                                        {% else %}
+                                            Nessun trasporto inserito.
+                                        {% endif %}
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+       <div class="p-2 mr-2 rounded my-flex-item5" style="background-color: #43bdb8">
+            <img class="rounded-circle border border-info mx-auto mb-2 d-block"
+                 src="{% static 'img/logo-Vista_new.jpg' %}"
+                 style="height: 250px" alt="...">
+            <p class="h4 text-center text-white">IMPRONTA PAESAGGISTICA</p>
+            <ul class="text-white">
+                <li>Presenza di Api: {{ campo.presenza_api|yesno:"Si,No" }}</li>
+                <li>Cover crops: {{ campo.cover_crop|yesno:"Si,No" }}</li>
+                <li>Rotazioni colturali: {{ campo.rotazioni_colturali|yesno:"Si,No" }}</li>
+                <li>Cultivar autoctone</li>
+            </ul>
+        </div>
+        <div class="p-2 mr-2 rounded my-flex-item5" style="background-color: #45b564">
+            <img class="rounded-circle border border-info mx-auto mb-2 d-block"
+                 src="{% static 'img/logo-Vista_new.jpg' %}"
+                 style="height: 250px" alt="...">
+             <p class="h4 text-center text-white">IMPRONTA QUALITATIVA</p>
+            <ul class="text-white">
+                <li>Umidità</li>
+                <li>Peso specifico</li>
+                <li>Proteine</li>
+                <li>Aflatossine</li>
+                <li>Ocratossina A</li>
+                <li>DON</li>
+                <li>Zearaleone</li>
+                <li>Fumonisine</li>
+            </ul>
+        </div>
+        <div class="p-2 mr-2 rounded my-flex-item5" style="background-color: #70ac47">
+            <img class="rounded-circle border border-info mx-auto mb-2 d-block"
+                 src="{% static 'img/logo-Vista_new.jpg' %}"
+                 style="height: 250px" alt="...">
+             <p class="h4 text-center text-white">IMPRONTA ALIMENTARE</p>
+            <ul class="text-white">
+                <li>Valori nutrizionali</li>
+                <li>Fitofarmaci utilizzati</li>
+                <li>Residui fitofarmaci</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

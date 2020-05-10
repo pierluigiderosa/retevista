@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load leaflet_tags crispy_forms_tags %}
+{% load static %}
+
+{% block script %}
+    {% leaflet_js plugins="forms" %}
+
+{% endblock %}
+
+{% block css %}
+    {% leaflet_css plugins="ALL" %}
+    {{ form.media }}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        {% include "panels/lateral_panel_iFarm.html" %}
+
+        <div class="col-lg-8  col-md-8">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-row">
+                    <h1 class="h2">Aggiungi il magazzino</h1>
+                </div>
+                           {{ form|crispy }}
+                <button type="submit" class="btn btn-primary">Invia</button>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

@@ -19,20 +19,40 @@
             <div class="sticky-top">
                 <h1 class="h2">Logistica</h1>
             </div>
-            <a class="btn btn-primary" id="add-logistica" title="Nuovo" role="button"><i class="fas fa-plus"></i></a>
-
-            <h2 class="">Azienda {{ azienda.user.first_name }} {{ azienda.user.last_name }}<br><small class="text-muted" >{{ azienda.pec }}</small></h2>
-            <div class="card-group">
-                {% for trasporto in trasporti %}
-
-                {% endfor %}
+            <a class="btn btn-primary" id="add-logistica" title="Nuovo trasporto" role="button"><i class="fas fa-plus"> </i> Trasporto</a>
+            <a class="btn btn-primary" id="add-magazzino" title="Nuovo magazzino" role="button"><i class="fas fa-plus"> </i> Magazzino</a>
+            {% if azienda %}
+                <h2 class="">Azienda {{ azienda.user.first_name }} {{ azienda.user.last_name }}<br><small class="text-muted" >{{ azienda.pec }}</small></h2>
+            {% endif %}
+            <div class="col-md-12 m-2">
+                <ul class="nav nav-tabs" >
+                    <li class="nav-item"> <a href="" class="active nav-link" data-toggle="pill" data-target="#tabone"><i class="fa fa-truck"></i> Trasporti</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="" data-toggle="pill" data-target="#tabtwo"><i class="fa fa-road"></i> Magazzini</a> </li>
+                </ul>
+                <div class="tab-content mt-2">
+                    <div class="tab-pane fade show active" id="tabone" role="tabpanel">
+                        <div class="list-group">
+                            {% for trasporto in trasporti %}
+                                <a href="#" class="list-group-item list-group-item-action" > {{ trasporto.coltura }} a {{ trasporto.magazz_dest }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tabtwo" role="tabpanel">
+                        {% for magazzino in magazzini %}
+                         <a href="#" class="list-group-item list-group-item-action" > {{ magazzino.nome }}</a>
+                        {% endfor %}
+                </div>
             </div>
         </div>
+    </div>
     </div>
     <script type="text/javascript">
 
         $('#add-logistica').click(function(){
             window.location.href = '{% url 'add-logistica' %}'
+        });
+        $('#add-magazzino').click(function(){
+            window.location.href = '{% url 'add-magazzino' %}'
         });
     </script>
 

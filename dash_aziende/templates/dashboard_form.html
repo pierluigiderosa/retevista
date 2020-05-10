@@ -29,9 +29,9 @@
                     <div class="form-group col-md-4 mb-0">
                         {{ form.nome|as_crispy_field }}
                     </div>
-{#                    <div class="form-group col-md-4 mb-0">#}
-{#                        {{ form.coltura|as_crispy_field }}#}
-{#                    </div>#}
+                    {#                    <div class="form-group col-md-4 mb-0">#}
+                    {#                        {{ form.coltura|as_crispy_field }}#}
+                    {#                    </div>#}
                     {% if proprietario %}
                         <div class="form-group col-md-4 mb-0">
                             {{ form.proprietario|as_crispy_field }}
@@ -43,6 +43,40 @@
                         {{ form.geom|as_crispy_field }}
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 mb-0">
+                        {{ form.pendenza|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4 mb-0">
+                        {{ form.drenaggio|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4 mb-0">
+                        {{ form.proprieta|as_crispy_field }}
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.temperatura_suolo|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                            {{ form.quota|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-4 mb-0">
+                        {{ form.metodo_produzione|as_crispy_field }}
+                    </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 mb-0">
+                        {{ form.presenza_api|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4 mb-0">
+                        {{ form.cover_crop|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-4 mb-0">
+                        {{ form.rotazioni_colturali|as_crispy_field }}
+                    </div>
+                </div>
+
 
                 <input type="submit"/>
             </form>

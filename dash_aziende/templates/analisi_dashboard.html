@@ -5,8 +5,9 @@
 
 {% block script %}
     {% leaflet_js %}
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/1.0.2/proj4leaflet.js"></script>
+    <script src="{% static 'js/terreno.js' %}"></script>
 {% endblock %}
 {% block css %}
     {% leaflet_css %}
@@ -33,45 +34,86 @@
 
             {% for analisi in analisies %}
                 <div class="col-12 mt-2">
-                <div class="card border-primary mb-3" style="max-width: 100%;">
-                    <div class="card-header">Id Campione {{ analisi.id_campione }} --- Data segnalazione:{{ analisi.data_segnalazione }}
-                    </div>
-                    <div class="card-body text-primary">
-                        <h4>nome campo: {{ analisi.campo.nome }}</h4>
-                        <h5 class="card-title">Dettagli analisi</h5>
+                    <div class="card border-primary mb-3" style="max-width: 100%;">
+                        <div class="card-header">Id Campione {{ analisi.id_campione }} --- Data segnalazione:{{ analisi.data_segnalazione }}
+                        </div>
+                        <div class="card-body text-primary">
+                            <h4>nome campo: {{ analisi.campo.nome }}</h4>
+                            <h5 class="card-title">Dettagli analisi</h5>
 
-                        <div class="container">
-                        <ul class=" list-unstyled row">
-                           <li class="list-item col-sm-4"> pH: <strong>{{ analisi.pH }}</strong></li>
-                           <li class="list-item col-sm-4"> sabbia: <strong>{{ analisi.sabbia }}</strong></li>
-                           <li class="list-item col-sm-4"> limo: <strong>{{ analisi.limo }}</strong></li>
-                            <li class="list-item col-sm-4"> argilla:<strong>{{ analisi.argilla }}</strong></li>
-                            <li class="list-item col-sm-4"> sostanza organica:<strong>{{ analisi.OM }}</strong></li>
-                            <li class="list-item col-sm-4"> azoto: <strong>{{ analisi.azoto }}</strong></li>
-                            <li class="list-item col-sm-4"> fosforo:<strong>{{ analisi.fosforo }}</strong></li>
-                            <li class="list-item col-sm-4"> potassio:<strong>{{ analisi.potassio }}</strong></li>
-                            <li class="list-item col-sm-4"> Capacità di scambio cationico:<strong>{{ analisi.scambio_cationico }}</strong></li>
-                            <li class="list-item col-sm-4">Densità apparente:<strong>{{ analisi.den_apparente }}</strong></li>
-                            <li class="list-item col-sm-4">pietrosità:<strong>{{ analisi.pietrosita }}</strong></li>
-                            <li class="list-item col-sm-4">profondità:<strong>{{ analisi.profondita }}</strong></li>
-                            <li class="list-item col-sm-4">capacità di campo:<strong>{{ analisi.cap_di_campo }}</strong></li>
-                            <li class="list-item col-sm-4">Calcare totale:<strong>{{ analisi.CACO3_tot }}</strong></li>
-                            <li class="list-item col-sm-4">Calcare attivo:<strong>{{ analisi.CACO3_att }}</strong></li>
-                        </ul>
+                            <div class="container">
+                                <ul class=" list-unstyled row">
+                                    <li class="list-item col-sm-4"> pH: <strong id="ph{{ forloop.counter0 }}"></strong></li>
+                                    <li class="list-item col-sm-4"> tessitura: <strong id="tessitura{{ forloop.counter0 }}"> -- </strong></li>
+
+                                    <li class="list-item col-sm-4"> sostanza organica:<strong id="OM{{ forloop.counter0 }}">{{ analisi.OM }}</strong></li>
+                                    <li class="list-item col-sm-4"> azoto: <strong id="azoto{{ forloop.counter0 }}">{{ analisi.azoto }}</strong></li>
+                                    <li class="list-item col-sm-4"> fosforo:<strong id="fosforo{{ forloop.counter0 }}">{{ analisi.fosforo }}</strong></li>
+                                    <li class="list-item col-sm-4"> potassio:<strong id="potassio{{ forloop.counter0 }}">{{ analisi.potassio }}</strong></li>
+                                    <li class="list-item col-sm-4"> Capacità di scambio cationico:<strong id="scambiocat{{ forloop.counter0 }}">{{ analisi.scambio_cationico }}</strong></li>
+                                    <li class="list-item col-sm-4">Densità apparente:<strong>{{ analisi.den_apparente }}%</strong></li>
+                                    <li class="list-item col-sm-4">pietrosità:<strong>{{ analisi.pietrosita }}</strong></li>
+                                    <li class="list-item col-sm-4">profondità:<strong>{{ analisi.profondita }}</strong></li>
+                                    <li class="list-item col-sm-4">capacità di campo:<strong>{{ analisi.cap_di_campo }}</strong></li>
+                                    <li class="list-item col-sm-4">Calcare totale:<strong id="caco3tot{{ forloop.counter0 }}">{{ analisi.CACO3_tot }}</strong></li>
+                                    <li class="list-item col-sm-4">Calcare attivo:<strong id="caco3att{{ forloop.counter0 }}">{{ analisi.CACO3_att }}</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Centra in mappa</small>
+                            <button title="Centra in mappa"
+                                    xmin="{{ analisi.campo.geom.centroid.x|unlocalize}}"
+                                    ymin="{{ analisi.campo.geom.centroid.y|unlocalize }}"
+                                    class="btn btn-light btn-sm no-focus-highlight center-in-map">
+                                <i class="fas fa-map-marker-alt fa-lg"></i>
+                            </button>
+                            <a href="{% url 'update-analisi' pk=analisi.id %}"><i class="fas fa-edit fa-lg"></i></a>
+                            <a href="{% url 'delete-analisi' pk=analisi.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                Dettagli
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Dettagli valori di analisi</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                             <div class="container">
+                                <ul class=" list-unstyled row">
+                                    <li class="list-item col-sm-6"> pH: <strong>{{ analisi.pH }}</strong></li>
+                                    <li class="list-item col-sm-6"> sabbia: <strong>{{ analisi.sabbia }}</strong></li>
+                                    <li class="list-item col-sm-6"> limo: <strong>{{ analisi.limo }}</strong></li>
+                                    <li class="list-item col-sm-6"> argilla:<strong>{{ analisi.argilla }}</strong></li>
+                                    <li class="list-item col-sm-6"> sostanza organica:<strong>{{ analisi.OM }}</strong></li>
+                                    <li class="list-item col-sm-6"> azoto: <strong>{{ analisi.azoto }}</strong></li>
+                                    <li class="list-item col-sm-6"> fosforo:<strong>{{ analisi.fosforo }}</strong></li>
+                                    <li class="list-item col-sm-6"> potassio:<strong>{{ analisi.potassio }}</strong></li>
+                                    <li class="list-item col-sm-6">pietrosità:<strong>{{ analisi.pietrosita }}</strong></li>
+
+                                    <li class="list-item col-sm-6"> Capacità di scambio cationico:<strong>{{ analisi.scambio_cationico }}</strong></li>
+                                    <li class="list-item col-sm-6">Densità apparente:<strong>{{ analisi.den_apparente }}%</strong></li>
+                                    <li class="list-item col-sm-6">profondità:<strong>{{ analisi.profondita }}</strong></li>
+                                    <li class="list-item col-sm-6">capacità di campo:<strong>{{ analisi.cap_di_campo }}</strong></li>
+                                    <li class="list-item col-sm-6">Calcare totale:<strong>{{ analisi.CACO3_tot }}</strong></li>
+                                    <li class="list-item col-sm-6">Calcare attivo:<strong>{{ analisi.CACO3_att }}</strong></li>
+                                </ul>
+                                             </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Centra in mappa</small>
-                        <button title="Centra in mappa"
-                                xmin="{{ analisi.campo.geom.centroid.x|unlocalize}}"
-                                ymin="{{ analisi.campo.geom.centroid.y|unlocalize }}"
-                                class="btn btn-light btn-sm no-focus-highlight center-in-map">
-                            <i class="fas fa-map-marker-alt fa-lg"></i>
-                        </button>
-                         <a href="{% url 'update-analisi' pk=analisi.id %}"><i class="fas fa-edit fa-lg"></i></a>
-                         <a href="{% url 'delete-analisi' pk=analisi.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
-                    </div>
-                </div>
                 </div>
             {% endfor %}
 
@@ -87,6 +129,28 @@
         </div>
     </div>
     <script type="text/javascript">
+        $(window).on('load', function() {
+            {% for analisi in analisies %}
+                tessituraR = tessituraF({{ analisi.sabbia }},{{ analisi.limo }})
+                phDescrizione1 = pHdesc({{ analisi.pH }})
+                scambiocationico = ScambioCationico({{ analisi.scambio_cationico }})
+                azotodesc = Azoto({{ analisi.azoto }})
+                fosforodesc = Fosforo({{ analisi.fosforo }})
+                caco3totdesc = CaCO3Tot({{ analisi.CACO3_tot }})
+                caco3attdesc = CaCO3Att({{ analisi.CACO3_att }})
+                OMdesc = OM({{ analisi.sabbia }},{{ analisi.limo }},{{ analisi.OM }})
+                potassiodesc = potassioCalcolo({{ analisi.sabbia }},{{ analisi.limo }},{{ analisi.potassio }})
+                $('#tessitura{{ forloop.counter0 }}').html(tessituraR)
+                $('#ph{{ forloop.counter0 }}').html(phDescrizione1)
+                $('#scambiocat{{ forloop.counter0 }}').html(scambiocationico)
+                $('#azoto{{ forloop.counter0 }}').html(azotodesc)
+                $('#fosforo{{ forloop.counter0 }}').html(fosforodesc)
+                $('#caco3tot{{ forloop.counter0 }}').html(caco3totdesc)
+                $('#caco3att{{ forloop.counter0 }}').html(caco3attdesc)
+                $('#OM{{ forloop.counter0 }}').html(OMdesc)
+                $('#potassio{{ forloop.counter0 }}').html(potassiodesc)
+            {% endfor %}
+        });
         function main_map_init (map, options) {
             // Use Leaflet API bbox test 12.182465, 42.522724, 12.933811, 42.724821
 
@@ -100,20 +164,21 @@
             {% endif %}
 
 
-             {% if staff %}
-            var dataurl = '{% url "campi_geojson" %}?user=staff';
+            {% if staff %}
+                var dataurl = '{% url "campi_geojson" %}?user=staff';
             {% else %}
-                        var dataurl = '{% url "campi_geojson" %}?user=agricoltore';
+                var dataurl = '{% url "campi_geojson" %}?user=agricoltore';
             {% endif %}
 
 
             //define a style for fields
             var myStyle = {
                 "weight": 2,
-                "color": "#6e6e6e",
+                "color": "#ffffff",
                 "opacity": 1,
-                "fillColor": "#5877de",
-                "fillOpacity": 0.8
+                "dashArray": 3,
+                "fillColor": "#70e35c",
+                "fillOpacity": 0.7
             };
 
 
@@ -123,7 +188,7 @@
                 L.geoJson(data).addTo(map);
             });
 
-                //parte per inserire il catasto
+            //parte per inserire il catasto
             var ETRS89width= 18.99-5.93;
             var startResolution = ETRS89width/1024;
             var grid_resolution = new Array(22);
@@ -141,15 +206,15 @@
 
             var lc = map.layerscontrol;
             lc.addOverlay(
-                        L.tileLayer.wms(url, {
-                layers: 'CP.CadastralParcel,vestizioni',
-                crs: crs_6706,
-                format: 'image/png',
-                maxZoom: 21,
-                transparent: true,
-            }),
-                        'Catasto Agenzia Entrate'
-                    );
+                L.tileLayer.wms(url, {
+                    layers: 'CP.CadastralParcel,vestizioni',
+                    crs: crs_6706,
+                    format: 'image/png',
+                    maxZoom: 21,
+                    transparent: true,
+                }),
+                'Catasto Agenzia Entrate'
+            );
 
             $(".btn").click(function(event) {
                 event.preventDefault();

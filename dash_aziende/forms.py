@@ -13,7 +13,7 @@ from crispy_forms.layout import Layout, Fieldset, Row, Column, Submit,HTML
 from .models import Profile, campi, analisi_suolo, \
     fertilizzazione, irrigazione, semina, trattamento, raccolta, \
     operazioni_colturali, macchinari, Trasporto, \
-    ColturaDettaglio, raccolta_paglia, diserbo
+    ColturaDettaglio, raccolta_paglia, diserbo, Magazzino
 
 LEAFLET_WIDGET_ATTRS = {
     'map_height': '500px',
@@ -29,7 +29,8 @@ class CampiAziendeForm(forms.ModelForm):
 
     class Meta:
         model = campi
-        fields = ('nome', 'geom','proprietario')
+        fields = ('nome', 'geom','proprietario','pendenza','drenaggio','proprieta','temperatura_suolo','quota',
+                  'metodo_produzione','presenza_api','cover_crop','rotazioni_colturali')
         widgets = {'geom': LeafletWidget(attrs=LEAFLET_WIDGET_ATTRS)}
 
 
@@ -136,6 +137,7 @@ class AnalisiForm(forms.ModelForm):
                 Column('OM', css_class='form-group col-md-2 mb-0'),
                 Column('azoto', css_class='form-group col-md-2 mb-0'),
                 Column('fosforo', css_class='form-group col-md-2 mb-0'),
+                Column('Carbonio', css_class='form-group col-md-2 mb-0'),
                 css_class='form-row'
             ),
             Row(
@@ -156,7 +158,7 @@ class AnalisiForm(forms.ModelForm):
               Column('punto_appassimento', css_class='form-group col-md-4 mb-0'),
             ),
             'note',
-            # 'geom',
+            'geom',
             Submit('submit', 'Invia')
         )
 
@@ -309,7 +311,7 @@ class OperazioneColturaleForm(forms.ModelForm):
                    'operazione_raccolta',
                    'operazione_trattamento','operazione_semina',
                    'operazione_aratura','operazione_raccolta_paglia',
-                   'operazione_diserbo')
+                   'operazione_diserbo','CO2operazione')
         widgets={
             'data_operazione': DateInput(),
         }
@@ -320,19 +322,42 @@ class MacchinariForm(forms.ModelForm):
         model = macchinari
         fields =  ('tipo_macchina','nome','descrizione',
                    'marca','modelloMacchinario','potenza',
+                   'geom',
                    'anno','targa','telaio','data_acquisto',
                    'data_revisione','data_controllo','libretto_circolazione',
                    'documento_assicurazione','manuale_uso','altri_allegati','azienda',
                    )
         widgets = {'data_acquisto': DateInput(),
                    'data_controllo': DateInput(),
-                   'data_revisione': DateInput()}
+                   'data_revisione': DateInput(),
+                   'geom': LeafletWidget(attrs=LEAFLET_WIDGET_ATTRS)}
 
+class MacchinariFormAgricoltore(forms.ModelForm):
+
+    class Meta:
+        model = macchinari
+        fields =  ('tipo_macchina','nome','descrizione',
+                   'marca','modelloMacchinario','potenza',
+                   'geom',
+                   'anno','targa','telaio','data_acquisto',
+                   'data_revisione','data_controllo','libretto_circolazione',
+                   'documento_assicurazione','manuale_uso','altri_allegati',
+                   )
+        widgets = {'data_acquisto': DateInput(),
+                   'data_controllo': DateInput(),
+                   'data_revisione': DateInput(),
+                   'geom': LeafletWidget(attrs=LEAFLET_WIDGET_ATTRS)}
 
 
 
 class TrasportiForm(forms.ModelForm):
     class Meta:
         model = Trasporto
-        fields = '__all__'
+        exclude = ('CO2_trasporto',)
         widgets = {'data': DateInput(), }
+
+class MagazzinoForm(forms.ModelForm):
+    class Meta:
+        model = Magazzino
+        fields = '__all__'
+        widgets = {'geom': LeafletWidget(attrs=LEAFLET_WIDGET_ATTRS)}

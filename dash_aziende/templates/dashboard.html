@@ -42,8 +42,8 @@
          <a class="btn btn-primary" id="add-coltura" title="Nuovo" role="button"><i class="fas fa-plus"></i>Coltura</a>
 {% endif %}
             {% for campo,area,latlong,previsioni,iframeURL in campi %}
-                <div class="col-md-6 col-lg-4 col-xl-3 mt-2">
-                    <div class="card" style="width: 24rem;">
+                    <div class="card m-2" >
+{#                     style="width: 35rem;"  stile della card#}
                         {#                        <img class="card-img-top" src="{% static 'img/rice_field.jpg' %}" alt="Card image cap">#}
                         <div class="card-header">
                             <h4 class="card-title">{{ campo.nome }}</h4>
@@ -91,15 +91,19 @@
                             {% else %}
 
                                 <p class="card-text" style="background-color: #4adc98;">Giacitura {% if campo.pendenza %}{{ campo.pendenza }}{% else %}Non inserita{% endif %}</p>
-                                <p class="card-text" style="background-color: #03a1ab;">Temperatura suolo</p>
+                                <p class="card-text" style="background-color: #03a1ab;">Temperatura suolo:
+                                {% if campo.temperatura_suolo %}{{ campo.temperatura_suolo }}°C{% endif %}
+                                </p>
                                 <p class="card-text" style="background-color: #3295d8;">Umidità</p>
                                 <p>
-                                    {% if campo.dataApportoIrriguo %} Data ultimo apporto irriguo {{ campo.dataApportoIrriguo }},{% endif %} Annata agraria: {{ campo.annataAgraria }}
+                                    {% if campo.dataApportoIrriguo %} Data ultimo apporto irriguo {{ campo.dataApportoIrriguo }},{% endif %}
                                     {% if staff %}Azienda: {{ campo.proprietario }}{% endif %}
                                 </p>
                                 <p class="card-text" style="background-color: #bad832;">coltivato
                                 {% if campo.colturadettaglio_set.exists %}
                                     a: {{ campo.colturadettaglio_set.first.nome }} annata: {{ campo.colturadettaglio_set.first.annataAgraria }}
+
+                                    <a href="{% url 'delete-coltivazione' pk=campo.colturadettaglio_set.first.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
                                     {% else %}
                                     NO
                                     {% endif %}
@@ -131,7 +135,6 @@
                             {% endif %}
                         </div>
                     </div>
-                </div>
             {% endfor %}
         </div>
 
@@ -175,7 +178,7 @@
                             campo:id
                         },
                         success: function (data) {
-                            console.log(data)
+                            {#console.log(data)#}
                             labels = data.labels
                             rainData = data.rain
                             Tmindata = data.Tmin
@@ -286,10 +289,11 @@
 
             var myStyle = {
                 "weight": 2,
-                "color": "#6e6e6e",
+                "color": "#ffffff",
                 "opacity": 1,
-                "fillColor": "#5877de",
-                "fillOpacity": 0.8
+                "dashArray": 3,
+                "fillColor": "#70e35c",
+                "fillOpacity": 0.7
             };
 
             // Download GeoJSON via Ajax

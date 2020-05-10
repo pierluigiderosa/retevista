@@ -77,7 +77,7 @@
                 <a class="nav-link" href="{% url 'main-iFoodPrint' %}">iFoodPrint</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'iLabel:main-ilabel' %}">iLabel</a>
+                <a class="nav-link" href="{% url 'iLabel:main-ilabel' %}">Shop</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle"href="/dati" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Partner</a>
@@ -114,6 +114,8 @@
                 {% else %}
 
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+{#                        {% if user.groups.all.0.name == "Agricoltore" %}<u>Azienda:</u> {% endif %}#}
+                        {% if user.is_staff %}<u>Admin: </u>{% else %}<u>Azienda: </u>{% endif %}
                         {% if user.first_name or user.last_name %}
                             {{ user.first_name }} {{ user.last_name }}
                         {% else %}
@@ -122,12 +124,14 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                         <a href="{% url 'update-profilo-aziendale'  %}" class="dropdown-item"><i class="fas fa-pen-square"></i> Gestione Azienda</a>
-                        {#                        <a href="/profiles/user" class="dropdown-item"><i class="fas fa-user"></i> Profilo Utente</a>#}
                         {% if user.is_staff %}
                             <a href="{% url 'add-profilo-aziendale' %}" class="dropdown-item"><i class="far fa-building"></i> Aggiungi azienda</a>
                         {% endif %}
                         {#                        <a href="https://shop.agricolus.com" target="_blank" class="dropdown-item"><i class="fas fa-shopping-cart"></i> Shop</a>#}
                         <a href="mailto:retevista@gmail.com " class="dropdown-item"><i class="fas fa-envelope"></i> Contattaci</a>
+                        {% if user.is_staff %}
+                            <a href="/admin/" class="dropdown-item"><i class="fa fa-lock"></i> Pannello amministrazione</a>
+                        {% endif %}
                         <a href="{% url 'logout' %}" class="dropdown-item"><i class="fas fa-lock"></i> Esci</a>
                     </div>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">

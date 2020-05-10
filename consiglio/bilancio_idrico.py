@@ -109,8 +109,8 @@ def bilancio_idrico(pioggia, soglia=5, Kc=0, ctm_c7=55, ctm_c3=65,
     #P - Ep controllato con irrigazione
     dose = 0
     if irrigazione:
-        if posticipa is False and dose_antropica==0 and Irrigazione_giorno_precedente is True:
-            dose = ctm_c3 - A_day_precedente  #va dato A giorno precedente
+        if posticipa is False and dose_antropica==0: # and Irrigazione_giorno_precedente is True:
+            dose = ctm_c3 - A #modificato A_day_precedente  #va dato A giorno precedente
 
         P_ep = pioggia_5 - Etc + dose_antropica +dose
 

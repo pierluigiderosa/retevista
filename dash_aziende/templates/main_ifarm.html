@@ -18,119 +18,68 @@
 {% block content %}
 <div class="jumbotron">
     <div class="container">
-      <h1 class="display-3">iFarm</h1>
-      <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-{#      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>#}
+        <h1 class="display-3">iFarm</h1>
+<img src="{% static 'img/i-farm.png' %}" class="rounded mx-auto d-block"/>
+        <p>È un progetto che sviluppa la fattoria digitale delle aziende agricole ed agroalimentari dalle piccole alle grandi dimensioni,
+            dalla generalista alla specializzata, organizza, disciplina e gestisce le diverse fasi
+            aziendali  attraverso gli strumenti per conoscere e decidere.</p>
+
     </div>
   </div>
     <div class="row">
         {% include "panels/lateral_panel_iFarm.html" %}
 
-        <div class="col-md-4 p-0 bg-indigo h-md-100" url-endpoint='{% url "api-data-dash" %}'>
-            <canvas id="myChart" width="400" height="200"></canvas>
+    <div class="container">
+    <div class="row">
+        {% for campo,area in campi %}
+        <div class="col-md-6 col-lg-4 col-xl-3 py-2">
+            <div class="card h-100">
+                {% if campo.staticmap %}
+                    <img class="card-img-top img-fluid" src="{{ campo.staticmap.url }}" alt="Card image cap">
+                {% else %}
+                    <img class="card-img-top img-fluid" src="{% static 'img/rice_field.jpg' %}" alt="Card image cap">
+                {% endif %}
+                <div class="card-header">
+                    <h4 class="card-title">{{ campo.nome }}</h4>
+                    <span class="card-area"><strong class="measure">{{ area }}</strong> ha</span>
+                    <hr>
+                     <span class="card-area"><strong class="measure">Codice univoco (Pyy) {{ campo.id }}</strong> </span>
+                </div>
 
-            <h1>Operazioni per coltura</h1>
+                <div class="card-block">
+                    <p class="card-text" style="background-color: #4adc98;">Giacitura {% if campo.pendenza %}{{ campo.pendenza }}{% else %}Non inserita{% endif %}</p>
+                    <p class="card-text" style="background-color: #03a1ab;">Temperatura suolo:
+                        {% if campo.temperatura_suolo %}{{ campo.temperatura_suolo }}°C{% endif %}
+                    </p>
+                    <p class="card-text" style="background-color: #3295d8;">Umidità</p>
+                    <p>
+                        {% if campo.dataApportoIrriguo %} Data ultimo apporto irriguo {{ campo.dataApportoIrriguo }},{% endif %}
+                        {% if staff %}Azienda: {{ campo.proprietario }}{% endif %}
+                    </p>
+                    <p class="card-text" style="background-color: #bad832;">coltivato
+                        {% if campo.colturadettaglio_set.exists %}
+                            a: {{ campo.colturadettaglio_set.first.nome }} annata: {{ campo.colturadettaglio_set.first.annataAgraria }}
 
+                            <a href="{% url 'delete-coltivazione' pk=campo.colturadettaglio_set.first.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
+                        {% else %}
+                            NO
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'update-campi' pk=campo.id %}"><i class="fas fa-edit fa-lg"></i></a>
+                    <a href="{% url 'delete-campi' pk=campo.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
+                </div>
+            </div>
         </div>
+       {% endfor %}
+    </div>
 
-        <div class="col-md-4 p-0 bg-white h-md-100">
-            {% leaflet_map "main" callback="main_map_init" %}
-        </div>
+</div>
+
+
     </div>
     <script type="text/javascript">
-        function onEachFeature(feature, layer) {
-            // does this feature have a property named popupContent?
-            if (feature.properties && feature.properties.popupContent) {
-                layer.bindPopup(feature.properties.popupContent);
-            }
-        }
-
-        function main_map_init (map, options) {
-            // Use Leaflet API here
-
-            map.fitBounds([
-                [{{ bbox.1|unlocalize }},{{ bbox.0|unlocalize }}],
-                [{{ bbox.3|unlocalize }},{{ bbox.2|unlocalize }}]
-            ]);
-            {% if staff %}
-            var dataurl = '{% url "campi_geojson" %}?user=staff';
-            {% else %}
-                        var dataurl = '{% url "campi_geojson" %}?user=agricoltore';
-            {% endif %}
-
-
-            var myStyle = {
-                "weight": 2,
-                "color": "#000000",
-                "opacity": 1,
-                "fillColor": "#ff6284",
-                "fillOpacity": 0.8
-            };
-
-            // Download GeoJSON via Ajax
-            $.getJSON(dataurl, function (data) {
-                // Add GeoJSON layer
-                  var campi_layer  =L.geoJson(data, {
-                      style: myStyle,
-                      onEachFeature: function (feature, layer) {
-                        layer.bindPopup('<h5>Nome:</h5>'+'<h6>'+feature.properties.nome+'</h6>');
-                    }
-                }).addTo(map);
-            });
-
-        }
-        var endpoint = "{% url 'api-data-dash' %}"
-
-        $.ajax({
-            method: "GET",
-            url: endpoint,
-            success: function (data) {
-                labels = data.labels;
-                rainData = data.default;
-                setChart()
-            },
-            error: function (error_data) {
-                console.log("error")
-                console.log(error_data)
-
-            }
-        });
-        function setChart() {
-            var ctx = document.getElementById('myChart').getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'coltura',
-                        data: rainData,
-                        backgroundColor: 'rgb(54, 162, 235)',
-                        borderColor: 'rgb(54, 162, 235)',
-                        borderWidth: 1,
-                        fill : false
-                    },]
-                },
-                options: {
-                    title: {
-                        display: true,
-                        text: 'Superficie per coltura',
-                        fontSize: 18
-                    },
-                    scales: {
-                        xAxes: [{
-                            barPercentage: 0.5,
-                            barThickness: 6,
-                            maxBarThickness: 15,
-                            minBarLength: 2,
-                            gridLines: {
-                                offsetGridLines: true
-                            }
-                        }]
-                    }
-
-                }
-            });
-        }
 
     </script>
 

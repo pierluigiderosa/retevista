@@ -1,0 +1,424 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load l10n %}
+{% block script %}
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.2/dist/Chart.bundle.min.js"></script>
+     <script src="{% static 'js/terreno.js' %}"></script>
+{% endblock %}
+
+
+{% block extrastyle %}
+<style>
+.my-flex-container{
+    border: 2px solid green;
+    height: 250px;
+    margin-bottom: 20px;
+}
+.my-flex-container2{
+    border: 2px solid green;
+    margin-bottom: 20px;
+}
+.my-flex-container-bottom{
+    margin-bottom: 20px;
+}
+.my-flex-item{
+    background-color: lightblue;
+    height: 100%;
+}
+.my-flex-item2{
+    height: 100%;
+    background-color: #9e9e9e;
+    border: 1px;
+}
+
+.my-flex-leaflet{
+    height: 250px;
+    width: 25%;
+}
+.my-flex-item4{
+    width: 80%;
+    border: 1px solid lightblue ;
+}
+.my-flex-item5{
+    width: 25%;
+    border: 1px solid black;
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+    {% if campo.colturadettaglio_set.exists  %}
+        <h3 class="text-primary">{{ campo.colturadettaglio_set.first.nome }} in {{ campo.nome }}|{{ campo.id }} di {{ campo.proprietario }}</h3><p>coltivazione</p>
+    {% else %}
+        <h3 class="text-primary">{{ campo.coltura }} in {{ campo.nome }}|{{ campo.id }} di {{ campo.proprietario }}</h3>
+    {% endif %}
+
+    <div class="d-flex flex-row rounded align-items-start my-flex-container">
+        <div class="p-2 mr-auto align-self-center my-flex-item">
+            <img class="rounded-circle border border-info" style="height: 100px" src="{% static 'img/logo-Vista_new.jpg' %}"  alt="">
+        </div>
+        <div class="p-2 my-flex-item">
+            <b>AZIENDA:</b>{{ campo.proprietario }}<br>
+            <b>REGIONE:</b> Umbria<br>
+            <b>COMUNE:</b> Piegaro
+        </div>
+        <div class="p-2 my-flex-item2">
+            <h4 class="text-center">CARATTERISTICHE CAMPO</h4>
+            <p id="complessivo"><strong>Altezza slm: </strong>
+                {% if campo.quota %}
+                {{ campo.quota }}
+                {% endif %}
+            </p>
+        </div>
+        <div class="p-2 my-flex-leaflet">
+             <div id="mapid" style="width: 100%; height: 100%;"></div>
+        </div>
+    </div>
+    <div class="d-flex flex-row rounded align-items-start my-flex-container2">
+        <div class="p-2 mr-auto align-self-start my-flex-item">
+            <b>COLTURA:</b>
+            {% if coltivazione %}
+                {{ coltivazione }}
+            {% else %}
+                Campo non coltivato
+            {% endif %}
+            <br>
+            <b>VARIETA’:</b><br>
+            <b>ANNO: </b>{{ coltivazione.annataAgraria }}<br><br>
+            <b>SUPERFICIE:</b> {{ areaHa }} ha<br>
+            <b>Resa:</b> {{ coltivazione.produzione }} (Q.li/ha)<br>
+            <b>Produzione:</b> {{ coltivazione.produzione_totale }} Q.li<br>
+            <a href="{% url 'iFoodPrint-panel' uid=coltivazione.campo.id  %}" class="btn btn-info">Indicatori di sostenibilità</a>
+        </div>
+        <div class="p-2 my-flex-item4 align-self-center">
+            <img class="rounded mx-auto d-block border border-info" style="height: 250px; width: fit-content;" src="{% static 'img/crescita_piante.png' %}"  alt="crescita_piante">
+            <div class="card">
+                    <div class="card-header" id="headingUno">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseUno" aria-expanded="false" aria-controls="collapseQuattro">
+                                Temperatura min a max
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseUno" class="collapse" aria-labelledby="headingUno" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <canvas id="myChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            <div class="card">
+                    <div class="card-header" id="headingDue">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseDue" aria-expanded="false" aria-controls="collapseQuattro">
+                                Precipitazioni
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseDue" class="collapse" aria-labelledby="collapseDue" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <canvas id="myChart2" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            <div class="card">
+                    <div class="card-header" id="headingTre">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTre" aria-expanded="false" aria-controls="collapseQuattro">
+                                Irrigazioni
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTre" class="collapse" aria-labelledby="headingTre" data-parent="#accordionExample">
+                        <div class="card-body">
+                            {% if appezzamentoID %}
+                                <canvas id="ChartIrrigazioni" width="400" height="200"></canvas>
+                                {% else %}
+                                <p>Il campo non è monitorato da Casadei</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            <div class="card">
+                    <div class="card-header" id="headingQuattro">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseQuattro" aria-expanded="false" aria-controls="collapseQuattro">
+                                Trattamenti
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseQuattro" class="collapse" aria-labelledby="headingQuattro" data-parent="#accordionExample">
+                        <div class="card-body">
+                            trattamenti
+                            {% lorem %}
+                        </div>
+                    </div>
+                </div>
+            <div class="card">
+                    <div class="card-header" id="headingCinque">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseCinque" aria-expanded="false" aria-controls="collapseQuattro">
+                                Fertilizzazioni
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseCinque" class="collapse" aria-labelledby="headingCinque" data-parent="#accordionExample">
+                        <div class="card-body">
+                            fertilizzazione
+                            {% lorem %}
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-row justify-content-around my-flex-container-bottom">
+        <div class="p-2 mr-2 rounded my-flex-item5">
+            <p class="text-center">Stoccaggio</p><br>
+            {% if coltivazione.trasporto_set.exists %}
+                <p class="text-center">{{ coltivazione.trasporto_set.first.magazz_dest.stoccaggio }},
+                {{ coltivazione.trasporto_set.first.magazz_dest.stoccaggio2 }},
+                {{ coltivazione.trasporto_set.first.magazz_dest.stoccaggio3 }}
+                </p>
+            {% else %}
+                <p class="text-center">Non è stato inserito il trasporto la coltura è in campo</p>
+            {% endif %}
+        </div>
+        <div class="p-2 mr-2 rounded my-flex-item5">
+            <p class="text-center">Trasformazione</p><br>
+            {% if coltivazione.trasporto_set.exists %}
+                <p class="text-center">{{ coltivazione.trasporto_set.first.magazz_dest.trasformazione }},
+                {{ coltivazione.trasporto_set.first.magazz_dest.trasformazione2 }}
+                </p>
+            {% else %}
+                <p class="text-center">Non è stato inserito il trasporto la coltura è in campo</p>
+            {% endif %}
+        </div>
+        <div class="p-2 mr-2 rounded my-flex-item5">
+            <p class="text-center">Confezionamento</p><br>
+            {% if coltivazione.trasporto_set.exists %}
+                <p class="text-center">{{ coltivazione.trasporto_set.first.magazz_dest.confezionamento }},
+                {{ coltivazione.trasporto_set.first.magazz_dest.confezionamento2 }}
+                </p>
+            {% else %}
+                <p class="text-center">Non è stato inserito il trasporto la coltura è in campo</p>
+            {% endif %}
+        </div>
+        <div class="p-2 rounded my-flex-item5">
+            <p class="text-center">Consegna</p><br>
+            {% if coltivazione.trasporto_set.exists %}
+                <p class="text-center">{{ coltivazione.trasporto_set.first.magazz_dest.consegna }}</p>
+            {% else %}
+                <p class="text-center">Non è stato inserito il trasporto la coltura è in campo</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        $.ajax(
+            {
+                type:"GET",
+                url: '{% url "api-meteo-campi" %}',
+                data:{
+                    campo:{{ campo.id }},
+                    start:'2018-11-01',
+                    end:'2019-05-31'
+                },
+                success: function (data) {
+                    labels = data.labels
+                    rainData = data.rain
+                    Tmindata = data.Tmin
+                    Tmaxdata = data.Tmax
+                    Tmediadata = data.Tmedia
+                    // aggiungi i dati qua
+                    setChart()
+                },
+                error: function (error_data) {
+                    console.log("errore meteo")
+                    console.log(error_data)
+                }
+            });
+        // chiamata ajax per i dati del bilancio idrologico
+        $.ajax({
+            type:"GET",
+            url:'{% url "api-bilancio" %}',
+            data:{
+                    appezzamentoid:{% if appezzamentoID %} {{ appezzamentoID }} {% else %} 1 {% endif %}
+                },
+            success: function (data) {
+                labels = data.labels
+                dose_antropica=data.dose_antropica
+                charIrrigazione()
+            },
+            error: function (error_data) {
+                 console.log("errore")
+                    console.log(error_data)
+            },
+        });
+        function charIrrigazione() {
+            var ctx3 = document.getElementById('ChartIrrigazioni').getContext('2d');
+           var myChart = new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Dose antropica',
+                        data: dose_antropica,
+                        backgroundColor: 'rgba(60,131,208,0.5)',
+                        borderColor: 'rgb(137,241,241)',
+                        borderWidth: 1,
+                        fill : false
+                    }],
+
+                },
+                options: {
+
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    elements: {
+                        line: {
+                            tension: 0
+                        }
+                    }
+                }
+            });
+
+        };
+        function setChart() {
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var ctx2 = document.getElementById('myChart2').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'T. massima',
+                        data: Tmaxdata,
+                        backgroundColor: 'rgb(50,149,216)',
+                        borderColor: 'rgb(50,149,216)',
+                        borderWidth: 1,
+                        fill : false
+                    },{
+                        label: 'T. minima',
+                        data: Tmindata,
+                        backgroundColor: 'rgb(240,93,124)',
+                        borderColor: 'rgb(240,93,124)',
+                        borderWidth: 1,
+                        fill : false
+                    }],
+
+                },
+                options: {
+
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    elements: {
+                        line: {
+                            tension: 0.2
+                        }
+                    }
+                }
+            });
+            var myChart = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'pioggia cumulata giornaliera',
+                        data: rainData,
+                        backgroundColor: 'rgb(255,144,167,0.5)',
+                        borderColor: 'rgb(255,144,167)',
+                        borderWidth: 1,
+                        fill : false
+                    }],
+
+                },
+                options: {
+
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    elements: {
+                        line: {
+                            tension: 0
+                        }
+                    }
+                }
+            });
+        };
+
+        $(window).on('load', function() {
+            {% if analisi %}
+                //todo cosa fare se ci sono più analisi? scegliere
+                tessituraR = tessituraF({{ analisi.first.sabbia }},{{ analisi.first.limo }})
+                OMdesc = OM({{ analisi.first.sabbia }},{{ analisi.first.limo }},{{ analisi.first.OM }})
+                phDescrizione1 = pHdesc({{ analisi.first.pH }})
+                caco3totdesc = CaCO3Tot({{ analisi.first.CACO3_tot }})
+                CN = RappCN({{ analisi.first.Carbonio }},{{ analisi.first.azoto }})
+                $('#complessivo').append('<br><strong>Granulometria: </strong>'+tessituraR)
+                $('#complessivo').append('<br><strong>Sostanza organica: </strong>'+OMdesc)
+                $('#complessivo').append('<br><strong>pH: </strong>'+phDescrizione1)
+                $('#complessivo').append('<br><strong>Calcare: </strong>'+caco3totdesc)
+                $('#complessivo').append('<br><strong>Rapporto C/N: </strong>'+CN)
+            {% endif %}
+        });
+
+        var mymap = L.map('mapid').setView([{{centroide.y|safe}}, {{ centroide.x|safe }}], 14);
+
+        mapbox_aerial  = 'https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA '
+        mapbox=google_style ='https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
+
+        L.tileLayer(mapbox_aerial, {
+            maxZoom: 18,
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1
+        }).addTo(mymap);
+
+
+        var myStyle = {
+            "weight": 2,
+            "color": "#ffffff",
+            "opacity": 1,
+            "dashArray": 3,
+            "fillColor": "#70e35c",
+            "fillOpacity": 0.7
+        };
+
+        var dataurl = '{% url "campi_geojson" %}';
+        // Download GeoJSON via Ajax
+        $.getJSON(dataurl,{
+                campo:{{ campo.id }}
+            },
+            function (data) {
+                // Add GeoJSON layer
+                var campi_layer  =L.geoJson(data, {
+                    style: myStyle,
+                }).addTo(mymap);
+            });
+
+
+    </script>
+
+{% endblock %}

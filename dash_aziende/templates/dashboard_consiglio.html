@@ -30,9 +30,13 @@
 
 
             {% for appezzamento,area,meteo,bilanci,extent in appezzamenti %}
-                <div class="col-md-6 col-lg-4 col-xl-6 mt-2">
-                    <div class="card" style="width: 22rem;">
-                        <img class="card-img-top" src="{% static 'img/rice_field.jpg' %}" alt="Card image cap">
+{#                <div class="col-md-6 col-lg-4 col-xl-6 mt-2">#}
+                    <div class="card m-2">
+                        {% if appezzamento.campi.staticmap %}
+                            <img class="card-img-top img-fluid" src="{{ appezzamento.campi.staticmap.url }}" alt="Card image cap">
+                        {% else %}
+                            <img class="card-img-top img-fluid" src="{% static 'img/rice_field.jpg' %}" alt="Card image cap">
+                        {% endif %}
                         <div class="card-header">
                             <h4 class="card-title">{{ appezzamento.campi.nome }}</h4>
                             <button title="Centra in mappa"
@@ -63,7 +67,7 @@
                             <a href="{% url 'chart-view-campo' uid=appezzamento.id %}"><i class="far fa-chart-bar fa-lg"></i></a>
                         </div>
                     </div>
-                </div>
+{#                </div>#}
 
 
             {% endfor %}
@@ -103,10 +107,11 @@
             //define a style for fields
             var myStyle = {
                 "weight": 2,
-                "color": "#6e6e6e",
+                "color": "#ffffff",
                 "opacity": 1,
-                "fillColor": "#5877de",
-                "fillOpacity": 0.8
+                "dashArray": 3,
+                "fillColor": "#70e35c",
+                "fillOpacity": 0.7
             };
 
 

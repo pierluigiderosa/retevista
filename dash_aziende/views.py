@@ -13,12 +13,13 @@ from django.forms import inlineformset_factory
 from django.http import Http404, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import UpdateView, DeleteView, CreateView
+from django.views.generic import UpdateView, DeleteView
 from djgeojson.views import GeoJSONLayerView
 
-from django.contrib.gis.db.models import Extent, Union
+from django.contrib.gis.db.models import Extent, Union,Sum
 
-from dash_aziende.models import campi, Profile, analisi_suolo, macchinari, Trasporto, ColturaDettaglio
+from dash_aziende.models import campi, Profile, analisi_suolo, macchinari, Trasporto, ColturaDettaglio, Magazzino, \
+    operazioni_colturali
 from income.models import dati_orari, stazioni_retevista,iframe_stazioni
 from consiglio.models import bilancio,appezzamentoCampo
 from dash_aziende.models import fertilizzazione as fert_model ,operazioni_colturali as oper_model,\
@@ -28,7 +29,8 @@ from dash_aziende.models import fertilizzazione as fert_model ,operazioni_coltur
 from .forms import CampiAziendeForm, UserForm, ProfileForm, AnalisiForm, \
     FertilizzazioneForm, OperazioneColturaleForm, IrrigazioneForm, TrattamentoForm, SeminaForm, \
     RaccoltaForm, \
-    EditProfileForm, MacchinariForm, TrasportiForm, ColturaDettaglioForm, RaccoltaPagliaForm, DiserboForm
+    EditProfileForm, MacchinariForm, TrasportiForm, ColturaDettaglioForm, RaccoltaPagliaForm, DiserboForm, \
+    MagazzinoForm, MacchinariFormAgricoltore
 from forecast import get as get_forecast
 
 # Create your views here.
@@ -65,9 +67,15 @@ def main_ifarm(request):
     else:
         campi_all = campi.objects.none()
     bbox = campi_all.aggregate(Extent('geom'))
+    areeHa = []
+    campi3004 = campi_all.transform(3004, field_name='geom')
+    for campo in campi3004:
+        areeHa.append(round(campo.geom.area/10000.,1)) #calcolo area in ha
+
+    zipped = zip(campi_all,areeHa)
 
     return render(request, "main_ifarm.html", {
-        'bbox': bbox['geom__extent'],
+        'campi': zipped,
         'staff':staff,
     })
 
@@ -102,6 +110,10 @@ def iFoodPrint_detail(request, uid):
     except ValueError:
         raise Http404()
     campo = campi.objects.get(id=UID)
+    analisi_all = analisi_suolo.objects.filter(campo=campo)
+    centroide = campo.geom.centroid
+    campo.geom.transform(3004)
+    areaHa = round(campo.geom.area/10000.,1)
     if campo.colturadettaglio_set.exists():
         coltivazione = campo.colturadettaglio_set.first()
         if coltivazione.trasporto_set.exists():
@@ -112,10 +124,79 @@ def iFoodPrint_detail(request, uid):
         coltivazione = ColturaDettaglio.objects.none()
         trasporto = Trasporto.objects.none()
 
-    return render(request,'iFarmprint_detail.html',{
+    # controllo se è presente il dato di casadei
+    appezzamentoID = None
+    if campo.appezzamentocampo_set.exists():
+        appezzamento =appezzamentoCampo.objects.filter(campi=campo)
+    #     TODO prendo il primo appezzamento: cosa fare?
+        appezzamento = appezzamento.first()
+        appezzamentoID = appezzamento.id
+
+    return render(request, 'iFoodPrint2-dettaglio.html', {
         'campo':campo,
+        'areaHa':areaHa,
+        'appezzamentoID': appezzamentoID,
+        'analisi':analisi_all,
+        'centroide':centroide,
         'coltivazione':coltivazione,
+        'produzione':round(coltivazione.produzione * areaHa,1),
         'trasporto':trasporto,
+    })
+
+@login_required
+def iFoodPrint_panel(request,uid):
+    try:
+        UID = int(uid)
+    except ValueError:
+        raise Http404()
+    campo = campi.objects.get(id=UID)
+    if campo.colturadettaglio_set.exists():
+        coltivazione = campo.colturadettaglio_set.first()
+        # estraggo la CO2 totale
+        CO2info = dict()
+        CO2_operazioni = operazioni_colturali.objects.filter(coltura_dettaglio=coltivazione).values('CO2operazione').aggregate(
+            CO2tot=Sum('CO2operazione'))
+        CO2tot = CO2_operazioni['CO2tot']
+        if CO2tot is None:
+            CO2tot=0
+            CO2info['operazioni'] = 0
+        else:
+            CO2info['operazioni']=CO2_operazioni['CO2tot']
+        if coltivazione.trasporto_set.exists():
+            CO2trasporto = Trasporto.objects.filter(coltura=coltivazione).values('CO2_trasporto').aggregate(
+                CO2tot=Sum('CO2_trasporto'))
+            CO2tot += CO2trasporto['CO2tot']
+            CO2info['trasporto'] = CO2trasporto['CO2tot']
+            trasporto = Trasporto.objects.filter(coltura=coltivazione)
+        else:
+            trasporto = Trasporto.objects.none()
+
+        # estrazione dati per calcolo azoto
+        operazioni= operazioni_colturali.objects.filter(coltura_dettaglio=coltivazione, operazione='fertilizzazione')
+
+        tot=0
+        for i in range(len(operazioni)):
+            if operazioni[i].operazione_fertilizzazione is not None:
+                Ndistribuita = operazioni[i].operazione_fertilizzazione.titolo_n
+                KgProdottoTot = operazioni[i].operazione_fertilizzazione.kg_prodotto
+                tot = tot+(Ndistribuita*KgProdottoTot)
+
+        campo.geom.transform(3004)
+        areaHa = campo.geom.area / 10000.
+        NdistribuitaTot= int(tot*areaHa/1000)
+
+
+    else:
+        coltivazione = ColturaDettaglio.objects.none()
+        trasporto = Trasporto.objects.none()
+
+
+    return render(request,'iFoodPrin_panel.html',{
+        'campo':campo,
+        'CO2':int(CO2tot/1000.),
+        'CO2info':CO2info,
+        'Ndistibuita': NdistribuitaTot,
+        'coltivazione':coltivazione,
     })
 
 @login_required
@@ -144,11 +225,11 @@ def dashboard_fields(request,forecast=False):
 
         else:
             forecast_data.append(None)
-    areeKm2 = []
+    areeHa = []
     campi3004 = campi_all.transform(3004, field_name='geom')
     for campo in campi3004:
-        areeKm2.append(round(campo.geom.area/10000.,1)) #calcolo area in km2
-    zipped = zip(campi_all, areeKm2,latlong,forecast_data,iframeURL)
+        areeHa.append(round(campo.geom.area / 10000., 1)) #calcolo area in Ha
+    zipped = zip(campi_all, areeHa, latlong, forecast_data, iframeURL)
 
 
 
@@ -322,17 +403,22 @@ def logistica_list(request):
     utente = request.user
     if utente.groups.filter(name='Agricoltori').exists():
         macchinari_all = macchinari.objects.filter(azienda=Profile.objects.filter(user=utente))
+        magazzini_all = Magazzino.object.filter(azienda=Profile.objects.filter(user=utente))
         azienda = Profile.objects.filter(user=utente)
     elif utente.is_staff or utente.groups.filter(name='Universita').exists():
         macchinari_all = macchinari.objects.all()
+        magazzini_all = Magazzino.objects.all()
         azienda = Profile.objects.none()
     else:
         macchinari_all = macchinari.objects.none()
+        magazzini_all = Magazzino.objects.none()
         azienda = Profile.objects.none()
 
     trasporti = Trasporto.objects.all()
     return render(request, 'logistica.html', {
         'trasporti': trasporti,
+        'macchinari': macchinari_all,
+        'magazzini': magazzini_all,
         "azienda": azienda
     })
 
@@ -415,34 +501,43 @@ def form_coltura(request):
         if request.user.is_staff or request.user.groups.filter(name='Universita').exists():
             sel_proprietario = True
 
-    return render(request, 'coltivazione_form.html', {'form': form, 'proprietario': sel_proprietario})
+    return render(request, 'coltivazione_form.html', {'form': form})
 
 
 @login_required
 def form_macchinari(request):
     if request.method == 'POST':
-        form = MacchinariForm(request.POST)
-        if form.is_valid():
-            macchinario = form.save(commit=False)
-
-            # automaticamente assegno il proprietario del campo
-            if request.user.groups.filter(name='Agricoltori').exists():
+        if request.user.groups.filter(name='Agricoltori').exists():
+            form = MacchinariFormAgricoltore(request.POST,request.FILES)
+            if form.is_valid():
+                macchinario = form.save(commit=False)
+                # automaticamente assegno il proprietario del campo
                 macchinario.azienda = Profile.objects.get(user=request.user)
+                macchinario.save()
+                messages.success(request, 'Il tuo macchinario è stato aggiunto!')
+                # redirect to a new URL:
+                return redirect('lista-macchinari')
 
-            macchinario.save()
-            # process the data in form.cleaned_data as required
-            # ...
-            messages.success(request, 'Il tuo macchinario è stato aggiunto!')
-            # redirect to a new URL:
-            return redirect('lista-macchinari')
+        if request.user.is_staff or request.user.groups.filter(name='Universita').exists():
+            form = MacchinariForm(request.POST,request.FILES)
+            if form.is_valid():
+                macchinario = form.save(commit=False)
 
-            # if a GET (or any other method) we'll create a blank form
+                macchinario.save()
+                # process the data in form.cleaned_data as required
+                # ...
+                messages.success(request, 'Il tuo macchinario è stato aggiunto!')
+                # redirect to a new URL:
+                return redirect('lista-macchinari')
+
+                # if a GET (or any other method) we'll create a blank form
     else:
-        form = MacchinariForm()
         if request.user.groups.filter(name='Agricoltori').exists():
             sel_proprietario = False
+            form = MacchinariFormAgricoltore()
         if request.user.is_staff or request.user.groups.filter(name='Universita').exists():
             sel_proprietario = True
+            form = MacchinariForm()
 
     return render(request, 'macchinari_form.html', {'form': form, 'proprietario': sel_proprietario})
 
@@ -475,6 +570,33 @@ def form_logistica_add(request):
 
     return render(request, 'logistica_form.html', {'form': form, 'proprietario': sel_proprietario})
 
+@login_required
+def form_magazzino_add(request):
+    if request.method == 'POST':
+        form = MagazzinoForm(request.POST)
+        if form.is_valid():
+            magazzino = form.save(commit=False)
+
+            # automaticamente assegno qualcosa qui
+            # if request.user.groups.filter(name='Agricoltori').exists():
+            #     macchinario.azienda = Profile.objects.get(user=request.user)
+
+            magazzino.save()
+            # process the data in form.cleaned_data as required
+            # ...
+            messages.success(request, 'Il tuo magazzino è stato aggiunto!')
+            # redirect to a new URL:
+            return redirect('lista_logistica')
+
+            # if a GET (or any other method) we'll create a blank form
+    else:
+        form = MagazzinoForm()
+        if request.user.groups.filter(name='Agricoltori').exists():
+            sel_proprietario = False
+        if request.user.is_staff or request.user.groups.filter(name='Universita').exists():
+            sel_proprietario = True
+
+    return render(request, 'magazzino_form.html', {'form': form, 'proprietario': sel_proprietario})
 
 @login_required
 def form_operazioni(request,oper_type=None):
@@ -901,7 +1023,11 @@ class CampoUpdateView(LoginRequiredMixin,UpdateView):
     # fields = '__all__'
 
 
-
+class ColtivazioneDeleteView(LoginRequiredMixin,DeleteView):
+    model = ColturaDettaglio
+    template_name = 'confirm_delete.html'
+    success_message = 'Successo: la coltura sul campo è stata eliminata.'
+    success_url = reverse_lazy('main-fields')
 
 class CampoDeleteView(LoginRequiredMixin,DeleteView):
     model = campi
@@ -927,8 +1053,8 @@ class AnalisiUpdateView(LoginRequiredMixin,UpdateView):
 
 class MacchinariUpdateView(LoginRequiredMixin,UpdateView):
     model = macchinari
-    template_name = 'macchinari_form.html'
-    form_class = MacchinariForm
+    template_name = 'macchinari_form_edit.html'
+    form_class = MacchinariFormAgricoltore
     # fields = '__all__'
     success_message = "Successo: Il macchinario è stato aggiornato."
     success_url = reverse_lazy('lista-macchinari')

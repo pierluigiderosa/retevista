@@ -141,16 +141,16 @@ scelte_colture =[
 
 
 
-fasi_cereali= ['Germinazione',
-               'sviluppo fogliare',
-               'accestimento',
-               'Levata',
-               'Botticella',
-               'emergenza infiorescenza, spigatura',
-               'fioritura',
-               'sviluppo della spiga',
-               'Riempimento granella',
-               'Senescenza']
+fasi_cereali= ['0 Germinazione',
+               '1 sviluppo fogliare',
+               '2 accestimento',
+               '3 Levata',
+               '4 Botticella',
+               '5 emergenza infiorescenza, spigatura',
+               '6 fioritura',
+               '7 sviluppo della spiga',
+               '8 Riempimento granella',
+               '9 Senescenza']
 
 fasi_olivo = ['SVILUPPO DELLE FOGLIE',
               'SVILUPPO DEI GERMOGLI',
@@ -173,8 +173,8 @@ def popola_fasi_fenologiche():
     popola_fasi_fenologiche()
     :return: Null - popola il db
     '''
-    if colture_model.objects.filter(nome__exact='Frumento').exists():
-        cereale = colture_model.objects.get(nome__exact='Frumento')
+    if colture_model.objects.filter(nome__exact='Grano duro').exists():
+        cereale = colture_model.objects.get(nome__exact='Grano duro')
         for faseCereale in fasi_cereali:
             fase = fasi_fenologiche(fase=faseCereale,coltura_rif=cereale)
             fase.save()

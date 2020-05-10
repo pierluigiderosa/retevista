@@ -19,23 +19,22 @@
 <div class="jumbotron">
     <div class="container">
       <h1 class="display-3">iLand</h1>
-      <p>Nuova versione. This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-{#      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>#}
+        <img src="{% static 'img/iLand.png' %}" class="rounded mx-auto d-block"/>
+      <p>Pianificare il tuo territorio o la tua azienda deve essere un problema, conoscere le tutte risorse i tuoi vincoli, le tue opportunità
+          è molto più semplice decidere. Caratterizzare i suoli, conoscerli, verificarne la biodiversità, la fertilità è una condizione fondamentale
+          per decidere e per fare scelte consapevoli.
+          Consumare suolo o utilizzarlo in modo improprio rappresenta un danno per le generazioni future.
     </div>
   </div>
     <div class="row">
         {% include "panels/lateral_panel_iLand.html" %}
 
-        <div class="col-md-4 p-0 bg-indigo h-md-100" url-endpoint='{% url "api-data-dash" %}'>
-            <canvas id="myChart" width="400" height="200"></canvas>
-
-            <h1>Operazioni per coltura</h1>
-
-        </div>
-
-        <div class="col-md-4 p-0 bg-white h-md-100">
-            {% leaflet_map "main" callback="main_map_init" %}
-        </div>
+{#        <div class="col-md-4 p-0 bg-indigo h-md-100" url-endpoint='{% url "api-data-dash" %}'>#}
+{#        </div>#}
+{##}
+{#        <div class="col-md-4 p-0 bg-white h-md-100">#}
+{#            {% leaflet_map "main" callback="main_map_init" %}#}
+{#        </div>#}
     </div>
     <script type="text/javascript">
         function onEachFeature(feature, layer) {
@@ -61,10 +60,11 @@
 
             var myStyle = {
                 "weight": 2,
-                "color": "#000000",
+                "color": "#ffffff",
                 "opacity": 1,
-                "fillColor": "#ff6284",
-                "fillOpacity": 0.8
+                "dashArray": 3,
+                "fillColor": "#70e35c",
+                "fillOpacity": 0.7
             };
 
             // Download GeoJSON via Ajax
@@ -79,58 +79,7 @@
             });
 
         }
-        var endpoint = "{% url 'api-data-dash' %}"
 
-        $.ajax({
-            method: "GET",
-            url: endpoint,
-            success: function (data) {
-                labels = data.labels;
-                rainData = data.default;
-                setChart()
-            },
-            error: function (error_data) {
-                console.log("error")
-                console.log(error_data)
-
-            }
-        });
-        function setChart() {
-            var ctx = document.getElementById('myChart').getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'coltura',
-                        data: rainData,
-                        backgroundColor: 'rgb(54, 162, 235)',
-                        borderColor: 'rgb(54, 162, 235)',
-                        borderWidth: 1,
-                        fill : false
-                    },]
-                },
-                options: {
-                    title: {
-                        display: true,
-                        text: 'Superficie per coltura',
-                        fontSize: 18
-                    },
-                    scales: {
-                        xAxes: [{
-                            barPercentage: 0.5,
-                            barThickness: 6,
-                            maxBarThickness: 15,
-                            minBarLength: 2,
-                            gridLines: {
-                                offsetGridLines: true
-                            }
-                        }]
-                    }
-
-                }
-            });
-        }
 
     </script>
 

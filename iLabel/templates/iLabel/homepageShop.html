@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+{% load leaflet_tags %}
+{% load l10n %}
+
+{% block head_title %}
+    Shop -- ReteVISTA
+{% endblock %}
+
+{% block script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3 text-center">Shop</h1>
+            <i class="fas fa-shopping-basket fa-5x" style="color:#959636"></i><h3>Prenota il tuo prodotto e seguilo nella sua crescita</h3>
+{#            <img src="{% static 'img/iLabel.png' %}" class="rounded mx-auto d-block"/>#}
+{#            <p>L’etichetta intelligente, presente sul prodotto finale tramite un QR-Code, permetterà di collegarsi in remoto ad un portale#}
+{#                nel quale saranno presenti tutte le informazioni riguardanti la coltura e la storia del prodotto dalla semina alla raccolta.#}
+        </div>
+    </div>
+    <div class="container">
+          <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <p class="text-center">
+                <a href="{% url 'iLabel:main-aziende-list' %}" class="btn btn-sq-lg btn-primary">
+                  <i class="fa fa-user fa-5x"></i><br> Lista delle aziende <br>Accedi </a>
+              </p>
+            </div>
+            <div class="col-md-6">
+              <p class="text-center" >
+                <a href="#" class="btn btn-sq-lg btn-success">
+                        <i class="fas fa-carrot fa-5x" aria-hidden="true"></i><br/>
+                        Lista delle colture <br>Accedi
+                    </a>
+              </p>
+            </div>
+{#            <div class="col-md-4">#}
+{#              <p class="text-center">#}
+{#                <a href="#" class="btn btn-sq-lg btn-info">#}
+{#                  <i class="fa fa-qrcode fa-5x" aria-hidden="true"></i><br>Genera Qr Code<br>Accedi </a>#}
+{#              </p>#}
+{#            </div>#}
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}

@@ -2,18 +2,16 @@
 
 from utils import get_all_fields_from_feat
 from django.http import HttpResponse
-from reportlab.pdfgen import canvas
-from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER, TA_RIGHT, TA_LEFT
+
 from reportlab.lib.pagesizes import A4
 from reportlab.platypus import (SimpleDocTemplate, Paragraph,
-                                Spacer, Image, PageBreak, Table,
+                                Spacer, Table,
                                 TableStyle,Flowable)
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.units import cm,mm,inch
-from reportlab.lib import utils
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import cm,inch
+
 from reportlab.lib import colors
 from django.core.files.storage import FileSystemStorage
-from reportlab.platypus.flowables import HRFlowable
 import tempfile
 
 from iLand.models import Feature,Shapefile

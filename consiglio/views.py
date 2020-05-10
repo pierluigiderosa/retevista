@@ -154,11 +154,14 @@ def infoViewCampo(request,uid=999):
         raise Http404()
     appez_riferimento = appezzamentoCampo.objects.get(pk=UID)
     bilancio_appezzam = bilancio.objects.filter(appezzamentoDaCampo=UID).first()
-    ultimo_intervento_irriguo = bilancio.objects.filter(appezzamentoDaCampo=UID,Irrigazione=True).first()
+    ultimo_intervento_irriguo = bilancio.objects.filter(appezzamentoDaCampo=UID,Irrigazione=True,dose_antropica__gt=0).first()
 
     #calcolo giorni ciclo colturale
-    delta = datetime.now().date() - ultimo_intervento_irriguo.data_rif
-
+    if ultimo_intervento_irriguo is not None:
+        delta = datetime.now().date() - ultimo_intervento_irriguo.data_rif
+        giorni = delta.days
+    else:
+        giorni = 'Mai irrigato'
     # calcolo di U e Amin_irr
     if appez_riferimento.campi.analisi_suolo_set.exists():
         analisi = appez_riferimento.campi.analisi_suolo_set.first()
@@ -185,7 +188,7 @@ def infoViewCampo(request,uid=999):
         'appezzamento': appez_riferimento,
         'bilancio_appezzam': bilancio_appezzam,
         'ultimo_intervento': ultimo_intervento_irriguo,
-        'giorni_ciclo_colturale': delta.days,
+        'giorni_ciclo_colturale': giorni,
         'Ucalcolo': U,
         'Amin_irr':Airr_min,
     }
@@ -231,6 +234,29 @@ def ChartViewCampo(request,uid):
 
     return render(request, "charts.html", {"uid": uid,'nome_app':appez_riferimento.campi.nome,})
 
+@login_required
+def get_bilancio_idrico_data(request):
+    if request.method == 'GET':
+        appezzamentoID = request.GET.get('appezzamentoid')
+        appezzamento = appezzamentoCampo.objects.filter(id=appezzamentoID)
+        if appezzamento.count() == 1:
+            bilancio_appezzam = bilancio.objects.filter(appezzamentoDaCampo=appezzamento.first())[:30]
+        else:
+            bilancio_appezzam = bilancio.objects.none().values('data_rif','dose_antropica')
+
+        labels = [bil.data_rif.strftime('%d/%m/%Y') for bil in bilancio_appezzam]
+        dose_antropica = [bil.dose_antropica for bil in bilancio_appezzam]
+
+        data ={
+            'labels':labels,
+            'dose_antropica':dose_antropica,
+        }
+        return JsonResponse(data)
+
+    else:
+        return Http404
+
+
 def get_data(request, uid=1):
     try:
         uid = int(uid)
@@ -243,6 +269,7 @@ def get_data(request, uid=1):
     A = []
     Amin_irr = []
     dose = []
+    dose_antropica = []
     Ks = []
     Kc = []
     Irr_mm=[]
@@ -253,6 +280,7 @@ def get_data(request, uid=1):
         A.append(bilancio_giorno.A)
         Amin_irr.append(bilancio_giorno.Amin_irr)
         dose.append(bilancio_giorno.dose)
+        dose_antropica.append(bilancio_giorno.dose_antropica)
         Kc.append(bilancio_giorno.Kc)
         Ks.append(bilancio_giorno.Ks)
         Irr_mm.append(bilancio_giorno.Irr_mm)
@@ -263,6 +291,7 @@ def get_data(request, uid=1):
         "A": A,
         "Amin_irr": Amin_irr,
         "dose": dose,
+        "dose_antropica":dose_antropica,
         "Kc": Kc,
         "Ks": Ks,
         "Irr":Irr_mm,
@@ -339,6 +368,9 @@ def get_campi_data(request,uid=1):
 def api_meteo_campi(request):
     if request.method == 'GET':
         campoID = request.GET.get('campo')
+        start_date = request.GET.get('start')
+        end_date = request.GET.get('end')
+
         # campo = campi.objects.filter(id=campoID).values('nome','geom','coltura', 'data_inizio',
         #                                                 'uso_colturale', 'precocita', 'data_semina',
         #                                                 'data_raccolta', 'semente', 'produzione',
@@ -350,7 +382,10 @@ def api_meteo_campi(request):
             distance=Distance('geom', campo.geom.centroid)
         ).order_by('distance').first()
 
-        dati_meteo_daily = dati_aggregati_daily.objects.filter(stazione=stazione_closest)[:30]
+        if start_date is not None and end_date is not None:
+            dati_meteo_daily = dati_aggregati_daily.objects.filter(stazione=stazione_closest,data__gt=start_date,data__lte=end_date)
+        else:
+            dati_meteo_daily = dati_aggregati_daily.objects.filter(stazione=stazione_closest)[:30]
         # preparo la serializzazione
         Tmin = [meteo.temp_min for meteo in dati_meteo_daily]
         Tmean = [meteo.temp_mean for meteo in dati_meteo_daily]

@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% load static %}
+{% load l10n %}
+
+{% block script %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" type="text/javascript"></script>
+{% endblock %}
+{% block css %}
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-4" >
+            <div class="accordion" id="accordionExample">
+            <i class="fas fa-shopping-basket fa-3x" style="color:#2fa2a5"></i><h2> Shop</h2>
+                <h2 class="">{{ azienda.user.first_name }} {{ azienda.user.last_name }}<br>
+                    {% if azienda.pec %}
+                    <small class="text-muted" >pec: {{ azienda.pec }}</small></h2>
+            {% endif %}
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Chi siamo
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <p class="h6">{% lorem %}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Dove siamo
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <p class="h6">{% lorem %}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Manifesto
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <p class="h6">{% lorem %}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingQuattro">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseQuattro" aria-expanded="false" aria-controls="collapseQuattro">
+                                Progetto cultura
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseQuattro" class="collapse" aria-labelledby="headingQuattro" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <p class="h6">{% lorem %}</p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="col-md-8">
+            <ul class="nav nav-tabs">
+                <li class="nav-item"> <a href="" class="active nav-link blockquote" data-toggle="pill" data-target="#tabone"><i class="fas fa-carrot"></i>&nbsp;Colture</a> </li>
+                <li class="nav-item"> <a class="nav-link blockquote" href="" data-toggle="pill" data-target="#tabtwo" contenteditable="true"><i class="fas fa-info-circle"></i>&nbsp;Dettagli<br></a> </li>
+            </ul>
+            <div class="tab-content mt-2">
+                <div class="tab-pane fade show active" id="tabone" role="tabpanel">
+                    <div class="row">
+                        {% for coltura,area,produzione in colture %}
+                            <div class="col-md-6 col-lg-6 col-xl-4 py-2">
+                                <div class="card h-100">
+                                <!-- Avatar -->
+                                {% if coltura.nome.immagine %}
+                                <img src="{{ coltura.nome.immagine.url }}" class="rounded-circle mr-2" height="100px" width="100px" alt="avatar">
+                                {% endif %}
+
+
+                                <!-- Content -->
+                                <div>
+
+                                    <!-- Title -->
+                                    <h4 class="card-title font-weight-bold mb-2">{{ coltura.nome }}</h4>
+
+                                </div>
+                                    {% if coltura.campo.staticmap %}
+                                        <img class="card-img-top img-fluid" src="{{ coltura.campo.staticmap.url }}" alt="Card image cap">
+                                    {% else %}
+                                        <img class="card-img-top img-fluid" src="{% static 'img/rice_field.jpg' %}" alt="Card image cap">
+                                    {% endif %}
+                                    <div class="card-header">
+                                        <h4 class="card-title">Campo: {{ coltura.campo.nome }}</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            Questa coltura ha una produzione attesa di {{ coltura.produzione }} Qli/Ha ed una estensione di {{ area }} Ha.
+                                            Produzione totale di {{ coltura.produzione_totale }} Qli.
+                                        </p>
+{#                                        <a href="#" class="btn btn-primary" data-id="{{ coltura.id }}" title="Serve il login">Prenota</a>#}
+
+{#                                        inizio bottone modale#}
+                                        <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="create-book btn btn-primary"
+                                                prenotabile = "150"
+                                                type="button" name="button">Crea nuova prenotazione</button>
+
+                                    </div>
+
+                                    <div class="card-footer">
+                                        <small>{{ coltura.campo.proprietario }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tabtwo" role="tabpanel">
+                    <div class="row">
+                       {% lorem %}
+
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tabthree" role="tabpanel">
+                    <p class="">{% lorem %}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $(".create-book").click(function(event) {
+            event.preventDefault();
+            var xmin = $(this).attr("prenotabile");
+            console.log(xmin)
+        });
+
+    $(".create-book").modalForm({
+        formURL: "{% url 'iLabel:crea-prenotazione' %}"
+    });
+
+});
+        function formatDate(dataISO) {
+            var d = new Date(dataISO),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+
+            return [day, month, year].join('-');
+        }
+        function getColor(d) {
+            return d > 1000 ? '#800026' :
+                d > 500  ? '#BD0026' :
+                    d > 200  ? '#E31A1C' :
+                        d > 100  ? '#FC4E2A' :
+                            d > 50   ? '#FD8D3C' :
+                                d > 20   ? '#FEB24C' :
+                                    d > 10   ? '#FED976' :
+                                        '#FFEDA0';
+        }
+
+    </script>
+{% endblock %}

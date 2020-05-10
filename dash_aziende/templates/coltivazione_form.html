@@ -35,21 +35,20 @@
                 <div class="form-group col-md-4 mb-0">
                         {{ form.annataAgraria|as_crispy_field }}
                     </div>
-                    {% if proprietario %}
-{#                        <div class="form-group col-md-4 mb-0">#}
-{#                            {{ form.proprietario|as_crispy_field }}#}
-{#                        </div>#}
-                    {% endif %}
+
                 </div>
             <div class="form-row">
-                <div class="form-group col-md-4 mb-0">
+                <div class="form-group col-md-3 mb-0">
                     {{ form.data_inizio|as_crispy_field }}
                 </div>
-                <div class="form-group col-md-4 mb-0">
+                <div class="form-group col-md-3 mb-0">
                     {{ form.uso_colturale|as_crispy_field }}
                 </div>
-                <div class="form-group col-md-4 mb-0">
+                <div class="form-group col-md-3 mb-0">
                     {{ form.precocita|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-3 mb-0">
+                    {{ form.varieta|as_crispy_field }}
                 </div>
             </div>
             <div class="form-row">
@@ -66,8 +65,6 @@
                     {{ form.produzione|as_crispy_field }}
                 </div>
             </div>
-
-
                 <input type="submit"/>
             </form>
         </div>

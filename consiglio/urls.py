@@ -1,9 +1,9 @@
 from django.conf.urls import url
 
-from .views import lista_appezzamenti,singolo_appezz,BilancioCreateView,\
-    BilancioUpdateView,export_appezz,get_data,\
-    ChartView,singolo_appezz_campo,ChartViewCampo,get_campi_data,raster_lista,raster_mappa,\
-    RasterCasaDeleteView,form_add_raster,infoViewCampo,api_meteo_campi
+from .views import lista_appezzamenti, singolo_appezz, BilancioCreateView, \
+    BilancioUpdateView, export_appezz, get_data, \
+    ChartView, singolo_appezz_campo, ChartViewCampo, get_campi_data, raster_lista, raster_mappa, \
+    RasterCasaDeleteView, form_add_raster, infoViewCampo, api_meteo_campi, get_bilancio_idrico_data
 
 urlpatterns = [
     url(r'^appezz/(?P<uid>\d+)$',singolo_appezz, name='singolo_appez'),
@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^create/$', BilancioCreateView.as_view(), name='create_bilancio'),
     url('update/(?P<pk>\d+)$', BilancioUpdateView.as_view(), name='update_bilancio'),
     url(r'^api/data/(?P<uid>\d+)$', get_data, name='api-data'),
+    url(r'^api/bilancio/$', get_bilancio_idrico_data, name='api-bilancio'),
     url(r'^api/meteocampi/$', api_meteo_campi, name='api-meteo-campi'),
     url(r'^api/campi/(?P<uid>\d+)$', get_campi_data, name='api-data-campi'),
     url(r'^chart/(?P<uid>\d+)$', ChartView, name='chart-view'),

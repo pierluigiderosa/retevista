@@ -31,6 +31,14 @@
         </div>
     </div>
     <script type="text/javascript">
+    var geojsonMarkerOptions = {
+            radius: 8,
+            fillColor: "#ff7800",
+            color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        };
         function onEachFeature(feature, layer) {
             // does this feature have a property named popupContent?
             if (feature.properties && feature.properties.popupContent) {
@@ -51,15 +59,32 @@
                         var dataurl = '{% url "campi_geojson" %}?user=agricoltore';
             {% endif %}
 
+            var staz_metero_url = '{% url "data-stazioni" %}?pid=100';
+
 
             var myStyle = {
                 "weight": 2,
-                "color": "#000000",
+                "color": "#ffffff",
                 "opacity": 1,
-                "fillColor": "#ff6284",
-                "fillOpacity": 0.8
+                "dashArray": 3,
+                "fillColor": "#70e35c",
+                "fillOpacity": 0.7
             };
 
+            // Download Stazioni meteo GeoJSON via Ajax
+            $.getJSON(staz_metero_url, function (data) {
+                // Add GeoJSON layer
+                var stazioni_layer = L.geoJson(data,{
+                    pointToLayer: function (feature, layer) {
+                        return L.circleMarker(layer, geojsonMarkerOptions);
+                    },
+                    onEachFeature: function (feature, layer) {
+                        layer.bindPopup('<h5>Stazione</h5>'+'<h6>'+feature.properties.nome+'</h6>');
+                    }
+                }).addTo(map);
+                 // Add Rivers to Layer Control
+                controlLayers.addOverlay(stazioni_layer, 'Stazioni');
+            });
             // Download GeoJSON via Ajax
             $.getJSON(dataurl, function (data) {
                 // Add GeoJSON layer

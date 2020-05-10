@@ -1,18 +1,21 @@
 from django.conf.urls import url
 
 from .views import dashboard_fields, form_campi, add_profile, CampiGeoJson, form_analisi, dashboard_analisi, \
-    CampoUpdateView, AnalisiUpdateView, form_coltura,\
-    CampoDeleteView, AnalisiDeleteView, dashboard_main, get_data_charts, dash_operazioni_colturali, form_operazioni, \
-    OperazioniDeleteView, edit_profile, dashboard_consiglio, dash_consumatore, main_biotipo,\
+    CampoUpdateView, AnalisiUpdateView, form_coltura, \
+    CampoDeleteView, ColtivazioneDeleteView, AnalisiDeleteView, dashboard_main, get_data_charts, \
+    dash_operazioni_colturali, form_operazioni, \
+    OperazioniDeleteView, edit_profile, dashboard_consiglio, dash_consumatore, main_biotipo, \
     CampiEstesiJson, dash_list_consumatore, operazioniJson, list_macchinari, iFoodPrint_detail, \
     form_macchinari, MacchinariDeleteView, MacchinariUpdateView, logistica_list, \
-    form_logistica_add, main_ifarm, main_iFoodPrint, caratt_chimico_fisiche, AnalisiJson
+    form_logistica_add, main_ifarm, main_iFoodPrint, caratt_chimico_fisiche, AnalisiJson, form_magazzino_add, \
+    iFoodPrint_panel
 from .models import campi
 
 urlpatterns = [
     url(r'^add/form/$',form_campi,name='form-campi'),
     url(r'^add/coltura/$',form_coltura,name='form-coltura'),
     url('update/form/(?P<pk>\d+)$', CampoUpdateView.as_view(), name='update-campi'),
+    url('delete/coltivazione/(?P<pk>\d+)$', ColtivazioneDeleteView.as_view(), name='delete-coltivazione'),
     url('delete/form/(?P<pk>\d+)$', CampoDeleteView.as_view(), name='delete-campi'),
     url(r'^add/analisi/$',form_analisi,name='form-analisi'),
     url('update/analisi/(?P<pk>\d+)$', AnalisiUpdateView.as_view(), name='update-analisi'),
@@ -27,6 +30,7 @@ urlpatterns = [
     url(r'^macchinari/$',list_macchinari,name='lista-macchinari'),
     url(r'logistica/add$',form_logistica_add,name='add-logistica'),
     url(r'logistica/$',logistica_list,name='lista_logistica'),
+    url(r'magazzino/add/$',form_magazzino_add,name='add-magazzino'),
     url(r'^campi.geojson$', CampiGeoJson.as_view(model=campi), name='campi_geojson'),
     url(r'^campiEstesi.json$', CampiEstesiJson, name='campi_estesi_json'),
     url(r'^operazioni.json$', operazioniJson, name='operazioni_dettaglio_json'),
@@ -42,6 +46,7 @@ urlpatterns = [
     url(r'consumatore/(?P<uid>\d+)$', dash_consumatore, name='main-consumatore'),
     url(r'ifarm/$', main_ifarm, name='main-ifarm'),
     url(r'iFoodPrint/(?P<uid>\d+)$', iFoodPrint_detail, name='iFoodPrint-detail'),
+    url(r'iFoodPrint_panel/(?P<uid>\d+)$', iFoodPrint_panel, name='iFoodPrint-panel'),
     url(r'iFoodPrint/$', main_iFoodPrint, name='main-iFoodPrint'),
     url(r'^biotipo/$',main_biotipo,name='main-biotopo'),
     url(r'^$', dashboard_main, name='main-iland')
