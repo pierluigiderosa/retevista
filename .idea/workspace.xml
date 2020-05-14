@@ -25,7 +25,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4070bad7-415d-47ea-be1e-561d8b114f06" name="Default Changelist" comment="fix di alcuni bug segnalati:&#10;- analisi suolo oggetto puntuale&#10;- macchinari non caricavano allegati&#10;- rapp C/N&#10;- iFoodprint inserito calcolo Ndstribuiti&#10;- indicatori api crop&#10;- bilancio irriguo riporta l'ultima dose antropica e non quella naturale">
+    <list default="true" id="4070bad7-415d-47ea-be1e-561d8b114f06" name="Default Changelist" comment="changelog:&#10;- dentro meteo i dati vanno indietro 3 mesi&#10;- due nuovi menù in aggiungi campo&#10;- uniformato il pannello del campo con quello di ifoodprint&#10;- tolto caratteristiche chimico fisiche&#10;- analisi del suolo ha anche i valori medi aggregati&#10;- fix visualizzazione macchinari.html&#10;- corretto errore in logistica.html&#10;- separato magazzino e trasporti&#10;- stampa pdf di analisi del campo - valori medi&#10;- stampa pdf macchinari.html&#10;- uniti pannelli iFoodPrint2-dettaglio.html e ifoodprint panel&#10;- inseriti calcolo di Pconsumata e Kconsumata in iFoodPrint2-dettaglio.html&#10;- added analisi_prodotto.html">
       <change afterPath="$PROJECT_DIR$/dash_aziende/report_dash_aziende.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/dash_aziende/templates/analisi_prodotto.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/dash_aziende/templates/analisi_prodotto_add.html" afterDir="false" />
@@ -470,6 +470,7 @@
       <workItem from="1589375671749" duration="2742000" />
       <workItem from="1589378706923" duration="3000" />
       <workItem from="1589386749795" duration="3323000" />
+      <workItem from="1589460729082" duration="313000" />
     </task>
     <task id="LOCAL-00001" summary="addedd automatic procedure to read api ofr whether stations data">
       <created>1551709403892</created>
@@ -803,7 +804,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="first implementation of chart.js" />
     <MESSAGE value="chart.js complete with A, precipitation" />
     <MESSAGE value="added map in menu" />
     <MESSAGE value="first implementation of SPI index with chart and gauges" />
@@ -828,7 +828,8 @@
     <MESSAGE value="inzio inserimento fasi_fenologiche" />
     <MESSAGE value="fine inserimento fasi_fenologiche frumento e nuove operazioni colturali" />
     <MESSAGE value="fix di alcuni bug segnalati:&#10;- analisi suolo oggetto puntuale&#10;- macchinari non caricavano allegati&#10;- rapp C/N&#10;- iFoodprint inserito calcolo Ndstribuiti&#10;- indicatori api crop&#10;- bilancio irriguo riporta l'ultima dose antropica e non quella naturale" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix di alcuni bug segnalati:&#10;- analisi suolo oggetto puntuale&#10;- macchinari non caricavano allegati&#10;- rapp C/N&#10;- iFoodprint inserito calcolo Ndstribuiti&#10;- indicatori api crop&#10;- bilancio irriguo riporta l'ultima dose antropica e non quella naturale" />
+    <MESSAGE value="changelog:&#10;- dentro meteo i dati vanno indietro 3 mesi&#10;- due nuovi menù in aggiungi campo&#10;- uniformato il pannello del campo con quello di ifoodprint&#10;- tolto caratteristiche chimico fisiche&#10;- analisi del suolo ha anche i valori medi aggregati&#10;- fix visualizzazione macchinari.html&#10;- corretto errore in logistica.html&#10;- separato magazzino e trasporti&#10;- stampa pdf di analisi del campo - valori medi&#10;- stampa pdf macchinari.html&#10;- uniti pannelli iFoodPrint2-dettaglio.html e ifoodprint panel&#10;- inseriti calcolo di Pconsumata e Kconsumata in iFoodPrint2-dettaglio.html&#10;- added analisi_prodotto.html" />
+    <option name="LAST_COMMIT_MESSAGE" value="changelog:&#10;- dentro meteo i dati vanno indietro 3 mesi&#10;- due nuovi menù in aggiungi campo&#10;- uniformato il pannello del campo con quello di ifoodprint&#10;- tolto caratteristiche chimico fisiche&#10;- analisi del suolo ha anche i valori medi aggregati&#10;- fix visualizzazione macchinari.html&#10;- corretto errore in logistica.html&#10;- separato magazzino e trasporti&#10;- stampa pdf di analisi del campo - valori medi&#10;- stampa pdf macchinari.html&#10;- uniti pannelli iFoodPrint2-dettaglio.html e ifoodprint panel&#10;- inseriti calcolo di Pconsumata e Kconsumata in iFoodPrint2-dettaglio.html&#10;- added analisi_prodotto.html" />
   </component>
   <component name="WindowStateProjectService">
     <state x="588" y="214" width="800" height="677" key="#Inspections" timestamp="1587999533338">
@@ -871,10 +872,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="167" y="125" width="1653" height="855" key="DiffContextDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1584428952665" />
-    <state x="134" y="100" width="1613" height="855" key="DirDiffDialog" timestamp="1589298019766">
+    <state x="134" y="100" width="1613" height="855" key="DirDiffDialog" timestamp="1589461107987">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="134" y="100" width="1613" height="855" key="DirDiffDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1589298019766" />
+    <state x="134" y="100" width="1613" height="855" key="DirDiffDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1589461107987" />
     <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1581439509739">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -915,10 +916,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="482" y="187" key="SettingsEditor/67.27.1853.1053@67.27.1853.1053" timestamp="1586931793971" />
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1589100548260">
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1589461049379">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1589100548260" />
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1589461049379" />
     <state width="926" height="527" key="XDebugger.FullValuePopup" timestamp="1589213538252">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
