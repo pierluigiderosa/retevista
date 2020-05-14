@@ -150,7 +150,7 @@ def ricerca(request):
 
         return JsonResponse({'lista':list(output),'conteggio':len(search_results)},safe=False)
 
-@login_required()
+@login_required
 def report_vincoli(request):
     vincoli = Shapefile.objects.filter(tipologia='vincoli')
     return render(request,'iLand/report.html',{'vincoli':vincoli})

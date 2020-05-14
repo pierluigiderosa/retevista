@@ -25,68 +25,35 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4070bad7-415d-47ea-be1e-561d8b114f06" name="Default Changelist" comment="fine inserimento fasi_fenologiche frumento e nuove operazioni colturali">
-      <change afterPath="$PROJECT_DIR$/dash_aziende/templates/iFoodPrin_panel.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dash_aziende/templates/iFoodPrint2-dettaglio.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dash_aziende/templates/macchinari_form_edit.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dash_aziende/templates/magazzino_form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/iLabel/forms.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/iLabel/templates/iLabel/createPrenotazione.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/iLabel/templates/iLabel/dash_consumatore2.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/iLabel/templates/iLabel/homepageShop.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/terreno.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/routing.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/staticmaps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/70768380-595e-4e42-9ea1-e1c5fb816ed0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/70768380-595e-4e42-9ea1-e1c5fb816ed0.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/70768380-595e-4e42-9ea1-e1c5fb816ed0/storage_v2/_src_/database/retevista_db.VLOjug/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/70768380-595e-4e42-9ea1-e1c5fb816ed0/storage_v2/_src_/database/retevista_db.VLOjug/schema/public.abK9xQ.meta" afterDir="false" />
+    <list default="true" id="4070bad7-415d-47ea-be1e-561d8b114f06" name="Default Changelist" comment="fix di alcuni bug segnalati:&#10;- analisi suolo oggetto puntuale&#10;- macchinari non caricavano allegati&#10;- rapp C/N&#10;- iFoodprint inserito calcolo Ndstribuiti&#10;- indicatori api crop&#10;- bilancio irriguo riporta l'ultima dose antropica e non quella naturale">
+      <change afterPath="$PROJECT_DIR$/dash_aziende/report_dash_aziende.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dash_aziende/templates/analisi_prodotto.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dash_aziende/templates/analisi_prodotto_add.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dash_aziende/templates/magazzini.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/f7170e97-8b9c-4f03-a495-d45145509771.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f7170e97-8b9c-4f03-a495-d45145509771.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/f7170e97-8b9c-4f03-a495-d45145509771/storage_v2/_src_/database/retevista_db.VLOjug/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f7170e97-8b9c-4f03-a495-d45145509771/storage_v2/_src_/database/retevista_db.VLOjug/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sshConfigs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sshConfigs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/consiglio/bilancio_idrico.py" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/bilancio_idrico.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/consiglio/templates/mappa-raster-fertilizzazione2.html" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/templates/mappa-raster-fertilizzazione2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/consiglio/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/consiglio/templates/singolo_appez_info.html" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/templates/singolo_appez_info.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/consiglio/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/consiglio/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/consiglio/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cronjob.log" beforeDir="false" afterPath="$PROJECT_DIR$/cronjob.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/populate_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/populate_data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/templates/analisi_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/analisi_dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/caratt-chimico-fisiche-pedologiche.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/caratt-chimico-fisiche-pedologiche.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/coltivazione_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/coltivazione_form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/dash_consumatore.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/dash_consumatore.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/dashboard_consiglio.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/dashboard_consiglio.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/templates/dashboard_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/dashboard_form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/iFarmprint_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/iFoodprint_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/iFoodPrint2-dettaglio.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/iFoodPrint2-dettaglio.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/templates/logistica.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/logistica.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/logistica_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/logistica_form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/macchinari_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/macchinari_form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/main_biotopo.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/main_biotopo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/main_iFarmPrint.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/main_iFarmPrint.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/main_ifarm.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/main_ifarm.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/main_iland.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/main_iland.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/operazioni_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/operazioni_dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/macchinari.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/macchinari.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dash_aziende/templates/main_iFarmPrint.html" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/templates/main_iFoodPrint.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dash_aziende/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/dash_aziende/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_stations.log" beforeDir="false" afterPath="$PROJECT_DIR$/data_stations.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iLabel/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/iLabel/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iLabel/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/iLabel/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iLabel/templates/iLabel/dash_consumatore.html" beforeDir="false" afterPath="$PROJECT_DIR$/iLabel/templates/iLabel/dash_consumatore.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iLabel/templates/iLabel/homepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/iLabel/templates/iLabel/homepage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iLabel/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/iLabel/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iLabel/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/iLabel/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/iLand/reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/iLand/reports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iLand/templates/iLand/main_biotopo.html" beforeDir="false" afterPath="$PROJECT_DIR$/iLand/templates/iLand/main_biotopo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/iLand/templates/iLand/main_iland.html" beforeDir="false" afterPath="$PROJECT_DIR$/iLand/templates/iLand/main_iland.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/income/templates/homepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/income/templates/homepage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/img/agrisurvey.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/_footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/_footer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iLand/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/iLand/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base_parent.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base_parent.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/panels/lateral_panel_iFarm.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/panels/lateral_panel_iFarm.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/panels/lateral_panel_iLand.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/panels/lateral_panel_iLand.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,8 +68,8 @@
       <list>
         <option value="JavaScript File" />
         <option value="HTML File" />
-        <option value="Python Script" />
         <option value="HTML4 File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -490,7 +457,19 @@
       <workItem from="1588932488395" duration="13046000" />
       <workItem from="1589012040591" duration="5609000" />
       <workItem from="1589031806670" duration="6403000" />
-      <workItem from="1589098686074" duration="1714000" />
+      <workItem from="1589098686074" duration="5425000" />
+      <workItem from="1589177068700" duration="2003000" />
+      <workItem from="1589205340381" duration="9830000" />
+      <workItem from="1589222730256" duration="5598000" />
+      <workItem from="1589261662620" duration="4434000" />
+      <workItem from="1589284589475" duration="7444000" />
+      <workItem from="1589295566111" duration="2941000" />
+      <workItem from="1589299122356" duration="620000" />
+      <workItem from="1589299981310" duration="634000" />
+      <workItem from="1589352960234" duration="658000" />
+      <workItem from="1589375671749" duration="2742000" />
+      <workItem from="1589378706923" duration="3000" />
+      <workItem from="1589386749795" duration="3323000" />
     </task>
     <task id="LOCAL-00001" summary="addedd automatic procedure to read api ofr whether stations data">
       <created>1551709403892</created>
@@ -786,7 +765,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587495494438</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="fix di alcuni bug segnalati:&#10;- analisi suolo oggetto puntuale&#10;- macchinari non caricavano allegati&#10;- rapp C/N&#10;- iFoodprint inserito calcolo Ndstribuiti&#10;- indicatori api crop&#10;- bilancio irriguo riporta l'ultima dose antropica e non quella naturale">
+      <created>1589100546163</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1589100546163</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -817,7 +803,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="export/download bilancio to excel" />
     <MESSAGE value="first implementation of chart.js" />
     <MESSAGE value="chart.js complete with A, precipitation" />
     <MESSAGE value="added map in menu" />
@@ -842,7 +827,8 @@
     <MESSAGE value="aggiunto iLand e modalità di selezione catastale per report" />
     <MESSAGE value="inzio inserimento fasi_fenologiche" />
     <MESSAGE value="fine inserimento fasi_fenologiche frumento e nuove operazioni colturali" />
-    <option name="LAST_COMMIT_MESSAGE" value="fine inserimento fasi_fenologiche frumento e nuove operazioni colturali" />
+    <MESSAGE value="fix di alcuni bug segnalati:&#10;- analisi suolo oggetto puntuale&#10;- macchinari non caricavano allegati&#10;- rapp C/N&#10;- iFoodprint inserito calcolo Ndstribuiti&#10;- indicatori api crop&#10;- bilancio irriguo riporta l'ultima dose antropica e non quella naturale" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix di alcuni bug segnalati:&#10;- analisi suolo oggetto puntuale&#10;- macchinari non caricavano allegati&#10;- rapp C/N&#10;- iFoodprint inserito calcolo Ndstribuiti&#10;- indicatori api crop&#10;- bilancio irriguo riporta l'ultima dose antropica e non quella naturale" />
   </component>
   <component name="WindowStateProjectService">
     <state x="588" y="214" width="800" height="677" key="#Inspections" timestamp="1587999533338">
@@ -857,10 +843,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="588" y="214" width="800" height="677" key="#com.intellij.execution.impl.EditConfigurationsDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1583172521253" />
-    <state x="663" y="357" width="650" height="390" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1585743855099">
+    <state x="663" y="357" width="650" height="390" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1589211390522">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="663" y="357" width="650" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1585743855099" />
+    <state x="663" y="357" width="650" height="390" key="#com.intellij.fileTypes.FileTypeChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1589211390522" />
     <state x="676" y="280" width="624" height="544" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1584823157725">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -869,10 +855,10 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="726" y="301" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1586706008687" />
-    <state x="971" y="357" width="814" height="593" key="#xdebugger.evaluate" timestamp="1589037904540">
+    <state x="971" y="357" width="814" height="593" key="#xdebugger.evaluate" timestamp="1589208676909">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="971" y="357" width="814" height="593" key="#xdebugger.evaluate/67.27.1853.1053@67.27.1853.1053" timestamp="1589037904540" />
+    <state x="971" y="357" width="814" height="593" key="#xdebugger.evaluate/67.27.1853.1053@67.27.1853.1053" timestamp="1589208676909" />
     <state x="558" y="149" width="912" height="807" key="CommitChangelistDialog2" timestamp="1587474896675">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -885,58 +871,58 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="167" y="125" width="1653" height="855" key="DiffContextDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1584428952665" />
-    <state x="134" y="100" width="1613" height="855" key="DirDiffDialog" timestamp="1589100069379">
+    <state x="134" y="100" width="1613" height="855" key="DirDiffDialog" timestamp="1589298019766">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="134" y="100" width="1613" height="855" key="DirDiffDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1589100069379" />
+    <state x="134" y="100" width="1613" height="855" key="DirDiffDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1589298019766" />
     <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1581439509739">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="776" y="310" width="424" height="484" key="FileChooserDialogImpl/67.27.1853.1053@67.27.1853.1053" timestamp="1581439509739" />
-    <state width="1807" height="207" key="GridCell.Tab.0.bottom" timestamp="1589099532005">
+    <state width="1807" height="207" key="GridCell.Tab.0.bottom" timestamp="1589390072382">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="207" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1589099532005" />
-    <state width="1807" height="207" key="GridCell.Tab.0.center" timestamp="1589099532003">
+    <state width="1807" height="207" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1589390072382" />
+    <state width="1807" height="207" key="GridCell.Tab.0.center" timestamp="1589390072381">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="207" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1589099532003" />
-    <state width="1807" height="207" key="GridCell.Tab.0.left" timestamp="1589099532002">
+    <state width="1807" height="207" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1589390072381" />
+    <state width="1807" height="207" key="GridCell.Tab.0.left" timestamp="1589390072381">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="207" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1589099532002" />
-    <state width="1807" height="207" key="GridCell.Tab.0.right" timestamp="1589099532005">
+    <state width="1807" height="207" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1589390072381" />
+    <state width="1807" height="207" key="GridCell.Tab.0.right" timestamp="1589390072382">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="207" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1589099532005" />
-    <state width="1807" height="304" key="GridCell.Tab.1.bottom" timestamp="1589038213448">
+    <state width="1807" height="207" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1589390072382" />
+    <state width="1807" height="304" key="GridCell.Tab.1.bottom" timestamp="1589378435979">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="304" key="GridCell.Tab.1.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1589038213448" />
-    <state width="1807" height="304" key="GridCell.Tab.1.center" timestamp="1589038213448">
+    <state width="1807" height="304" key="GridCell.Tab.1.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1589378435979" />
+    <state width="1807" height="304" key="GridCell.Tab.1.center" timestamp="1589378435978">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="304" key="GridCell.Tab.1.center/67.27.1853.1053@67.27.1853.1053" timestamp="1589038213448" />
-    <state width="1807" height="304" key="GridCell.Tab.1.left" timestamp="1589038213447">
+    <state width="1807" height="304" key="GridCell.Tab.1.center/67.27.1853.1053@67.27.1853.1053" timestamp="1589378435978" />
+    <state width="1807" height="304" key="GridCell.Tab.1.left" timestamp="1589378435978">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="304" key="GridCell.Tab.1.left/67.27.1853.1053@67.27.1853.1053" timestamp="1589038213447" />
-    <state width="1807" height="304" key="GridCell.Tab.1.right" timestamp="1589038213448">
+    <state width="1807" height="304" key="GridCell.Tab.1.left/67.27.1853.1053@67.27.1853.1053" timestamp="1589378435978" />
+    <state width="1807" height="304" key="GridCell.Tab.1.right" timestamp="1589378435979">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="304" key="GridCell.Tab.1.right/67.27.1853.1053@67.27.1853.1053" timestamp="1589038213448" />
+    <state width="1807" height="304" key="GridCell.Tab.1.right/67.27.1853.1053@67.27.1853.1053" timestamp="1589378435979" />
     <state x="482" y="187" key="SettingsEditor" timestamp="1586931793971">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="482" y="187" key="SettingsEditor/67.27.1853.1053@67.27.1853.1053" timestamp="1586931793971" />
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1589100400150">
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1589100548260">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1589100400150" />
-    <state width="926" height="527" key="XDebugger.FullValuePopup" timestamp="1588347403170">
+    <state x="588" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1589100548260" />
+    <state width="926" height="527" key="XDebugger.FullValuePopup" timestamp="1589213538252">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="926" height="527" key="XDebugger.FullValuePopup/67.27.1853.1053@67.27.1853.1053" timestamp="1588347403170" />
+    <state width="926" height="527" key="XDebugger.FullValuePopup/67.27.1853.1053@67.27.1853.1053" timestamp="1589213538252" />
     <state x="133" y="27" width="1643" height="855" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1587711741687">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -949,18 +935,22 @@
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="603" y="166" width="770" height="773" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1588100900618" />
-    <state x="382" y="314" width="1322" height="646" key="find.popup" timestamp="1589099001360">
+    <state x="382" y="314" width="1322" height="646" key="find.popup" timestamp="1589387666163">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="382" y="314" width="1322" height="646" key="find.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1589099001360" />
+    <state x="382" y="314" width="1322" height="646" key="find.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1589387666163" />
+    <state width="600" height="428" key="javadoc.popup" timestamp="1589209688538">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state width="600" height="428" key="javadoc.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1589209688538" />
     <state x="736" y="428" width="616" height="561" key="org.intellij.images.editor.actions.BackgroundImageDialog" timestamp="1587536780461">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="736" y="428" width="616" height="561" key="org.intellij.images.editor.actions.BackgroundImageDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1587536780461" />
-    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1587711643125">
+    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1589293988198">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1587711643125" />
+    <state x="656" y="257" width="672" height="678" key="search.everywhere.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1589293988198" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -972,7 +962,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
-          <line>1108</line>
+          <line>1241</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -987,7 +977,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
-          <line>1284</line>
+          <line>1417</line>
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -997,17 +987,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
-          <line>282</line>
+          <line>339</line>
           <option name="timeStamp" value="43" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
-          <line>1219</line>
+          <line>1352</line>
           <option name="timeStamp" value="60" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
-          <line>1261</line>
+          <line>1394</line>
           <option name="timeStamp" value="61" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -1027,7 +1017,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
-          <line>643</line>
+          <line>776</line>
           <option name="timeStamp" value="79" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -1102,7 +1092,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
-          <line>939</line>
+          <line>1072</line>
           <option name="timeStamp" value="134" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -1112,23 +1102,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dash_aziende/models.py</url>
-          <line>664</line>
+          <line>762</line>
           <option name="timeStamp" value="141" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
-          <line>178</line>
+          <line>235</line>
           <option name="timeStamp" value="142" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
-          <line>515</line>
+          <line>648</line>
           <option name="timeStamp" value="143" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dash_aziende/views.py</url>
-          <line>525</line>
+          <line>658</line>
           <option name="timeStamp" value="144" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/dash_aziende/report_dash_aziende.py</url>
+          <line>24</line>
+          <option name="timeStamp" value="145" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="django-line">
           <url>file://$PROJECT_DIR$/dash_aziende/templates/dashboard_consiglio.html</url>
@@ -1146,23 +1141,13 @@
           <option name="timeStamp" value="59" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="django-line">
-          <url>file://$PROJECT_DIR$/dash_aziende/templates/dashboard.html</url>
-          <line>43</line>
-          <option name="timeStamp" value="68" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="django-line">
-          <url>file://$PROJECT_DIR$/dash_aziende/templates/analisi_dashboard.html</url>
-          <line>65</line>
-          <option name="timeStamp" value="70" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="django-line">
           <url>file://$PROJECT_DIR$/templates/panels/lateral_panel_iLand.html</url>
           <line>40</line>
           <option name="timeStamp" value="71" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="django-line">
           <url>file://$PROJECT_DIR$/dash_aziende/templates/dashboard.html</url>
-          <line>127</line>
+          <line>131</line>
           <option name="timeStamp" value="73" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="django-line">

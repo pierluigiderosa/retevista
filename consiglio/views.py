@@ -385,7 +385,7 @@ def api_meteo_campi(request):
         if start_date is not None and end_date is not None:
             dati_meteo_daily = dati_aggregati_daily.objects.filter(stazione=stazione_closest,data__gt=start_date,data__lte=end_date)
         else:
-            dati_meteo_daily = dati_aggregati_daily.objects.filter(stazione=stazione_closest)[:30]
+            dati_meteo_daily = dati_aggregati_daily.objects.filter(stazione=stazione_closest)[:90]
         # preparo la serializzazione
         Tmin = [meteo.temp_min for meteo in dati_meteo_daily]
         Tmean = [meteo.temp_mean for meteo in dati_meteo_daily]

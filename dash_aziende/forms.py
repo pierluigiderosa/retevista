@@ -13,7 +13,7 @@ from crispy_forms.layout import Layout, Fieldset, Row, Column, Submit,HTML
 from .models import Profile, campi, analisi_suolo, \
     fertilizzazione, irrigazione, semina, trattamento, raccolta, \
     operazioni_colturali, macchinari, Trasporto, \
-    ColturaDettaglio, raccolta_paglia, diserbo, Magazzino
+    ColturaDettaglio, raccolta_paglia, diserbo, Magazzino, analisi_prodotto
 
 LEAFLET_WIDGET_ATTRS = {
     'map_height': '500px',
@@ -30,7 +30,8 @@ class CampiAziendeForm(forms.ModelForm):
     class Meta:
         model = campi
         fields = ('nome', 'geom','proprietario','pendenza','drenaggio','proprieta','temperatura_suolo','quota',
-                  'metodo_produzione','presenza_api','cover_crop','rotazioni_colturali')
+                  'metodo_produzione','presenza_api','cover_crop','rotazioni_colturali',
+                  'organismo_controllo','organismo_controllo_prod_integrata')
         widgets = {'geom': LeafletWidget(attrs=LEAFLET_WIDGET_ATTRS)}
 
 
@@ -361,3 +362,8 @@ class MagazzinoForm(forms.ModelForm):
         model = Magazzino
         fields = '__all__'
         widgets = {'geom': LeafletWidget(attrs=LEAFLET_WIDGET_ATTRS)}
+
+class AnalisiProdottiForm(forms.ModelForm):
+    class Meta:
+        model = analisi_prodotto
+        fields = '__all__'

@@ -13,13 +13,14 @@ from django.forms import inlineformset_factory
 from django.http import Http404, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import UpdateView, DeleteView
 from djgeojson.views import GeoJSONLayerView
 
-from django.contrib.gis.db.models import Extent, Union,Sum
+from django.contrib.gis.db.models import Extent, Union,Sum,Avg
 
 from dash_aziende.models import campi, Profile, analisi_suolo, macchinari, Trasporto, ColturaDettaglio, Magazzino, \
-    operazioni_colturali
+    operazioni_colturali, analisi_prodotto
 from income.models import dati_orari, stazioni_retevista,iframe_stazioni
 from consiglio.models import bilancio,appezzamentoCampo
 from dash_aziende.models import fertilizzazione as fert_model ,operazioni_colturali as oper_model,\
@@ -30,10 +31,12 @@ from .forms import CampiAziendeForm, UserForm, ProfileForm, AnalisiForm, \
     FertilizzazioneForm, OperazioneColturaleForm, IrrigazioneForm, TrattamentoForm, SeminaForm, \
     RaccoltaForm, \
     EditProfileForm, MacchinariForm, TrasportiForm, ColturaDettaglioForm, RaccoltaPagliaForm, DiserboForm, \
-    MagazzinoForm, MacchinariFormAgricoltore
+    MagazzinoForm, MacchinariFormAgricoltore, AnalisiProdottiForm
 from forecast import get as get_forecast
 
 # Create your views here.
+from .report_dash_aziende import report_macchinari, report_analisi
+
 
 @login_required
 def dashboard_main(request):
@@ -95,7 +98,7 @@ def main_iFoodPrint(request):
         Coltivazioni =ColturaDettaglio.objects.filter(campo__in=campi_all)
     bbox = campi_all.aggregate(Extent('geom'))
 
-    return render(request, "main_iFarmPrint.html", {
+    return render(request, "main_iFoodPrint.html", {
         'bbox': bbox['geom__extent'],
         'staff':staff,
         'Coltivazioni': Coltivazioni,
@@ -116,31 +119,85 @@ def iFoodPrint_detail(request, uid):
     areaHa = round(campo.geom.area/10000.,1)
     if campo.colturadettaglio_set.exists():
         coltivazione = campo.colturadettaglio_set.first()
+
+        # estraggo la CO2 totale
+        CO2info = dict()
+        CO2_operazioni = operazioni_colturali.objects.filter(coltura_dettaglio=coltivazione).values(
+            'CO2operazione').aggregate(
+            CO2tot=Sum('CO2operazione'))
+        CO2tot = CO2_operazioni['CO2tot']
+        if CO2tot is None:
+            CO2tot = 0
+            CO2info['operazioni'] = 0
+        else:
+            CO2info['operazioni'] = CO2_operazioni['CO2tot']
+
         if coltivazione.trasporto_set.exists():
-            trasporto = coltivazione.trasporto_set.first()
+            CO2trasporto = Trasporto.objects.filter(coltura=coltivazione).values('CO2_trasporto').aggregate(
+                CO2tot=Sum('CO2_trasporto'))
+            CO2tot += CO2trasporto['CO2tot']
+            CO2info['trasporto'] = CO2trasporto['CO2tot']
+            trasporto = Trasporto.objects.filter(coltura=coltivazione)
         else:
             trasporto = Trasporto.objects.none()
+
+
+        # estrazione dati per calcolo azoto, fosforo
+        operazioni = operazioni_colturali.objects.filter(coltura_dettaglio=coltivazione, operazione='fertilizzazione')
+
+        totN = 0
+        totP=0
+        totK=0
+
+        for i in range(len(operazioni)):
+            if operazioni[i].operazione_fertilizzazione is not None:
+                Ndistribuita = operazioni[i].operazione_fertilizzazione.titolo_n
+                fosforo = operazioni[i].operazione_fertilizzazione.titolo_p2o5
+                potassio = operazioni[i].operazione_fertilizzazione.titolo_k2o
+
+                KgProdottoTot = operazioni[i].operazione_fertilizzazione.kg_prodotto
+
+                totN = totN + (Ndistribuita * KgProdottoTot)
+                totP = totP + (fosforo * KgProdottoTot)
+                totK = totK + (potassio * KgProdottoTot)
+
+
+        NdistribuitaTot = int(totN * areaHa / 1000)
+        PdistribuitaTot = int(totP * areaHa / 1000)
+        KdistribuitaTot = int(totK * areaHa / 1000)
+
+        prodotti = analisi_prodotto.objects.filter(prodotto=coltivazione)
+
     else:
         coltivazione = ColturaDettaglio.objects.none()
         trasporto = Trasporto.objects.none()
+        prodotti = analisi_prodotto.objects.none()
 
     # controllo se è presente il dato di casadei
     appezzamentoID = None
     if campo.appezzamentocampo_set.exists():
         appezzamento =appezzamentoCampo.objects.filter(campi=campo)
-    #     TODO prendo il primo appezzamento: cosa fare?
+    #     prendo il primo ma ora su ogni campo posso mettere un solo appezzamento
         appezzamento = appezzamento.first()
         appezzamentoID = appezzamento.id
+
+
 
     return render(request, 'iFoodPrint2-dettaglio.html', {
         'campo':campo,
         'areaHa':areaHa,
+        'CO2': int(CO2tot / 1000.),
+        'CO2info': CO2info,
+        'Ndistibuita': NdistribuitaTot,
+        'Pdistibuita': PdistribuitaTot,
+        'Kdistibuita': KdistribuitaTot,
         'appezzamentoID': appezzamentoID,
         'analisi':analisi_all,
+        'analisi_prodotto':prodotti,
         'centroide':centroide,
         'coltivazione':coltivazione,
         'produzione':round(coltivazione.produzione * areaHa,1),
-        'trasporto':trasporto,
+        'trasporti':trasporto,
     })
 
 @login_required
@@ -323,6 +380,25 @@ def dashboard_analisi(request):
         staff = True
     # campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=request.user))
     analisi_all = analisi_suolo.objects.filter(campo__in=campi_all)
+
+    # aggrego i valori medi per ogni campo
+    aggregati=[]
+    for campo in campi_all:
+
+        el_analisi = analisi_suolo.objects.filter(campo=campo).aggregate(Avg('sabbia'), Avg('limo'), Avg('argilla'),
+                                                                         Avg('pH'), Avg('conduttivita_elettrica'),
+                                                                         Avg('OM'), Avg('azoto'), Avg('Carbonio'),
+                                                                         Avg('fosforo'),Avg('potassio'),
+                                                                         Avg('scambio_cationico'),Avg('CACO3_tot'),
+                                                                         Avg('CACO3_att'),Avg('den_apparente'),
+                                                                         Avg('pietrosita'),Avg('profondita'),
+                                                                         Avg('cap_di_campo'),Avg('punto_appassimento'))
+        el_analisi['denominazione']=campo.nome
+        el_analisi['pk']=campo.id
+        aggregati.append(el_analisi)
+
+
+
     bbox_condition = True
     if analisi_all.count() == 1:
         bbox_condition = False
@@ -333,27 +409,20 @@ def dashboard_analisi(request):
                   {
                       'analisies':analisi_all,
                       'staff': staff,
+                      'aggregati':aggregati,
                       'bbox': bbox['geom__extent'],
                       'bbox_condition': bbox_condition,
                   })
 
 @login_required
-def caratt_chimico_fisiche(request):
-    utente = request.user
-    if utente.groups.filter(name='Agricoltori').exists():
-        campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=utente))
-        staff = False
-    if utente.is_staff or utente.groups.filter(name='Universita').exists():
-        campi_all = campi.objects.all()
-        staff = True
-    analisi_all = analisi_suolo.objects.filter(campo__in=campi_all)
+def analisi_report_pdf(request,pk):
+    try:
+        UID = int(pk)
+    except ValueError:
+        raise Http404()
 
-    return render(request,"caratt-chimico-fisiche-pedologiche.html",
-                  {
-                      'analisi': analisi_all,
-                      "staff": staff,
-                      "campi":campi_all,
-                  })
+    pdf = report_analisi(UID)
+    return pdf
 
 #inizio delle view per i consumatori
 @login_required
@@ -398,29 +467,93 @@ def list_macchinari(request,uid=-9999):
         "azienda": azienda
     })
 
+@csrf_exempt
+def macchinari_pdf(request):
+    utente = request.user
+
+    if utente.groups.filter(name='Agricoltori').exists():
+        macchinari_all = macchinari.objects.filter(azienda=Profile.objects.filter(user=utente))
+        azienda = Profile.objects.filter(user=utente)
+    elif utente.is_staff or utente.groups.filter(name='Universita').exists():
+        macchinari_all = macchinari.objects.all()
+        azienda = Profile.objects.none()
+    else:
+        macchinari_all = macchinari.objects.none()
+        azienda = Profile.objects.none()
+
+    pdf = report_macchinari(macchinari_all,azienda)
+
+    return pdf
+
+
 @login_required
 def logistica_list(request):
     utente = request.user
     if utente.groups.filter(name='Agricoltori').exists():
-        macchinari_all = macchinari.objects.filter(azienda=Profile.objects.filter(user=utente))
-        magazzini_all = Magazzino.object.filter(azienda=Profile.objects.filter(user=utente))
+        azienda = Profile.objects.filter(user=utente)
+        trasporti = Trasporto.objects.filter(coltura__campo__proprietario=azienda)
+    elif utente.is_staff or utente.groups.filter(name='Universita').exists():
+        azienda = Profile.objects.none()
+        trasporti = Trasporto.objects.all()
+    else:
+        azienda = Profile.objects.none()
+        trasporti = Trasporto.objects.none()
+
+    return render(request, 'logistica.html', {
+        'trasporti': trasporti,
+        "azienda": azienda
+    })
+
+
+@login_required
+def magazzini_list(request):
+    utente = request.user
+    if utente.groups.filter(name='Agricoltori').exists():
+        magazzini_all = Magazzino.objects.filter(azienda=Profile.objects.filter(user=utente))
         azienda = Profile.objects.filter(user=utente)
     elif utente.is_staff or utente.groups.filter(name='Universita').exists():
-        macchinari_all = macchinari.objects.all()
         magazzini_all = Magazzino.objects.all()
         azienda = Profile.objects.none()
     else:
-        macchinari_all = macchinari.objects.none()
         magazzini_all = Magazzino.objects.none()
         azienda = Profile.objects.none()
 
-    trasporti = Trasporto.objects.all()
-    return render(request, 'logistica.html', {
-        'trasporti': trasporti,
-        'macchinari': macchinari_all,
+    return render(request, 'magazzini.html', {
         'magazzini': magazzini_all,
         "azienda": azienda
     })
+
+@login_required
+def analisi_prodotti(request):
+    utente = request.user
+    if utente.groups.filter(name='Agricoltori').exists():
+        azienda = Profile.objects.filter(user=utente)
+        analisi_prodotti= analisi_prodotto.objects.filter(prodotto__campo__proprietario=azienda)
+
+    elif utente.is_staff or utente.groups.filter(name='Universita').exists():
+        azienda = Profile.objects.none()
+        analisi_prodotti = analisi_prodotto.objects.all()
+    else:
+        azienda = Profile.objects.none()
+        analisi_prodotti = analisi_prodotto.objects.none()
+
+    return render(request,'analisi_prodotto.html',{
+        'analisi':analisi_prodotti,
+        'azienda':azienda,
+    })
+
+@login_required
+def analisi_prodotti_Add(request):
+    if request.method == 'POST':
+        form = AnalisiProdottiForm(request.POST)
+        if form.is_valid():
+            analisi_prodotti = form.save(commit=False)
+            analisi_prodotti.save()
+            messages.success(request, 'la tua analisi prodotta è stata aggiunta!')
+            return redirect('analisi-prodotti')
+    else:
+        form = AnalisiProdottiForm()
+    return render(request,'analisi_prodotto_add.html',{'form':form})
 
 @login_required
 def main_biotipo(request):
@@ -1004,7 +1137,7 @@ def form_analisi(request):
 
             messages.success(request, 'la tua analisi è stata aggiunta!')
             # redirect to a new URL:
-            return redirect('main-iland')
+            return redirect('main-analisi')
 
     # if a GET (or any other method) we'll create a blank form
     else:

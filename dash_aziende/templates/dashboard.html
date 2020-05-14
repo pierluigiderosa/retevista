@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/1.0.2/proj4leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.2/dist/Chart.bundle.min.js"></script>
+    <script src="{% static 'js/terreno.js' %}"></script>
 
 {% endblock %}
 {% block css %}
@@ -87,14 +88,17 @@
 
                                     </div>
                                 </div>
-
                             {% else %}
+                                <p class="card-text" style="background-color: #4adc98;" id="complessivo{{ forloop.counter0 }}">
+                                    <strong>Altezza slm e giacitura: </strong>{{ campo.quota }} mslm,
+                                    {% if campo.pendenza %}{{ campo.pendenza }}{% else %}Non inserita{% endif %}<br>
+                                <strong>Proprietà: </strong>
+                                {% if campo.proprieta %}{{ campo.proprieta }}{% else %}Non inserita{% endif %}<br>
+                                 <strong>Metodo coltivazione: </strong>{% if campo.metodo_produzione %}{{ campo.metodo_produzione }}{% else %}Non inserita{% endif %}
 
-                                <p class="card-text" style="background-color: #4adc98;">Giacitura {% if campo.pendenza %}{{ campo.pendenza }}{% else %}Non inserita{% endif %}</p>
-                                <p class="card-text" style="background-color: #03a1ab;">Temperatura suolo:
-                                {% if campo.temperatura_suolo %}{{ campo.temperatura_suolo }}°C{% endif %}
                                 </p>
-                                <p class="card-text" style="background-color: #3295d8;">Umidità</p>
+
+
                                 <p>
                                     {% if campo.dataApportoIrriguo %} Data ultimo apporto irriguo {{ campo.dataApportoIrriguo }},{% endif %}
                                     {% if staff %}Azienda: {{ campo.proprietario }}{% endif %}
@@ -355,6 +359,23 @@
         $('#add-coltura').click(function(){
             window.location.href = '{% url 'form-coltura' %}'
         });
+        $(window).on('load',function () {
+            {% for campo,area,latlong,previsioni,iframeURL in campi %}
+                {% if campo.analisi_suolo_set.exists %}
+                    //todo cosa fare se ci sono più analisi? scegliere
+                    tessituraR = tessituraF({{ campo.analisi_suolo_set.first.sabbia }},{{ campo.analisi_suolo_set.first.limo }})
+                    OMdesc = OM({{ campo.analisi_suolo_set.first.sabbia }},{{ campo.analisi_suolo_set.first.limo }},{{ campo.analisi_suolo_set.first.OM }})
+                    phDescrizione1 = pHdesc({{ campo.analisi_suolo_set.first.pH }})
+                    caco3totdesc = CaCO3Tot({{ campo.analisi_suolo_set.first.CACO3_tot }})
+                    CN = RappCN({{ campo.analisi_suolo_set.first.Carbonio }},{{ campo.analisi_suolo_set.first.azoto }})
+                    $('#complessivo{{ forloop.counter0 }}').append('<br><strong>Granulometria: </strong>'+tessituraR)
+                    $('#complessivo{{ forloop.counter0 }}').append('<br><strong>Sostanza organica: </strong>'+OMdesc)
+                    $('#complessivo{{ forloop.counter0 }}').append('<br><strong>pH: </strong>'+phDescrizione1)
+                    $('#complessivo{{ forloop.counter0 }}').append('<br><strong>Calcare: </strong>'+caco3totdesc)
+                    $('#complessivo{{ forloop.counter0 }}').append('<br><strong>Rapporto C/N: </strong>'+CN)
+                {% endif %}
+            {% endfor %}
+        })
     </script>
 {% endblock %}
 

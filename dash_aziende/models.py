@@ -12,7 +12,6 @@ from django.core.validators import MinValueValidator,MaxValueValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from consiglio.models import bilancio
 from utils.routing import distanza as dist_stradale
 # Create your models here.
 
@@ -172,16 +171,81 @@ class campi(models.Model):
     temperatura_suolo = models.PositiveIntegerField(blank=True,null=True,verbose_name='Temperatura del suolo')
     quota = models.PositiveIntegerField(blank=True,null=True,verbose_name='Quota m.s.l.m.')
     elenco_metodi_produzione=[
+        ('convenzionale','Convenzionale'),
+        ('produzione integrata','Produzione integrata'),
         ('biologico','Biologico'),
-        ('lotta integrata','Lotta integrata'),
+        ('biodinamico','Biodinamico'),
     ]
-    metodo_produzione = models.CharField(blank=True, null=True, choices=elenco_metodi_produzione, max_length=250)
+    metodo_produzione = models.CharField(blank=True, null=True, choices=elenco_metodi_produzione, max_length=250,verbose_name='metodo di produzione')
     presenza_api= models.BooleanField(blank=True,default=False)
     cover_crop=models.BooleanField(blank=True,default=False)
     rotazioni_colturali=models.BooleanField(blank=True,default=False)
     staticmap = models.ImageField(upload_to='staticmap',blank=True,null=True)
 
+    organismi_biologico_list=[
+        ('IT-BIO-002', 'CODEX  srl'),
+        ('IT-BIO-004', 'Suolo e Salute  srl'),
+        ('IT-BIO-005', 'BIOS srl'),
+        ('IT-BIO-006', 'ICEA'),
+        ('IT-BIO-007', 'Bioagricert srl unipersonale'),
+        ('IT-BIO-008', 'Ecogruppo Italia srl'),
+        ('IT-BIO-009', 'CCPB srl'),
+        ('IT-BIO-012', 'SIDEL  SPA'),
+        ('IT-BIO-013', 'ABCERT srl'),
+        ('IT-BIO -014', 'Q Certificazioni srl'),
+        ('IT-BIO-015', 'Valoritalia srl'),
+        ('IT-BIO-016', 'SIQURIA S.p.A.'),
+        ('IT-BIO -017', 'CEVIQ srl'),
+        ('IT-BIO-018', 'Agroqualità S.p.A.'),
+        ('IT-BIO-019', 'Istituto Nord Ovest Qualità Soc. Coop'),
+        ('IT-BIO-004', 'Dipartimento di Qualità Agroalimentare srl'),
+        ('IT-BIO-022', 'A.S.TER - Ambiente Sostenibilità e Territorio srl'),
+        ('IT-BIO-001BZ', 'Kontrollservice BIKO Tirol'),
+    ]
 
+    organismo_controllo=models.CharField(blank=True,null=True,
+                                         verbose_name='Organismo di controllo su biologico',
+                                         choices=organismi_biologico_list,
+                                         help_text='codice operatore',max_length=550)
+    organismi_lottaintegrata_list=[
+        ('Codex Srl', 'Codex Srl'),
+        ('ICEA', 'ICEA'),
+        ('BIOS', 'BIOS'),
+        ('CCPB', 'CCPB'),
+        ('SGS Italia Spa', 'SGS Italia Spa'),
+        ('ECEPA', 'ECEPA'),
+        ('Agroqualità Srl', 'Agroqualità Srl'),
+        ('Qcertificazioni S.r.l.', 'Qcertificazioni S.r.l.'),
+        ('CSQA Certificazioni a S.r.l.', 'CSQA Certificazioni a S.r.l.'),
+        ('CEVIQ S.r.l.', 'CEVIQ S.r.l.'),
+        ('Istituto Nord Ovest Qualità Soc. Coop.', 'Istituto Nord Ovest Qualità Soc. Coop.'),
+        ('Valoritalia S.r.l.', 'Valoritalia S.r.l.'),
+        ('CHEK Fruit', 'CHEK Fruit'),
+        ('Bureau Veritas Italia S.p.a.', 'Bureau Veritas Italia S.p.a.'),
+        ('Istituto Parma Qualità IPQ', 'Istituto Parma Qualità IPQ'),
+        ('CoRFil Carni', 'CoRFil Carni'),
+        ('OQ Omnia qualità S.r.l.', 'OQ Omnia qualità S.r.l.'),
+        ('Suolo e Salute S.r.l.', 'Suolo e Salute S.r.l.'),
+        ('BIOAGRICERT s.r.l.', 'BIOAGRICERT s.r.l.'),
+        ('3 A Parco Tecnologico dell’Umbria S.cons a r.l.', '3 A Parco Tecnologico dell’Umbria S.cons a r.l.'),
+        ('CSI S.p.a.', 'CSI S.p.a.'),
+        ('SIQURIA s.p.a. Società italiana per la qualità e la rintracciabilità degli alimenti',
+         'SIQURIA s.p.a. Società italiana per la qualità e la rintracciabilità degli alimenti'),
+        ('Ecogruppo Italia s.r.l.', 'Ecogruppo Italia s.r.l.'),
+        ('SIDEL SPA', 'SIDEL SPA'),
+        ('DNVGL Business Assurance Italia srl', 'DNVGL Business Assurance Italia srl'),
+        ('KIWA CERMET ITALIA S.p.a.', 'KIWA CERMET ITALIA S.p.a.'),
+        ('I.N.E.Q.', 'I.N.E.Q.'),
+        ('AREA MADE IN QUALITY', 'AREA MADE IN QUALITY'),
+        ('DQA - Dipartimento Qualità Agroalimentare', 'DQA - Dipartimento Qualità Agroalimentare'),
+        ('ASSAM- Autorità pubblica di controllo', 'ASSAM- Autorità pubblica di controllo'),
+        ('IFCQ Certificazioni s.r.l.', 'IFCQ Certificazioni s.r.l.'),
+
+    ]
+    organismo_controllo_prod_integrata=models.CharField(blank=True,null=True,
+                                         verbose_name='Organismo di controllo su biologico',
+                                         choices=organismi_lottaintegrata_list,
+                                         help_text='codice operatore',max_length=550)
 
     note = models.TextField(blank=True,null=True)
     previsione_meteo = JSONField(blank=True,null=True)
@@ -267,6 +331,8 @@ class fertilizzazione(models.Model):
         ('Fosfato nitrico','Fosfato nitrico'),
         ('Urea','Urea'),
         ('Acido superfosforico','Acido superfosforico'),
+        ('Ossido di ferro','Ossido di ferro'),
+        ('fertilizzante biologico','Fertilizzante biologico'),
     ]
     fertilizzante = models.CharField(max_length=50,choices=fertilizzante_choices,verbose_name='Tipo di fertilizzante')
     kg_prodotto = models.FloatField(blank=True,null=True,verbose_name='Quantità totale di prodotto')
@@ -321,9 +387,12 @@ class trattamento(models.Model):
         ('Tebuconazolo', 'Tebuconazolo'),
         ('Tetraconazolo', 'Tetraconazolo'),
         ('Zolfo', 'Zolfo'),
+        ('ossicloruro di rame','Ossicloruro di rame'),
+        ('idrossido di rame','idrossido di rame'),
+        ('ossido di rame','ossido di rame'),
 
     ]
-    prodotto = models.CharField(max_length=250,choices=prodotto_choices,verbose_name='categoria di prodotto')
+    prodotto = models.CharField(max_length=250,choices=prodotto_choices,verbose_name='Malattia')
     formulato = models.CharField(max_length=250,verbose_name='Formulato commerciale')
     sostanze = models.CharField(max_length=250, verbose_name='Sostanze attive',choices=sostanze_choices)
     quantita = models.FloatField(validators=[MinValueValidator(0.0)],verbose_name='Quantità totale di prodotto',help_text='espresso in l/ha o kg/ha')
@@ -414,6 +483,9 @@ class macchinari(models.Model):
         ('voltafieno', 'Voltafieno'),
         ('cingolato', 'Cingolato'),
         ('trattore', 'Trattore'),
+        ('mietitrebbia','Mietitrebbia'),
+        ('Botte diserbo','Botte diserbo'),
+        ('Falciatrice','Falciatrice'),
 
     ]
     azienda = models.ForeignKey(Profile)
@@ -521,11 +593,37 @@ class operazioni_colturali(models.Model):
 
         # todo inserimento della irrigazione nel bilancio
         if self.operazione == 'irrigazione':
-            bilanci_giornalieri = bilancio.objects.filter(appezzamentoDaCampo=self.coltura_dettaglio)
-            pass
+            from consiglio.models import bilancio
+            bilanci_giornalieri = bilancio.objects.filter(appezzamentoDaCampo__campi=self.coltura_dettaglio.campo,data_rif=self.data_operazione)
+            if bilanci_giornalieri.count()==1:
+                bilancio_giornaliero = bilanci_giornalieri.first()
+                portata = self.operazione_irrigazione.portata
+                # durata = self.operazione_irrigazione.portata
+                bilancio_giornaliero.dose_antropica=portata/(area*10)
+                bilancio_giornaliero.note = 'Dose antropica inserita da operazione colturale/irrigazione: volume %s mc'.format(portata)
+                bilancio_giornaliero.save(update_fields=['dose_antropica','note'])
+
 
         super(operazioni_colturali, self).save(*args, **kwargs)
 
+
+class analisi_prodotto(models.Model):
+    prodotto = models.ForeignKey(ColturaDettaglio)
+    umidita = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Umidità',help_text='in %')
+    peso_specifico = models.FloatField(validators=[MinValueValidator(0.0)],verbose_name='Peso specifico',help_text='in kg / hl')
+    proteine = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Proteine',help_text='in %')
+    lipidi = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Lipidi',help_text='in %',default=0)
+    fibra = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Fibra',help_text='in %',default=0)
+    ceneri = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Ceneri',help_text='in %',default=0)
+    amido = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Amido',help_text='in %',default=0)
+    Aflatossine = models.FloatField(validators=[MinValueValidator(0.0)],help_text='mg / kg(ppm)')
+    OcratossinaA = models.FloatField(validators=[MinValueValidator(0.0)],help_text='mg / kg(ppm)',verbose_name='Ocratossina A')
+    DON = models.FloatField(validators=[MinValueValidator(0.0)],help_text='mg / kg(ppm)')
+    Zearaleone = models.FloatField(validators=[MinValueValidator(0.0)],help_text='mg / kg(ppm)')
+    Fumonisine = models.FloatField(validators=[MinValueValidator(0.0)],help_text='mg / kg(ppm)')
+
+    def __str__(self):
+        return 'prodotto per %s' %(self.prodotto)
 
 
 class analisi_suolo(models.Model):
@@ -587,8 +685,8 @@ class Magazzino(models.Model):
         ('Atmosfera controllata', 'Atmosfera controllata'),
     ]
     stoccaggio = models.CharField(choices=tipo_stoccaggio,blank=True,null=True,max_length=250,verbose_name='stoccaggio')
-    stoccaggio2 = models.CharField(choices=tipo_stoccaggio2, blank=True, null=True, max_length=250,verbose_name='stoccaggio')
-    stoccaggio3 = models.CharField(choices=tipo_stoccaggio3, blank=True, null=True, max_length=250,verbose_name='stoccaggio')
+    stoccaggio2 = models.CharField(choices=tipo_stoccaggio2, blank=True, null=True, max_length=250,verbose_name=' struttura di stoccaggio')
+    stoccaggio3 = models.CharField(choices=tipo_stoccaggio3, blank=True, null=True, max_length=250,verbose_name='tipologia di conservazione')
 
     tipo_trasformazione=[
         ('In azienda', 'In azienda'),
@@ -600,8 +698,8 @@ class Magazzino(models.Model):
         ('Pellet', 'Pellet'),
         ('Farina Pasta', 'Farina Pasta'),
     ]
-    trasformazione = models.CharField(choices=tipo_trasformazione,blank=True,null=True,max_length=250,verbose_name='trasporto')
-    trasformazione2 = models.CharField(choices=tipo_trasformazione2,blank=True,null=True,max_length=250,verbose_name='trasporto')
+    trasformazione = models.CharField(choices=tipo_trasformazione,blank=True,null=True,max_length=250,verbose_name='trasformazione')
+    trasformazione2 = models.CharField(choices=tipo_trasformazione2,blank=True,null=True,max_length=250,verbose_name='prodotto finito')
 
     tipo_confezionamento =[
         ('In azienda', 'In azienda'),
@@ -611,10 +709,10 @@ class Magazzino(models.Model):
         ('Sfuso', 'Sfuso'),
         ('Sacchi', 'Sacchi'),
         ('Sacchetti', 'Sacchetti'),
-        ('Big Bakler', 'Big Bakler'),
+        ('Big Baler', 'Big Baler'),
     ]
     confezionamento = models.CharField(choices=tipo_confezionamento,blank=True,null=True,max_length=250,verbose_name='confezionamento')
-    confezionamento2 = models.CharField(choices=tipo_confezionamento2,blank=True,null=True,max_length=250,verbose_name='confezionamento')
+    confezionamento2 = models.CharField(choices=tipo_confezionamento2,blank=True,null=True,max_length=250,verbose_name='imballaggi')
 
     tipo_consegna = [
         ('Vendita diretta', 'Vendita diretta'),

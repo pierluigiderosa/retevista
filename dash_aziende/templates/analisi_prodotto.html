@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+{% load l10n %}
+
+
+{% block script %}
+
+{% endblock %}
+{% block css %}
+
+{% endblock %}
+
+
+{% block content %}
+ <div class="row">
+        {% include "panels/lateral_panel_iFarm.html" %}
+
+        <div class="col-md-10 p-0 bg-indigo h-md-100">
+            <a class="btn btn-primary mb-2" id="add-analisi-prodotto" title="Nuova analis prodotto" role="button"><i class="fas fa-plus"> </i> Analisi prodotto</a>
+            <h1>Analisi prodotto</h1>
+            {% for analisi_sin in analisi %}
+                <h3>{{ analisi_sin }}</h3>
+                <ul class="list-group">
+                    <li class="list-group-item">Umidità: {{  analisi_sin.umidita }}</li>
+                    <li class="list-group-item">Peso specifico {{ analisi_sin.peso_specifico }}</li>
+                    <li class="list-group-item">proteine {{ analisi_sin.proteine }}</li>
+                    <li class="list-group-item">lipidi {{ analisi_sin.lipidi }}</li>
+                    <li class="list-group-item">fibra {{ analisi_sin.fibra }}</li>
+                    <li class="list-group-item">ceneri {{ analisi_sin.ceneri }}</li>
+                    <li class="list-group-item">amido {{ analisi_sin.amido }}</li>
+                    <li class="list-group-item">Aflatossine {{ analisi_sin.Aflatossine }}</li>
+                    <li class="list-group-item">Ocratossina A {{  analisi_sin.OcratossinaA }}</li>
+                    <li class="list-group-item">DON {{  analisi_sin.DON }}</li>
+                    <li class="list-group-item">Zearaleone {{  analisi_sin.Zearaleone }}</li>
+                    <li class="list-group-item">Fumonisine {{  analisi_sin.Fumonisine }}</li>
+                </ul>
+                <hr>
+            {% endfor %}
+        </div>
+ </div>
+    <script type="text/javascript">
+
+        $('#add-analisi-prodotto').click(function(){
+            window.location.href = '{% url 'add-analisi-prodotto' %}'
+        });
+    </script>
+{% endblock %}

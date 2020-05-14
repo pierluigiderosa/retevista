@@ -107,7 +107,7 @@ class appezzamentoCampo(models.Model):
     '''
     Nuovo modello per la gestione dell'appezzamento da campo inserito da parte di aziende agricole
     '''
-    campi = models.ForeignKey(campi_agricoli)
+    campi = models.ForeignKey(campi_agricoli,unique=True)
     soglia = models.FloatField(default=5.0,verbose_name='tolleranza pioggia utile',help_text='espresso in mm')
     cap_di_campo = models.FloatField(verbose_name='capacità di campo', help_text='espresso in g/100g <br>celle C16',default=0)
     punto_appassimento = models.FloatField(verbose_name='punto di appassimento', help_text='espresso in g/100g <br>celle C17',default=0)

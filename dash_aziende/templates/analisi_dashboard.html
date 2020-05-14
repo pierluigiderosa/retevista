@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/1.0.2/proj4leaflet.js"></script>
     <script src="{% static 'js/terreno.js' %}"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 {% endblock %}
 {% block css %}
     {% leaflet_css %}
@@ -30,92 +31,142 @@
             </div>
 
             <a class="btn btn-primary" id="add-analisi" title="Nuovo" role="button"><i class="fas fa-plus"></i></a>
+            <div class="row"><div class="col-md-12"><ul class="nav nav-tabs">
+                <li class="nav-item"> <a href="" class="active nav-link" data-toggle="pill" data-target="#tabone"><i class="far fa-chart-bar"></i> Valori Medi</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="" data-toggle="pill" data-target="#tabtwo"><i class="fas fa-th-list"></i> Dettagli</a> </li>
+            </ul><div class="tab-content mt-2">
+                <div class="tab-pane fade show active" id="tabone" role="tabpanel">
+                    <p class="">
+                        {% for analisi in aggregati %}
+                            <div class="col-12 mt-2">
+                                <div class="card border-primary mb-3" style="max-width: 100%;">
+                                    <div class="card-header">Analisi medi per il campo: {{ analisi.denominazione }}
+                                    </div>
+                                    <div class="card-body text-primary">
+                                        <h5 class="card-title">valori medi analisi</h5>
 
+                                        <div class="container">
+                                            <ul class=" list-unstyled row">
+                                                <li class="list-item col-sm-4"> pH: <strong id="ph_avg{{ forloop.counter0 }}"></strong></li>
+                                                <li class="list-item col-sm-4"> tessitura: <strong id="tessitura_avg{{ forloop.counter0 }}"> -- </strong></li>
 
-            {% for analisi in analisies %}
-                <div class="col-12 mt-2">
-                    <div class="card border-primary mb-3" style="max-width: 100%;">
-                        <div class="card-header">Id Campione {{ analisi.id_campione }} --- Data segnalazione:{{ analisi.data_segnalazione }}
-                        </div>
-                        <div class="card-body text-primary">
-                            <h4>nome campo: {{ analisi.campo.nome }}</h4>
-                            <h5 class="card-title">Dettagli analisi</h5>
-
-                            <div class="container">
-                                <ul class=" list-unstyled row">
-                                    <li class="list-item col-sm-4"> pH: <strong id="ph{{ forloop.counter0 }}"></strong></li>
-                                    <li class="list-item col-sm-4"> tessitura: <strong id="tessitura{{ forloop.counter0 }}"> -- </strong></li>
-
-                                    <li class="list-item col-sm-4"> sostanza organica:<strong id="OM{{ forloop.counter0 }}">{{ analisi.OM }}</strong></li>
-                                    <li class="list-item col-sm-4"> azoto: <strong id="azoto{{ forloop.counter0 }}">{{ analisi.azoto }}</strong></li>
-                                    <li class="list-item col-sm-4"> fosforo:<strong id="fosforo{{ forloop.counter0 }}">{{ analisi.fosforo }}</strong></li>
-                                    <li class="list-item col-sm-4"> potassio:<strong id="potassio{{ forloop.counter0 }}">{{ analisi.potassio }}</strong></li>
-                                    <li class="list-item col-sm-4"> Capacità di scambio cationico:<strong id="scambiocat{{ forloop.counter0 }}">{{ analisi.scambio_cationico }}</strong></li>
-                                    <li class="list-item col-sm-4">Densità apparente:<strong>{{ analisi.den_apparente }}%</strong></li>
-                                    <li class="list-item col-sm-4">pietrosità:<strong>{{ analisi.pietrosita }}</strong></li>
-                                    <li class="list-item col-sm-4">profondità:<strong>{{ analisi.profondita }}</strong></li>
-                                    <li class="list-item col-sm-4">capacità di campo:<strong>{{ analisi.cap_di_campo }}</strong></li>
-                                    <li class="list-item col-sm-4">Calcare totale:<strong id="caco3tot{{ forloop.counter0 }}">{{ analisi.CACO3_tot }}</strong></li>
-                                    <li class="list-item col-sm-4">Calcare attivo:<strong id="caco3att{{ forloop.counter0 }}">{{ analisi.CACO3_att }}</strong></li>
-                                </ul>
+                                                <li class="list-item col-sm-4"> sostanza organica:<strong id="OM_avg{{ forloop.counter0 }}">{{ analisi.OM }}</strong></li>
+                                                <li class="list-item col-sm-4"> azoto: <strong id="azoto_avg{{ forloop.counter0 }}">{{ analisi.azoto }}</strong></li>
+                                                <li class="list-item col-sm-4"> fosforo:<strong id="fosforo_avg{{ forloop.counter0 }}">{{ analisi.fosforo }}</strong></li>
+                                                <li class="list-item col-sm-4"> potassio:<strong id="potassio_avg{{ forloop.counter0 }}">{{ analisi.potassio }}</strong></li>
+                                                <li class="list-item col-sm-4"> Capacità di scambio cationico:<strong id="scambiocat_avg{{ forloop.counter0 }}">{{ analisi.scambio_cationico }}</strong></li>
+                                                <li class="list-item col-sm-4">Densità apparente:<strong>{{ analisi.den_apparente__avg }}%</strong></li>
+                                                <li class="list-item col-sm-4">pietrosità:<strong>{{ analisi.pietrosita__avg }}</strong></li>
+                                                <li class="list-item col-sm-4">profondità:<strong>{{ analisi.profondita__avg }}</strong></li>
+                                                <li class="list-item col-sm-4">capacità di campo:<strong>{{ analisi.cap_di_campo__avg }}</strong></li>
+                                                <li class="list-item col-sm-4">Calcare totale:<strong id="caco3tot_avg{{ forloop.counter0 }}">{{ analisi.CACO3_tot }}</strong></li>
+                                                <li class="list-item col-sm-4">Calcare attivo:<strong id="caco3att_avg{{ forloop.counter0 }}">{{ analisi.CACO3_att }}</strong></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <a href="{% url 'analisi-pdf' pk=analisi.pk %}"><i class="fas fa-file-pdf fa-2x"></i></a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Centra in mappa</small>
-                            <button title="Centra in mappa"
-                                    xmin="{{ analisi.campo.geom.centroid.x|unlocalize}}"
-                                    ymin="{{ analisi.campo.geom.centroid.y|unlocalize }}"
-                                    class="btn btn-light btn-sm no-focus-highlight center-in-map">
-                                <i class="fas fa-map-marker-alt fa-lg"></i>
-                            </button>
-                            <a href="{% url 'update-analisi' pk=analisi.id %}"><i class="fas fa-edit fa-lg"></i></a>
-                            <a href="{% url 'delete-analisi' pk=analisi.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                Dettagli
-                            </button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Dettagli valori di analisi</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                             <div class="container">
-                                <ul class=" list-unstyled row">
-                                    <li class="list-item col-sm-6"> pH: <strong>{{ analisi.pH }}</strong></li>
-                                    <li class="list-item col-sm-6"> sabbia: <strong>{{ analisi.sabbia }}</strong></li>
-                                    <li class="list-item col-sm-6"> limo: <strong>{{ analisi.limo }}</strong></li>
-                                    <li class="list-item col-sm-6"> argilla:<strong>{{ analisi.argilla }}</strong></li>
-                                    <li class="list-item col-sm-6"> sostanza organica:<strong>{{ analisi.OM }}</strong></li>
-                                    <li class="list-item col-sm-6"> azoto: <strong>{{ analisi.azoto }}</strong></li>
-                                    <li class="list-item col-sm-6"> fosforo:<strong>{{ analisi.fosforo }}</strong></li>
-                                    <li class="list-item col-sm-6"> potassio:<strong>{{ analisi.potassio }}</strong></li>
-                                    <li class="list-item col-sm-6">pietrosità:<strong>{{ analisi.pietrosita }}</strong></li>
 
-                                    <li class="list-item col-sm-6"> Capacità di scambio cationico:<strong>{{ analisi.scambio_cationico }}</strong></li>
-                                    <li class="list-item col-sm-6">Densità apparente:<strong>{{ analisi.den_apparente }}%</strong></li>
-                                    <li class="list-item col-sm-6">profondità:<strong>{{ analisi.profondita }}</strong></li>
-                                    <li class="list-item col-sm-6">capacità di campo:<strong>{{ analisi.cap_di_campo }}</strong></li>
-                                    <li class="list-item col-sm-6">Calcare totale:<strong>{{ analisi.CACO3_tot }}</strong></li>
-                                    <li class="list-item col-sm-6">Calcare attivo:<strong>{{ analisi.CACO3_att }}</strong></li>
-                                </ul>
-                                             </div>
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="tab-pane fade" id="tabtwo" role="tabpanel">
+                    <p class="">
+                        {% for analisi in analisies %}
+                            <div class="col-12 mt-2">
+                                <div class="card border-primary mb-3" style="max-width: 100%;">
+                                    <div class="card-header">Id Campione {{ analisi.id_campione }} --- Data segnalazione:{{ analisi.data_segnalazione }}
+                                    </div>
+                                    <div class="card-body text-primary">
+                                        <h4>nome campo: {{ analisi.campo.nome }}</h4>
+                                        <h5 class="card-title">Dettagli analisi</h5>
+
+                                        <div class="container">
+                                            <ul class=" list-unstyled row">
+                                                <li class="list-item col-sm-4"> pH: <strong id="ph{{ forloop.counter0 }}"></strong></li>
+                                                <li class="list-item col-sm-4"> tessitura: <strong id="tessitura{{ forloop.counter0 }}"> -- </strong></li>
+
+                                                <li class="list-item col-sm-4"> sostanza organica:<strong id="OM{{ forloop.counter0 }}">{{ analisi.OM }}</strong></li>
+                                                <li class="list-item col-sm-4"> azoto: <strong id="azoto{{ forloop.counter0 }}">{{ analisi.azoto }}</strong></li>
+                                                <li class="list-item col-sm-4"> fosforo:<strong id="fosforo{{ forloop.counter0 }}">{{ analisi.fosforo }}</strong></li>
+                                                <li class="list-item col-sm-4"> potassio:<strong id="potassio{{ forloop.counter0 }}">{{ analisi.potassio }}</strong></li>
+                                                <li class="list-item col-sm-4"> Capacità di scambio cationico:<strong id="scambiocat{{ forloop.counter0 }}">{{ analisi.scambio_cationico }}</strong></li>
+                                                <li class="list-item col-sm-4">Densità apparente:<strong>{{ analisi.den_apparente }}%</strong></li>
+                                                <li class="list-item col-sm-4">pietrosità:<strong>{{ analisi.pietrosita }}</strong></li>
+                                                <li class="list-item col-sm-4">profondità:<strong>{{ analisi.profondita }}</strong></li>
+                                                <li class="list-item col-sm-4">capacità di campo:<strong>{{ analisi.cap_di_campo }}</strong></li>
+                                                <li class="list-item col-sm-4">Calcare totale:<strong id="caco3tot{{ forloop.counter0 }}">{{ analisi.CACO3_tot }}</strong></li>
+                                                <li class="list-item col-sm-4">Calcare attivo:<strong id="caco3att{{ forloop.counter0 }}">{{ analisi.CACO3_att }}</strong></li>
+                                            </ul>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                    <div class="card-footer">
+                                        <small class="text-muted">Centra in mappa</small>
+                                        <button title="Centra in mappa"
+                                                xmin="{{ analisi.campo.geom.centroid.x|unlocalize}}"
+                                                ymin="{{ analisi.campo.geom.centroid.y|unlocalize }}"
+                                                class="btn btn-light btn-sm no-focus-highlight center-in-map">
+                                            <i class="fas fa-map-marker-alt fa-lg"></i>
+                                        </button>
+                                        <a href="{% url 'update-analisi' pk=analisi.id %}"><i class="fas fa-edit fa-lg"></i></a>
+                                        <a href="{% url 'delete-analisi' pk=analisi.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                            Dettagli
+                                        </button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Dettagli valori di analisi</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="container">
+                                                            <ul class=" list-unstyled row">
+                                                                <li class="list-item col-sm-6"> pH: <strong>{{ analisi.pH }}</strong></li>
+                                                                <li class="list-item col-sm-6"> sabbia: <strong>{{ analisi.sabbia }}</strong></li>
+                                                                <li class="list-item col-sm-6"> limo: <strong>{{ analisi.limo }}</strong></li>
+                                                                <li class="list-item col-sm-6"> argilla:<strong>{{ analisi.argilla }}</strong></li>
+                                                                <li class="list-item col-sm-6"> sostanza organica:<strong>{{ analisi.OM }}</strong></li>
+                                                                <li class="list-item col-sm-6"> azoto: <strong>{{ analisi.azoto }}</strong></li>
+                                                                <li class="list-item col-sm-6"> fosforo:<strong>{{ analisi.fosforo }}</strong></li>
+                                                                <li class="list-item col-sm-6"> potassio:<strong>{{ analisi.potassio }}</strong></li>
+                                                                <li class="list-item col-sm-6">pietrosità:<strong>{{ analisi.pietrosita }}</strong></li>
+
+                                                                <li class="list-item col-sm-6"> Capacità di scambio cationico:<strong>{{ analisi.scambio_cationico }}</strong></li>
+                                                                <li class="list-item col-sm-6">Densità apparente:<strong>{{ analisi.den_apparente }}%</strong></li>
+                                                                <li class="list-item col-sm-6">profondità:<strong>{{ analisi.profondita }}</strong></li>
+                                                                <li class="list-item col-sm-6">capacità di campo:<strong>{{ analisi.cap_di_campo }}</strong></li>
+                                                                <li class="list-item col-sm-6">Calcare totale:<strong>{{ analisi.CACO3_tot }}</strong></li>
+                                                                <li class="list-item col-sm-6">Calcare attivo:<strong>{{ analisi.CACO3_att }}</strong></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        {% endfor %}
+                    </p>
                 </div>
-            {% endfor %}
+            </div>
+            </div>
+            </div>
+
+
+
 
         </div>
         {% block cards %}
@@ -149,6 +200,26 @@
                 $('#caco3att{{ forloop.counter0 }}').html(caco3attdesc)
                 $('#OM{{ forloop.counter0 }}').html(OMdesc)
                 $('#potassio{{ forloop.counter0 }}').html(potassiodesc)
+            {% endfor %}
+            {% for valore in aggregati %}
+                tessituraR = tessituraF({{ valore.sabbia__avg }},{{ valore.limo__avg }})
+                phDescrizione1 = pHdesc({{ valore.pH__avg }})
+                scambiocationico = ScambioCationico({{ valore.scambio_cationico__avg}})
+                azotodesc = Azoto({{ valore.azoto__avg }})
+                fosforodesc = Fosforo({{ valore.fosforo__avg }})
+                caco3totdesc = CaCO3Tot({{ valore.CACO3_tot__avg }})
+                caco3attdesc = CaCO3Att({{ valore.CACO3_att__avg }})
+                OMdesc = OM({{ valore.sabbia__avg }},{{ valore.limo__avg }},{{ valore.OM__avg }})
+                potassiodesc = potassioCalcolo({{ valore.sabbia__avg }},{{ valore.limo__avg }},{{ valore.potassio__avg }})
+                $('#tessitura_avg{{ forloop.counter0 }}').html(tessituraR)
+                $('#ph_avg{{ forloop.counter0 }}').html(phDescrizione1)
+                $('#scambiocat_avg{{ forloop.counter0 }}').html(scambiocationico)
+                $('#azoto_avg{{ forloop.counter0 }}').html(azotodesc)
+                $('#fosforo_avg{{ forloop.counter0 }}').html(fosforodesc)
+                $('#caco3tot_avg{{ forloop.counter0 }}').html(caco3totdesc)
+                $('#caco3att_avg{{ forloop.counter0 }}').html(caco3attdesc)
+                $('#OM_avg{{ forloop.counter0 }}').html(OMdesc)
+                $('#potassio_avg{{ forloop.counter0 }}').html(potassiodesc)
             {% endfor %}
         });
         function main_map_init (map, options) {

@@ -20,7 +20,7 @@ from iLand.models import Feature,Shapefile
 def add_page_number(canvas, doc):
     canvas.saveState()
     canvas.setFont('Times-Roman', 10)
-    canvas.setTitle('Report Agrisurvey')
+    canvas.setTitle('Report ReteVISTA - vincoli')
     page_number_text = "pagina %d" % (doc.page)
     canvas.drawCentredString(
         0.75 * inch,

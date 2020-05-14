@@ -6,9 +6,9 @@ from .views import dashboard_fields, form_campi, add_profile, CampiGeoJson, form
     dash_operazioni_colturali, form_operazioni, \
     OperazioniDeleteView, edit_profile, dashboard_consiglio, dash_consumatore, main_biotipo, \
     CampiEstesiJson, dash_list_consumatore, operazioniJson, list_macchinari, iFoodPrint_detail, \
-    form_macchinari, MacchinariDeleteView, MacchinariUpdateView, logistica_list, \
-    form_logistica_add, main_ifarm, main_iFoodPrint, caratt_chimico_fisiche, AnalisiJson, form_magazzino_add, \
-    iFoodPrint_panel
+    form_macchinari, MacchinariDeleteView, MacchinariUpdateView, logistica_list, magazzini_list, \
+    form_logistica_add, main_ifarm, main_iFoodPrint, AnalisiJson, form_magazzino_add, \
+    iFoodPrint_panel, analisi_prodotti, analisi_prodotti_Add, macchinari_pdf, analisi_report_pdf
 from .models import campi
 
 urlpatterns = [
@@ -27,9 +27,11 @@ urlpatterns = [
     url(r'^macchinari/add/$',form_macchinari,name='form-macchinari'),
     url('macchinari/delete/(?P<pk>\d+)$', MacchinariDeleteView.as_view(), name='delete-macchinari'),
     url('macchinari/update/(?P<pk>\d+)$', MacchinariUpdateView.as_view(), name='update-macchinari'),
+    url('macchinari/pdf/$', macchinari_pdf, name='macchinari-pdf'),
     url(r'^macchinari/$',list_macchinari,name='lista-macchinari'),
     url(r'logistica/add$',form_logistica_add,name='add-logistica'),
     url(r'logistica/$',logistica_list,name='lista_logistica'),
+    url(r'magazzini/$',magazzini_list,name='lista_magazzini'),
     url(r'magazzino/add/$',form_magazzino_add,name='add-magazzino'),
     url(r'^campi.geojson$', CampiGeoJson.as_view(model=campi), name='campi_geojson'),
     url(r'^campiEstesi.json$', CampiEstesiJson, name='campi_estesi_json'),
@@ -37,10 +39,12 @@ urlpatterns = [
     url(r'analisi.json$',AnalisiJson,name='api-analisi-json'),
     url(r'^api/data/$', get_data_charts, name='api-data-dash'),
     url(r'fields/$', dashboard_fields, name='main-fields'),
+    url(r'analisi/(?P<pk>\d+)/pdf$',analisi_report_pdf,name='analisi-pdf'),
     url(r'analisi/$',dashboard_analisi,name='main-analisi'),
+    url(r'analisi_prodotti/add/$',analisi_prodotti_Add,name='add-analisi-prodotto'),
+    url(r'analisi_prodotti/$',analisi_prodotti,name='analisi-prodotti'),
     url(r'consiglio/$',dashboard_consiglio,name='main-consiglio'),
     url(r'forecast/$', dashboard_fields, {'forecast': True}, name='iland-forecast'),
-    url(r'^ccf/$', caratt_chimico_fisiche, name='iFarm-caratt-chimo-fisiche'),
     url(r'operazioni/$', dash_operazioni_colturali, name='main-operazioni-colturali'),
     url(r'consumatore/$', dash_list_consumatore, name='main-consumatore-list'),
     url(r'consumatore/(?P<uid>\d+)$', dash_consumatore, name='main-consumatore'),

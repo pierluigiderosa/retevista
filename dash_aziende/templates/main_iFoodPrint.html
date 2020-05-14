@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+{% load leaflet_tags %}
+{% load l10n %}
+
+{% block script %}
+    {% leaflet_js %}
+{% endblock %}
+{% block css %}
+    {% leaflet_css %}
+    <style>
+        .leaflet-container { height: 600px; width: 100%}
+    </style>
+{% endblock %}
+
+
+{% block content %}
+<div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">iFoodPrint</h1>
+        <img src="{% static 'img/i-foodprint.png' %}" class="rounded mx-auto d-block"/>
+      <p>La tracciabilità del prodotto, la sua costruzione e la sua caratterizzazione,
+          tutte le fasi vengono messe in chiaro e conosciute. Sapere cosa mangio e come lo devo mangiare.
+È  un progetto di cibo sostenibile per esigenze, diete e culture esigenti. L’analisi e i fabbisogni sono gli input la progettazione un sistema integrato.
+    </div>
+  </div>
+    <div class="row">
+    <div class="col-md-12 p-4">
+        <h1 class="text-center">Elenco Colture inserite</h1>
+        <h6 class="text-center">per prenotare vai su prenotazione acquisti</h6>
+    </div>
+    </div>
+    <div class="row">
+
+
+        <div class="col-md-12  p-4 bg-indigo h-md-100" url-endpoint='{% url "api-data-dash" %}'>
+
+         {% for coltivazione in Coltivazioni %}
+            <a href="{% url 'iFoodPrint-detail' uid=coltivazione.campo.id %}" class="btn btn-outline-secondary btn-block btn-lg my-1">
+            {{ forloop.counter }}
+            <b>{{ coltivazione.nome }}</b>
+            <b>annata: {{ coltivazione.annataAgraria }}</b>
+                <br><i>in</i> {{ coltivazione.campo }} pyy:{{ coltivazione.campo.id }} <i>di</i> {{ coltivazione.campo.proprietario }}</a>
+        {% endfor %}
+
+
+        </div>
+
+        <div class="col-md-6 p-4 bg-indigo bg-white h-md-100">
+
+
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block extrastyle %}
+
+{% endblock %}

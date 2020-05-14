@@ -58,26 +58,30 @@
     {% endif %}
 
     <div class="d-flex flex-row rounded align-items-start my-flex-container">
-        <div class="p-2 mr-auto align-self-center my-flex-item">
+        <div class="p-2  align-self-center my-flex-item">
             <img class="rounded-circle border border-info" style="height: 100px" src="{% static 'img/logo-Vista_new.jpg' %}"  alt="">
         </div>
-        <div class="p-2 my-flex-item">
-            <b>AZIENDA:</b>{{ campo.proprietario }}<br>
+        <div class="p-2 my-flex-item mr-auto">
+            <b class="text-info h4">AZIENDA: </b><i class="h4">{{ campo.proprietario.denominazione }} di {{ campo.proprietario.user.first_name}} {{ campo.proprietario.user.last_name }}</i><br>
             <b>REGIONE:</b> Umbria<br>
-            <b>COMUNE:</b> Piegaro
+            <b>COMUNE:</b> Spoleto
         </div>
         <div class="p-2 my-flex-item2">
             <h4 class="text-center">CARATTERISTICHE CAMPO</h4>
-            <p id="complessivo"><strong>Altezza slm: </strong>
+            <p id="complessivo"><strong>Altezza slm e giacitura: </strong>
                 {% if campo.quota %}
-                {{ campo.quota }}
-                {% endif %}
+                {{ campo.quota }}{% else %} Non inserita
+                {% endif %}{{ campo.pendenza }}<br>
+            <strong>Proprietà: </strong>
+                {% if campo.proprieta %}{{ campo.proprieta }}{% else %}Non inserita{% endif %}<br>
+            <strong>Metodo coltivazione: </strong>{% if campo.metodo_produzione %}{{ campo.metodo_produzione }}{% else %}Non inserita{% endif %}
             </p>
         </div>
         <div class="p-2 my-flex-leaflet">
              <div id="mapid" style="width: 100%; height: 100%;"></div>
         </div>
     </div>
+
     <div class="d-flex flex-row rounded align-items-start my-flex-container2">
         <div class="p-2 mr-auto align-self-start my-flex-item">
             <b>COLTURA:</b>
@@ -92,7 +96,7 @@
             <b>SUPERFICIE:</b> {{ areaHa }} ha<br>
             <b>Resa:</b> {{ coltivazione.produzione }} (Q.li/ha)<br>
             <b>Produzione:</b> {{ coltivazione.produzione_totale }} Q.li<br>
-            <a href="{% url 'iFoodPrint-panel' uid=coltivazione.campo.id  %}" class="btn btn-info">Indicatori di sostenibilità</a>
+
         </div>
         <div class="p-2 my-flex-item4 align-self-center">
             <img class="rounded mx-auto d-block border border-info" style="height: 250px; width: fit-content;" src="{% static 'img/crescita_piante.png' %}"  alt="crescita_piante">
@@ -178,10 +182,12 @@
     <div class="d-flex flex-row justify-content-around my-flex-container-bottom">
         <div class="p-2 mr-2 rounded my-flex-item5">
             <p class="text-center">Stoccaggio</p><br>
-            {% if coltivazione.trasporto_set.exists %}
-                <p class="text-center">{{ coltivazione.trasporto_set.first.magazz_dest.stoccaggio }},
-                {{ coltivazione.trasporto_set.first.magazz_dest.stoccaggio2 }},
-                {{ coltivazione.trasporto_set.first.magazz_dest.stoccaggio3 }}
+            {% if trasporti %}
+                {% for trasporto in trasporti %}
+                <p class="text-center">{{ forloop.counter }}: {{ trasporto.magazz_dest.stoccaggio }},
+                {{ trasporto.magazz_dest.stoccaggio2 }},
+                {{ trasporto.magazz_dest.stoccaggio3 }}
+                {% endfor %}
                 </p>
             {% else %}
                 <p class="text-center">Non è stato inserito il trasporto la coltura è in campo</p>
@@ -189,33 +195,133 @@
         </div>
         <div class="p-2 mr-2 rounded my-flex-item5">
             <p class="text-center">Trasformazione</p><br>
-            {% if coltivazione.trasporto_set.exists %}
-                <p class="text-center">{{ coltivazione.trasporto_set.first.magazz_dest.trasformazione }},
-                {{ coltivazione.trasporto_set.first.magazz_dest.trasformazione2 }}
+            {% if trasporti %}
+                {% for trasporto in trasporti %}
+                <p class="text-center">{{ forloop.counter }}: {{ trasporto.magazz_dest.trasformazione }},
+                {{ trasporto.magazz_dest.trasformazione2 }}
                 </p>
+                {% endfor %}
             {% else %}
                 <p class="text-center">Non è stato inserito il trasporto la coltura è in campo</p>
             {% endif %}
         </div>
         <div class="p-2 mr-2 rounded my-flex-item5">
             <p class="text-center">Confezionamento</p><br>
-            {% if coltivazione.trasporto_set.exists %}
-                <p class="text-center">{{ coltivazione.trasporto_set.first.magazz_dest.confezionamento }},
-                {{ coltivazione.trasporto_set.first.magazz_dest.confezionamento2 }}
+             {% if trasporti %}
+                {% for trasporto in trasporti %}
+                <p class="text-center">{{ forloop.counter }}: {{ trasporto.magazz_dest.confezionamento }},
+                {{ trasporto.magazz_dest.confezionamento2 }}
                 </p>
+                  {% endfor %}
             {% else %}
                 <p class="text-center">Non è stato inserito il trasporto la coltura è in campo</p>
             {% endif %}
         </div>
         <div class="p-2 rounded my-flex-item5">
             <p class="text-center">Consegna</p><br>
-            {% if coltivazione.trasporto_set.exists %}
-                <p class="text-center">{{ coltivazione.trasporto_set.first.magazz_dest.consegna }}</p>
+           {% if trasporti %}
+                {% for trasporto in trasporti %}
+                <p class="text-center">{{ forloop.counter }}: {{ trasporto.magazz_dest.consegna }}</p>
+              {% endfor %}
             {% else %}
                 <p class="text-center">Non è stato inserito il trasporto la coltura è in campo</p>
             {% endif %}
         </div>
 
+    </div>
+
+    <div class="d-flex flex-row justify-content-around my-flex-container-bottom">
+        <div class="p-2 mr-2 rounded my-flex-item5" style="background-color: #4472c3">
+            <img class="rounded-circle border border-info mx-auto mb-2 d-block"
+                 src="{% static 'img/logo-Vista_new.jpg' %}"
+                 style="height: 250px" alt="...">
+
+            <p class="h4 text-center text-white">IMPRONTA ECOLOGICA</p>
+            <ul class="text-white">
+                <li>
+                    CO2 emessa= {{ CO2 }} Ton
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+
+                </li>
+                <li>H20 utilizzata</li>
+                <li>N distributi {{ Ndistibuita }} Ton</li>
+                <li>P distributi {{ Pdistibuita }} Ton</li>
+                <li>K distributi {{ Kdistibuita }} Ton</li>
+            </ul>
+
+        </div>
+        <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Dettagli CO2 equivalente prodotta</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>CO2 equivalente in operazioni colturali: {{ CO2info.operazioni }} Kg</p>
+                                    <p>CO2 equivalente in trasporto:
+                                        {% if CO2info.trasporto %}
+                                        {{ CO2info.trasporto }} Kg
+                                        {% else %}
+                                            Nessun trasporto inserito.
+                                        {% endif %}
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+       <div class="p-2 mr-2 rounded my-flex-item5" style="background-color: #43bdb8">
+            <img class="rounded-circle border border-info mx-auto mb-2 d-block"
+                 src="{% static 'img/logo-Vista_new.jpg' %}"
+                 style="height: 250px" alt="...">
+            <p class="h4 text-center text-white">IMPRONTA PAESAGGISTICA</p>
+            <ul class="text-white">
+                <li>Presenza di Api: {{ campo.presenza_api|yesno:"Si,No" }}</li>
+                <li>Cover crops: {{ campo.cover_crop|yesno:"Si,No" }}</li>
+                <li>Rotazioni colturali: {{ campo.rotazioni_colturali|yesno:"Si,No" }}</li>
+                <li>Cultivar autoctone</li>
+            </ul>
+        </div>
+        <div class="p-2 mr-2 rounded my-flex-item5" style="background-color: #45b564">
+            <img class="rounded-circle border border-info mx-auto mb-2 d-block"
+                 src="{% static 'img/logo-Vista_new.jpg' %}"
+                 style="height: 250px" alt="...">
+             <p class="h4 text-center text-white">IMPRONTA QUALITATIVA</p>
+             <p class="h4 text-center text-white">IMPRONTA QUALITATIVA</p>
+            <ul class="text-white">
+                <li>Umidità: {{ analisi_prodotto.umidita }}</li>
+                <li>Peso specifico {{ analisi_prodotto.peso_specifico }}</li>
+                <li>Proteine {{ analisi_prodotto.proteine }}</li>
+                <li>Proteine {{ analisi_prodotto.lipidi }}</li>
+                <li>Fibra {{ analisi_prodotto.fibra }}</li>
+                <li>Ceneri {{ analisi_prodotto.ceneri }}</li>
+                <li>Amido {{ analisi_prodotto.amido }}</li>
+                <li>Aflatossine {{ analisi_prodotto.Aflatossine }}</li>
+                <li>Ocratossina A {{ analisi_prodotto.OcratossinaA }}</li>
+                <li>DON {{ analisi_prodotto.DON }}</li>
+                <li>Zearaleone {{ analisi_prodotto.Zearaleone }}</li>
+                <li>Fumonisine {{ analisi_prodotto.Fumonisine }}</li>
+            </ul>
+        </div>
+        <div class="p-2 mr-2 rounded my-flex-item5" style="background-color: #70ac47">
+            <img class="rounded-circle border border-info mx-auto mb-2 d-block"
+                 src="{% static 'img/logo-Vista_new.jpg' %}"
+                 style="height: 250px" alt="...">
+             <p class="h4 text-center text-white">IMPRONTA ALIMENTARE</p>
+            <ul class="text-white">
+                <li>Valori nutrizionali</li>
+                <li>Fitofarmaci utilizzati</li>
+                <li>Residui fitofarmaci</li>
+            </ul>
+        </div>
     </div>
 
     <script type="text/javascript">

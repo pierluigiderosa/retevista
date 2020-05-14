@@ -14,15 +14,15 @@
                     Poderi aziendali
                 </a>
             </li>
-
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'iFarm-caratt-chimo-fisiche' %}">
-                    <i class="fa fa-flask"></i>
-                    Caratteristiche chimico fisiche
+                <a class="nav-link" href="{% url 'main-analisi' %}">
+                    <i class="fas fa-flask"></i>
+                    Analisi del suolo
                 </a>
             </li>
+
         </ul>
-       <hr class="style2">
+        <hr class="style2">
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'main-operazioni-colturali' %}">
@@ -30,12 +30,7 @@
                     Operazioni colturali
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'main-analisi' %}">
-                    <i class="fas fa-flask"></i>
-                    Analisi del suolo
-                </a>
-            </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'main-consiglio' %}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-droplet"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
@@ -60,10 +55,22 @@
                     Macchinari
                 </a>
             </li>
-                       <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="{% url 'lista_logistica' %}">
                     <i class="fa fa-truck" aria-hidden="true"></i>
                     Logistica
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'lista_magazzini' %}">
+                    <i class="fa fa-road" aria-hidden="true"></i>
+                    Magazzini
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'analisi-prodotti' %}">
+                    <i class="fa fa-podcast" aria-hidden="true"></i>
+                    Analisi prodotti
                 </a>
             </li>
         </ul>

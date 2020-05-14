@@ -130,7 +130,7 @@
                         {#                        <a href="https://shop.agricolus.com" target="_blank" class="dropdown-item"><i class="fas fa-shopping-cart"></i> Shop</a>#}
                         <a href="mailto:retevista@gmail.com " class="dropdown-item"><i class="fas fa-envelope"></i> Contattaci</a>
                         {% if user.is_staff %}
-                            <a href="/admin/" class="dropdown-item"><i class="fa fa-lock"></i> Pannello amministrazione</a>
+                            <a href="/retevista/admin/" class="dropdown-item"><i class="fa fa-lock"></i> Pannello amministrazione</a>
                         {% endif %}
                         <a href="{% url 'logout' %}" class="dropdown-item"><i class="fas fa-lock"></i> Esci</a>
                     </div>

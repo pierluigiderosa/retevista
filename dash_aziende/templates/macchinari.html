@@ -5,7 +5,7 @@
 
 
 {% block script %}
-
+<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 {% endblock %}
 {% block css %}
 
@@ -16,14 +16,16 @@
     <div class="row">
         {% include "panels/lateral_panel_iFarm.html" %}
 
-        <div class="col-md-10 p-0 bg-indigo h-md-100">
+        <div class="col-md-10 p-0 bg-indigo h-md-100 p-4">
             <div class="sticky-top">
                 <h1 class="h2">Macchinari</h1>
             </div>
             <a class="btn btn-primary" id="add-macchinario" title="Nuovo" role="button"><i class="fas fa-plus"></i></a>
+        <a class="btn btn-primary" href="{% url 'macchinari-pdf' %}" title="Nuovo" role="button"><i class="far fa-file-pdf fa-1x"></i> Scarica l'elenco</a>
+
 
             <h2 class="">Azienda {{ azienda.user.first_name }} {{ azienda.user.last_name }}<br><small class="text-muted" >{{ azienda.pec }}</small></h2>
-            <div class="card-group">
+            <div class="card-columns">
                 {% for macchina in macchinari %}
                     <div class="card border-primary mb-3" style="max-width: 100%;">
                         <div class="card-header">Macchinario <strong>{{ macchina.tipo_macchina }} --- {{ macchina.nome }}</strong>

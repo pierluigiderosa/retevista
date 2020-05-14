@@ -35,7 +35,7 @@
             <div class="container">
                 <h3 class="display-5">Nome appezzamento: <p class="text-primary">{{ appezzamento.campi.nome }}</p></h3>
                 <p>Data odierna {% now "j F Y" %}</p>
-                <p>Coltura: {{ appezzamento.campi.coltura }}</p>
+                <p>Coltura: {{ appezzamento.campi.colturadettaglio_set.first }}</p>
             </div>
         </div>
         <div class="container">
@@ -68,11 +68,10 @@
                 <dd class="col-sm-9">{{ bilancio_appezzam.Kc }}</dd>
                 <dt class="col-sm-3">Valore Ks alla data del {{ bilancio_appezzam.data_rif }}</dt>
                 <dd class="col-sm-9">{{ bilancio_appezzam.Ks }}</dd>
-                <dt class="col-sm-3">inserisci dose (In sviluppo)</dt>
+                <dt class="col-sm-3">inserisci dose</dt>
                 <dd class="col-sm-9">
-                <button type="button" class="update-bilancio btn btn-sm btn-primary" data-id="{% url 'update_bilancio' pk=bilancio_appezzam.id %}">
-                          <span class="fas fa-edit"></span>
-                        </button></dd>
+                     <a class="btn btn-primary" href="{% url 'form-operazioni' oper_type='irrigazione' %}"><i class="fas fa-edit" aria-hidden="true"></i></a>
+
             </dl>
         </div>
     </main>
