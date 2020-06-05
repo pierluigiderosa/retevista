@@ -3,15 +3,15 @@ from staticmap import StaticMap, Line, Polygon
 from dash_aziende.models import campi
 from django.core.files import File
 
-def test():
+def test(pid=16):
     mapbox = 'https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA '
     wikimedia = 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'
     argis = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{x}/{y}"
-    pid=16
+
     podere = campi.objects.get(id=pid)
     # podere.geom.transform(3857)
     linea = Line(podere.geom.coords[0], 'red', 3)
-    m = StaticMap(300, 400, 5, url_template=mapbox)
+    m = StaticMap(300, 400, 5, url_template=wikimedia)
     # m.add_line(Line(((13.4, 52.5), (2.3, 48.9)), 'blue', 3))
     m.add_line(linea)
     image = m.render()
@@ -26,10 +26,10 @@ def podereMap(pid=16):
     OSM = 'http://a.tile.osm.org/{z}/{x}/{y}.png'
 
     podere = campi.objects.get(id=pid)
-    podere.geom.transform(3857)
-    m = StaticMap(600, 340,10)
-    # polygon = Polygon(podere.geom.coords[0], fill_color='rgb(255,255,255,1)', outline_color=None, simplify=False)
     linea = Line(podere.geom.coords[0], 'red', 3)
+    m = StaticMap(300, 400, 5, url_template=wikimedia)
+
+    # polygon = Polygon(podere.geom.coords[0], fill_color='rgb(255,255,255,1)', outline_color=None, simplify=False)
     # m.add_polygon(polygon)
     m.add_line(linea)
     image = m.render()

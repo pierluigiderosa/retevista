@@ -8,7 +8,9 @@ from .views import dashboard_fields, form_campi, add_profile, CampiGeoJson, form
     CampiEstesiJson, dash_list_consumatore, operazioniJson, list_macchinari, iFoodPrint_detail, \
     form_macchinari, MacchinariDeleteView, MacchinariUpdateView, logistica_list, magazzini_list, \
     form_logistica_add, main_ifarm, main_iFoodPrint, AnalisiJson, form_magazzino_add, \
-    iFoodPrint_panel, analisi_prodotti, analisi_prodotti_Add, macchinari_pdf, analisi_report_pdf
+    iFoodPrint_panel, analisi_prodotti, analisi_prodotti_Add, macchinari_pdf, analisi_report_pdf, \
+    autocomplete_fitofarmaci,autocomplete_malattie,autocomplete_erbe,print_quaderno,\
+    elenco_quaderni,get_operazioni_data
 from .models import campi
 
 urlpatterns = [
@@ -38,6 +40,12 @@ urlpatterns = [
     url(r'^operazioni.json$', operazioniJson, name='operazioni_dettaglio_json'),
     url(r'analisi.json$',AnalisiJson,name='api-analisi-json'),
     url(r'^api/data/$', get_data_charts, name='api-data-dash'),
+    url(r'^api/fitofarmaci/$', autocomplete_fitofarmaci, name='api-data-fitofarmaci'),
+    url(r'^api/malattie/$', autocomplete_malattie, name='api-data-malattie'),
+    url(r'^api/erbe/$', autocomplete_erbe, name='api-data-erbe'),
+    url(r'^api/operazioni/$', get_operazioni_data, name='api-operazioni'),
+    url(r'^quadernicampagna/(?P<pk>\d+)/pdf/$', print_quaderno, name='quaderno-campagna'),
+    url(r'^elenco_quaderni/$', elenco_quaderni, name='elenco-quaderni'),
     url(r'fields/$', dashboard_fields, name='main-fields'),
     url(r'analisi/(?P<pk>\d+)/pdf$',analisi_report_pdf,name='analisi-pdf'),
     url(r'analisi/$',dashboard_analisi,name='main-analisi'),

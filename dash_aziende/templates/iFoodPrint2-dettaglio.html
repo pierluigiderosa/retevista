@@ -52,7 +52,7 @@
 
 {% block content %}
     {% if campo.colturadettaglio_set.exists  %}
-        <h3 class="text-primary">{{ campo.colturadettaglio_set.first.nome }} in {{ campo.nome }}|{{ campo.id }} di {{ campo.proprietario }}</h3><p>coltivazione</p>
+        <h3 class="text-primary">{{ campo.colturadettaglio_set.first.nome }} in {{ campo.nome }}|{{ campo.id }} di {{ campo.proprietario }}</h3>
     {% else %}
         <h3 class="text-primary">{{ campo.coltura }} in {{ campo.nome }}|{{ campo.id }} di {{ campo.proprietario }}</h3>
     {% endif %}
@@ -64,7 +64,7 @@
         <div class="p-2 my-flex-item mr-auto">
             <b class="text-info h4">AZIENDA: </b><i class="h4">{{ campo.proprietario.denominazione }} di {{ campo.proprietario.user.first_name}} {{ campo.proprietario.user.last_name }}</i><br>
             <b>REGIONE:</b> Umbria<br>
-            <b>COMUNE:</b> Spoleto
+            <b>COMUNE:</b> {{ campo.proprietario.city }}
         </div>
         <div class="p-2 my-flex-item2">
             <h4 class="text-center">CARATTERISTICHE CAMPO</h4>
@@ -156,8 +156,7 @@
                     </div>
                     <div id="collapseQuattro" class="collapse" aria-labelledby="headingQuattro" data-parent="#accordionExample">
                         <div class="card-body">
-                            trattamenti
-                            {% lorem %}
+                            <canvas id="ChartTrattamenti" width="400" height="200"></canvas>
                         </div>
                     </div>
                 </div>
@@ -171,8 +170,7 @@
                     </div>
                     <div id="collapseCinque" class="collapse" aria-labelledby="headingCinque" data-parent="#accordionExample">
                         <div class="card-body">
-                            fertilizzazione
-                            {% lorem %}
+                            <canvas id="Chartfertilizzazione" width="400" height="200"></canvas>
                         </div>
                     </div>
             </div>
@@ -190,7 +188,7 @@
                 {% endfor %}
                 </p>
             {% else %}
-                <p class="text-center">Non è stato inserito il trasporto la coltura è in campo</p>
+                <p class="text-center">Non è stato inserito il trasporto, la coltura è in campo</p>
             {% endif %}
         </div>
         <div class="p-2 mr-2 rounded my-flex-item5">
@@ -202,7 +200,7 @@
                 </p>
                 {% endfor %}
             {% else %}
-                <p class="text-center">Non è stato inserito il trasporto la coltura è in campo</p>
+                <p class="text-center">Non è stato inserito il trasporto, la coltura è in campo</p>
             {% endif %}
         </div>
         <div class="p-2 mr-2 rounded my-flex-item5">
@@ -214,7 +212,7 @@
                 </p>
                   {% endfor %}
             {% else %}
-                <p class="text-center">Non è stato inserito il trasporto la coltura è in campo</p>
+                <p class="text-center">Non è stato inserito il trasporto, la coltura è in campo</p>
             {% endif %}
         </div>
         <div class="p-2 rounded my-flex-item5">
@@ -224,7 +222,7 @@
                 <p class="text-center">{{ forloop.counter }}: {{ trasporto.magazz_dest.consegna }}</p>
               {% endfor %}
             {% else %}
-                <p class="text-center">Non è stato inserito il trasporto la coltura è in campo</p>
+                <p class="text-center">Non è stato inserito il trasporto, la coltura è in campo</p>
             {% endif %}
         </div>
 
@@ -245,10 +243,14 @@
                     </button>
 
                 </li>
-                <li>H20 utilizzata</li>
-                <li>N distributi {{ Ndistibuita }} Ton</li>
-                <li>P distributi {{ Pdistibuita }} Ton</li>
-                <li>K distributi {{ Kdistibuita }} Ton</li>
+                <li>H<sub>2</sub>O utilizzata:
+                    {% if acqua %}
+                    {{ acqua }}
+                    {% else %} 0 {% endif %}
+                    m<sup>3</sup></li>
+                <li>N distributi: {{ Ndistibuita }} Ton</li>
+                <li>P distributi: {{ Pdistibuita }} Ton</li>
+                <li>K distributi: {{ Kdistibuita }} Ton</li>
             </ul>
 
         </div>
@@ -287,7 +289,7 @@
                 <li>Presenza di Api: {{ campo.presenza_api|yesno:"Si,No" }}</li>
                 <li>Cover crops: {{ campo.cover_crop|yesno:"Si,No" }}</li>
                 <li>Rotazioni colturali: {{ campo.rotazioni_colturali|yesno:"Si,No" }}</li>
-                <li>Cultivar autoctone</li>
+                <li>Cultivar autoctone: {{ coltivazione.cultivar_autoctona|yesno:"Si,No" }}</li>
             </ul>
         </div>
         <div class="p-2 mr-2 rounded my-flex-item5" style="background-color: #45b564">
@@ -295,20 +297,19 @@
                  src="{% static 'img/logo-Vista_new.jpg' %}"
                  style="height: 250px" alt="...">
              <p class="h4 text-center text-white">IMPRONTA QUALITATIVA</p>
-             <p class="h4 text-center text-white">IMPRONTA QUALITATIVA</p>
             <ul class="text-white">
-                <li>Umidità: {{ analisi_prodotto.umidita }}</li>
-                <li>Peso specifico {{ analisi_prodotto.peso_specifico }}</li>
-                <li>Proteine {{ analisi_prodotto.proteine }}</li>
-                <li>Proteine {{ analisi_prodotto.lipidi }}</li>
-                <li>Fibra {{ analisi_prodotto.fibra }}</li>
-                <li>Ceneri {{ analisi_prodotto.ceneri }}</li>
-                <li>Amido {{ analisi_prodotto.amido }}</li>
-                <li>Aflatossine {{ analisi_prodotto.Aflatossine }}</li>
-                <li>Ocratossina A {{ analisi_prodotto.OcratossinaA }}</li>
-                <li>DON {{ analisi_prodotto.DON }}</li>
-                <li>Zearaleone {{ analisi_prodotto.Zearaleone }}</li>
-                <li>Fumonisine {{ analisi_prodotto.Fumonisine }}</li>
+                <li>Umidità: {{ analisi_prodotto.umidita }}%</li>
+                <li>Peso specifico: {{ analisi_prodotto.peso_specifico }} kg/hl</li>
+                <li>Proteine: {{ analisi_prodotto.proteine }}%</li>
+                <li>Lipidi: {{ analisi_prodotto.lipidi }}%</li>
+                <li>Fibra: {{ analisi_prodotto.fibra }}%</li>
+                <li>Ceneri: {{ analisi_prodotto.ceneri }}%</li>
+                <li>Amido: {{ analisi_prodotto.amido }}%</li>
+                <li>Aflatossine: {{ analisi_prodotto.Aflatossine }} mg / kg(ppm)</li>
+                <li>Ocratossina A: {{ analisi_prodotto.OcratossinaA }} mg / kg(ppm)</li>
+                <li>DON: {{ analisi_prodotto.DON }} mg / kg(ppm)</li>
+                <li>Zearaleone: {{ analisi_prodotto.Zearaleone }} mg / kg(ppm)</li>
+                <li>Fumonisine: {{ analisi_prodotto.Fumonisine }} mg / kg(ppm)</li>
             </ul>
         </div>
         <div class="p-2 mr-2 rounded my-flex-item5" style="background-color: #70ac47">
@@ -325,14 +326,16 @@
     </div>
 
     <script type="text/javascript">
+    var inizio = '2018-11-01'
+    var fine = '2019-05-31'
         $.ajax(
             {
                 type:"GET",
                 url: '{% url "api-meteo-campi" %}',
                 data:{
                     campo:{{ campo.id }},
-                    start:'2018-11-01',
-                    end:'2019-05-31'
+                    start: inizio,
+                    end: fine
                 },
                 success: function (data) {
                     labels = data.labels
@@ -353,8 +356,10 @@
             type:"GET",
             url:'{% url "api-bilancio" %}',
             data:{
-                    appezzamentoid:{% if appezzamentoID %} {{ appezzamentoID }} {% else %} 1 {% endif %}
-                },
+                appezzamentoid:{{ appezzamentoID }} ,
+                start: inizio,
+                end: fine
+            },
             success: function (data) {
                 labels = data.labels
                 dose_antropica=data.dose_antropica
@@ -444,7 +449,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'pioggia cumulata giornaliera',
+                        label: 'pioggia cumulata giornaliera (mm)',
                         data: rainData,
                         backgroundColor: 'rgb(255,144,167,0.5)',
                         borderColor: 'rgb(255,144,167)',
@@ -469,6 +474,79 @@
                     }
                 }
             });
+        };
+        $.ajax({
+            type:"GET",
+            url:'{% url 'api-operazioni' %}',
+            data:{
+                colturaid: {{ coltivazione.id }},
+                start: inizio,
+                end: fine
+            },
+            success:function (data) {
+                labels=data.labels
+                trattamenti=data.trattamenti
+                fertilizzazioni=data.fertilizzazioni
+
+                chartTrattamenti()
+                chartFertilizzazione()
+
+            },
+            error: function (error_data) {
+                console.log("errore")
+                console.log(error_data)
+            },
+        })
+        function chartTrattamenti(){
+            var ctx4 = document.getElementById('ChartTrattamenti').getContext('2d');
+            var chartTrattamenti = new Chart(ctx4,{
+                type: 'bar',
+                data:{
+                    labels: labels,
+                    datasets: [{
+                        label: 'Trattamenti',
+                        data: trattamenti,
+                        backgroundColor: 'rgba(184,36,125,0.5)',
+                        //borderColor: 'rgb(0,0,0)',
+                        borderWidth: 1,
+                        fill : false
+                    }],
+                },
+                options: {
+
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    elements: {
+                        line: {
+                            tension: 0
+                        }
+                    }
+                }
+            })
+        };
+        function chartFertilizzazione(){
+            var ctx5 = document.getElementById('Chartfertilizzazione').getContext('2d');
+            var chartFerti = new Chart(ctx5,{
+                type: 'bar',
+                data:{
+                    labels: labels,
+                    datasets: [{
+                        label: 'Fertilizzazioni',
+                        data: fertilizzazioni,
+                        backgroundColor: 'rgba(184,36,125,0.5)',
+                        //borderColor: 'rgb(0,0,0)',
+                        borderWidth: 1,
+                        fill : false
+                    }],
+
+                },
+
+            })
         };
 
         $(window).on('load', function() {

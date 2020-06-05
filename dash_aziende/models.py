@@ -168,7 +168,7 @@ class campi(models.Model):
     ]
     proprieta = models.CharField(blank=True, null=True, choices=proprieta_choices, max_length=50)
     dataApportoIrriguo = models.DateField(blank=True, null=True, help_text="Data ultimo apporto irriguo", verbose_name="Data apporto irriguo")
-    temperatura_suolo = models.PositiveIntegerField(blank=True,null=True,verbose_name='Temperatura del suolo')
+    # temperatura_suolo = models.PositiveIntegerField(blank=True,null=True,verbose_name='Temperatura del suolo')
     quota = models.PositiveIntegerField(blank=True,null=True,verbose_name='Quota m.s.l.m.')
     elenco_metodi_produzione=[
         ('convenzionale','Convenzionale'),
@@ -204,7 +204,7 @@ class campi(models.Model):
     ]
 
     organismo_controllo=models.CharField(blank=True,null=True,
-                                         verbose_name='Organismo di controllo su biologico',
+                                         verbose_name='Organismo di controllo biologico',
                                          choices=organismi_biologico_list,
                                          help_text='codice operatore',max_length=550)
     organismi_lottaintegrata_list=[
@@ -243,7 +243,7 @@ class campi(models.Model):
 
     ]
     organismo_controllo_prod_integrata=models.CharField(blank=True,null=True,
-                                         verbose_name='Organismo di controllo su biologico',
+                                         verbose_name='Organismo di controllo produzione integrata',
                                          choices=organismi_lottaintegrata_list,
                                          help_text='codice operatore',max_length=550)
 
@@ -267,7 +267,7 @@ class ColturaDettaglio(models.Model):
     nome =models.ForeignKey(colture,verbose_name='Nome della coltura')
     campo = models.ForeignKey(campi, on_delete=models.CASCADE)
     annataAgraria = models.PositiveIntegerField(
-        default=current_year(), validators=[MinValueValidator(2010), max_value_year])
+        default=current_year(), validators=[MinValueValidator(2010), max_value_year],verbose_name='Annata agraria')
     data_inizio = models.DateField(blank=True, null=True, verbose_name="Data inizio lavori",
                                    help_text="definisci la data di inizio lavori per la coltura corrente")
     usi_colturali_choices = [
@@ -299,6 +299,7 @@ class ColturaDettaglio(models.Model):
         ('non irrigabile', 'non irrigabile'),
     ]
     irrigato = models.CharField(blank=True, null=True, choices=irrigato_choices, max_length=50)
+    cultivar_autoctona=models.BooleanField(blank=True,default=False)
 
     def __str__(self):
         return '{} annata:{}'.format(self.nome,self.annataAgraria)
@@ -316,6 +317,22 @@ class ColturaDettaglio(models.Model):
         super(ColturaDettaglio, self).save(*args, **kwargs)
 
     # da qui metto tutte le operazioni eseguibili
+
+class dataset_fitofarmaci(models.Model):
+    NUMERO_REGISTRAZIONE= models.CharField(max_length=500,primary_key=True)
+    FORMULATO = models.CharField(max_length=500)
+    PRODUTTORE= models.CharField(max_length=500)
+    SOSTANZE_ATTIVE= models.CharField(max_length=500)
+    SOSTANZA_ATTIVA_PER_100G_DI_PRODOTTO= models.CharField(max_length=500)
+
+class dataset_malattie(models.Model):
+    gruppo=models.CharField(max_length=250)
+    malattia=models.CharField(max_length=250)
+
+class dataset_infestante(models.Model):
+    gruppo=models.CharField(max_length=250)
+    infestante=models.CharField(max_length=250)
+
 
 class fertilizzazione(models.Model):
 
@@ -335,7 +352,7 @@ class fertilizzazione(models.Model):
         ('fertilizzante biologico','Fertilizzante biologico'),
     ]
     fertilizzante = models.CharField(max_length=50,choices=fertilizzante_choices,verbose_name='Tipo di fertilizzante')
-    kg_prodotto = models.FloatField(blank=True,null=True,verbose_name='Quantità totale di prodotto')
+    kg_prodotto = models.FloatField(blank=True,null=True,verbose_name='Quantità totale di prodotto',help_text='espresso in Kg')
     titolo_n = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Titolo N',help_text='espresso in %')
     titolo_p2o5 = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Titolo P2O5',help_text='espresso in %')
     titolo_k2o = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(99.9)],verbose_name='Titolo K2O',help_text='espresso in %')
@@ -357,17 +374,17 @@ class raccolta_paglia(models.Model):
 
 
 class trattamento(models.Model):
-    prodotto_choices = [
-        ('CARBONE','CARBONE'),
-        ('CARIE','CARIE'),
-        ('FUSARIOSI','FUSARIOSI'),
-        ('NERUME','NERUME'),
-        ('OIDIO','OIDIO'),
-        ('RUGGINI','RUGGINI'),
-        ('SEPTORIA','SEPTORIA'),
-        ('AFIDI','AFIDI'),
-
-    ]
+    # prodotto_choices = [
+    #     ('CARBONE','CARBONE'),
+    #     ('CARIE','CARIE'),
+    #     ('FUSARIOSI','FUSARIOSI'),
+    #     ('NERUME','NERUME'),
+    #     ('OIDIO','OIDIO'),
+    #     ('RUGGINI','RUGGINI'),
+    #     ('SEPTORIA','SEPTORIA'),
+    #     ('AFIDI','AFIDI'),
+    #
+    # ]
     sostanze_choices =[
         ('Azoxistrobin', 'Azoxistrobin'),
         ('Benzovindiflupyr', 'Benzovindiflupyr'),
@@ -392,10 +409,22 @@ class trattamento(models.Model):
         ('ossido di rame','ossido di rame'),
 
     ]
-    prodotto = models.CharField(max_length=250,choices=prodotto_choices,verbose_name='Malattia')
-    formulato = models.CharField(max_length=250,verbose_name='Formulato commerciale')
+    prodotto = models.CharField(max_length=250,verbose_name='Malattia')
+    erbe_infestanti = models.CharField(max_length=250, verbose_name='Erbe infestanti')
+    formulato = models.CharField(max_length=250,verbose_name='Formulato commerciale',help_text='inizia la digitazione di almeno 3 lettere')
     sostanze = models.CharField(max_length=250, verbose_name='Sostanze attive',choices=sostanze_choices)
     quantita = models.FloatField(validators=[MinValueValidator(0.0)],verbose_name='Quantità totale di prodotto',help_text='espresso in l/ha o kg/ha')
+
+    def save(self, *args,**kwargs):
+        fitofarmaco = dataset_fitofarmaci.objects.filter(FORMULATO__istartswith=self.formulato)
+        if fitofarmaco.count()>0:
+            fitofarmaco = fitofarmaco.first()
+            sostanza = fitofarmaco.SOSTANZE_ATTIVE
+        else:
+            sostanza =''
+        self.sostanze=sostanza
+
+        super(trattamento, self).save(*args,**kwargs)
 
 class semina(models.Model):
     semina_choices=[
@@ -549,7 +578,7 @@ class operazioni_colturali(models.Model):
         'raccolta_paglia': 12,
         'diserbo': 30}
 
-    coltura_dettaglio= models.ForeignKey(ColturaDettaglio, blank=True, null=True, verbose_name='Coltura')
+    coltura_dettaglio= models.ForeignKey(ColturaDettaglio, blank=True, null=True, verbose_name='Coltura',on_delete=models.CASCADE)
     fase_fenologica = models.ForeignKey(fasi_fenologiche, blank=True, null=True)
     data_operazione= models.DateField(verbose_name='Data operazione')
     campo = models.ForeignKey(campi,help_text='seleziona il campo')
@@ -652,7 +681,8 @@ class analisi_suolo(models.Model):
                                       MaxValueValidator(100)])
     punto_appassimento = models.FloatField(verbose_name='punto di appassimento', help_text='celle C17',default=0)
 
-    geom = models.PointField(srid=4326,default=Point(12.739476, 42.748273)) #messo Spoleto come punto di default
+    # geom = models.PointField(srid=4326,default=Point(12.739476, 42.748273)) #messo Spoleto come punto di default
+    geom = models.PointField(srid=4326) #tolto quel valore di default
     objects = models.GeoManager()
 
     def __str__(self):

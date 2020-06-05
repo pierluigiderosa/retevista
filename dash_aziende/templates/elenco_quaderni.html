@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+{% load l10n %}
+
+{% block script %}
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% include "panels/lateral_panel_iFarm.html" %}
+        <div class="container">
+            <h2 class="text-center"><i class="fas fa-file-pdf"></i> Scegli il campo</h2>
+            {% for campo in campi %}
+                <a href="{% url 'quaderno-campagna' pk=campo.id %}" class="btn btn-outline-secondary btn-block btn-lg my-1">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    <b>{{ campo.nome }}</b>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from dash_aziende.models import colture as colture_model,\
-    fasi_fenologiche
+import csv,os
+
+from dash_aziende.models import colture as colture_model, \
+    fasi_fenologiche, dataset_fitofarmaci, dataset_malattie, dataset_infestante
 
 scelte_colture =[
 'Actinidia',
@@ -185,3 +187,53 @@ def popola_fasi_fenologiche():
     #         fase.save()
 
 
+def popola_fitofarmaci():
+    '''
+    funziona per popolare i fitofarmaci
+    :return: Null - popola il db
+    '''
+
+    with open('/home/pierluigi/Sviluppo/retevista/dash_aziende/data/Dataset_fitofarmaci.csv') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        for row in csv_reader:
+            if line_count > 0:
+                fitofarmaco = dataset_fitofarmaci(
+                    NUMERO_REGISTRAZIONE=row[0],
+                    FORMULATO=row[1],
+                    PRODUTTORE=row[2],
+                SOSTANZE_ATTIVE=row[3],
+                SOSTANZA_ATTIVA_PER_100G_DI_PRODOTTO=row[4],
+                                                  )
+                fitofarmaco.save()
+            line_count += 1
+        print('saved %s fitofarmaci.' %line_count)
+
+
+def popola_mattie():
+    with open('/home/pierluigi/Sviluppo/retevista/dash_aziende/data/Malattie_parassiti.csv') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        for row in csv_reader:
+            if line_count > 0:
+                malattia = dataset_malattie(
+                    gruppo=row[0],
+                    malattia=row[1],
+                )
+                malattia.save()
+            line_count += 1
+        print('saved %s malattie.' %line_count)
+
+def popola_infestanti():
+    with open('/home/pierluigi/Sviluppo/retevista/dash_aziende/data/Infestanti.csv') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        for row in csv_reader:
+            if line_count > 0:
+                infestante = dataset_infestante(
+                    gruppo=row[0],
+                    infestante=row[1],
+                )
+                infestante.save()
+            line_count += 1
+        print('saved %s infestanti.' %line_count)

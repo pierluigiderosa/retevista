@@ -59,8 +59,8 @@ def report_macchinari(macchinari,azienda):
     Story = []
     # inizio la generazione dell'oggetto del report
     if azienda.count() >0:
-        Nome = azienda.first.user.first_name
-        Cognome = azienda.first.user.lastname
+        Nome = azienda.first().user.first_name
+        Cognome = azienda.first().user.last_name
     else:
         Nome = 'Admin'
         Cognome =''
@@ -197,6 +197,192 @@ def report_analisi(pk):
     with open(tf.name) as pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="report_analisi.pdf"'
+        return response
+
+    return response
+
+def report_quaderno(operazioni, azienda):
+    tf = tempfile.NamedTemporaryFile()
+
+    doc = SimpleDocTemplate(tf.name,
+                            pagesize=A4,
+                            rightMargin=1 * cm,
+                            leftMargin=1 * cm,
+                            topMargin=2 * cm,
+                            bottomMargin=2 * cm
+                            )
+
+    styles = getSampleStyleSheet()
+    Story = []
+    # inizio la generazione dell'oggetto del report
+    if azienda.count() > 0:
+        Nome = azienda.first().user.first_name
+        Cognome = azienda.first().user.last_name
+    else:
+        Nome = 'Admin'
+        Cognome = ''
+
+    P0 = Paragraph("<b>Quaderno di campagna azienda di %s %s</b>" % (Nome, Cognome),
+                   styles['Heading1'])
+    Story.append(P0)
+    Story.append(Spacer(1 * cm, 1 * cm))
+
+    i=1
+
+    if operazioni.count() == 0:
+        PX = Paragraph("<b>Nessuna operazione colturale inserita</b>",
+                   styles['Heading3'])
+        Story.append(PX)
+    else:
+        for oper in operazioni:
+            P1 = Paragraph("<b>Operazione %s</b>" %(i),
+                       styles['Heading3'])
+            Story.append(P1)
+            if oper.coltura_dettaglio:
+                P1 = Paragraph("<b>coltura %s</b>" % (oper.coltura_dettaglio),
+                               styles['Heading3'])
+                Story.append(P1)
+
+            Story.append(
+                Paragraph('<bullet>&bull;</bullet> <b>Operazione: %s</b>' % oper.operazione, styles["Bullet"]))
+
+            if oper.data_operazione:
+                Story.append(Paragraph('<bullet>&bull;</bullet> Data operazione: '+oper.data_operazione.strftime("%d/%m/%Y"), styles["Bullet"]))
+
+            if oper.fase_fenologica:
+                Story.append(
+                    Paragraph('<bullet>&bull;</bullet> fase fenologica: ' + oper.fase_fenologica.fase, styles["Bullet"]))
+
+            if oper.macchinario_operazione:
+                Story.append(
+                    Paragraph('<bullet>&bull;</bullet> Macchinario: ' + oper.macchinario_operazione.nome, styles["Bullet"]))
+
+            if oper.trattore_operazione:
+                Story.append(
+                    Paragraph('<bullet>&bull;</bullet> Trattore: ' + oper.trattore_operazione.nome, styles["Bullet"]))
+
+            if oper.operazione_fertilizzazione:
+                if oper.operazione_fertilizzazione.prodotto:
+                    Story.append(
+                        Paragraph('<bullet>&bull;</bullet> Prodotto: ' + oper.operazione_fertilizzazione.prodotto
+                                  , styles["Bullet"]))
+
+                if oper.operazione_fertilizzazione.kg_prodotto:
+                    Story.append(
+                        Paragraph('<bullet>&bull;</bullet> Kg Prodotto: ' + str(oper.operazione_fertilizzazione.kg_prodotto)
+                                  , styles["Bullet"]))
+
+                if oper.operazione_fertilizzazione.fertilizzante:
+                    Story.append(
+                        Paragraph('<bullet>&bull;</bullet> Fertilizzante: ' + oper.operazione_fertilizzazione.fertilizzante
+                                  , styles["Bullet"]))
+
+                if oper.operazione_fertilizzazione.titolo_k2o:
+                    Story.append(
+                        Paragraph('<bullet>&bull;</bullet> titolo K2O: ' + str(oper.operazione_fertilizzazione.titolo_k2o)
+                                  , styles["Bullet"]))
+
+                if oper.operazione_fertilizzazione.titolo_n:
+                    Story.append(
+                        Paragraph('<bullet>&bull;</bullet> titolo di azoto: ' + str(oper.operazione_fertilizzazione.titolo_n)
+                                  , styles["Bullet"]))
+
+                if oper.operazione_fertilizzazione.titolo_p2o5:
+                    Story.append(
+                        Paragraph('<bullet>&bull;</bullet> Titolo P2O5: ' + str(oper.operazione_fertilizzazione.titolo_p2o5)
+                                  , styles["Bullet"]))
+
+            if oper.operazione_irrigazione:
+                if oper.operazione_irrigazione.portata:
+                    Story.append(
+                        Paragraph('<bullet>&bull;</bullet> Volume irrigui in mc: ' + str(oper.operazione_irrigazione.portata)
+                                  , styles["Bullet"]))
+                if oper.operazione_irrigazione.durata:
+                    Story.append(
+                        Paragraph('<bullet>&bull;</bullet> Durata irrugua: ' + str(oper.operazione_irrigazione.durata)
+                                  , styles["Bullet"]))
+
+            if oper.operazione_raccolta:
+                Story.append(
+                    Paragraph('<bullet>&bull;</bullet> Produzione totale: ' + str(oper.operazione_raccolta.produzione),
+                              styles["Bullet"]))
+
+            if oper.operazione_raccolta_paglia:
+                Story.append(
+                    Paragraph('<bullet>&bull;</bullet> Produzione totale: ' + str(oper.operazione_raccolta_paglia.produzione),
+                              styles["Bullet"]))
+
+            if oper.operazione_semina:
+                if oper.operazione_semina.semina:
+                    Story.append(
+                        Paragraph('<bullet>&bull;</bullet> Modalità di semina: ' + oper.operazione_semina.semina.encode('utf-8'),
+                                  styles["Bullet"]))
+                if oper.operazione_semina.quantita:
+                    Story.append(
+                        Paragraph('<bullet>&bull;</bullet> Quantità totale di semina: ' + str(oper.operazione_semina.quantita),
+                                  styles["Bullet"]))
+                if oper.operazione_semina.precocita:
+                    Story.append(
+                        Paragraph(
+                            '<bullet>&bull;</bullet> precocità: ' + oper.operazione_semina.precocita.encode('utf-8'),
+                            styles["Bullet"]))
+                if oper.operazione_semina.lunghezza_ciclo:
+                    Story.append(
+                        Paragraph(
+                            '<bullet>&bull;</bullet> lunghezza ciclo: ' + str(oper.operazione_semina.lunghezza_ciclo),
+                            styles["Bullet"]))
+                if oper.operazione_semina.produzione:
+                    Story.append(
+                        Paragraph(
+                            '<bullet>&bull;</bullet> produzione totale: ' + str(oper.operazione_semina.produzione),
+                            styles["Bullet"]))
+
+            if oper.operazione_trattamento:
+                if oper.operazione_trattamento.prodotto:
+                    Story.append(
+                        Paragraph(
+                            '<bullet>&bull;</bullet> Malattia: ' + oper.operazione_trattamento.prodotto,
+                            styles["Bullet"]))
+                if oper.operazione_trattamento.formulato:
+                    Story.append(
+                        Paragraph(
+                            '<bullet>&bull;</bullet> Formulato commerciale: ' + oper.operazione_trattamento.formulato,
+                            styles["Bullet"]))
+                if oper.operazione_trattamento.sostanze:
+                    Story.append(
+                        Paragraph(
+                            '<bullet>&bull;</bullet> sostanze attive: ' + oper.operazione_trattamento.sostanze,
+                            styles["Bullet"]))
+                if oper.operazione_trattamento.quantita:
+                    Story.append(
+                        Paragraph(
+                            '<bullet>&bull;</bullet> Quantità: ' + str(oper.operazione_trattamento.quantita),
+                            styles["Bullet"]))
+                if oper.operazione_trattamento.erbe_infestanti:
+                    Story.append(
+                        Paragraph(
+                            '<bullet>&bull;</bullet> Erbe infestanti: ' + oper.operazione_trattamento.erbe_infestanti,
+                            styles["Bullet"]))
+
+            if oper.operazione_diserbo:
+                Story.append(
+                    Paragraph('<bullet>&bull;</bullet> Tipologia di diserbo: ' + oper.operazione_diserbo.tipologia_diserbo,
+                              styles["Bullet"]))
+
+
+
+
+            i += 1
+
+    doc.build(
+        Story,
+        onFirstPage=add_page_number,
+        onLaterPages=add_page_number,
+    )
+    fs = FileSystemStorage("/tmp")
+    with open(tf.name) as pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="report_operazioni.pdf"'
         return response
 
     return response

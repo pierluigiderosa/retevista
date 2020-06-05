@@ -5,6 +5,12 @@
 
 {% block script %}
     {% leaflet_js plugins="forms" %}
+    <script
+src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 
 {% endblock %}
 
@@ -18,17 +24,61 @@
 
     <div class="row">
         {% include "panels/lateral_panel_iFarm.html" %}
- <div class="col-lg-8  col-md-8">
- <form action="." method="POST" >{% csrf_token %}
-     <h2>inserisci <u>{{ titolo_child }}</u></h2>
-{{ formset_operazione|crispy }}
-<hr>
-     {{ child_form|crispy }}
+        <div class="col-lg-8  col-md-8">
+            <form action="." method="POST" >{% csrf_token %}
+                <h2>inserisci <u>{{ titolo_child }}</u></h2>
+                {{ formset_operazione|crispy }}
+                <hr>
+                {{ child_form|crispy }}
 
-<input type="submit" value="Invia">
-</form>
- </div>
+                <input type="submit" value="Invia">
+            </form>
+
+    {% if titolo_child == 'trattamento' %}
+        <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
+        <p class="text-center">Vedi i PDF</p>
+        <a class="btn btn-secondary" href="{% static 'PDFs/1_Erbacee_2020.pdf' %}">Erbacee</a>
+        <a class="btn btn-secondary" href="{% static 'PDFs/2_ Piccoli_frutti_2020.pdf' %}">Piccoli frutti</a>
+        <a class="btn btn-secondary" href="{% static 'PDFs/3_Frutticole_2020.pdf' %}">Frutticole</a>
+        <a class="btn btn-secondary" href="{% static 'PDFs/4_ Frutticole_guscio_2020.pdf' %}">Frutticole a guscio</a>
+        <a class="btn btn-secondary" href="{% static 'PDFs/5_ORTICOLE_2020.pdf' %}">Orticole</a>
+        <a class="btn btn-secondary" href="{% static 'PDFs/6_Colture_da_seme.pdf' %}">Colture</a>
+    {% endif %}
+        </div>
     </div>
+    <script type="application/javascript">
+
+    $(document).ready(function(){
+            $("#id_formulato").autocomplete({
+                source: "{% url 'api-data-fitofarmaci' %}",
+                minLength: 3,
+
+                open: function(){
+                    setTimeout(function () {
+                        $('.ui-autocomplete').css('z-index', 99);
+                    }, 0);
+               }
+              });
+            $("#id_prodotto").autocomplete({
+                source: "{% url 'api-data-malattie' %}",
+                minLength: 2,
+                open: function(){
+                    setTimeout(function () {
+                        $('.ui-autocomplete').css('z-index', 99);
+                    }, 0);
+               }
+              });
+            $("#id_erbe_infestanti").autocomplete({
+                source: "{% url 'api-data-erbe' %}",
+                minLength: 2,
+                open: function(){
+                    setTimeout(function () {
+                        $('.ui-autocomplete').css('z-index', 99);
+                    }, 0);
+               }
+              });
+        });
+    </script>
 
 {% endblock %}
 

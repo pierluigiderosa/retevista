@@ -29,7 +29,7 @@ class CampiAziendeForm(forms.ModelForm):
 
     class Meta:
         model = campi
-        fields = ('nome', 'geom','proprietario','pendenza','drenaggio','proprieta','temperatura_suolo','quota',
+        fields = ('nome', 'geom','proprietario','pendenza','drenaggio','proprieta','quota',
                   'metodo_produzione','presenza_api','cover_crop','rotazioni_colturali',
                   'organismo_controllo','organismo_controllo_prod_integrata')
         widgets = {'geom': LeafletWidget(attrs=LEAFLET_WIDGET_ATTRS)}
@@ -128,9 +128,10 @@ class AnalisiForm(forms.ModelForm):
                 Column('limo', css_class='form-group col-md-3 mb-0'),
                 Column('argilla', css_class='form-group col-md-3 mb-0'),
                 # HTML('''<p>somme delle percentuali [[ somma ]]%</p>'''),
-                HTML('''<p>tessitura: [[ tessituraF ]]</p>'''),
+                # rimuovo il link a Vue.js togliendo il id
+                # HTML('''<p>tessitura: [[ tessituraF ]]</p>'''),
                 css_class='form-row',
-                css_id='form-analisi'
+                # css_id='form-analisi'
 
             ),
             Row(
@@ -182,6 +183,7 @@ class ColturaDettaglioForm(forms.ModelForm):
     class Meta:
         model =ColturaDettaglio
         fields = '__all__'
+        exclude=('produzione_totale',)
 
         widgets = {'data_semina': DateInput(),
                    'data_raccolta': DateInput(),
@@ -243,17 +245,28 @@ class TrattamentoForm(forms.ModelForm):
     class Meta:
         model = trattamento
         fields = '__all__'
+        exclude=('sostanze',)
 
-    @property
-    def helper(self):
-        helper = FormHelper()
-        helper.form_tag = False # This is crucial.
+    def __init__(self,*args,**kwargs):
+        super(TrattamentoForm,self).__init__(*args,**kwargs)
 
-        helper.layout = Layout(
-            Fieldset('Aggiungi un nuovo trattamento', 'trattamento'),
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                HTML('<p>pippo</p>')
+            )
         )
 
-        return helper
+    # @property
+    # def helper(self):
+    #     helper = FormHelper()
+    #     helper.form_tag = False # This is crucial.
+    #
+    #     helper.layout = Layout(
+    #         Fieldset('Aggiungi un nuovo trattamento', 'trattamento'),
+    #     )
+    #
+    #     return helper
 
 class RaccoltaForm(forms.ModelForm):
     class Meta:

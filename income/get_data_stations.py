@@ -25,7 +25,7 @@ def get_and_put():
     for stazione in stazioni.iterator():
         last_3h =dati_orari.objects.filter(dataora__range=(earlier, now), stazione=stazione.id)
         UID = stazione.did
-        url = 'http://api.weatherlink.com/v1/NoaaExt.json?user='+UID+'&pass=retevista01'
+        url = 'https://api.weatherlink.com/v1/NoaaExt.json?user='+UID+'&pass=retevista01'
         response = urllib.urlopen(url)
         data = json.loads(response.read())
 

@@ -3,7 +3,8 @@ from django.conf.urls import url
 from .views import lista_appezzamenti, singolo_appezz, BilancioCreateView, \
     BilancioUpdateView, export_appezz, get_data, \
     ChartView, singolo_appezz_campo, ChartViewCampo, get_campi_data, raster_lista, raster_mappa, \
-    RasterCasaDeleteView, form_add_raster, infoViewCampo, api_meteo_campi, get_bilancio_idrico_data
+    RasterCasaDeleteView, form_add_raster, infoViewCampo, api_meteo_campi, \
+    get_bilancio_idrico_data
 
 urlpatterns = [
     url(r'^appezz/(?P<uid>\d+)$',singolo_appezz, name='singolo_appez'),

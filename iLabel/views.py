@@ -50,6 +50,7 @@ def dash_consumatore(request,uid=-9999):
     bbox = campi_all.aggregate(Extent('geom'))
     colture = zip(colture,areaHa,produzione)
     return render(request,'iLabel/dash_consumatore2.html',{
+        'azienda':azienda,
         'campi': campi_all,
         'colture': colture,
         'bbox': bbox['geom__extent'],

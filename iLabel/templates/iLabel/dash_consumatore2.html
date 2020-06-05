@@ -31,7 +31,13 @@
 
                     <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                         <div class="card-body">
-                            <p class="h6">{% lorem %}</p>
+                            <p class="h6">
+                                Azienda {{ azienda.denominazione }}<br>
+                                P. Iva {{ azienda.IVA }}<br>
+                                Referente:<br>
+                                Nome {{ azienda.user.first_name }}<br>
+                                Cognome {{ azienda.user.last_name }}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -45,7 +51,22 @@
                     </div>
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                         <div class="card-body">
-                            <p class="h6">{% lorem %}</p>
+                            <p class="h6">
+                                SEDE<br>
+                                Regione Umbria<br>
+                                Provincia<br>
+                                Comune {{ azienda.city }}<br>
+                                CAP {{ azienda.zip_code }}<br>
+                                Indirizzo {{ azienda.indirizzo }}<br>
+                                civico {{ azienda.civico }}<br>
+                                <br>
+                                CONTATTI<br>
+                                Sito web<br>
+                                <br>
+                                Telefono<br>
+                                Cellulare {{ azienda.cellulare }}<br>
+                                Pec {{ azienda.pec }}<br>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -59,24 +80,29 @@
                     </div>
                     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                         <div class="card-body">
-                            <p class="h6">{% lorem %}</p>
+                            <p class="h6">
+                                La rete VISTA pensa che la Trasparenza nei confronti del Consumatore sia un dovere imprescindibile.<br>
+                                Da qui nasce l’esigenza di una comunicazione trasparente che permette al consumatore di verificare la veridicità dell’informazione fornita dei nostri prodotti.
+                                <br>
+                                La Rete VISTA sono io, siamo noi.
+                            </p>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header" id="headingQuattro">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseQuattro" aria-expanded="false" aria-controls="collapseQuattro">
-                                Progetto cultura
-                            </button>
-                        </h5>
-                    </div>
-                    <div id="collapseQuattro" class="collapse" aria-labelledby="headingQuattro" data-parent="#accordionExample">
-                        <div class="card-body">
-                            <p class="h6">{% lorem %}</p>
-                        </div>
-                    </div>
-                </div>
+{#                <div class="card">#}
+{#                    <div class="card-header" id="headingQuattro">#}
+{#                        <h5 class="mb-0">#}
+{#                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseQuattro" aria-expanded="false" aria-controls="collapseQuattro">#}
+{#                                Progetto cultura#}
+{#                            </button>#}
+{#                        </h5>#}
+{#                    </div>#}
+{#                    <div id="collapseQuattro" class="collapse" aria-labelledby="headingQuattro" data-parent="#accordionExample">#}
+{#                        <div class="card-body">#}
+{#                            <p class="h6">{% lorem %}</p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
 
 
             </div>

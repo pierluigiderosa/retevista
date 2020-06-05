@@ -238,6 +238,8 @@ def ChartViewCampo(request,uid):
 def get_bilancio_idrico_data(request):
     if request.method == 'GET':
         appezzamentoID = request.GET.get('appezzamentoid')
+        start_date = request.GET.get('start')
+        end_date = request.GET.get('end')
         appezzamento = appezzamentoCampo.objects.filter(id=appezzamentoID)
         if appezzamento.count() == 1:
             bilancio_appezzam = bilancio.objects.filter(appezzamentoDaCampo=appezzamento.first())[:30]
@@ -248,14 +250,23 @@ def get_bilancio_idrico_data(request):
         dose_antropica = [bil.dose_antropica for bil in bilancio_appezzam]
 
         data ={
-            'labels':labels,
-            'dose_antropica':dose_antropica,
+            'labels':labels[::-1],
+            'dose_antropica':dose_antropica[::-1],
         }
         return JsonResponse(data)
 
     else:
         return Http404
 
+@login_required
+def get_operazioni_data(request):
+    if request.method == 'GET':
+        colturaID = request.GET.get('colturaid')
+
+        return JsonResponse({'out':colturaID})
+    else:
+        return Http404
+    pass
 
 def get_data(request, uid=1):
     try:
@@ -299,6 +310,7 @@ def get_data(request, uid=1):
     }
     return JsonResponse(data)
 
+@login_required
 def get_campi_data(request,uid=1):
     '''
     denominata api-data-campi
@@ -349,18 +361,18 @@ def get_campi_data(request,uid=1):
         dose.append(bilancio_giorno.dose)
         Irr_mm.append(bilancio_giorno.Irr_mm)
     data = {
-        "labels": labels,
-        "default": default_items,
-        "Etc": Etc,
-        "A": A,
-        "Amin_irr":Amin_irr,
-        "Tmin": Tmin,
-        "Tmedia":Tmedia,
-        "Tmax":Tmax,
-        "dose": dose,
-        "Kc":Kc,
-        "Ks":Ks,
-        "Irr": Irr_mm,
+        "labels": labels[::-1],
+        "default": default_items[::-1],
+        "Etc": Etc[::-1],
+        "A": A[::-1],
+        "Amin_irr":Amin_irr[::-1],
+        "Tmin": Tmin[::-1],
+        "Tmedia":Tmedia[::-1],
+        "Tmax":Tmax[::-1],
+        "dose": dose[::-1],
+        "Kc":Kc[::-1],
+        "Ks":Ks[::-1],
+        "Irr": Irr_mm[::-1],
         "users": User.objects.all().count(),
     }
     return JsonResponse(data)
@@ -397,14 +409,14 @@ def api_meteo_campi(request):
         labels = [meteo.data.strftime('%d/%m/%Y') for meteo in dati_meteo_daily]
 
         data ={
-            "labels": labels,
-            "Tmin": Tmin,
-            "Tmean": Tmean,
-            "Tmax": Tmax,
-            "wind": wind,
-            "rain": rain,
-            "hum_max": hum_max,
-            "hum_min": hum_min,
+            "labels": labels[::-1],
+            "Tmin": Tmin[::-1],
+            "Tmean": Tmean[::-1],
+            "Tmax": Tmax[::-1],
+            "wind": wind[::-1],
+            "rain": rain[::-1],
+            "hum_max": hum_max[::-1],
+            "hum_min": hum_min[::-1],
             "nome": stazione_closest.nome,
         }
         return JsonResponse(data)

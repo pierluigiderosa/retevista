@@ -40,7 +40,7 @@
                         {% for analisi in aggregati %}
                             <div class="col-12 mt-2">
                                 <div class="card border-primary mb-3" style="max-width: 100%;">
-                                    <div class="card-header">Analisi medi per il campo: {{ analisi.denominazione }}
+                                    <div class="card-header">Analisi medi per il campo: {{ analisi.denominazione }} <div class="float-sm-right"><b>Pyy: {{ analisi.pk }}</b></div>
                                     </div>
                                     <div class="card-body text-primary">
                                         <h5 class="card-title">valori medi analisi</h5>
@@ -81,7 +81,7 @@
                                     <div class="card-header">Id Campione {{ analisi.id_campione }} --- Data segnalazione:{{ analisi.data_segnalazione }}
                                     </div>
                                     <div class="card-body text-primary">
-                                        <h4>nome campo: {{ analisi.campo.nome }}</h4>
+                                        <h4>nome campo: {{ analisi.campo.nome }} <div class="float-sm-right">Pyy: {{ analisi.campo.id }}</div></h4>
                                         <h5 class="card-title">Dettagli analisi</h5>
 
                                         <div class="container">

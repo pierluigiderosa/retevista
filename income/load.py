@@ -35,6 +35,9 @@ stazioni_mapping = {
 stazioni_retevista_shp = os.path.abspath(
     os.path.join(os.path.dirname(__file__), 'data', 'stazioni_retevista.shp'),
 )
+stazioni_retevista_shp2 = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), 'data', 'stazioni_retevista2_new.shp'),
+)
 stazioni_umbria_shp = os.path.abspath(
     os.path.join(os.path.dirname(__file__), 'data', 'stazioni.shp'),
 )
@@ -46,6 +49,12 @@ def run(verbose=True):
     )
     lm.save(strict=True, verbose=verbose)
 
+def run2(verbose=True):
+    lm = LayerMapping(
+        stazioni_retevista, stazioni_retevista_shp2, stazioni_retevista_mapping,
+        transform=False, encoding='iso-8859-1',
+    )
+    lm.save(strict=True, verbose=verbose)
 
 def run_umbria(verbose=True):
     lm = LayerMapping(

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from datetime import datetime,timedelta
+import json
 
 from bootstrap_modal_forms.generic import BSModalUpdateView
 from django.contrib import messages
@@ -10,7 +12,7 @@ from django.contrib.gis.db.models.functions import Distance
 from django.core import serializers
 from django.db import transaction
 from django.forms import inlineformset_factory
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.decorators.csrf import csrf_exempt
@@ -20,7 +22,7 @@ from djgeojson.views import GeoJSONLayerView
 from django.contrib.gis.db.models import Extent, Union,Sum,Avg
 
 from dash_aziende.models import campi, Profile, analisi_suolo, macchinari, Trasporto, ColturaDettaglio, Magazzino, \
-    operazioni_colturali, analisi_prodotto
+    operazioni_colturali, analisi_prodotto, dataset_fitofarmaci, dataset_malattie, dataset_infestante, irrigazione
 from income.models import dati_orari, stazioni_retevista,iframe_stazioni
 from consiglio.models import bilancio,appezzamentoCampo
 from dash_aziende.models import fertilizzazione as fert_model ,operazioni_colturali as oper_model,\
@@ -35,7 +37,7 @@ from .forms import CampiAziendeForm, UserForm, ProfileForm, AnalisiForm, \
 from forecast import get as get_forecast
 
 # Create your views here.
-from .report_dash_aziende import report_macchinari, report_analisi
+from .report_dash_aziende import report_macchinari, report_analisi, report_quaderno
 
 
 @login_required
@@ -83,6 +85,43 @@ def main_ifarm(request):
     })
 
 @login_required
+def elenco_quaderni(request):
+    utente = request.user
+    if utente.groups.filter(name='Agricoltori').exists():
+        campi_all = campi.objects.filter(proprietario=Profile.objects.filter(user=utente))
+        staff = False
+    elif utente.is_staff or utente.groups.filter(name='Universita').exists():
+        campi_all = campi.objects.all()
+        staff = True
+    else:
+        campi_all = campi.objects.none()
+    return render(request,'elenco_quaderni.html',{'campi':campi_all})
+
+@login_required
+def print_quaderno(request,pk):
+    utente = request.user
+    try:
+        UID = int(pk)
+    except ValueError:
+        raise Http404()
+
+    if utente.groups.filter(name='Agricoltori').exists():
+        azienda = Profile.objects.filter(user=utente)
+        campo = campi.objects.get(id=UID)
+        operazioni_all =operazioni_colturali.objects.filter(campo=campo)
+    elif utente.is_staff or utente.groups.filter(name='Universita').exists():
+        azienda = Profile.objects.none()
+        campo = campi.objects.get(id=UID)
+        operazioni_all = operazioni_colturali.objects.filter(campo=campo)
+    else:
+        operazioni_all = operazioni_colturali.objects.none()
+        azienda = Profile.objects.none()
+
+    pdfQuaderno = report_quaderno(operazioni_all,azienda)
+
+    return pdfQuaderno
+
+@login_required
 def main_iFoodPrint(request):
     utente = request.user
     if utente.groups.filter(name='Agricoltori').exists():
@@ -116,7 +155,7 @@ def iFoodPrint_detail(request, uid):
     analisi_all = analisi_suolo.objects.filter(campo=campo)
     centroide = campo.geom.centroid
     campo.geom.transform(3004)
-    areaHa = round(campo.geom.area/10000.,1)
+    areaHa = campo.geom.area/10000.
     if campo.colturadettaglio_set.exists():
         coltivazione = campo.colturadettaglio_set.first()
 
@@ -145,6 +184,7 @@ def iFoodPrint_detail(request, uid):
         # estrazione dati per calcolo azoto, fosforo
         operazioni = operazioni_colturali.objects.filter(coltura_dettaglio=coltivazione, operazione='fertilizzazione')
 
+
         totN = 0
         totP=0
         totK=0
@@ -154,17 +194,15 @@ def iFoodPrint_detail(request, uid):
                 Ndistribuita = operazioni[i].operazione_fertilizzazione.titolo_n
                 fosforo = operazioni[i].operazione_fertilizzazione.titolo_p2o5
                 potassio = operazioni[i].operazione_fertilizzazione.titolo_k2o
-
                 KgProdottoTot = operazioni[i].operazione_fertilizzazione.kg_prodotto
+                totN = totN + (Ndistribuita/100. * KgProdottoTot)
+                totP = totP + (fosforo/100. * KgProdottoTot)
+                totK = totK + (potassio/100. * KgProdottoTot)
 
-                totN = totN + (Ndistribuita * KgProdottoTot)
-                totP = totP + (fosforo * KgProdottoTot)
-                totK = totK + (potassio * KgProdottoTot)
-
-
-        NdistribuitaTot = int(totN * areaHa / 1000)
-        PdistribuitaTot = int(totP * areaHa / 1000)
-        KdistribuitaTot = int(totK * areaHa / 1000)
+        # si divive per 1000 oper passare a Ton
+        NdistribuitaTot = round(totN * areaHa / 1000.,2)
+        PdistribuitaTot = round(totP * areaHa / 1000.,2)
+        KdistribuitaTot = round(totK * areaHa / 1000.,2)
 
         prodotti = analisi_prodotto.objects.filter(prodotto=coltivazione)
 
@@ -172,6 +210,11 @@ def iFoodPrint_detail(request, uid):
         coltivazione = ColturaDettaglio.objects.none()
         trasporto = Trasporto.objects.none()
         prodotti = analisi_prodotto.objects.none()
+
+    # estrazione dati per calcolo H2O utilizzata
+    irrigazioni = irrigazione.objects.filter(operazioni_colturali__coltura_dettaglio=coltivazione).values(
+        'portata').aggregate(totH20=Sum('portata'))
+
 
     # controllo se è presente il dato di casadei
     appezzamentoID = None
@@ -191,9 +234,10 @@ def iFoodPrint_detail(request, uid):
         'Ndistibuita': NdistribuitaTot,
         'Pdistibuita': PdistribuitaTot,
         'Kdistibuita': KdistribuitaTot,
+        'acqua': irrigazioni['totH20'],
         'appezzamentoID': appezzamentoID,
         'analisi':analisi_all,
-        'analisi_prodotto':prodotti,
+        'analisi_prodotto':prodotti.first(), # todo: prendo solo un analisi prodotto
         'centroide':centroide,
         'coltivazione':coltivazione,
         'produzione':round(coltivazione.produzione * areaHa,1),
@@ -1145,6 +1189,105 @@ def form_analisi(request):
 
     return render(request, 'analisi_form.html', {'form': form})
 
+@login_required
+def autocomplete_fitofarmaci(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '')
+        search_qs = dataset_fitofarmaci.objects.filter(FORMULATO__istartswith=q)[:15]
+        results = []
+        print q
+        for r in search_qs:
+            results.append(r.FORMULATO+' | '+r.PRODUTTORE+' | '+r.SOSTANZA_ATTIVA_PER_100G_DI_PRODOTTO+' |  '+r.SOSTANZE_ATTIVE)
+            # results.append({"value":r.FORMULATO,"data":r.PRODUTTORE+' | '+r.SOSTANZA_ATTIVA_PER_100G_DI_PRODOTTO+' |  '+r.SOSTANZE_ATTIVE})
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
+
+@login_required
+def autocomplete_malattie(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '')
+        search_qs = dataset_malattie.objects.filter(malattia__istartswith=q)
+        results = []
+        print q
+        for r in search_qs:
+            results.append(r.malattia+' gruppo:'+r.gruppo)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
+
+@login_required
+def autocomplete_erbe(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '')
+        search_qs = dataset_infestante.objects.filter(infestante__istartswith=q)
+        results = []
+        print q
+        for r in search_qs:
+            results.append(r.infestante+' gruppo:'+r.gruppo)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
+
+@login_required
+def get_operazioni_data(request):
+    if request.method == 'GET':
+        colturaID = request.GET.get('colturaid')
+        start_date=request.GET.get('start')
+        end_date=request.GET.get('end')
+        start_date=datetime.strptime(start_date, '%Y-%m-%d').date()
+        end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+        delta = timedelta(days=1)
+        colturaRif = ColturaDettaglio.objects.get(id=colturaID)
+        trattamenti=[]
+        fertilizzazioni=[]
+        # queste due variabili conservano i valori totali da esportare come json
+
+        if colturaRif.operazioni_colturali_set.exists():
+            operations = operazioni_colturali.objects.filter(coltura_dettaglio=colturaRif)
+            for operazione in operations:
+                if operazione.operazione == 'trattamento':
+                    trattamenti.append(operazione.data_operazione)
+                elif operazione.operazione == 'fertilizzazione':
+                    fertilizzazioni.append(operazione.data_operazione)
+
+        trattamentiList = []
+        fertilizzazioniList = []
+        labels=[]
+        # inizio a fare un ciclo tra data inizioe e fine per fare timeseries
+        start_dateWhile = start_date
+        while start_dateWhile <= end_date:
+            # popolo i trattamenti
+            if start_dateWhile in trattamenti:
+                trattamentiList.append(100)
+            else:
+                trattamentiList.append(0)
+
+            # popolo le fertilizzazioni
+            if start_dateWhile in fertilizzazioni:
+                fertilizzazioniList.append(100)
+            else:
+                fertilizzazioniList.append(0)
+
+            labels.append(start_dateWhile.strftime('%d/%m/%Y'))
+            #incremento di un giorno
+            start_dateWhile += delta
+
+        return JsonResponse(
+            {
+                'labels':labels,
+                'trattamenti': trattamentiList,
+             'fertilizzazioni':fertilizzazioniList,
+             })
+    else:
+        mimetype = 'application/json'
+        return HttpResponse('fail', mimetype)
 
 
 class CampoUpdateView(LoginRequiredMixin,UpdateView):
@@ -1417,3 +1560,4 @@ class CampiGeoJson(GeoJSONLayerView):
         else:
             context = campi.objects.filter(proprietario=Profile.objects.get(user=self.request.user))
         return context
+

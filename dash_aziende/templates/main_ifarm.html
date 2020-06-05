@@ -47,11 +47,11 @@
                 </div>
 
                 <div class="card-block">
-                    <p class="card-text" style="background-color: #4adc98;">Giacitura {% if campo.pendenza %}{{ campo.pendenza }}{% else %}Non inserita{% endif %}</p>
-                    <p class="card-text" style="background-color: #03a1ab;">Temperatura suolo:
-                        {% if campo.temperatura_suolo %}{{ campo.temperatura_suolo }}°C{% endif %}
-                    </p>
-                    <p class="card-text" style="background-color: #3295d8;">Umidità</p>
+{#                    <p class="card-text" style="background-color: #4adc98;">Giacitura {% if campo.pendenza %}{{ campo.pendenza }}{% else %}Non inserita{% endif %}</p>#}
+{#                    <p class="card-text" style="background-color: #03a1ab;">Temperatura suolo:#}
+{#                        {% if campo.temperatura_suolo %}{{ campo.temperatura_suolo }}°C{% endif %}#}
+{#                    </p>#}
+{#                    <p class="card-text" style="background-color: #3295d8;">Umidità</p>#}
                     <p>
                         {% if campo.dataApportoIrriguo %} Data ultimo apporto irriguo {{ campo.dataApportoIrriguo }},{% endif %}
                         {% if staff %}Azienda: {{ campo.proprietario }}{% endif %}

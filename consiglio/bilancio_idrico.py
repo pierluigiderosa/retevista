@@ -29,7 +29,6 @@ def line_eq(P1 = [100, 400],P2 = [240, 265],x=3):
 
 def costanteTerrenoModificata(PA,CC,den_app,stratoRadicale,RFUperc=50):
     '''
-
     :param PA: punto di appassimento - cella C11 foglio
     :param CC: capacità di campo - cella C12 foglio
     :param den_app: densità apparente - cella c13 foglio
@@ -37,7 +36,6 @@ def costanteTerrenoModificata(PA,CC,den_app,stratoRadicale,RFUperc=50):
     :RFUperc
     :return:
     '''
-
     CCmodificato =(10000.*(CC*0.01)*den_app*stratoRadicale)*0.1
     PAmodificato =(10000.*(PA*0.01)*den_app*stratoRadicale)*0.1
     # capacità idrica utilizzabile
@@ -102,54 +100,46 @@ def bilancio_idrico(pioggia, soglia=5, Kc=0, ctm_c7=55, ctm_c3=65,
                 ['pierluigi.derosa@gmail.com','peppoloni.francy@gmail.com'], #in definitiva mettere email
                 fail_silently=False,
             )
-        pass
+
     else:
         irrigazione = False
 
     #P - Ep controllato con irrigazione
     dose = 0
     if irrigazione:
-        if posticipa is False and dose_antropica==0: # and Irrigazione_giorno_precedente is True:
+        # if posticipa is False and dose_antropica==0: # and Irrigazione_giorno_precedente is True:
             dose = ctm_c3 - A #modificato A_day_precedente  #va dato A giorno precedente
 
-        P_ep = pioggia_5 - Etc + dose_antropica +dose
-
-        # L
-        if P_ep > 0:
-            L = 0
-        else:
-            L = P_ep
-
-        Lambda = L / ctm_c3
-
-        a = 0
-        if Lambda != 0:
-            a = 1. * A_day_precedente / ctm_c3 * exp(Lambda)
-
-        # Au
-        if a == 0:
-            Au = A_day_precedente + P_ep
-        else:
-            Au = a * ctm_c3
-
-        # A
-        if Au > ctm_c3:
-            A = ctm_c3
-        else:
-            A = Au
-
-
-
-
+        # P_ep = pioggia_5 - Etc + dose_antropica +dose
+        #
+        # # L
+        # if P_ep > 0:
+        #     L = 0
+        # else:
+        #     L = P_ep
+        #
+        # Lambda = L / ctm_c3
+        #
+        # a = 0
+        # if Lambda != 0:
+        #     a = 1. * A_day_precedente / ctm_c3 * exp(Lambda)
+        #
+        # # Au
+        # if a == 0:
+        #     Au = A_day_precedente + P_ep
+        # else:
+        #     Au = a * ctm_c3
+        #
+        # # A
+        # if Au > ctm_c3:
+        #     A = ctm_c3
+        # else:
+        #     A = Au
 
     #Irr_mm
     Irr_mc_ha = 0
     if irrigazione:
         Irr_mc_ha = dose* area_irrigata_mq/1000.
-
-
-
-
         
     return Etc,P_ep,L,Lambda,a,Au,A,dose, A, Irr_mc_ha,irrigazione
 
@@ -248,8 +238,8 @@ def calc_bilancio_campo():
             # quota =  quote_stazioni.objects.filter(stazioni=stazione_closest).first().quota
             quota=float(stazione_closest.quota)
             Et0 = ET_sistemista(Z=quota, Tmax=Tmax, Tmin=Tmin, Tmean=Tmean, RH_max=RH_max, RH_min=RH_min, SRmedia=SRmedia, U2=vel_vento, day=ieri.strftime('%d%m%Y'), stazione=stazione_closest)
-            print('id coltura:')
-            print(app_campo.campi.coltura.id)
+            #print('id coltura:')
+            #print(app_campo.campi.coltura.id)
             serieKc = Series.from_csv(app_campo.kc_datasheet.path,header=0,parse_dates=['data'])
             #TODO correggere Ks
             # serieKs = Series.from_csv(app_campo.ks_datasheet.path,header=0,parse_dates=['data'])
