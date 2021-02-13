@@ -610,6 +610,7 @@ class operazioni_colturali(models.Model):
     class Meta:
         verbose_name = 'operazione colturale'
         verbose_name_plural = 'Operazioni colturali'
+        ordering = ['data_operazione']
 
     def save(self, *args, **kwargs):
         # calcolo della CO2 della operazione colturale

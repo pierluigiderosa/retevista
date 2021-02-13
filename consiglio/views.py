@@ -36,7 +36,7 @@ def lista_appezzamenti(request):
     # lista_appez = appezzamento.objects.all()
     lista_appezCampo = appezzamentoCampo.objects.all()
 
-    #todo test calcolo capacità di campo
+    #test calcolo capacità di campo
     # qua si capisce da dove provengono i dati per calcolare la cap di campo
     cap_di_campo_list = []
     punto_appassimento_list = []
@@ -130,6 +130,12 @@ def singolo_appezz(request,uid=99):
     return render(request,'singolo_appez.html',context)
 
 def singolo_appezz_campo(request,uid=999):
+    '''
+    view raggiungibile da /campo/1
+    :param request:
+    :param uid:
+    :return:
+    '''
     try:
         UID = int(uid)
     except ValueError:
@@ -137,11 +143,14 @@ def singolo_appezz_campo(request,uid=999):
     appez_riferimento = appezzamentoCampo.objects.get(pk=UID)
     bilancio_appezzam = bilancio.objects.filter(appezzamentoDaCampo=UID)
     soglia_intervento = appez_riferimento.cap_idrica - appez_riferimento.ris_fac_util
+    soglie_list=[]
+    for i in range(len(bilancio_appezzam)):
+        soglie_list.append(soglia_intervento)
     context = {
         'nome_app': appez_riferimento.campi.nome,
         'app_id': UID,
         'cap_idricamax': appez_riferimento.cap_idrica,
-        'bilancio_appezzam': bilancio_appezzam,
+        'bilancio_appezzam': zip(bilancio_appezzam,soglie_list),
         'soglia': soglia_intervento,
     }
 
@@ -156,12 +165,23 @@ def infoViewCampo(request,uid=999):
     bilancio_appezzam = bilancio.objects.filter(appezzamentoDaCampo=UID).first()
     ultimo_intervento_irriguo = bilancio.objects.filter(appezzamentoDaCampo=UID,Irrigazione=True,dose_antropica__gt=0).first()
 
-    #calcolo giorni ciclo colturale
+    #calcolo giorni ultima irrigazione
     if ultimo_intervento_irriguo is not None:
         delta = datetime.now().date() - ultimo_intervento_irriguo.data_rif
         giorni = delta.days
     else:
         giorni = 'Mai irrigato'
+
+    # calcolo giorni ciclo colturale
+    if appez_riferimento.data_fine_bilancio is None:
+        delta = datetime.now().date() - appez_riferimento.data_semina
+        giorni_coltivati = delta.days
+    else:
+        delta = appez_riferimento.data_fine_bilancio - appez_riferimento.data_semina
+        giorni_coltivati = delta.days
+        if giorni_coltivati < 0:
+            giorni_coltivati = 'ci sono errori nell\'assegnazione delle date. Contatta l\'amministratore per risolvere'
+
     # calcolo di U e Amin_irr
     if appez_riferimento.campi.analisi_suolo_set.exists():
         analisi = appez_riferimento.campi.analisi_suolo_set.first()
@@ -188,7 +208,8 @@ def infoViewCampo(request,uid=999):
         'appezzamento': appez_riferimento,
         'bilancio_appezzam': bilancio_appezzam,
         'ultimo_intervento': ultimo_intervento_irriguo,
-        'giorni_ciclo_colturale': giorni,
+        'giorni_da_ult_irrigaz': giorni,
+        'giorni_ciclo_colturale': giorni_coltivati,
         'Ucalcolo': U,
         'Amin_irr':Airr_min,
     }
@@ -234,15 +255,26 @@ def ChartViewCampo(request,uid):
 
     return render(request, "charts.html", {"uid": uid,'nome_app':appez_riferimento.campi.nome,})
 
-@login_required
+
 def get_bilancio_idrico_data(request):
+    '''
+    fornisce i dati per il solo grafico di irrigazione
+    :param request:
+    :return:
+    '''
     if request.method == 'GET':
         appezzamentoID = request.GET.get('appezzamentoid')
         start_date = request.GET.get('start')
         end_date = request.GET.get('end')
         appezzamento = appezzamentoCampo.objects.filter(id=appezzamentoID)
+        start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+        end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+
         if appezzamento.count() == 1:
-            bilancio_appezzam = bilancio.objects.filter(appezzamentoDaCampo=appezzamento.first())[:30]
+            bilancio_appezzam = bilancio.objects.filter(appezzamentoDaCampo=appezzamento.first(),
+                                                        # la riga sotto permette di definire anche un inizio
+                                                        # data_rif__gte=start_date, # inizio
+                                                        data_rif__lte=end_date)  # fine
         else:
             bilancio_appezzam = bilancio.objects.none().values('data_rif','dose_antropica')
 
@@ -310,10 +342,10 @@ def get_data(request, uid=1):
     }
     return JsonResponse(data)
 
-@login_required
 def get_campi_data(request,uid=1):
     '''
     denominata api-data-campi
+    fornisce i dati per i grafici
     :param request:
     :param uid:
     :return: json
@@ -330,9 +362,14 @@ def get_campi_data(request,uid=1):
         distance=Distance('geom', appezzam_pnt)
     ).order_by('distance').first()
 
+    # calcolo della soglia di intervento
+    appez_riferimento = appezzamentoCampo.objects.get(pk=uid)
+    soglia_intervento = appez_riferimento.cap_idrica - appez_riferimento.ris_fac_util
+
     labels = []
     default_items = []
     Etc = []
+    Et0 = []
     A = []
     Amin_irr = []
     dose = []
@@ -342,10 +379,12 @@ def get_campi_data(request,uid=1):
     Ks = []
     Kc = []
     Irr_mm = []
+    soglia=[]
     for bilancio_giorno in bilancio_appezzam:
         labels.append(bilancio_giorno.data_rif.strftime('%d/%m/%Y'))
         default_items.append(bilancio_giorno.pioggia_cum)
         Etc.append(bilancio_giorno.Etc)
+        Et0.append(bilancio_giorno.Et0)
         A.append(bilancio_giorno.A)
         Amin_irr.append(bilancio_giorno.Amin_irr)
         giorno_precedente = bilancio_giorno.data_rif-timedelta(days=1)
@@ -360,10 +399,12 @@ def get_campi_data(request,uid=1):
         Ks.append(bilancio_giorno.Ks)
         dose.append(bilancio_giorno.dose)
         Irr_mm.append(bilancio_giorno.Irr_mm)
+        soglia.append(soglia_intervento)
     data = {
         "labels": labels[::-1],
         "default": default_items[::-1],
         "Etc": Etc[::-1],
+        "Et0":Et0[::-1],
         "A": A[::-1],
         "Amin_irr":Amin_irr[::-1],
         "Tmin": Tmin[::-1],
@@ -374,6 +415,7 @@ def get_campi_data(request,uid=1):
         "Ks":Ks[::-1],
         "Irr": Irr_mm[::-1],
         "users": User.objects.all().count(),
+        "soglia": soglia[::-1],
     }
     return JsonResponse(data)
 

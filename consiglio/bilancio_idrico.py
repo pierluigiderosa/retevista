@@ -4,6 +4,7 @@ from math import exp
 import numpy as np
 import datetime as dt
 from django.core.mail import send_mail
+from django.db.models import Q
 
 from income.models import stazioni_retevista,dati_aggregati_daily,quote_stazioni
 from consiglio.models import appezzamento, bilancio,appezzamentoCampo
@@ -211,7 +212,12 @@ def calc_bilancio_campo():
     oggi =dt.date.today()
 
     # prendo gli a appezzamenti
-    appezzamentoCampi = appezzamentoCampo.objects.all()
+    # considero solo quelli che hanno una data di fine bilancio successiva a quella odierna
+    # appezzamentoCampi = appezzamentoCampo.objects.all() #come era in precedenza
+    # prendo appezzamenti che hanno una data successiva alla presente o con valore nullo - data non inserita
+    appezzamentoCampi = appezzamentoCampo.objects.filter(
+        Q(data_fine_bilancio__gte = oggi) | Q(data_fine_bilancio__isnull = True)
+    )
     for app_campo in appezzamentoCampi:
         #get geometri from appezzamento
         poligono_campo = app_campo.campi.geom
@@ -223,6 +229,7 @@ def calc_bilancio_campo():
         ).order_by('distance').first()
         dato_giornaliero = dati_aggregati_daily.objects.filter(data=ieri,stazione=stazione_closest)
         print oggi
+        print "appezzam: "+app_campo.campi.nome
         if dato_giornaliero.count()>=1:
             dato_giornaliero = dato_giornaliero.first()
 
@@ -241,12 +248,19 @@ def calc_bilancio_campo():
             #print('id coltura:')
             #print(app_campo.campi.coltura.id)
             serieKc = Series.from_csv(app_campo.kc_datasheet.path,header=0,parse_dates=['data'])
-            #TODO correggere Ks
-            # serieKs = Series.from_csv(app_campo.ks_datasheet.path,header=0,parse_dates=['data'])
-            # Ks = serieKs[ieri.strftime('%d/%m/%Y')][0]
+            # implementazione Ks - metto un try perchè a volte non viene inserito il file e fisso pari a 1
+            try:
+                serieKs = Series.from_csv(app_campo.ks_datasheet.path,header=0,parse_dates=['data'])
+                Ks = serieKs[ieri.strftime('%d/%m/%Y')][0]
+            except IOError:
+                Ks=1
+            except IndexError:
+                Ks=1
+
+
             Kc = serieKc[ieri.strftime('%d/%m/%Y')][0]
-            Kc_calcolata = Kc*1
-            print 'Kc= '
+            Kc_calcolata = Kc*Ks
+            print 'Kc*Ks= '
             print Kc_calcolata
 
 
@@ -321,7 +335,8 @@ def calc_bilancio_campo():
                 nuovo_bilancio_giornaliero = bilancio(
                     data_rif=oggi,
                     pioggia_cum=pioggia_cumulata,
-                    Kc = Kc_calcolata,
+                    Kc = Kc,
+                    Ks=Ks,
                     Et0 = Et0,
                     Etc = Et0*Kc_calcolata,
                     P_ep = P_ep,

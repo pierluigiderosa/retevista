@@ -51,7 +51,7 @@ function tessituraF(sabbia,limo){
         tessitura = "Altro";
     }
     return tessitura.toLowerCase();
-};
+}
 
 
 
@@ -63,7 +63,7 @@ function pHdesc(ph) {
         else if (ph >=6.7 && ph < 7.3){phDesccrizione='neutro'}
         else if (ph >=7.3 && ph < 8.1){phDesccrizione='leggermente alcalino'}
         else if (ph >=8.1 && ph < 8.6){phDesccrizione='alcalino'}
-        else  {phDesccrizione = 'Fortemente alcalino'};
+        else  {phDesccrizione = 'Fortemente alcalino'}
     return phDesccrizione.toLowerCase();
 };
 
@@ -73,7 +73,7 @@ function CaCO3Tot(valore) {
     else if (valore>=10 && valore<100){CaCO3Desc='Poco Calcareo'}
     else if (valore>=100 && valore<250){CaCO3Desc='Mediamente calcareo'}
     else if (valore>=250 && valore<500){CaCO3Desc='calcareo'}
-    else {CaCO3Desc='Molto calcareo'};
+    else {CaCO3Desc='Molto calcareo'}
     return CaCO3Desc.toLowerCase()
 }
 
@@ -82,7 +82,7 @@ function CaCO3Att(valore) {
     if (valore<10){CaCO3Desc='Bassa'}
     else if (valore>=10 && valore<50){CaCO3Desc='mediamente Calcareo'}
     else if (valore>=50 && valore<75){CaCO3Desc='Elevata'}
-    else {CaCO3Desc='Molto elevata'};
+    else {CaCO3Desc='Molto elevata'}
     return CaCO3Desc.toLowerCase()
 }
 
@@ -90,7 +90,7 @@ function ScambioCationico(valore) {
     valore = Number(valore)
     if (valore<10){descrizione='Bassa'}
     else if (valore>=10 && valore<20){descrizione='media'}
-    else {descrizione='Elevata'};
+    else {descrizione='Elevata'}
     return descrizione.toLowerCase()
 }
 
@@ -100,7 +100,7 @@ function Azoto(valore) {
     else if (valore>=0.5 && valore<1){descrizione='Bassa'}
     else if (valore>=1 && valore<2){descrizione='Media'}
     else if (valore>=2 && valore<2.5){descrizione='Elevata'}
-    else {descrizione='Molto Elevata'};
+    else {descrizione='Molto Elevata'}
     return descrizione.toLowerCase()
 }
 
@@ -110,7 +110,7 @@ function RappCN(valoreC,valoreN) {
     valore=C/N
     if (valore<9){descrizione='Mineralizzazione veloce'}
     else if (valore>=9 && valore<12){descrizione='Mineralizzazione normale'}
-    else {descrizione='Mineralizzazione lenta'};
+    else {descrizione='Mineralizzazione lenta'}
     return descrizione.toLowerCase()
 }
 
@@ -120,7 +120,7 @@ function Fosforo(valore) {
     else if (valore>=5 && valore<10){descrizione='Basso'}
     else if (valore>=10 && valore<15){descrizione='Medio'}
     else if (valore>=15 && valore<30){descrizione='Elevato'}
-    else {descrizione='Molto elevato'};
+    else {descrizione='Molto elevato'}
     return descrizione.toLowerCase()
 }
 
@@ -188,7 +188,7 @@ function tessituraTipo(sabbia,limo){
         codice = 'altro'
     }
     return codice.toLowerCase();
-};
+}
 
 function OM(sabbia,limo,OM) {
     codice = tessituraTipo(sabbia,limo)
@@ -241,10 +241,10 @@ function potassioCalcolo(sabbia,limo,potassio) {
         if (potassio<80){
             descrizione = 'Molto basso'
         }
-        else if (potassio>=80. && OM<120.){
+        else if (potassio>=80. && potassio<120.){
             descrizione = 'Basso'
         }
-        else if (potassio>=120 && OM<180){
+        else if (potassio>=120 && potassio<180){
             descrizione = 'Medio'
         }
         else descrizione = 'Elevato'
@@ -254,10 +254,10 @@ function potassioCalcolo(sabbia,limo,potassio) {
         if (potassio<60){
             descrizione = 'Molto basso'
         }
-        else if (potassio>=60. && OM<100.){
+        else if (potassio>=60. && potassio<100.){
             descrizione = 'Basso'
         }
-        else if (potassio>=100 && OM<150){
+        else if (potassio>=100 && potassio<150){
             descrizione = 'Medio'
         }
         else descrizione = 'Elevato'
@@ -267,10 +267,10 @@ function potassioCalcolo(sabbia,limo,potassio) {
         if (potassio<40){
             descrizione = 'Molto basso'
         }
-        else if (potassio>=40. && OM<80.){
+        else if (potassio>=40. && potassio<80.){
             descrizione = 'Basso'
         }
-        else if (potassio>=80 && OM<120){
+        else if (potassio>=80 && potassio<120){
             descrizione = 'Medio'
         }
         else descrizione = 'Elevato'

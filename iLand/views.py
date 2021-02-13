@@ -114,6 +114,11 @@ def import_shapefile(request):
 
 
 def ricerca(request):
+    '''
+    api to obtain list of parcels
+    :param request:
+    :return: id of parcels
+    '''
     if request.method == 'GET':
         foglio = request.GET.get('foglio', '')
         particella = request.GET.get('particella', '')

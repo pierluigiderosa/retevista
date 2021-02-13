@@ -16,7 +16,7 @@
                     backgroundColor: ["#dc0611","#71dc00"],
                     borderWidth: 0,
                     gaugeData: {
-                        value: {{ bilancio_appezzam.A|floatdot:2 }},
+                        value: {{ bilancio_appezzam.A|safe }},
                         valueColor: "#535353"
                     },
                     gaugeLimits: [0,{{ Amin_irr|safe }},{{ Ucalcolo|safe }}]
@@ -52,18 +52,22 @@
 
                 </div>
                 <div class="col-">
-                    <h4>Grafico</h4>
+                    <h4>Dettaglio contenuto idrico terreno</h4>
                     <canvas id="cruscotto3"></canvas>
                 </div>
             </div>
             <p class="bg-info text-white">Info coltivazione</p>
             <dl class="row">
                 <dt class="col-sm-3">Dose ultimo apporto irriguo</dt>
-                <dd class="col-sm-9">{{ ultimo_intervento.dose_antropica }}</dd>
+                <dd class="col-sm-9">{{ ultimo_intervento.dose_antropica }} mm</dd>
                 <dt class="col-sm-3 text-truncate">Data ultimo intervento irriguo:</dt>
                 <dd class="col-sm-9">{{ ultimo_intervento.data_rif }}</dd>
-                <dt class="col-sm-3">Giorni ciclo colturale trascorsi</dt>
-                <dd class="col-sm-9">{{ giorni_ciclo_colturale }}</dd>
+                <dt class="col-sm-3">Giorni ciclo colturale trascorsi:</dt>
+                <dd class="col-sm-9"> {{ giorni_ciclo_colturale }}
+{#                todo: giorni trascorsi da giorno semina o trapianto#}
+                </dd>
+                <dt class="col-sm-3">Turno (ultima irrigazione): </dt>
+                <dd class="col-sm-9">{{ giorni_da_ult_irrigaz }}</dd>
                 <dt class="col-sm-3">Valore Kc alla data del {{ bilancio_appezzam.data_rif }}</dt>
                 <dd class="col-sm-9">{{ bilancio_appezzam.Kc }}</dd>
                 <dt class="col-sm-3">Valore Ks alla data del {{ bilancio_appezzam.data_rif }}</dt>

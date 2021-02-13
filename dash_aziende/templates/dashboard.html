@@ -95,9 +95,7 @@
                                 <strong>Proprietà: </strong>
                                 {% if campo.proprieta %}{{ campo.proprieta }}{% else %}Non inserita{% endif %}<br>
                                  <strong>Metodo coltivazione: </strong>{% if campo.metodo_produzione %}{{ campo.metodo_produzione }}{% else %}Non inserita{% endif %}
-
                                 </p>
-
 
                                 <p>
                                     {% if campo.dataApportoIrriguo %} Data ultimo apporto irriguo {{ campo.dataApportoIrriguo }},{% endif %}
@@ -121,21 +119,23 @@
                                 <a href="{% url 'delete-campi' pk=campo.id %}"><i class="fas fa-trash-alt fa-lg"></i></a>
                             {% else %}
                                 <a class="meteoBtn btn btn-outline-primary" id="campo{{ campo.id }}"  data-catid="{{ campo.id }}"><i class="far fa-chart-bar fa-lg"></i> - Meteo</a>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#ModalIframeStazione{{ forloop.counter }}">
-                                    {{ iframeURL.stazioni }}
-                                </button>
-                                <!-- Modal -->
-                                <div class="modal fade" id="ModalIframeStazione{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
+{#                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#ModalIframeStazione{{ forloop.counter }}">#}
+{#                                    {{ iframeURL.stazioni }}#}
+{#                                </button>#}
+{#                                <!-- Modal -->#}
+{#                                <div class="modal fade" id="ModalIframeStazione{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"#}
+{#                                     aria-hidden="true">#}
+{#                                    <div class="modal-dialog" role="document">#}
+{#                                        <div class="modal-content">#}
                                             {#                                            <iframe src={{ iframeURL.iframeURL }} width='500' height='500' frameborder='0'></iframe>#}
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+{#                                            <div class="modal-footer">#}
+{#                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+                                <a class="bioclimeBtn btn btn-outline-primary" id="campo{{ campo.id }}"  data-catid="{{ campo.id }}"><i class="far fa-chart-bar fa-lg"></i> - Indici</a>
+
                             {% endif %}
                         </div>
                     </div>
@@ -150,6 +150,9 @@
                 <li class="nav-item"> <a href="" class="active nav-link" data-toggle="pill" data-target="#tabone"><i class="fas fa-map"></i>&nbsp;Mappa</a> </li>
                 {% if forecast %}
                 <li class="nav-item"> <a class="nav-link" href="" data-toggle="pill" data-target="#tabtwo" contenteditable="true"><i class="far fa-chart-bar fa-lg"></i>&nbsp;Grafici Meteorologici<br></a> </li>
+                <li class="nav-item"> <a class="nav-link" href="" data-toggle="pill" data-target="#tabthree" contenteditable="true">
+                    <i class="far fa-chart-bar fa-lg"></i>
+                    &nbsp;Indici bioclimatici<br></a> </li>
                 {% endif %}
             </ul>
             <div class="tab-content mt-2">
@@ -162,6 +165,28 @@
                     <h3><div id="nomeStazione"></div></h3>
                     <canvas id="myChart" width="400" height="200"></canvas>
                     <canvas id="myChart2" width="400" height="200"></canvas>
+                </div>
+                    <div class="tab-pane fade" id="tabthree" role="tabpanel">
+                    <h4 id="helpMeteo">Indici bioclimatici della vite</h4>
+                    <h3>Riferiti alla stazione: <div id="nomeStazione"></div></h3>
+                        <h4>Clicca sul bottone della stazione corrispondente</h4>
+
+                   <p>Indice di Winkler
+                       Somma delle temperature medie (solo quelle superiori a 10°C), dal 1° Aprile al 31 Ottobre</p>
+                        <img src="{% static 'img/winkler.gif' %}" alt="">
+                        <p>Valore di Winkler:</p><div id="winkler"  style="background: #f7ff00"></div>
+                        <hr class="my-2"/>
+                    <p>Indice di Huglin
+Poiché considera la temperatura massima, rispetto al Winkler, quest'indice è ritenuto più idoneo a descrivere le zone collinari,
+                        caratterizzate da marcate escursioni giornaliere,
+                        poiché le sole temperature medie non rendono totalmente conto delle effettive ore di attività elaborativa della vite.</p>
+                        <img src="{% static 'img/huglin.gif' %}" alt="">
+                        <p>Valore di Huglin:</p><div id="huglin" style="background: #f7ff00"></div>
+                        <hr class="my-2"/>
+                    <p>Indice di Fregoni
+Sommatorie nel solo mese di settembre</p>
+                    <img src="{% static 'img/fregoni.gif' %}" alt="">
+                    <p>Valore di Fregoni:</p><div id="fregoni"  style="background: #f7ff00"></div>
                 </div>
                 {% endif %}
             </div>
@@ -278,6 +303,27 @@
                 }
             });
 
+            $('.bioclimeBtn').click(function (){
+                var id;
+                id = $(this).attr("data-catid")
+                $.ajax(
+                    {
+                        type:"GET",
+                        url:'{% url "api-bioclimatici" %}',
+                        data:{
+                            campo: id
+                        },
+                        success: function (data){
+                            wink = data.Winkler
+                            freg = data.Fregoni
+                            hugl = data.Huglin
+                            $("#winkler").html(wink)
+                            $("#fregoni").html(freg)
+                            $("#huglin").html(hugl)
+                        }
+                    }
+                )
+            });
             // Use Leaflet API bbox test 12.182465, 42.522724, 12.933811, 42.724821
 
             //map.setView([40.712, -74.227], 12);  //setta il centro mappa

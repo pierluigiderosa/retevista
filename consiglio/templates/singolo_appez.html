@@ -35,7 +35,7 @@
     </tr>
   </thead>
   <tbody>
-  {% for bilancio in bilancio_appezzam %}
+  {% for bilancio,soglia in bilancio_appezzam %}
     <tr>
       <th scope="row">{{ bilancio.data_rif }}</th>
       <td>{{ bilancio.pioggia_cum }}</td>

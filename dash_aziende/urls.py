@@ -10,7 +10,7 @@ from .views import dashboard_fields, form_campi, add_profile, CampiGeoJson, form
     form_logistica_add, main_ifarm, main_iFoodPrint, AnalisiJson, form_magazzino_add, \
     iFoodPrint_panel, analisi_prodotti, analisi_prodotti_Add, macchinari_pdf, analisi_report_pdf, \
     autocomplete_fitofarmaci,autocomplete_malattie,autocomplete_erbe,print_quaderno,\
-    elenco_quaderni,get_operazioni_data
+    elenco_quaderni,get_operazioni_data, get_bioclimatici
 from .models import campi
 
 urlpatterns = [
@@ -44,6 +44,7 @@ urlpatterns = [
     url(r'^api/malattie/$', autocomplete_malattie, name='api-data-malattie'),
     url(r'^api/erbe/$', autocomplete_erbe, name='api-data-erbe'),
     url(r'^api/operazioni/$', get_operazioni_data, name='api-operazioni'),
+    url(r'^api/bioclimatici/$', get_bioclimatici, name='api-bioclimatici'),
     url(r'^quadernicampagna/(?P<pk>\d+)/pdf/$', print_quaderno, name='quaderno-campagna'),
     url(r'^elenco_quaderni/$', elenco_quaderni, name='elenco-quaderni'),
     url(r'fields/$', dashboard_fields, name='main-fields'),

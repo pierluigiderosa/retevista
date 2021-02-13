@@ -80,7 +80,7 @@
                         dataList = data
                         $("#lista-catasto").empty()
                         lista_catasto(data)
-                        console.log(data)
+                        // console.log(data)
                         // mostro il bottone per il report PDF
                         document.getElementById('make-report-btn').style.display = "block";
                     },
@@ -92,8 +92,8 @@
                         text += "<input type='checkbox' class='custom-control-input' id='check"+i+"' checked>"
                         text += "<label class='custom-control-label' for='check"+i+"'>"
                         text += 'comune: '+data["lista"][i].comune
-                        text += ' particella: '+data["lista"][i].particella
                         text += ' foglio: '+data["lista"][i].foglio
+                        text += ' particella: '+data["lista"][i].particella
                         text += ' id: '+data["lista"][i].id
                         text += "</label>";
                         $("#lista-catasto").append(text);

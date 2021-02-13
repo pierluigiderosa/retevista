@@ -3,7 +3,7 @@
   <component name="SshConfigs">
     <configs>
       <sshConfig authType="PASSWORD" host="onegis.it" id="e9a70ea7-8256-4529-ad91-cecf700e6462" port="22" customName="onegis.it" nameFormat="CUSTOM" username="pierluigi" />
-      <sshConfig authType="PASSWORD" host="onegis.it" id="d03953be-7b4e-440d-ab93-6e5291bcc995" port="22" customName="onegis.it" nameFormat="CUSTOM" username="pierluigi" />
+      <sshConfig authType="PASSWORD" host="onegis.it" id="f470834b-5ba2-46ec-ac17-968e290a2d35" port="22" customName="onegis.it" nameFormat="CUSTOM" username="pierluigi" />
     </configs>
   </component>
 </project>

@@ -5,8 +5,17 @@
 {% endblock %}
 <script>
     {% block jquery %}
-        //var endpoint = '/elaborazioni/api/data/1'
-        {#TODO modificare la riga sotto con url api-data-campi#}
+            var dt = new Date();
+            var endUTC = dt.toJSON().slice(0,10);
+            // prendevo gli utlimi 90 giorni
+        // modifico che inizio dalla data del primo giorno di consiglio irriguo
+            dt.setDate( dt.getDate() - 90 );
+            var startUTC = dt.toJSON().slice(0,10);
+            //console.log(startUTC, endUTC)
+
+
+
+        //var endpoint = '/elaborazioni/api/campi/2'
         var endpoint = "{% url 'api-data-campi' uid=uid %}"
         var rainData = []
         var labels = []
@@ -19,6 +28,7 @@
                 labels = data.labels
                 rainData = data.default
                 EtcData = data.Etc
+                Et0Data = data.Et0
                 Adata = data.A
                 Airr_minData = data.Amin_irr
                 Tmindata = data.Tmin
@@ -26,7 +36,8 @@
                 Tmediadata = data.Tmedia
                 Ksdata = data.Ks
                 Kcdata = data.Kc
-                setChart()
+                soglia = data.soglia
+                setCharts()
             },
             error: function (error_data) {
                 console.log("error")
@@ -34,12 +45,12 @@
 
             }
         });
-        function setChart() {
+        function setCharts() {
             var ctx = document.getElementById('myChart').getContext('2d');
             var ctx2 = document.getElementById('myChart2').getContext('2d');
             var ctx3 = document.getElementById('myChart1').getContext('2d');
             var ctx4 = document.getElementById('myChart1a').getContext('2d');
-            var ctx5 = document.getElementById('myChart3').getContext('2d');
+            var ctx5 = document.getElementById('ChartKcKs').getContext('2d');
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -53,7 +64,7 @@
                         fill : false
                     },{
                         label: 'Soglia Intervento',
-                        data: Airr_minData,
+                        data: soglia,
                         backgroundColor: 'rgb(54,162,235)',
                         borderColor: 'rgb(54,162,235)',
                         borderWidth: 1,
@@ -82,21 +93,21 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'T. massima',
+                        label: 'T. massima °C',
                         data: Tmaxdata,
                         backgroundColor: 'rgb(50,149,216)',
                         borderColor: 'rgb(50,149,216)',
                         borderWidth: 1,
                         fill : false
                     },{
-                        label: 'T. minima',
+                        label: 'T. minima °C',
                         data: Tmindata,
                         backgroundColor: 'rgb(240,93,124)',
                         borderColor: 'rgb(240,93,124)',
                         borderWidth: 1,
                         fill : false
                     },{
-                        label: 'T. media',
+                        label: 'T. media °C',
                         data: Tmediadata,
                         backgroundColor: 'rgb(255,206,91)',
                         borderColor: 'rgb(255,206,91)',
@@ -130,6 +141,13 @@
                         data: EtcData,
                         backgroundColor: 'rgb(0,0,222)',
                         borderColor: 'rgb(0,0,222)',
+                        borderWidth: 1,
+                        fill : false
+                    },{
+                        label: 'Et0',
+                        data: Et0Data,
+                        backgroundColor: 'rgb(0,215,222)',
+                        borderColor: 'rgb(0,215,221)',
                         borderWidth: 1,
                         fill : false
                     }],
@@ -195,7 +213,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'pioggia cumulata',
+                        label: 'pioggia giornaliera (mm)',
                         data: rainData,
                         backgroundColor: 'rgb(255,144,167,0.5)',
                         borderColor: 'rgb(255,144,167)',
@@ -222,6 +240,61 @@
             });
         }
 
+        // var endpoint = 'api/bilancio/2'
+        var inizio = startUTC;
+        var fine = endUTC;
+        $.ajax({
+            type:"GET",
+            url:'{% url "api-bilancio" %}',
+            data:{
+                appezzamentoid:{{ uid }} ,
+                start: inizio,
+                end: fine
+            },
+            success: function (data) {
+                labels = data.labels
+                dose_antropica=data.dose_antropica
+                charIrrigazione()
+            },
+            error: function (error_data) {
+                 console.log("errore")
+                    console.log(error_data)
+            },
+        });
+        function charIrrigazione() {
+            var ctx3 = document.getElementById('myChartIrr').getContext('2d');
+           var myChart = new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Irrigazione',
+                        data: dose_antropica,
+                        backgroundColor: 'rgba(60,131,208,0.5)',
+                        borderColor: 'rgb(137,241,241)',
+                        borderWidth: 1,
+                        fill : false
+                    }],
+
+                },
+                options: {
+
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    elements: {
+                        line: {
+                            tension: 0
+                        }
+                    }
+                }
+            });
+
+        };
     {% endblock %}
 </script>
 
@@ -230,11 +303,12 @@
     <div class='row'>
         <div class='col-sm-12' url-endpoint='{% url "api-data" uid=uid %}'>
             <h1>Grafici di: {{ nome_app }}</h1>
-            <canvas id="myChart" width="400" height="100"></canvas>
             <canvas id="myChart1" width="400" height="100"></canvas>
             <canvas id="myChart2" width="400" height="100"></canvas>
+            <canvas id="myChart" width="400" height="100"></canvas>
+            <canvas id="myChartIrr" width="400" height="100"></canvas>
             <canvas id="myChart1a" width="400" height="100"></canvas>
-             <canvas id="myChart3" width="400" height="100"></canvas>
+             <canvas id="ChartKcKs" width="400" height="100"></canvas>
 
         </div>
     </div>

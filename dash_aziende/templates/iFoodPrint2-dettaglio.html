@@ -104,7 +104,7 @@
                     <div class="card-header" id="headingUno">
                         <h5 class="mb-0">
                             <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseUno" aria-expanded="false" aria-controls="collapseQuattro">
-                                Temperatura min a max
+                                Temperatura min - max
                             </button>
                         </h5>
                     </div>
@@ -352,6 +352,7 @@
                 }
             });
         // chiamata ajax per i dati del bilancio idrologico
+    {% if appezzamentoID %}
         $.ajax({
             type:"GET",
             url:'{% url "api-bilancio" %}',
@@ -370,6 +371,7 @@
                     console.log(error_data)
             },
         });
+    {% endif %}
         function charIrrigazione() {
             var ctx3 = document.getElementById('ChartIrrigazioni').getContext('2d');
            var myChart = new Chart(ctx3, {
@@ -487,7 +489,7 @@
                 labels=data.labels
                 trattamenti=data.trattamenti
                 fertilizzazioni=data.fertilizzazioni
-
+                console.log('operazioni',trattamenti)
                 chartTrattamenti()
                 chartFertilizzazione()
 

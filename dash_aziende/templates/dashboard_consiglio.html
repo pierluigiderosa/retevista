@@ -10,8 +10,14 @@
 {% endblock %}
 {% block css %}
     {% leaflet_css %}
+
     <style>
         .leaflet-container { height: 600px; width: 100%}
+        .card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
     </style>
 {% endblock %}
 
@@ -49,7 +55,7 @@
                             </button>
                             <span class="card-area"><strong class="measure">{{ area }}</strong> ha</span>
                             <hr>
-                            <span class="card-area"><strong class="measure">Coltura <u>{{ appezzamento.campi.coltura }}</u></strong></span>
+                            <span class="card-area"><strong class="measure">Coltura <u>{{ appezzamento.campi.colturadettaglio_set.first.nome }}</u></strong></span>
                         </div>
                         <div class="card-body">
                             {% if bilanci.Irrigazione %}

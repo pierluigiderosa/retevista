@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from dateutil.utils import today
+from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.contrib.gis.db import models
 from django.contrib.gis.gdal import GDALRaster
@@ -31,7 +32,7 @@ class coltura(models.Model):
     '''
 
     specie = models.TextField()
-    data_semina = models.DateField(verbose_name='data di semina o trapianto')
+    data_semina = models.DateField(verbose_name='data di semina o trapianto (inizio bilancio irriguo)')
     durata_ciclo = models.PositiveIntegerField(verbose_name='durata ciclo colturale (giorni)')
     strato_radici = models.FloatField(verbose_name='strato esplorato dalle radici (cm)')
     kc_ini = models.FloatField(verbose_name='Kc ini',default=0)
@@ -103,6 +104,10 @@ class appezzamento(models.Model):
         verbose_name = 'Appezzamento old'
         verbose_name_plural = 'Appezzamenti old'
 
+def today_future(value):
+    if value < today().date():
+        raise ValidationError("La data deve essere per oggi o futura.")
+
 class appezzamentoCampo(models.Model):
     '''
     Nuovo modello per la gestione dell'appezzamento da campo inserito da parte di aziende agricole
@@ -123,12 +128,14 @@ class appezzamentoCampo(models.Model):
                                     default='kc_spreadsheet/Kc_elenco.csv')
     ks_datasheet = models.FileField(upload_to='ks_spreadsheet', verbose_name='Ks csv file',
                                     default='ks_spreadsheet/Kc_elenco.csv')
-    data_semina = models.DateField(verbose_name='data di semina o trapianto',default=timezone.now)
+    data_semina = models.DateField(verbose_name='data di semina o trapianto  (inizio bilancio irriguo)',default=timezone.now)
     durata_ciclo = models.PositiveIntegerField(verbose_name='durata ciclo colturale (giorni)',default=1)
     strato_radici = models.FloatField(verbose_name='strato esplorato dalle radici (cm)',default=0.0)
+    data_fine_bilancio = models.DateField(verbose_name='Data di fine calcolo bilancio irriguo',null=True,blank=True,validators=[today_future])
     note = models.TextField(default='', blank=True, null=True)
     Airr_min = models.FloatField(default=0.0,blank=True,null=True,verbose_name='Soglia effettivo inizio intervento irriguo Airr_min',help_text='espresso in mm')
     Airr_minFlag = models.BooleanField(default=False,blank=True,verbose_name='Utilizzo valore di soglia intervento irriguo')
+
 
     def __str__(self):
         return "appezz: %s-%s-%s" %(self.campi.nome,self.campi.coltura,self.campi.proprietario)

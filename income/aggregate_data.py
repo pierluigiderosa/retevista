@@ -60,25 +60,23 @@ def aggrega():
         stazioni = stazioni_retevista.objects.all()
         i=0
         for stazione in stazioni.iterator():
+            nuovo_dato_giornliero = dati_aggregati_daily(
+                rain_cumulata=pioggia_cumulata[stazione.nome].values.__float__(),
+                temp_min = temperatura_min[stazione.nome].values.__float__(),
+                temp_max = temperatura_max[stazione.nome].values.__float__(),
+                temp_mean = temperatura_mean[stazione.nome].values.__float__(),
+                humrel_min = umid_real_min[stazione.nome].values.__float__(),
+                humrel_max = umid_real_max[stazione.nome].values.__float__(),
+                solar_rad_mean = solar_rad[stazione.nome].values.__float__(),
+                wind_speed_mean = wind_speed[stazione.nome].values.__float__(),
+                stazione = stazione,
+                data = inizio,
+            )
+            i+=1
 
-            if stazione.id != 8: #TODO ho escluso la stazione di val di rose che non manda i dati
-                nuovo_dato_giornliero = dati_aggregati_daily(
-                    rain_cumulata=pioggia_cumulata[stazione.nome].values.__float__(),
-                    temp_min = temperatura_min[stazione.nome].values.__float__(),
-                    temp_max = temperatura_max[stazione.nome].values.__float__(),
-                    temp_mean = temperatura_mean[stazione.nome].values.__float__(),
-                    humrel_min = umid_real_min[stazione.nome].values.__float__(),
-                    humrel_max = umid_real_max[stazione.nome].values.__float__(),
-                    solar_rad_mean = solar_rad[stazione.nome].values.__float__(),
-                    wind_speed_mean = wind_speed[stazione.nome].values.__float__(),
-                    stazione = stazione,
-                    data = inizio,
-                )
-                i+=1
-
-                #controllo che il dato non sia presente per nons ovrascrivere
-                if dati_aggregati_daily.objects.filter(data=inizio,stazione=stazione).count()== 0:
-                    nuovo_dato_giornliero.save()
+            #controllo che il dato non sia presente per nons ovrascrivere
+            if dati_aggregati_daily.objects.filter(data=inizio,stazione=stazione).count()== 0:
+                nuovo_dato_giornliero.save()
 
 
 

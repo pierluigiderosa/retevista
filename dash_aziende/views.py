@@ -35,6 +35,7 @@ from .forms import CampiAziendeForm, UserForm, ProfileForm, AnalisiForm, \
     EditProfileForm, MacchinariForm, TrasportiForm, ColturaDettaglioForm, RaccoltaPagliaForm, DiserboForm, \
     MagazzinoForm, MacchinariFormAgricoltore, AnalisiProdottiForm
 from forecast import get as get_forecast
+from dash_aziende.bioclimate_index import Winkler,Huglin,Fregoni
 
 # Create your views here.
 from .report_dash_aziende import report_macchinari, report_analisi, report_quaderno
@@ -1289,6 +1290,32 @@ def get_operazioni_data(request):
         mimetype = 'application/json'
         return HttpResponse('fail', mimetype)
 
+def get_bioclimatici(request):
+    '''
+    chiamata di esempio: http://127.0.0.1:8000/dashboard/api/bioclimatici/
+    :param request:
+    :param uid:
+    :return:
+    '''
+    if request.method == 'GET':
+        uid = request.GET.get('campo')
+        try:
+            uid = int(uid)
+        except ValueError:
+            raise Http404()
+
+        hug = Huglin(uid)
+        wink = Winkler(uid)
+        freg = Fregoni(uid)
+
+        data = {
+            "Huglin": round(hug,2),
+            "Fregoni": round(freg,2),
+            "Winkler": round(wink,2),
+        }
+        return JsonResponse(data)
+    else:
+        return Http404
 
 class CampoUpdateView(LoginRequiredMixin,UpdateView):
     model = campi

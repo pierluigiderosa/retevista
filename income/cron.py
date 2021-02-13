@@ -72,7 +72,7 @@ class aggregate_data(CronJobBase):
 
 class do_bilancio(CronJobBase):
     RUN_AT_TIMES = ['02:00']
-    RETRY_AFTER_FAILURE_MINS = 5
+    RETRY_AFTER_FAILURE_MINS = 15
 
     schedule = Schedule(run_at_times=RUN_AT_TIMES,retry_after_failure_mins=RETRY_AFTER_FAILURE_MINS)
     code = 'consiglio.bilancio'  # a unique code
